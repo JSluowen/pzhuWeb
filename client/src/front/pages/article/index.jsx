@@ -50,7 +50,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage:"http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg"
+                                            backgroundImage:"url(http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg)"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
@@ -62,7 +62,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage: "http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg"
+                                            backgroundImage: "url(http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg)"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
@@ -74,7 +74,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage: "http://cdn.niuxingxing.com/1.jpg"
+                                            backgroundImage: "url(http://cdn.niuxingxing.com/1.jpg)"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
@@ -86,7 +86,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage: "http://cdn.niuxingxing.com/1.jpg"
+                                            backgroundImage: "url(http://cdn.niuxingxing.com/1.jpg)"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
