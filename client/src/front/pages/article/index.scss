@@ -1,0 +1,297 @@
+.article-container {
+    width: 100%;
+    height: 100%;
+
+    .article-left {
+        width: 100%;
+        height: 100%;
+        padding: 20px 20px 0px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .carousel {
+            width: 100%;
+            height: auto;
+            position: relative;
+            overflow: hidden;
+
+            .ant-carousel .slick-slide {
+                position: relative;
+                height: 300px;
+                line-height: 300px;
+                background-color: #0085A1;
+                overflow: hidden;
+                border-radius: 10px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .ant-carousel .slick-slide h3 {
+                color: #fff;
+            }
+
+            .carousel-item {
+                position: absolute;
+                height: 300px;
+
+                .carousel-container {
+                    width: 100%;
+                    height: 100%;
+                    background-size: cover;
+                    background-position: center;
+
+                    .shadow {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        z-index: 4;
+                        background-color: rgba(0, 0, 0, 0.3);
+                    }
+
+                    .title {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        z-index: 6;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        a {
+                            display: inline-block;
+                            color: white;
+                            font-size: 25px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .article-item {
+            padding: 20px 10px;
+            width: 100%;
+            height: 250px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+
+            .article-cover {
+                width: 40%;
+                height: 200px;
+                overflow: hidden;
+                border-radius: 20px;
+                border: 1px solid #e5e5e5;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    height: 100%;
+                }
+            }
+
+            .article-content {
+                width: 60%;
+                height: 100%;
+                padding: 0px 0px 0px 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .anticon {
+                    font-size: 25px;
+                    margin-right: 5px;
+                }
+
+                .article-top {
+                    width: 100%;
+                    height: 70px;
+
+                    &:hover {
+                        cursor: pointer;
+
+                        .article-title,
+                        .article-summary {
+                            color: rgb(0, 133, 161);
+                        }
+                    }
+
+                    .article-title {
+                        font-size: 26px;
+                        margin-bottom: 10px;
+                        line-height: 1.2;
+                    }
+
+                    .article-summary {
+                        font-size: 17px;
+                        line-height: 1.8;
+                        min-height: 124px;
+                        color: #a3a3a3;
+                    }
+                }
+
+                .article-bottom {
+                    width: 100%;
+                    height: 20%;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    color: gray;
+                    font-size: 18px;
+
+                    div {
+                        margin-left: 15px;
+                    }
+
+                    .autor {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        height: 100%;
+
+                        .name {
+                            margin-left: 5px;
+                            font-size: 18px;
+                            color: grey;
+                        }
+
+                        .avatar {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 30px;
+                            height: 30px;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 50%;
+                            }
+                        }
+                    }
+
+                    .read-number,
+                    .person-collect,
+                    .autor {
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+
+                    .date {
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+
+            }
+        }
+
+        .article-pagination {
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            .ant-btn-primary {
+                &:hover {
+                    cursor: pointer;
+                    color: white;
+                    background-color: #1890ff !important;
+                }
+            }
+        }
+
+    }
+
+    .article-right {
+        width: 100%;
+        height: auto;
+        padding: 0px 20px;
+
+        .label {
+            .label-container {
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+
+                button {
+                    margin-left: 10px;
+                    margin-bottom: 10px;
+                }
+
+                .ant-btn {
+                    color: #e5e5e5;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 25px;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: #0085A1;
+                        border: 1px solid #0085A1;
+                    }
+                }
+            }
+        }
+
+        .hot {
+            width: 100%;
+            height: auto;
+
+            .article-hot {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: center;
+
+                .article-item {
+                    width: 100%;
+                    height: auto;
+                    padding: 0px 0px 15px;
+                    border-bottom: 1px solid #e5e5e5;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: rgb(251, 251, 251);
+                    }
+
+                    .title {
+                        padding: 10px 0px;
+                        font-size: 18px;
+                        line-height: 1.2;
+                    }
+
+                    .action {
+                        width: 45%;
+                        display: flex;
+                        justify-content: space-around;
+                        color: gray;
+
+                        .anticon {
+                            font-size: 18px;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

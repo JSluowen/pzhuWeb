@@ -19,7 +19,9 @@ export default class Layout extends Component {
             </a>
             <div className="nav-bar-menu">
               <div className="nav-bar-menu-item">技术交流</div>
-              <div className="nav-bar-menu-item">新闻动态</div>
+              <div className="nav-bar-menu-item">
+                <Link to="/article" >文章动态</Link>
+              </div>
               <div className="nav-bar-menu-item">成员展示</div>
               <div className="nav-bar-menu-item">成果展示</div>
             </div>
