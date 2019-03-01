@@ -12,10 +12,6 @@ import {
 import {Link} from "react-router";
 import "./index.scss";
 
-import img from './1.jpg';
-import avatar from './avatar.jpg';
-import img1 from './banner1.jpg';
-import img2 from './banner2.jpg';
 export default class Article extends Component {
     state = {
         heart: false
@@ -54,7 +50,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage: `url(${img})`
+                                            backgroundImage:"http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
@@ -66,7 +62,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage: `url(${img1})`
+                                            backgroundImage: "http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
@@ -78,7 +74,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage: `url(${img2})`
+                                            backgroundImage: "http://cdn.niuxingxing.com/1.jpg"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
@@ -90,7 +86,7 @@ export default class Article extends Component {
                                         <div
                                             className="carousel-container"
                                             style={{
-                                            backgroundImage: `url(${img})`
+                                            backgroundImage: "http://cdn.niuxingxing.com/1.jpg"
                                         }}>
                                             <div className="shadow"></div>
                                             <div className="title">
@@ -103,7 +99,7 @@ export default class Article extends Component {
                             {/* 文章列表 */}
                             <div className="article-item">
                                 <div className="article-cover">
-                                    <img src={img} alt="这是封面图"/>
+                                    <img src="http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg" alt="这是封面图"/>
                                 </div>
                                 <div className="article-content">
                                     <div className="article-top">
@@ -140,7 +136,7 @@ export default class Article extends Component {
                                         <Tooltip placement="bottom" title={"访问作者"}>
                                             <div className='autor'>
                                                 <div className='avatar'>
-                                                    <img src={avatar} alt="这是用户头像"/>
+                                                    <img src="http://cdn.niuxingxing.com/avatar.jpg" alt="这是用户头像"/>
                                                 </div>
                                                 <div className='name'>
                                                     我是作者
