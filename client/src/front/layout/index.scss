@@ -48,12 +48,30 @@
       &-search {
         margin-right: 40px;
       }
+
+      &-user{
+        width:120px; 
+        display: flex;
+        justify-content: space-evenly;
+        a{
+          color: white;
+          &:hover{
+            cursor: pointer;
+            color: #40a9ff;
+          }
+        }
+      }
+
     }
+
+   
+
+
   }
 
   .content {
-    width: 1200px;
-    margin: 70px auto 40px;
+    width: 100%;
+    margin: 70px 0px 0px;
     position: relative;
     min-height: 600px;
   }
