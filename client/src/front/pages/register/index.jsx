@@ -31,7 +31,7 @@ class Index extends Component {
     // 提交表单
     handleSubmit = (e) => {
         e.preventDefault();
-        alert(123);
+        alert(123); 
     }
 
     // 密码验证
