@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Steps, Tooltip, Icon, Row, Col, AutoComplete } from 'antd';
-import RegisterApi from '../../../api/register';
+import RegisterApi from '../../api/register';
+import './index.scss';
+import md5 from 'md5'; //MD5加密
+
 // 自动完成
 const AutoCompleteOption = AutoComplete.Option;
-import './index.scss';
 
 class Register extends Component {
 	constructor(props) {
@@ -18,6 +20,8 @@ class Register extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
+				values['password'] = md5(values.password);
+				values['confirm'] = md5(values.confirm);
 				RegisterApi.registerUser(values)
 					.then((res) => {
 						console.log(res.message);

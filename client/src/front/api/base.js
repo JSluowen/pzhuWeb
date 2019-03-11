@@ -2,6 +2,6 @@
 
 const base = {
     code:'/code',    // 注册邮箱验证
-    registerUser:'/registeruser'
+    registerUser:'/registeruser' // 用户注册
 }
 export default base;
