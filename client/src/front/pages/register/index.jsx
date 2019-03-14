@@ -22,10 +22,6 @@ class Register extends Component {
 			autoCompleteResult: []
 		};
 	}
-	componentDidMount = () => {
-		console.log(this.props);
-	};
-
 	// 提交表单
 	handleSubmit = (e) => {
 		e.preventDefault();
