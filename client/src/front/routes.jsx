@@ -1,11 +1,15 @@
 import * as React from 'react';
-import { Router, Route, hashHistory, IndexRedirect,IndexRoute } from 'react-router';
+import { Router, Route, hashHistory,  IndexRedirect } from 'react-router';
 
 import Layout from './layout/index';
 import Home from './pages/home/index';
 import New from './pages/article/index';
 import Login from './pages/login/index';
 import Register from './pages/register/index';
+
+// const PrivateRoute=({component:Component,...rest})=>{
+
+// }
 
 export default (
   <Router history={hashHistory}>

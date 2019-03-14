@@ -10,7 +10,7 @@ const register={
             axios.post(`${base.code}`,qs.stringify(params)).then(res=>{
                 resolve(res.data);
             }).catch(error=>{
-                reject(error);
+                reject(error.data);
             })
         })
     },
@@ -20,7 +20,7 @@ const register={
             axios.post(`${base.registerUser}`,qs.stringify(params)).then(res=>{
                 resolve(res.data)
             }).catch(error=>{
-                reject(error)
+                reject(error.data)
             })
         })
     }
