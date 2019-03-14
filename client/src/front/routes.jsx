@@ -7,10 +7,6 @@ import New from './pages/article/index';
 import Login from './pages/login/index';
 import Register from './pages/register/index';
 
-// const PrivateRoute=({component:Component,...rest})=>{
-
-// }
-
 export default (
   <Router history={hashHistory}>
     <Route path="/" component={Layout}>
