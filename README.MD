@@ -53,6 +53,6 @@ cnpm install #安装前端依赖
 
 #### 2. 本地开发
 
-`npm start ` 启动node
+`npm start ` 启动node(目前可以先不启动，不存在接口调用)
 
 `cd client && npm start` 启动前端环境

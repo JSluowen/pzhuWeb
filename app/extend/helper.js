@@ -21,7 +21,6 @@ function getURL(that, entry, type) {
   return `/public/${isLocal ? 'local' : 'build'}/${type}/${urlpath}`;
 }
 
-
 module.exports = {
   getStyle(entry) {
     return linkTpl({ url: getURL(this, entry, 'css') });
