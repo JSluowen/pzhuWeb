@@ -1,118 +1,217 @@
-import React from 'react';
-import { Input, Button,Avatar, Upload, Menu, Icon, message, Dropdown } from 'antd';
-
-import ArticleEdi from './ArticleEdi';
-
-import './article.scss';
-
-import logo from '../../images/logo.3c28af6.png'
-
-
-// 模拟数据，文章标签
-const tag = [
-	{ type: 'java', value: 123 },
-	{ type: 'C++', value: 123 },
-	{ type: 'web前端', value: 123 },
-	{ type: 'web后端', value: 123 },
-	{ type: '大数据', value: 123 },
-	{ type: '面试经验', value: 123 }
-];
-
-class index extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			articleTittle: '',
-			output: '',
-      tag: [],
-      user:{
-        avatar:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        name:'',
-        info:''
-      }
-		};
-	}
-	componentWillMount() {
-		this.setState({ tag: tag });
-  }
-  handleUploadCover(e){
-    //将封面图上传并返回 url
-    console.log(e.target)
-  }
-
-  //限制封面图的格式大小
-   beforeUpload(file) {
-    const isImage = (file.type).match("image") === 'image';
-    if (!isImage) {
-      message.error('You can only upload image file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    return isImage && isLt2M;
-  }
-
-	// 获取标题的改变
-	titleChange(e) {
-		console.log(e.target.value);
-		this.setState({
-			articleTittle: e.target.value
-		});
-	}
-	// 从富文本编辑器获取编辑的数据
-	onSbumit = (data) => {
-		if (data) {
-			this.setState({ output: data });
+import React, { Component } from 'react';
+import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel } from 'antd';
+import { Link } from 'react-router';
+import './index.scss';
+import cn from 'classnames';
+export default class Article extends Component {
+	state = {
+		active: false
+	};
+	// 点击收藏heart变红
+	handleHeart = (event) => {
+		event.preventDefault();
+		if (!this.state.active) {
+			this.setState(
+				{
+					active: true
+				},
+				() => {
+					message.success('收藏成功');
+				}
+			);
 		} else {
-			console.log(new Error('没有获取到文本编辑器的输出数据'));
+			this.setState(
+				{
+					active: false
+				},
+				() => {
+					message.warning('取消收藏');
+				}
+			);
 		}
 	};
-
 	render() {
-
-		const panel = (
-			<Menu>
-        <span>文章发布</span>
-				<Menu.Item>
-					{this.state.tag.map((value, key) => {
-						return <Button key={key}>{value.type}</Button>;
-					})}
-				</Menu.Item>
-
-			</Menu>
-    );
-    
-
 		return (
-			<div className="content">
-					<div className="ediet-function">
-            {/* 团队图标 */}
-            <img src = {logo} height = '48px'/>
-						<Input placeholder="输入文章标题" size="small" onChange={this.titleChange} />
-						<Button type="dashed" title = "保存到草稿">草稿</Button>
-            <Upload 
-              onChange = {this.handleUploadCover}
-              beforeUpload={this.beforeUpload}
-            >
-							<Button className="no-border-btn" title="添加封面图片">
-								<Icon type="picture" /> 
-							</Button>
-						</Upload>
-						{/* 文章标签选择 及其发布 */}
-						<Dropdown overlay={panel}>
-							<span className="ant-dropdown-link hover" >
-								发布 <Icon type="down" />
-							</span>
-						</Dropdown>
-            <Avatar src={this.state.user.avatar} />
-					</div>
-				<div className="edit-area">
-					<ArticleEdi onSbumit={this.onSbumit} className="ediet" />
-				</div>
+			<div className="article-container">
+				<Row>
+					<Col span={18}>
+						<div className="article-left">
+							<div className="carousel">
+								<Carousel autoplay>
+									<div className="carousel-item">
+										<div
+											className="carousel-container"
+											style={{
+												backgroundImage:
+													'url(http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg)'
+											}}
+										>
+											<div className="shadow" />
+											<div className="title">
+												<Link to="">这是文章标题</Link>
+											</div>
+										</div>
+									</div>
+									<div className="carousel-item">
+										<div
+											className="carousel-container"
+											style={{
+												backgroundImage:
+													'url(http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg)'
+											}}
+										>
+											<div className="shadow" />
+											<div className="title">
+												<Link to="">这是文章标题</Link>
+											</div>
+										</div>
+									</div>
+									<div className="carousel-item">
+										<div
+											className="carousel-container"
+											style={{
+												backgroundImage: 'url(http://cdn.niuxingxing.com/1.jpg)'
+											}}
+										>
+											<div className="shadow" />
+											<div className="title">
+												<Link to="">这是文章标题</Link>
+											</div>
+										</div>
+									</div>
+									<div className="carousel-item">
+										<div
+											className="carousel-container"
+											style={{
+												backgroundImage: 'url(http://cdn.niuxingxing.com/1.jpg)'
+											}}
+										>
+											<div className="shadow" />
+											<div className="title">
+												<Link to="">这是文章标题</Link>
+											</div>
+										</div>
+									</div>
+								</Carousel>,
+							</div>
+							{/* 文章列表 */}
+							<div className="article-item">
+								<div className="article-cover">
+									<img src="http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg" alt="这是封面图" />
+								</div>
+								<div className="article-content">
+									<div className="article-top">
+										<div className="article-title">我是新闻标题我是新闻标题我是新闻标题我是新闻标题</div>
+										<div className="article-summary">我是新闻摘要 我是新闻摘要 我是新闻摘要 我是新闻摘要 我是新闻摘要 我是新闻摘要</div>
+									</div>
+									<div className="article-bottom">
+										<Tooltip placement="bottom" title={'阅读量123'}>
+											<div className="read-number">
+												<Icon type="eye" />
+												123
+											</div>
+										</Tooltip>
+										<Tooltip placement="bottom" title={'点击收藏'}>
+											<div className="person-collect" onClick={this.handleHeart}>
+												<Icon
+													type="heart"
+													className={cn({ isHeart: this.state.active })}
+													theme="filled"
+												/>
+												2
+											</div>
+										</Tooltip>
+										<Tooltip placement="bottom" title={'访问作者'}>
+											<div className="autor">
+												<div className="avatar">
+													<img src="http://cdn.niuxingxing.com/avatar.jpg" alt="这是用户头像" />
+												</div>
+												<div className="name">我是作者</div>
+											</div>
+										</Tooltip>
+										<div className="date">
+											<Icon type="schedule" />
+											2019-2-27
+										</div>
+									</div>
+								</div>
+							</div>
+							{/* 分页按钮 */}
+							<div className="article-pagination">
+								<Button type="primary" ghost size="large">
+									<Icon type="arrow-left" />
+									更新文章
+								</Button>
+								<Button type="primary" ghost size="large">
+									更早文章
+									<Icon type="arrow-right" />
+								</Button>
+							</div>
+						</div>
+					</Col>
+					<Col span={6}>
+						<div className="article-right">
+							{/* 文章标签 */}
+
+							<div className="label">
+								<Divider orientation="left">推荐标签</Divider>
+								<div className="label-container">
+									<Button ghost>Default</Button>
+									<Button ghost>Default</Button>
+									<Button ghost>Default</Button>
+									<Button ghost>Default</Button>
+								</div>
+							</div>
+
+							{/* 热门文章推荐 */}
+							<div className="hot">
+								<Divider orientation="left">热门文章</Divider>
+								<div className="article-hot">
+									<div className="article-item">
+										<div className="title">我是标题我是标题我是标题</div>
+										<div className="action">
+											<div className="read">
+												<Icon type="eye" />
+												&nbsp; 2
+											</div>
+											<div className="comment">
+												<Icon type="message" />
+												&nbsp; 2
+											</div>
+										</div>
+									</div>
+									<div className="article-item">
+										<div className="title">我是标题我是标题我是标题</div>
+										<div className="action">
+											<div className="read">
+												<Icon type="eye" />
+												&nbsp; 2
+											</div>
+											<div className="comment">
+												<Icon type="message" />
+												&nbsp; 2
+											</div>
+										</div>
+									</div>
+									<div className="article-item">
+										<div className="title">我是标题我是标题我是标题</div>
+										<div className="action">
+											<div className="read">
+												<Icon type="eye" />
+												&nbsp; 2
+											</div>
+											<div className="comment">
+												<Icon type="message" />
+												&nbsp; 2
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</Col>
+				</Row>
 			</div>
 		);
 	}
 }
-
-export default index;

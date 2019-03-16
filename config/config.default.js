@@ -1,26 +1,27 @@
-
 module.exports = appInfo => {
   const config = {};
 
   config.keys = "pzhuweb";
 
-  config.host = 'http://www.pzhuweb.cn';
+  // config.host = 'http://www.pzhuweb.cn';
 
-  // 添加 view 配置
-  config.view = {
-    defaultViewEngine: "nunjucks",
-    mapping: {
-      ".tpl": "nunjucks"
-    }
-  };
+  config.security = {
+    csrf: false
+  }
+
+  config.bodyParser = {
+    jsonLimit: '100mb',
+    formLimit: '100mb',
+  }
 
   // 数据库配置
   config.sequelize = {
-    dataType: 'mysql',
-    database: 'web',
+    dialect: 'mysql',
+    database: 'pzhuweb',
     port: '3306',
-    username: 'user_web',
-    password: '',
+    host:'127.0.0.1',
+    username: 'root',
+    password: '123456',
   }
 
   return config;
