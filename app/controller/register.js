@@ -12,15 +12,10 @@ class Register extends Controller {
             code += Math.floor(Math.random() * 10);
         }
         let content = {
-            subject: 'web专业应用团队',
-            text: `您好,您在web专业应用团队官网的验证码:${code},如果不是本人，请忽略这条信息。`,
+            subject: '邮箱验证码',
+            text: `您好,您在web专业应用团队官网的验证码是:${code},如非本人操作，请忽略本邮件`,
         }
-
         ctx.session.code = code
-        // ctx.cookies.set('code',code)
-
-        console.log('验证码：', ctx.session.code)
-
         try {
             await ctx.service.nodemailer.sendEmail(email, content);
             ctx.status = 200;
@@ -34,14 +29,12 @@ class Register extends Controller {
                 message: '无效的邮箱地址'
             }
         }
-
     }
     async registerUser() {
         const {
             ctx
         } = this;
         let val = ctx.request.body;
-        console.log(val)
         let UserTable = "User"
         try {
             let isExist = await ctx.service.mysql.findById(val.schoolId, UserTable);

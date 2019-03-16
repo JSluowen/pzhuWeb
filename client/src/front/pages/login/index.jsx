@@ -1,19 +1,61 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button } from 'antd';
-
+import { Form, Icon, Input, Button,message } from 'antd';
+import md5 from 'md5';
+import LoginApi from '../../api/login';
 import './index.scss';
 
 class Login extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			confirmMessage: '',
+			confirmResult: ''
+		};
 	}
 
+	componentDidMount = () => {
+		this.handleCreate();
+	};
+	//生成验证信息
+	handleCreate = () => {
+		let a = Math.floor(Math.random() * 100);
+		let b = Math.floor(Math.random() * 100);
+		let res = a + b;
+		this.setState({
+			confirmMessage: `${a}+${b}=?`,
+			confirmResult: parseInt(res)
+		});
+	};
+	//确认验证信息
+	handleConfirm = (rules, value, callback) => {
+		if (value && parseInt(value) !== this.state.confirmResult) {
+			callback('验证信息不正确');
+		} else {
+			callback();
+		}
+	};
+	//登录验证
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				console.log(values);
+				let params = {
+					id: values.id,
+					password: md5(values.password)
+				};
+				LoginApi.login(params)
+					.then((res) => {
+						if (res.success) {
+							message.success(res.message)
+							window.sessionStorage.setItem('token',res.token);
+							
+						}else{
+							message.warning(res.message)
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 		});
 	};
@@ -30,13 +72,13 @@ class Login extends Component {
 					<div className="login-form">
 						<div className="form-title">用户登录</div>
 						<div className="form-content">
-							<Form onClick={this.handleSubmit} className="login-form">
+							<Form className="login-form">
 								<Form.Item>
-									{getFieldDecorator('userName', {
+									{getFieldDecorator('id', {
 										rules: [
 											{
 												required: true,
-												message: '账号不能为空！'
+												message: '请输入学号'
 											}
 										]
 									})(
@@ -51,7 +93,7 @@ class Login extends Component {
 										rules: [
 											{
 												required: true,
-												message: '密码不能为空！'
+												message: '请输入密码'
 											}
 										]
 									})(
@@ -62,8 +104,26 @@ class Login extends Component {
 										/>
 									)}
 								</Form.Item>
-
-								<Button type="primary" htmlType="submit" className="login-form-button">
+								<Form.Item>
+									{getFieldDecorator('confirm', {
+										rules: [
+											{
+												required: true,
+												message: '请输入验证信息'
+											},
+											{
+												validator: this.handleConfirm
+											}
+										]
+									})(
+										<Input
+											prefix={<Icon type="key" style={{ color: 'rgba(0,0,0,.25)' }} />}
+											type="text"
+											placeholder={this.state.confirmMessage}
+										/>
+									)}
+								</Form.Item>
+								<Button type="primary" onClick={this.handleSubmit} className="login-form-button">
 									立即登录
 								</Button>
 							</Form>

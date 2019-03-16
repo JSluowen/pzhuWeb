@@ -37,10 +37,10 @@ class Register extends Component {
 				RegisterApi.registerUser(values)
 					.then((res) => {
 						if (res.success) {
-							message.success(`${res.message},3秒后自动跳转登录界面`);
+							message.success(`${res.message},1秒后自动跳转登录界面`);
 							setTimeout(() => {
 								hashHistory.push('/login');
-							}, 3000);
+							}, 1000);
 						}
 					})
 					.catch((error) => {
@@ -178,9 +178,6 @@ class Register extends Component {
 													required: true,
 													message: '请输入学号',
 													whitespace: true
-												},
-												{
-													validator: this.validateSchoolId
 												}
 											]
 										})(<Input placeholder="请输入学号" />)}
