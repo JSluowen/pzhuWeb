@@ -7,7 +7,6 @@ class Login extends Controller {
             ctx
         } = this;
         let value = ctx.request.body;
-        console.log(value)
         let table = 'User';
         try {
             let isExist = await ctx.service.mysql.findById(value.id, table)

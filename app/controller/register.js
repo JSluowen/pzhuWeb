@@ -23,6 +23,7 @@ class Register extends Controller {
                 success: 1,
                 message: "邮件发送成功，请注意查收！"
             }
+
         } catch (error) {
             ctx.status = 404;
             ctx.body = {
@@ -34,17 +35,24 @@ class Register extends Controller {
         const {
             ctx
         } = this;
-        let val = ctx.request.body;
+        const {
+            schoolId,
+            password,
+            code,
+            name,
+            email
+        } = ctx.request.body;
         let UserTable = "User"
         try {
-            let isExist = await ctx.service.mysql.findById(val.schoolId, UserTable);
+            let isExist = await ctx.service.mysql.findById(schoolId, UserTable);
+
             if (isExist !== null) {
                 ctx.status = 202;
                 ctx.body = {
                     success: 0,
                     message: "账号已存在"
                 }
-            } else if (ctx.session.code !== val.code) {
+            } else if (ctx.session.code !== code) {
                 ctx.status = 202;
                 ctx.body = {
                     success: 0,
@@ -52,10 +60,10 @@ class Register extends Controller {
                 }
             } else {
                 let params = {
-                    id: val.schoolId,
-                    password: md5(val.password),
-                    name: val.name,
-                    email: val.email
+                    id: schoolId,
+                    password: md5(password),
+                    name: name,
+                    email: email
                 }
                 await ctx.service.mysql.create(params, UserTable);
                 ctx.status = 200;
