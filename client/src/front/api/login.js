@@ -9,6 +9,15 @@ const Login = {
                 reject(error.data)
             })
         })
+    },
+    timeToken() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${base.timetoken}`).then((res) => {
+                resolve(res.data);
+            }).catch((error) => {
+                reject(error.data)
+            })
+        })
     }
 }
 export default Login;

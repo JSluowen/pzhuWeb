@@ -37,15 +37,14 @@ class Register extends Controller {
         } = this;
         const {
             schoolId,
-            password,
             code,
+            password,
             name,
             email
         } = ctx.request.body;
         let UserTable = "User"
         try {
             let isExist = await ctx.service.mysql.findById(schoolId, UserTable);
-
             if (isExist !== null) {
                 ctx.status = 202;
                 ctx.body = {
@@ -61,7 +60,7 @@ class Register extends Controller {
             } else {
                 let params = {
                     id: schoolId,
-                    password: md5(password),
+                    password: password,
                     name: name,
                     email: email
                 }

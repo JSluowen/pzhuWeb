@@ -13,9 +13,15 @@ class Login extends Component {
 		};
 	}
 
-	componentDidMount = () => {
+	componentDidMount(){
 		this.handleCreate();
+		LoginApi.timeToken().then(res=>{
+			sessionStorage.setItem('time',res.message)
+		})
 	};
+	componentWillUnmount(){
+		sessionStorage.removeItem('time');
+	}
 	//生成验证信息
 	handleCreate = () => {
 		let a = Math.floor(Math.random() * 100);
@@ -41,7 +47,7 @@ class Login extends Component {
 			if (!err) {
 				let params = {
 					id: values.id,
-					password: md5(values.password)
+					password: md5(md5(values.password)+sessionStorage.getItem('time'))
 				};
 				LoginApi.login(params)
 					.then((res) => {

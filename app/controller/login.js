@@ -6,17 +6,21 @@ class Login extends Controller {
         const {
             ctx
         } = this;
-        let value = ctx.request.body;
+        const {
+            id,
+            password
+        } = ctx.request.body;
+        let time = ctx.session.time;
         let table = 'User';
         try {
-            let isExist = await ctx.service.mysql.findById(value.id, table)
+            let isExist = await ctx.service.mysql.findById(id, table)
             if (isExist == null) {
                 ctx.status = 200;
                 ctx.body = {
                     success: 0,
                     message: '账号不存在'
                 }
-            } else if (isExist.dataValues.password != md5(value.password)) {
+            } else if (md5(isExist.dataValues.password+time) != password) {
                 ctx.status = 200;
                 ctx.body = {
                     success: 0,
@@ -30,20 +34,29 @@ class Login extends Controller {
                 }
             } else {
                 ctx.status = 200;
-                let token = await ctx.service.jwt.signToken(value.id);
-                ctx.body={
-                    success:1,
-                    message:'登录成功',
-                    token:token
+                let token = await ctx.service.jwt.signToken(id);
+                ctx.body = {
+                    success: 1,
+                    message: '登录成功',
+                    token: token
                 }
             }
         } catch (err) {
             ctx.status = 404;
+            console.log(err);
             ctx.body = {
                 message: '登录失败'
             }
         }
 
+    }
+    async loginToken() {
+        let time = Date.now();
+        this.ctx.session.time = time;
+        this.ctx.body = {
+            success: 1,
+            message: time
+        }
     }
 }
 module.exports = Login;

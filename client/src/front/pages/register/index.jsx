@@ -22,10 +22,6 @@ class Register extends Component {
 			autoCompleteResult: []
 		};
 	}
-	componentDidMount = () => {
-		console.log(this.props);
-	};
-
 	// 提交表单
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -50,6 +46,16 @@ class Register extends Component {
 		});
 	};
 	// 密码验证
+	validatorPassword = (rule, value, callback) => {
+		let patt = /(?=.*\d)(?=.*[a-zA-Z])^.{6,10}$/;
+		console.log(patt.test(value));
+		if (patt.test(value) || !value) {
+			callback();
+		} else {
+			callback('密码需要在6-10位之间并包含字母和数字');
+		}
+	};
+
 	handleConfirmBlur = (e) => {
 		const value = e.target.value;
 		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -158,19 +164,6 @@ class Register extends Component {
 						<div className="register-content">
 							<div className="register-form-content">
 								<Form layout="inline" onSubmit={this.handleSubmit}>
-									<Form.Item label="邮箱">
-										{getFieldDecorator('email', {
-											rules: [ { required: true, message: '请输入邮箱' } ]
-										})(
-											<AutoComplete
-												dataSource={websiteOptions}
-												onChange={this.handleWebsiteChange}
-												placeholder="请输入邮箱"
-											>
-												<Input />
-											</AutoComplete>
-										)}
-									</Form.Item>
 									<Form.Item label="学号">
 										{getFieldDecorator('schoolId', {
 											rules: [
@@ -209,11 +202,13 @@ class Register extends Component {
 												{
 													required: true,
 													message: '请输入密码'
+												},
+												{
+													validator: this.validatorPassword
 												}
 											]
 										})(<Input type="password" placeholder="请输入密码" />)}
 									</Form.Item>
-
 									<Form.Item label="确认密码">
 										{getFieldDecorator('confirm', {
 											rules: [
@@ -233,7 +228,19 @@ class Register extends Component {
 											/>
 										)}
 									</Form.Item>
-
+									<Form.Item label="邮箱">
+										{getFieldDecorator('email', {
+											rules: [ { required: true, message: '请输入邮箱' } ]
+										})(
+											<AutoComplete
+												dataSource={websiteOptions}
+												onChange={this.handleWebsiteChange}
+												placeholder="请输入邮箱"
+											>
+												<Input />
+											</AutoComplete>
+										)}
+									</Form.Item>
 									<Form.Item label="邮箱验证" extra="我们必须确保邮箱是你本人的且是正确的">
 										<Row gutter={8}>
 											<Col span={16}>
