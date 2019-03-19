@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button,message } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import md5 from 'md5';
 import LoginApi from '../../api/login';
+import Cookies from '../../../http/cookies';
 import './index.scss';
 
 class Login extends Component {
@@ -12,14 +13,19 @@ class Login extends Component {
 			confirmResult: ''
 		};
 	}
-
-	componentDidMount(){
+	componentDidMount() {
 		this.handleCreate();
-		LoginApi.timeToken().then(res=>{
-			sessionStorage.setItem('time',res.message)
-		})
-	};
-	componentWillUnmount(){
+		//获取后台的时间令牌
+		LoginApi.timeToken().then((res) => {
+			sessionStorage.setItem('time', res.message);
+		});
+		let id = Cookies.getCookies('id');
+		let password = Cookies.getCookies('password');
+		let form = this.props.form;
+		form.setFieldsValue({ id: id });
+		form.setFieldsValue({ password: password });
+	}
+	componentWillUnmount() {
 		sessionStorage.removeItem('time');
 	}
 	//生成验证信息
@@ -47,16 +53,18 @@ class Login extends Component {
 			if (!err) {
 				let params = {
 					id: values.id,
-					password: md5(md5(values.password)+sessionStorage.getItem('time'))
+					password: Cookies.getCookies('password')
+						? md5(values.password + sessionStorage.getItem('time'))
+						: md5(md5(values.password) + sessionStorage.getItem('time'))
 				};
 				LoginApi.login(params)
 					.then((res) => {
 						if (res.success) {
-							message.success(res.message)
-							window.sessionStorage.setItem('token',res.token);
-							
-						}else{
-							message.warning(res.message)
+							message.success('登录成功');
+							Cookies.setCookies(res.data);
+							sessionStorage.setItem('token', res.data.token);
+						} else {
+							message.warning(res.message);
 						}
 					})
 					.catch((err) => {

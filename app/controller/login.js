@@ -20,7 +20,7 @@ class Login extends Controller {
                     success: 0,
                     message: '账号不存在'
                 }
-            } else if (md5(isExist.dataValues.password+time) != password) {
+            } else if (md5(isExist.dataValues.password + time) != password) {
                 ctx.status = 200;
                 ctx.body = {
                     success: 0,
@@ -37,8 +37,11 @@ class Login extends Controller {
                 let token = await ctx.service.jwt.signToken(id);
                 ctx.body = {
                     success: 1,
-                    message: '登录成功',
-                    token: token
+                    data: {
+                        token: token,
+                        id: isExist.id,
+                        password: isExist.dataValues.password
+                    }
                 }
             }
         } catch (err) {
