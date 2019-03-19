@@ -6,7 +6,7 @@ import Home from './pages/home/index';
 
 import Test from './pages/testComponent/BraftTest'
 
-import ArticleIndex from './pages/article/index'
+import ArticleIndex from './pages/article/articleIndex'
 
 import New from './pages/article/index';
 import Login from './pages/login/index';
