@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Form, Button, Input, Steps, Tooltip, Icon, Row, Col, AutoComplete } from 'antd';
+import { hashHistory } from 'react-router';
+import { Form, Button, Input, Steps, Tooltip, Icon, Row, Col, AutoComplete, message } from 'antd';
 import RegisterApi from '../../api/register';
 import './index.scss';
 import md5 from 'md5'; //MD5加密
-
+message.config({
+	top: 100,
+	duration: 2,
+	maxCount: 3
+});
 // 自动完成
 const AutoCompleteOption = AutoComplete.Option;
 
@@ -11,6 +16,8 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			sendEmail: '发送验证码',
+			sendStatus: false, //邮件按钮点击状态
 			confirmDirty: false,
 			autoCompleteResult: []
 		};
@@ -18,21 +25,37 @@ class Register extends Component {
 	// 提交表单
 	handleSubmit = (e) => {
 		e.preventDefault();
+
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 				values['password'] = md5(values.password);
 				values['confirm'] = md5(values.confirm);
 				RegisterApi.registerUser(values)
 					.then((res) => {
-						console.log(res.message);
+						if (res.success) {
+							message.success(`${res.message},1秒后自动跳转登录界面`);
+							setTimeout(() => {
+								hashHistory.push('/login');
+							}, 1000);
+						}
 					})
 					.catch((error) => {
-						console.log(error);
+						message.error(error.message);
 					});
 			}
 		});
 	};
 	// 密码验证
+	validatorPassword = (rule, value, callback) => {
+		let patt = /(?=.*\d)(?=.*[a-zA-Z])^.{6,10}$/;
+		console.log(patt.test(value));
+		if (patt.test(value) || !value) {
+			callback();
+		} else {
+			callback('密码需要在6-10位之间并包含字母和数字');
+		}
+	};
+
 	handleConfirmBlur = (e) => {
 		const value = e.target.value;
 		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -73,15 +96,39 @@ class Register extends Component {
 			form.validateFields([ 'email' ], { force: true });
 			return;
 		}
+		this.setState({
+			sendStatus: true
+		});
+		let time = 60;
+		let clearnTime = setInterval(() => {
+			time--;
+			if (time == 0) {
+				clearInterval(clearnTime);
+				this.setState({
+					sendEmail: '重新发送',
+					sendStatus: false
+				});
+			} else {
+				this.setState({
+					sendEmail: `${time}s后重新发送`
+				});
+			}
+		}, 1000);
 		let params = {
 			email: email
 		};
 		RegisterApi.uploadCode(params)
 			.then((res) => {
-				console.log(res.message);
+				if (res.success) {
+					message.success(res.message);
+				}
 			})
 			.catch((err) => {
-				console.log(err);
+				clearInterval(clearnTime);
+				this.setState({
+					sendEmail: '重新发送',
+					sendStatus: false
+				});
 			});
 	};
 
@@ -96,11 +143,9 @@ class Register extends Component {
 		];
 		const { getFieldDecorator } = this.props.form;
 		// 邮箱自动补全
-
 		const websiteOptions = this.state.autoCompleteResult.map((website) => (
 			<AutoCompleteOption key={website}>{website}</AutoCompleteOption>
 		));
-
 		return (
 			<div className="register-container">
 				<div className="back-img">
@@ -119,19 +164,6 @@ class Register extends Component {
 						<div className="register-content">
 							<div className="register-form-content">
 								<Form layout="inline" onSubmit={this.handleSubmit}>
-									<Form.Item label="邮箱">
-										{getFieldDecorator('email', {
-											rules: [ { required: true, message: '请输入邮箱' } ]
-										})(
-											<AutoComplete
-												dataSource={websiteOptions}
-												onChange={this.handleWebsiteChange}
-												placeholder="请输入邮箱"
-											>
-												<Input />
-											</AutoComplete>
-										)}
-									</Form.Item>
 									<Form.Item label="学号">
 										{getFieldDecorator('schoolId', {
 											rules: [
@@ -143,7 +175,6 @@ class Register extends Component {
 											]
 										})(<Input placeholder="请输入学号" />)}
 									</Form.Item>
-
 									<Form.Item
 										label={
 											<span>
@@ -173,12 +204,11 @@ class Register extends Component {
 													message: '请输入密码'
 												},
 												{
-													validator: this.validateToNextPassword
+													validator: this.validatorPassword
 												}
 											]
 										})(<Input type="password" placeholder="请输入密码" />)}
 									</Form.Item>
-
 									<Form.Item label="确认密码">
 										{getFieldDecorator('confirm', {
 											rules: [
@@ -198,7 +228,19 @@ class Register extends Component {
 											/>
 										)}
 									</Form.Item>
-
+									<Form.Item label="邮箱">
+										{getFieldDecorator('email', {
+											rules: [ { required: true, message: '请输入邮箱' } ]
+										})(
+											<AutoComplete
+												dataSource={websiteOptions}
+												onChange={this.handleWebsiteChange}
+												placeholder="请输入邮箱"
+											>
+												<Input />
+											</AutoComplete>
+										)}
+									</Form.Item>
 									<Form.Item label="邮箱验证" extra="我们必须确保邮箱是你本人的且是正确的">
 										<Row gutter={8}>
 											<Col span={16}>
@@ -213,7 +255,9 @@ class Register extends Component {
 												})(<Input placeholder="请输入验证码" />)}
 											</Col>
 											<Col span={8}>
-												<Button onClick={this.uploadCode}>发送验证码</Button>
+												<Button onClick={this.uploadCode} disabled={this.state.sendStatus}>
+													{this.state.sendEmail}
+												</Button>
 											</Col>
 										</Row>
 									</Form.Item>
