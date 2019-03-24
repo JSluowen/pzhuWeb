@@ -3,7 +3,11 @@ module.exports = appInfo => {
 
   config.keys = "pzhuweb";
 
-  // config.host = 'http://www.pzhuweb.cn';
+  //配置中间件
+  // config.appMiddleware = {
+  //   middleware: ['verify']
+  // }
+
 
   config.security = {
     csrf: false
@@ -22,6 +26,12 @@ module.exports = appInfo => {
     replyTo: '1291962779@qq.com'
   }
 
+  // 七牛云秘钥
+  config.qiniuKey = {
+    accessKey: 'GZSy4yHpQ9Wr7-kvY-DenW3nhHLY-0Cf3YUhbrU6',
+    secretKey: 'U3h50iCu44NbQu2tmIInJEU7yWDhbJEri2vT7bFX'
+  }
+
   // 数据库配置
   config.sequelize = {
     dialect: 'mysql',
@@ -31,9 +41,9 @@ module.exports = appInfo => {
     username: 'root',
     password: '123456',
   }
-  //token登录鉴权秘钥
-  config.token='webJWT'
-  
+  //token鉴权秘钥
+  config.token = 'webJWT'
+
 
   // 配置session
   config.session = {

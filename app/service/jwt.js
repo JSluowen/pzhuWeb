@@ -19,9 +19,13 @@ class Jwt extends Service {
         } = this;
         let value;
         jwt.verify(token, config.token, (err, decode) => {
-            value = decode;
+            if(err){
+                value = false;
+            }else{
+                value = true
+            }
         })
-        return value
+        return value;
     }
 }
 module.exports = Jwt;

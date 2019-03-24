@@ -40,7 +40,8 @@ class Login extends Controller {
                     data: {
                         token: token,
                         id: isExist.id,
-                        password: isExist.dataValues.password
+                        password: isExist.dataValues.password,
+                        name:isExist.dataValues.name
                     }
                 }
             }

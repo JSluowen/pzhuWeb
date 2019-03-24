@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Router, Route, hashHistory, IndexRedirect, Redirect } from 'react-router';
+import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 import Layout from './layout/index';
 import Home from './pages/home';
 import Login from './pages/login';
@@ -7,20 +7,15 @@ import Register from './pages/register';
 import Article from './pages/article';
 import Person from './pages/person';
 
-// const PrivateRouter = () => {
-// 	console.log(component)
-// 	// <Route
-// 	// 	{...rest}
-// 	// 	render={(props) => {
-// 	// 		console.log(props.localtion);
-// 	// 		sessionStorage.getItem('token') ? (
-// 	// 			<Component {...props} />
-// 	// 		) : (
-// 	// 			<Redirect to={{ path: 'login', state: { from: props.localtion } }} />
-// 	// 		);
-// 	// 	}}
-// 	// />;
-// };
+// 前端路由鉴权
+const requireAuth = (nextState, replace, cb) => {
+	if (sessionStorage.getItem('token')) {
+		cb();
+	} else {
+		replace('/login');
+		cb();
+	}
+};
 
 export default (
 	<Router history={hashHistory}>
@@ -30,7 +25,7 @@ export default (
 			<Route path="article" component={Article} />
 			<Route path="login" component={Login} />
 			<Route path="register" component={Register} />
-			<Route path='person' component={Person} />
+			<Route path="person" component={Person} onEnter={requireAuth} />
 		</Route>
 	</Router>
 );

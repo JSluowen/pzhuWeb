@@ -1,9 +1,12 @@
 const Cookies = {
     setCookies(data) {
+        const {entries} = Object;
         let expdate = new Date();
         expdate.setTime(expdate.getTime() + 72 * 60 * 60 * 1000);
-        document.cookie = `id=${data.id};expires=${expdate.toGMTString()};path='/'`;
-        document.cookie = `password=${data.password};expires=${expdate.toGMTString()};path='/'`;
+
+        for(let [key,values] of entries(data)){
+            document.cookie = `${key}=${values};expires=${expdate.toGMTString()};path='/'`;
+        }
     },
     getCookies(c_name) {
         if (document.cookie.length > 0) {

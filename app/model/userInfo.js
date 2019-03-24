@@ -9,13 +9,25 @@ module.exports = app => {
         id: {
             type: STRING(16),
             primaryKey: true,
-            references: {
+            references: { 
                 model: 'user',
                 key: 'id'
             }
         },
-        school: INTEGER(10),
-        major: INTEGER(10),
+        school:{
+            type:INTEGER(10),
+            references:{    
+                model:'school',
+                key:'id'
+            }
+        },
+        major: {
+            type:INTEGER(10),
+            references:{    
+                model:'major',
+                key:'id'
+            }
+        },
         avatar: STRING(128),
         phone: STRING(11),
         description: STRING(128),
