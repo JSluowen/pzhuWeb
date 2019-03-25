@@ -6,7 +6,7 @@ stages:  // 首先按顺序定义有几个步骤。步骤下面的所有job是�
 job1:
   stage: build  // 属于test的stage
   script:
-    - npm run build // 这个job执行的脚本
+    - cd client && npm run build // 这个job执行的脚本
   only:
     - master  // 只监听master分支的代码提交
   tags:
