@@ -36,11 +36,11 @@ class index extends Component {
         };
     }
     componentDidMount(){
-        console.log(browserHistory.getCurrentLocation());
+        // console.log(browserHistory.getCurrentLocation());
     }
     handle=()=>{
-        this.setState({Pathname:browserHistory.getCurrentLocation().hash})
-        console.log(browserHistory.getCurrentLocation().hash);
+        // this.setState({Pathname:browserHistory.getCurrentLocation().hash})
+        // console.log(browserHistory.getCurrentLocation().hash);
     }
 	render() {
         const  {menber,article,achievements,analysis,Pathname} = this.state; 
