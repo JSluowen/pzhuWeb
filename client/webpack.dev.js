@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 console.log(path.resolve(__dirname, "html/front.html"));
 
+const isFront = process.env.CLIENT_ENV !=='back';
 module.exports = {
   mode: "development",
   devtool: "soure-map",
@@ -16,12 +17,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./html/front.html"),
-      chunks: ["front", "back"],
+      chunks: isFront? ["front","common"]:["back","common"],
       minify: {
         collapseWhitespace: true
       }
     }),
-    new CleanWebpackPlugin(["dist"]),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   ],
@@ -31,16 +31,5 @@ module.exports = {
     hot: true,
     compress: true,
     overlay: true
-    // proxy: {
-    //   "/comments": {
-    //     target: "https://m.weibo.cn",
-    //     changeOrigin: true,
-    //     logLevel: "debug",
-    //     headers: {
-    //       Cookie: ""
-    //     }
-    //   }
-    // },
-    // historyApiFallback: true
   }
 };
