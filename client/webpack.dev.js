@@ -16,8 +16,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "./html/front.html"),
-      chunks: isFront? ["front","common"]:["back","common"],
+      template:  isFront ? path.resolve(__dirname, "./html/front.html"):path.resolve(__dirname, "./html/back.html"),
+      chunks: isFront ? ["front","common"]:["back","common"],
       minify: {
         collapseWhitespace: true
       }
