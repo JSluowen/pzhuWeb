@@ -3,35 +3,33 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-<<<<<<< HEAD
-const isFront = process.env.CLIENT_ENV !=='back';
-module.exports = {
-  mode: "development",
-  devtool: "soure-map",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].js",
-    chunkFilename: "[name].js"
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template:  isFront ? path.resolve(__dirname, "./html/front.html"):path.resolve(__dirname, "./html/back.html"),
-      chunks: isFront ? ["front","common"]:["back","common"],
-      minify: {
-        collapseWhitespace: true
-      }
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
-  ],
-  devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    port: 8000,
-    hot: true,
-    compress: true,
-    overlay: true
-  }
-=======
+// module.exports = {
+//   mode: "development",
+//   devtool: "soure-map",
+//   output: {
+//     path: path.resolve(__dirname, "dist"),
+//     filename: "[name].js",
+//     chunkFilename: "[name].js"
+//   },
+//   plugins: [
+//     new HtmlWebpackPlugin({
+//       template:  isFront ? path.resolve(__dirname, "./html/front.html"):path.resolve(__dirname, "./html/back.html"),
+//       chunks: isFront ? ["front","common"]:["back","common"],
+//       minify: {
+//         collapseWhitespace: true
+//       }
+//     }),
+//     new webpack.HotModuleReplacementPlugin(),
+//     new webpack.NamedModulesPlugin()
+//   ],
+//   devServer: {
+//     contentBase: path.join(__dirname, "dist"),
+//     port: 8000,
+//     hot: true,
+//     compress: true,
+//     overlay: true
+//   }
+
 const isBack = process.env.CLIENT_ENV === 'back';
 module.exports = {
     mode: 'development',
@@ -70,5 +68,8 @@ module.exports = {
         // },
         // historyApiFallback: true
     },
->>>>>>> master
+// <<<<<<< HEAD
+// >>>>>>> master
+// =======
+// >>>>>>> e5e2c5e79ca386d40c9162e5b68ce1fd21696852
 };
