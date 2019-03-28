@@ -21,9 +21,7 @@ class UserService extends Service {
         const {
             ctx
         } = this;
-        const result = await ctx.model[table].findAll({
-            where: params
-        })
+        const result = await ctx.model[table].findAll(params)
         return result;
     }
 }

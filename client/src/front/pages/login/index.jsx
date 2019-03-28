@@ -28,15 +28,14 @@ class Login extends Component {
 	componentWillUnmount() {
 		sessionStorage.removeItem('time');
 	}
-	// 检查密码
-	handlePassword=(rules,value,callback)=>{
-		Cookies.setCookies({password:''})
-		callback();
-	}
-	handleId=(rules,value,callback)=>{
-		Cookies.setCookies({id:''})
-		callback();
-	}
+	//判断用户信息是否正确
+	handleUser = (e) => {
+		if (e.target.type == 'password') {
+			Cookies.setCookies({ password: '' });
+		} else {
+			Cookies.setCookies({ id: '' });
+		}
+	};
 	//生成验证信息
 	handleCreate = () => {
 		let a = Math.floor(Math.random() * 100);
@@ -62,24 +61,25 @@ class Login extends Component {
 			if (!err) {
 				let params = {
 					id: values.id,
-					password: Cookies.getCookies('password')&&Cookies.getCookies('password')!==''
-						? md5(values.password + sessionStorage.getItem('time'))
-						: md5(md5(values.password) + sessionStorage.getItem('time'))
+					password:
+						Cookies.getCookies('password') && Cookies.getCookies('password') !== ''
+							? md5(values.password + sessionStorage.getItem('time'))
+							: md5(md5(values.password) + sessionStorage.getItem('time'))
 				};
 				LoginApi.login(params)
 					.then((res) => {
 						if (res.success) {
 							message.success('登录成功,1s后自动跳转');
 							let data = {
-								id:res.data.id,
-								password:res.data.password,
-								name:res.data.name
-							}
+								id: res.data.id,
+								password: res.data.password,
+								name: res.data.name
+							};
 							Cookies.setCookies(data);
 							sessionStorage.setItem('token', res.data.token);
-							setTimeout(()=>{
-								this.props.router.push('/index')
-							},1000)
+							setTimeout(() => {
+								this.props.router.push('/index');
+							}, 1000);
 						} else {
 							message.warning(res.message);
 						}
@@ -110,14 +110,13 @@ class Login extends Component {
 											{
 												required: true,
 												message: '请输入学号'
-											},{
-												validator: this.handleId
 											}
 										]
 									})(
 										<Input
 											prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
 											placeholder="请输入学号"
+											onChange={this.handleUser}
 										/>
 									)}
 								</Form.Item>
@@ -127,8 +126,6 @@ class Login extends Component {
 											{
 												required: true,
 												message: '请输入密码'
-											},{
-												validator: this.handlePassword
 											}
 										]
 									})(
@@ -136,6 +133,7 @@ class Login extends Component {
 											prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
 											type="password"
 											placeholder="请输入密码"
+											onChange={this.handleUser}
 										/>
 									)}
 								</Form.Item>

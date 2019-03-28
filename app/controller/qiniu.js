@@ -4,7 +4,7 @@ class Qiniu extends Controller{
     async getToken(){
         const {ctx} = this;
         try{
-            let uploadToken = await ctx.service.qiniu.getToken('liuxing');
+            let uploadToken = await ctx.service.qiniu.getToken('webimg');
             ctx.status = 200;
             ctx.body={
                 data:uploadToken
@@ -13,8 +13,6 @@ class Qiniu extends Controller{
             ctx.status=500;
             console.log(err);
         }
-       
-        
     }
 }
 module.exports = Qiniu;

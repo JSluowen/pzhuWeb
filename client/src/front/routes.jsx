@@ -5,7 +5,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import Article from './pages/article';
-import Person from './pages/person';
+import PersonInfo from './pages/personInfo';
 
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
@@ -25,7 +25,7 @@ export default (
 			<Route path="article" component={Article} />
 			<Route path="login" component={Login} />
 			<Route path="register" component={Register} />
-			<Route path="person" component={Person} onEnter={requireAuth} />
+			<Route path="personinfo" component={PersonInfo} onEnter={requireAuth} />
 		</Route>
 	</Router>
 );

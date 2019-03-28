@@ -28,8 +28,8 @@ module.exports = appInfo => {
 
   // 七牛云秘钥
   config.qiniuKey = {
-    accessKey: 'GZSy4yHpQ9Wr7-kvY-DenW3nhHLY-0Cf3YUhbrU6',
-    secretKey: 'U3h50iCu44NbQu2tmIInJEU7yWDhbJEri2vT7bFX'
+    accessKey: 'RQPDrNQ4aoOWEn_3rMg9xH273n5NuGXizE-JhbOv',
+    secretKey: 'MalqHu1GWMf3TXFZM_QrMgIdm76IVETBZ3nmTrEv'
   }
 
   // 数据库配置

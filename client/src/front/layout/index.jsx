@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Avatar, Input, BackTop, Modal, Icon,message } from 'antd';
+import { Avatar, Input, BackTop, Modal, Icon, message } from 'antd';
 import Cookies from '../../http/cookies';
 import PersonApi from '../api/person';
 import './index.scss';
@@ -14,9 +14,9 @@ export default class Layout extends Component {
 		this.state = {
 			status: false,
 			show: true,
-			name:'',
-			avatar:'',
-			flag:true
+			name: '',
+			avatar: 'http://img.pzhuweb.cn/443625372.jpeg',
+			flag: true
 		};
 	}
 
@@ -26,27 +26,27 @@ export default class Layout extends Component {
 		PersonApi.getUserinfo({ id: id }).then((res) => {
 			this.setState({
 				status: true,
-				name:name,
+				name: name
 			});
-			if(res.success){
+			if (res.success) {
 				this.setState({
-					avatar:res.data.avatar
-				})
-			}else{
-				message.warning(res.message)
+					avatar: res.data.avatar
+				});
+			} else {
+				message.warning(res.message);
 			}
 		});
 	}
 
 	componentDidMount() {
 		if (sessionStorage.getItem('token')) {
-			this.getUserinfo()
+			this.getUserinfo();
 		}
-	}
+	}	
 	componentWillReceiveProps(props) {
 		if (props.location.pathname == '/index') {
 			if (sessionStorage.getItem('token')) {
-				this.getUserinfo()
+				this.getUserinfo();
 			}
 		}
 	}
@@ -90,7 +90,9 @@ export default class Layout extends Component {
 						<div className="nav-bar-menu">
 							<div className="nav-bar-menu-item">技术交流</div>
 							<div className="nav-bar-menu-item">
-								<Link to="/article">文章动态</Link>
+								<Link to="/article" activeClassName="active">
+									文章动态
+								</Link>
 							</div>
 							<div className="nav-bar-menu-item">成员展示</div>
 							<div className="nav-bar-menu-item">成果展示</div>
@@ -134,12 +136,14 @@ export default class Layout extends Component {
 												icon="user"
 												src={this.state.avatar}
 											/>
-											<div className="nav-bar-right-userinfo-content-header-user-name">{
-												this.state.name
-											}</div>
+											<div className="nav-bar-right-userinfo-content-header-user-name">
+												{this.state.name}
+											</div>
 										</div>
 										<div className="nav-bar-right-userinfo-content-header-btn">
-											<Icon style={{ fontSize: '25px' }} size="large" type="setting" />
+											<Link to="/personinfo" onClick={()=>{this.setState({show:true})}} >
+												<Icon style={{ fontSize: '25px' }} size="large" type="setting" />
+											</Link>
 										</div>
 									</div>
 									<div className="nav-bar-right-userinfo-content-body">

@@ -8,6 +8,7 @@ const base = {
     login:'/login',//用户登录
     timetoken:'/logintoken',//获取登录时间秘钥
     qiniuToken:'/qiniutoken',//获取七牛云上传证书
-    userInfo:'/person/userinfo'// 获取用户的基本信息
+    userInfo:'/person/userinfo',// 获取用户的基本信息
+    uploadAvatar:'/person/uploadavatar'//上传头像信息
 }
 export default base;

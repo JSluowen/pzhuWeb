@@ -1,13 +1,23 @@
 import base from './base';
 import axios from '../../http/axios';
 
-const Person ={
+const Person = {
     // 获取用户基本信息
-    getUserinfo(params){
-        return new Promise((resolve,reject)=>{
-            axios.post(`${base.userInfo}`,params).then((res)=>{
+    getUserinfo(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.userInfo}`, params).then((res) => {
                 resolve(res.data)
-            }).catch(err=>{
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    //上传头像信息
+    uploadAvatar(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.uploadAvatar}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
                 reject(err.data)
             })
         })
