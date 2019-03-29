@@ -21,7 +21,28 @@ const Person = {
                 reject(err.data)
             })
         })
+    },
+    //上传用户个人编辑信息
+    uploadUserInfo(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.uploadUserInfo}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    //查询用户的个人详情信息
+    selectSchoolMajor(){
+        return new Promise((resolve,reject)=>{
+            axios.get(`${base.selectSchoolMajor}`).then(res=>{
+                resolve(res.data)
+            }).catch(err=>{
+                reject(err.data)
+            })
+        })
     }
+
 }
 
 export default Person;
