@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Avatar, Input, Button, BackTop } from 'antd';
-import ReactFullpage from '@fullpage/react-fullpage';
+ import ReactFullpage from '@fullpage/react-fullpage';
 import './index.scss';
 import './override.scss';
 class TeamInfo extends React.Component {

@@ -16,8 +16,8 @@ module.exports = {
           key: 'id'
         }
       },
-      school: INTEGER(10),
-      major: INTEGER(10),
+      school: STRING(32),
+      major: STRING(32),
       avatar: STRING(128),
       phone: STRING(11),
       email: STRING(32),

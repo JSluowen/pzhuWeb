@@ -8,7 +8,7 @@ function qiniuUpload(file) {
             let key = Date.now();
             let config = {
                 useCdnDomain: true, //是否使用 cdn 加速域名
-                region: qiniu.region.z0 //选择上传域名区域
+                region: qiniu.region.z2 //选择上传域名 华南
             }
             let putExtra={
                 fname: file.name,

@@ -1,4 +1,15 @@
 .container {
+  a{
+    color: #fff;
+    text-decoration: none;
+    &:hover{
+      color: #1890ff;
+      cursor:pointer;
+    }
+  }
+  .active{
+    color: #1890ff;
+  }
   .nav-bar {
     position: fixed;
     top: 0;
@@ -12,7 +23,7 @@
     background: #222;
     color: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-    z-index: 9999;
+    z-index: 1000;
 
     &-left {
       display: flex;
@@ -53,6 +64,7 @@
         display: flex;
         align-items: center;
         position: relative;
+
         &-name {
           margin-left: 10px;
           font-family: "宋体";
@@ -73,6 +85,7 @@
           top: 50px;
           right: 0px;
           background-color: rgb(34, 34, 34);
+
           &-header {
             width: 100%;
             display: flex;
@@ -80,9 +93,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px;
+
             &-user {
               width: 70%;
               display: flex;
+
               &-name {
                 margin-left: 10px;
                 flex: 1;
@@ -91,6 +106,7 @@
                 white-space: nowrap;
               }
             }
+
             &-btn {
               width: 73px;
               height: 36px;
@@ -99,62 +115,75 @@
               display: flex;
               align-items: center;
               justify-content: center;
-              &:hover{
+
+              &:hover {
                 cursor: pointer;
                 color: #1890ff;
               }
             }
           }
-          &-body{
+
+          &-body {
             width: 100%;
             height: 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 14px;
-            &-item{
+
+            &-item {
               flex: 1;
               height: 100%;
               display: flex;
               flex-direction: column;
               justify-content: flex-start;
               border-bottom: 1px solid gray;
-              &:hover{
+
+              &:hover {
                 cursor: pointer;
               }
-              &-num{
+
+              &-num {
                 width: 100%;
-                height: 40%;            
+                height: 40%;
               }
-              &-text{
+
+              &-text {
                 width: 100%;
                 height: 60%;
                 color: gray;
-                &:hover{
+
+                &:hover {
                   color: #1890ff;
-                }     
+                }
               }
-              &-text,&-num{
+
+              &-text,
+              &-num {
                 text-align: center;
               }
             }
-          
+
           }
-          &-footer{
+
+          &-footer {
             width: 100%;
-            &-item{
+
+            &-item {
               height: 40px;
               font-size: 13px;
               color: gray;
               padding: 0px 10px;
-              &:hover{
+
+              &:hover {
                 cursor: pointer;
-                background-color: rgb(57,59,62);
+                background-color: rgb(57, 59, 62);
               }
-              span{
+
+              span {
                 display: inline-block;
                 margin-left: 10px;
-                color: rgb(214,215,222);
+                color: rgb(214, 215, 222);
               }
             }
           }
