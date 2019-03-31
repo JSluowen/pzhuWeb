@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, message } from 'antd';
+import { Form, Icon, Input, Button, message, Modal } from 'antd';
 import md5 from 'md5';
 import LoginApi from '../../api/login';
 import Cookies from '../../../http/cookies';
+import Forget from './forget'
 import './index.scss';
 
 class Login extends Component {
@@ -10,7 +11,8 @@ class Login extends Component {
 		super(props);
 		this.state = {
 			confirmMessage: '',
-			confirmResult: ''
+			confirmResult: '',
+			visible: false
 		};
 	}
 	componentDidMount() {
@@ -22,6 +24,7 @@ class Login extends Component {
 		let id = Cookies.getCookies('id');
 		let password = Cookies.getCookies('password');
 		let form = this.props.form;
+
 		form.setFieldsValue({ id: id });
 		form.setFieldsValue({ password: password });
 	}
@@ -102,7 +105,21 @@ class Login extends Component {
 				</div>
 				<div className="login-content">
 					<div className="login-form">
-						<div className="form-title">用户登录</div>
+						<div className="form-top">
+							<div className="form-top-title">用户登录</div>
+							<div className="form-top-forget" onClick={()=>{this.setState({visible:true})}}>
+								忘记密码？
+							</div>
+							<Modal
+								title="找回密码"
+								visible={this.state.visible}
+								onCancel={()=>{this.setState({visible:false})}}
+								footer={null}
+								maskClosable={false}
+							>
+								<Forget visible={(flag)=>{this.setState({visible:flag})}}></Forget>
+							</Modal>
+						</div>
 						<div className="form-content">
 							<Form className="login-form">
 								<Form.Item>

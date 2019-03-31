@@ -40,7 +40,7 @@ axios.interceptors.response.use(
 		if (error.response.status) {
 			switch (error.response.status) {
 				case 404:
-					message.error(error.response.data.message);
+					message.error('资源不存在');
 					break;
 				default:
 					message.error('请求有误');
