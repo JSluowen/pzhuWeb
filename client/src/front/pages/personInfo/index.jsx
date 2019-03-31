@@ -71,10 +71,10 @@ class Person extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				values.id = Cookies.getCookies('id')
+				values.id = Cookies.getCookies('id');
 				PersonAPI.uploadUserInfo(values).then((res) => {
-					if (res.success) {	
-						message.success('保存成功')
+					if (res.success) {
+						message.success('保存成功');
 					}
 				});
 			}
