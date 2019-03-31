@@ -10,9 +10,6 @@ import  Edit from './pages/article/articleIndex';
 
 
 
-//后端临时引用
-
-import BackHome from './back/layout'
 
 
 // 前端路由鉴权
@@ -37,6 +34,5 @@ export default (
 			<Route path="person" component={Person} onEnter={requireAuth} />
 		</Route>
 		<Route path="edit" component={Edit} onEnter={requireAuth} />
-		<Route path="back" component={BackHome}/>
 	</Router>
 );

@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-
-class Home extends Component {
+import React,{Component} from 'react';
+class distribution extends Component {
     constructor(props) {
         super(props);
         this.state = {  };
@@ -8,10 +7,10 @@ class Home extends Component {
     render() {
         return (
             <div>
-                back home
+                distribution
             </div>
         );
     }
 }
 
-export default Home;
+export default distribution;
