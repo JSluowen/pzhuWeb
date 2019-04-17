@@ -1,34 +1,39 @@
-import React, { Component } from 'react';
-import { Form, Input, Button, Cascader, Modal, message, Spin } from 'antd';
-import Cropper from '../../components/cropper';
-import qiniu from '../../common/qiniu';
-import Cookies from '../../../http/cookies';
-import PersonAPI from '../../api/person';
-import './index.scss';
+import React, { Component } from 'react'
+import { Form, Input, Button, Cascader, Modal, message, Spin } from 'antd'
+import Cropper from '../../components/cropper'
+import qiniu from '../../common/qiniu'
+import Cookies from '../../../http/cookies'
+import PersonAPI from '../../api/person'
+import './index.scss'
+
+const confirm = Modal.confirm
 
 class Person extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
-			defaultSchoolMajor: '',
+			defaultSchoolMajor:[],
 			visible: false,
 			src: 'http://img.pzhuweb.cn/2.jpg',
 			loading: false,
-			schoolMajor: []
-		};
+			schoolMajor: [],
+			phone:'',
+			introduction:''
+
+		}
 	}
 	//学院专业搜索过滤
 	filter = (inputValue, path) => {
-		return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
-	};
+		return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
+	}
 	handleCancel = (e) => {
-		console.log(e);
+		console.log(e)
 		this.setState({
 			visible: false
-		});
-	};
+		})
+	}
 	componentWillMount() {
-		this.selectSchoolMajor();
+		this.selectSchoolMajor()
 	}
 	//获取学院专业
 	selectSchoolMajor = () => {
@@ -36,39 +41,39 @@ class Person extends Component {
 			if (res.success) {
 				this.setState({
 					schoolMajor: res.data.schoolmajor
-				});
+				})
 			}
-		});
-	};
+		})
+	}
 	//上传头像
 	uploadAvatar = (dataBlob) => {
 		this.setState({
 			loading: true
-		});
+		})
 		qiniu(dataBlob)
 			.then((res) => {
 				let params = {
 					avatar: res.key,
 					id: Cookies.getCookies('id')
-				};
+				}
 				PersonAPI.uploadAvatar(params).then((res) => {
 					if (res.success) {
-						message.success('头像上传成功');
+						message.success('头像上传成功')
 						this.setState({
 							src: res.data.avatar,
 							visible: false,
 							loading: false
-						});
+						})
 					}
-				});
+				})
 			})
 			.catch((err) => {
-				console.log(err);
-			});
-	};
+				console.log(err)
+			})
+	}
 	//保存用户信息
 	handelSave = (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				values.id = Cookies.getCookies('id');
@@ -76,13 +81,31 @@ class Person extends Component {
 					if (res.success) {
 						message.success('保存成功');
 					}
-				});
+				})
 			}
-		});
-	};
-
+		})
+	}
+	//取消用户信息修改
+	cancelSave=(e)=>{
+		let that = this
+		confirm({
+			title: '修改未保存',
+			content: '修改的信息尚未保存，是否保存后离开？',
+			okText: '保存',
+			cancelText: '取消',
+			onOk() {
+				that.handelSave(e)
+			},
+			onCancel() {
+				that.props.router.push('/index')
+			},
+		  })
+	}
 	render() {
-		const { getFieldDecorator } = this.props.form;
+		const { getFieldDecorator } = this.props.form
+		const {getFieldsValue} = this.props.form
+		const valuesChange = getFieldsValue(['phone','schoolMajor','description'])
+		console.log(valuesChange)
 		return (
 			<div className="personinfo">
 				<div className="personinfo-container">
@@ -98,7 +121,7 @@ class Person extends Component {
 												message: '请输入联系方式'
 											}
 										]
-									})(<Input placeholder="请输入联系方式" />)}
+									})(<Input placeholder="请输入联系方式"  />)}
 								</Form.Item>
 								<Form.Item label="学院专业">
 									{getFieldDecorator('schoolMajor', {
@@ -109,6 +132,7 @@ class Person extends Component {
 												required: true,
 												message: '请选择学院专业'
 											}
+											
 										]
 									})(
 										<Cascader
@@ -133,7 +157,11 @@ class Person extends Component {
 									<Button type="primary" onClick={this.handelSave}>
 										保存
 									</Button>
-									<Button>取消</Button>
+									<Button onClick={this.cancelSave} disabled={
+										(valuesChange.phone===undefined||valuesChange.phone==='')&&
+										(valuesChange.schoolMajor === undefined ||valuesChange.schoolMajor.length===0)&&
+										(valuesChange.description===undefined||valuesChange.description==='')?true:false
+									} >取消</Button>
 								</Form.Item>
 							</Form>
 						</div>
@@ -143,7 +171,7 @@ class Person extends Component {
 							</div>
 							<Button
 								onClick={() => {
-									this.setState({ visible: true });
+									this.setState({ visible: true })
 								}}
 							>
 								修改头像
@@ -158,10 +186,10 @@ class Person extends Component {
 					</div>
 				</div>
 			</div>
-		);
+		)
 	}
 }
 
-const Persons = Form.create()(Person);
+const Persons = Form.create()(Person)
 
-export default Persons;
+export default Persons
