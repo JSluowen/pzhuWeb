@@ -16,7 +16,7 @@ export default class Layout extends Component {
 			show: true,
 			name: '',
 			avatar: 'http://img.pzhuweb.cn/443625372.jpeg',
-			flag: true
+			flag: true,
 		};
 	}
 
@@ -42,7 +42,7 @@ export default class Layout extends Component {
 		if (sessionStorage.getItem('token')) {
 			this.getUserinfo();
 		}
-	}	
+	}
 	componentWillReceiveProps(props) {
 		if (props.location.pathname == '/index') {
 			if (sessionStorage.getItem('token')) {
@@ -124,7 +124,7 @@ export default class Layout extends Component {
 								</div>
 								<div
 									className="nav-bar-right-userinfo-content"
-									style={this.state.show ? { display: 'none' } : { display: 'block' }}
+									style={this.state.show ? { maxHeight: '0' } : { maxHeight: '640px' }}
 								>
 									<div className="nav-bar-right-userinfo-content-header">
 										<div className="nav-bar-right-userinfo-content-header-user">
@@ -141,7 +141,7 @@ export default class Layout extends Component {
 											</div>
 										</div>
 										<div className="nav-bar-right-userinfo-content-header-btn">
-											<Link to="/personinfo" onClick={()=>{this.setState({show:true})}} >
+											<Link to="/personinfo" onClick={() => { this.setState({ show: true }) }} >
 												<Icon style={{ fontSize: '25px' }} size="large" type="setting" />
 											</Link>
 										</div>
@@ -192,16 +192,16 @@ export default class Layout extends Component {
 								</div>
 							</div>
 						) : (
-							<div className="nav-bar-right-user">
-								<div className="login">
-									<Link to="login">登录</Link>
-								</div>
-								/
+								<div className="nav-bar-right-user">
+									<div className="login">
+										<Link to="login">登录</Link>
+									</div>
+									/
 								<div className="register">
-									<Link to="register">注册</Link>
+										<Link to="register">注册</Link>
+									</div>
 								</div>
-							</div>
-						)}
+							)}
 					</div>
 				</div>
 				<div className="content">{this.props.children}</div>

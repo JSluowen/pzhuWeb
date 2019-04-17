@@ -81,11 +81,12 @@
           transition: 0.5s;
           z-index: 9999;
           width: 250px;
-          min-height: 300px;
+          // min-height: 300px;
           top: 50px;
           right: 0px;
           background-color: rgb(34, 34, 34);
-
+          overflow: hidden;
+          transition:max-height .5s;
           &-header {
             width: 100%;
             display: flex;
