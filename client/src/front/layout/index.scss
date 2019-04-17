@@ -1,15 +1,18 @@
 .container {
-  a{
+  a {
     color: #fff;
     text-decoration: none;
-    &:hover{
+
+    &:hover {
       color: #1890ff;
-      cursor:pointer;
+      cursor: pointer;
     }
   }
-  .active{
+
+  .active {
     color: #1890ff;
   }
+
   .nav-bar {
     position: fixed;
     top: 0;
@@ -180,10 +183,13 @@
                 background-color: rgb(57, 59, 62);
               }
 
-              span {
+              a {
                 display: inline-block;
                 margin-left: 10px;
                 color: rgb(214, 215, 222);
+                &:hover{
+                  color: #1890ff;
+                }
               }
             }
           }
