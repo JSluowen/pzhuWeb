@@ -15,7 +15,7 @@ const base = {
     userInfo: '/person/userinfo', // 获取用户的基本信息
     uploadAvatar: '/person/uploadavatar', //上传头像信息
     uploadUserInfo: '/person/uploaduserinfo', //上传用户编辑个人信息
-    selectSchoolMajor: '/person/selectschoolmajor', //查询学院专业
+    selectSchoolMajor: '/person/selectschoolmajor' //查询学院专业
 
 }
 export default base;

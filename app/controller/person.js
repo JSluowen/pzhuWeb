@@ -92,6 +92,7 @@ class Person extends Controller {
                         id: id
                     }
                 }
+
                 let cdn = await ctx.service.qiniu.getCDN(avatar); //获去cdn链接
                 let isUserinfo = await ctx.service.mysql.findById(id, table);
                 if (isUserinfo) {

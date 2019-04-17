@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
 import { Form, Button, Input, Steps, Tooltip, Icon, Row, Col, AutoComplete, message } from 'antd';
 import RegisterApi from '../../api/register';
 import './index.scss';
@@ -275,6 +274,7 @@ class Register extends Component {
 					</div>
 				</div>
 			</div>
+		
 		);
 	}
 }
