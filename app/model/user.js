@@ -6,7 +6,7 @@ module.exports = app => {
         DATE,
         STRING
     } = app.Sequelize;
-    const User = app.model.define('user', {
+    const User = app.model.define('User', {
         id: {
             type: STRING(16),
             primaryKey: true
@@ -21,6 +21,8 @@ module.exports = app => {
         created_at: DATE,
         updated_at: DATE,
     })
-
+    User.associate = function () {
+        app.model.User.hasMany(app.model.Article,{foreignKey:'userid',targetKey:'id'})
+    }
     return User;
 }

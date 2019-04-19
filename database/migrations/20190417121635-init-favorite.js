@@ -3,18 +3,18 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const { INTEGER, DATE, STRING } = Sequelize;
-    await queryInterface.createTable('major',{
-      id:{
-        type:INTEGER(10),
-        primaryKey:true
+    await queryInterface.createTable('Technology', {
+      id: {
+        type: INTEGER(10),
+        primaryKey: true
       },
-      name:{
+      userid: {
         type:STRING(16)
       },
-      school:{
+      articleid:{
         type:INTEGER(10),
         references:{
-          model:'school'
+          model:'Article'
         }
       },
       created_at: DATE,
@@ -23,6 +23,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('major');
+    await queryInterface.dropTable('Technology');
   }
 };

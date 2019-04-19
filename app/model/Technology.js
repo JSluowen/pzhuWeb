@@ -6,7 +6,7 @@ module.exports = app => {
         STRING,
         DATE
     } = app.Sequelize;
-    const Major = app.model.define('Major', {
+    const Technology = app.model.define('Technology', {
         id: {
             type: INTEGER(10),
             primaryKey: true
@@ -14,18 +14,13 @@ module.exports = app => {
         name: {
             type: STRING(16)
         },
-        school: {
-            type: INTEGER(10),
-            references: {
-                model: 'School'
-            }
-        },
         created_at: DATE,
         updated_at: DATE,
     })
-    Major.associate = function(){
-        app.model.Major.belongsTo(app.model.School,{foreignKey:'school',targetKey:'id'})
+    Technology.associate = function(){
+        app.model.Technology.hasMany(app.model.Article,{foreignKey:'technologyid',targetKey:'id'})
     }
-    
-    return Major
+
+
+    return Technology
 }
