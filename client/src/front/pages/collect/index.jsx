@@ -42,10 +42,11 @@ class Collect extends Component {
         const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
         // 距离页面底部的高度
         const height = scrollHeight - scrollTop - clientHeight;
-        if (height <= 0) {
+        if (height <= 10) {
             this.handelLoading()
         }
     }
+    
     handelLoading = () => {
         if (this.state.isLoading) {
             this.setState({

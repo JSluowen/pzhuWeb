@@ -7,7 +7,7 @@ import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 // import Article from './pages/article';
 // import PersonInfo from './pages/personInfo';
 
-import {Layout,Home,Login,Register,Article,PersonInfo,Collect} from './pages'
+import { Layout, Home, Login, Register, Article, Setting, Collect, User } from './pages'
 
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
@@ -28,8 +28,10 @@ export default (
 			<Route path="article" component={Article} />
 			<Route path="login" component={Login} />
 			<Route path="register" component={Register} />
-			<Route path="personinfo" component={PersonInfo} onEnter={requireAuth} />
-			<Route path='collect' component={Collect} onEnter={requireAuth} />
+			<Route path="setting" component={Setting} onEnter={requireAuth} />
+			<Route path='user' component={User} onEnter={requireAuth}>
+				<Route path='/user/collect' component={Collect} onEnter={requireAuth} />
+			</Route>
 		</Route>
 	</Router>
 );

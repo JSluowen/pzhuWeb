@@ -6,7 +6,7 @@ import Cookies from '../../../http/cookies';
 import PersonAPI from '../../api/person';
 import './index.scss';
 
-class Person extends Component {
+class Setting extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -162,6 +162,6 @@ class Person extends Component {
 	}
 }
 
-const Persons = Form.create()(Person);
+const Settings = Form.create()(Setting);
 
-export default Persons;
+export default Settings;
