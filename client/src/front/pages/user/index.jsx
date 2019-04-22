@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Icon } from 'antd';
 import { Link } from 'react-router';
 import './index.scss'
-import avatar from './443625372.png'
 class User extends Component {
     constructor(props) {
         super(props)
@@ -15,7 +14,7 @@ class User extends Component {
                     <div className='user-left-header'>
                         <div className='user-left-header-avatar'>
                             <div className='user-left-header-avatar-img'>
-                                <img src={avatar} alt="" /></div>
+                                <img src='http://img.pzhuweb.cn/443625372.jpeg' alt="" /></div>
                         </div>
                         <div className='user-left-header-info'>
                             <div className='user-left-header-info-name'>

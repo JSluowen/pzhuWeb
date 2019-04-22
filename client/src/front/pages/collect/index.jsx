@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Dropdown, Icon, message, Input, Modal, Button, Spin } from 'antd';
+import { Menu, Dropdown, Icon, message, Input, Modal, Spin,Popconfirm } from 'antd';
 import { CollectAPI } from '../../api';
 import Cookies from '../../../http/cookies'
 import './index.scss'
@@ -134,6 +134,7 @@ class Collect extends Component {
             okText: '确认',
             cancelText: '取消',
             onOk() {
+
                 CollectAPI.cancelCollect({ id: id }).then(res => {
                     if (res.success) {
                         message.success('成功取消')
@@ -149,6 +150,7 @@ class Collect extends Component {
             },
         });
     }
+
     // 点击搜索
     onSearch = (value) => {
         let id = Cookies.getCookies('id');
@@ -225,7 +227,7 @@ class Collect extends Component {
                                                     }
                                                 </p>
                                                 <p style={{ flex: 1 }}>
-                                                    <span style={{ color: '#1890ff' }} onClick={this.cancelCollect} id={item.id} index={index} >取消收藏</span>
+                                                    <span style={{ color: '#1890ff' }} onClick={this.cancelCollect} id={item.id} index={index} >取消收藏</span> 
                                                 </p>
                                             </div>
                                         })

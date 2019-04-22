@@ -6,3 +6,4 @@ export Article from './article';
 export Setting from './setting';
 export Collect from './collect'
 export User from './user'
+export Member from './member'

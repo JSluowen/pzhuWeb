@@ -98,7 +98,11 @@ export default class Layout extends Component {
 									文章动态
 								</Link>
 							</div>
-							<div className="nav-bar-menu-item">成员展示</div>
+							<div className="nav-bar-menu-item">
+								<Link to='/member' activeClassName="active">
+									成员展示
+								</Link>
+							</div>
 							<div className="nav-bar-menu-item">成果展示</div>
 						</div>
 					</div>
@@ -115,10 +119,10 @@ export default class Layout extends Component {
 
 						{this.state.status ? (
 							<div className="nav-bar-right-userinfo">
-								<ButtonGroup style={{marginRight:'20px'}}>
+								<ButtonGroup style={{ marginRight: '20px' }}>
 									<Button type='primary' ghost >文章发布</Button>
 									<Dropdown overlay={menu}>
-										<Button type='primary'  ghost icon="down" >
+										<Button type='primary' ghost icon="down" >
 										</Button>
 									</Dropdown>
 
