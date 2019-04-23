@@ -7,3 +7,4 @@ export Setting from './setting';
 export Collect from './collect'
 export User from './user'
 export Member from './member'
+export Achievement from './achievement'

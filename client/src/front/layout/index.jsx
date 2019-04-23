@@ -92,10 +92,16 @@ export default class Layout extends Component {
 							Web应用专业团队
 						</a>
 						<div className="nav-bar-menu">
-							<div className="nav-bar-menu-item">技术交流</div>
+
 							<div className="nav-bar-menu-item">
 								<Link to="/article" activeClassName="active">
 									文章动态
+								</Link>
+							</div>
+							<div className="nav-bar-menu-item">资源分享</div>
+							<div className="nav-bar-menu-item">
+								<Link to='/achievement' activeClassName='active' >
+									成果展示
 								</Link>
 							</div>
 							<div className="nav-bar-menu-item">
@@ -103,7 +109,6 @@ export default class Layout extends Component {
 									成员展示
 								</Link>
 							</div>
-							<div className="nav-bar-menu-item">成果展示</div>
 						</div>
 					</div>
 					<div className="nav-bar-right">

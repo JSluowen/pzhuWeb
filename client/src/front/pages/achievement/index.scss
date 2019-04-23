@@ -1,0 +1,58 @@
+.achievement {
+    width: 100%;
+    min-height: 600px;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+
+    &-left {
+        width: 18%;
+        min-height: 600px;
+        padding: 20px 0px;
+
+        &-header {
+            width: 100%;
+            height: 57px;
+            line-height: 57px;
+            padding: 0px 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        &-item {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            font-size: 18px;
+            padding: 0px 20px;
+            display: flex;
+            justify-content: space-between;
+
+            .anticon {
+                margin-right: 10px;
+            }
+            &:hover {
+                cursor: pointer;
+                border-right: 3px solid #1890ff;
+                background-color: rgba(24, 144, 255, .2);
+            }
+        }
+    }
+
+    &-right {
+        width: 70%;
+        min-height: 600px;
+        padding: 20px 0px;
+        .ant-card-body{
+            display: flex;
+            flex-wrap: wrap;
+      }
+      &-item{
+          width: 100%;
+          margin-right: 1%;
+          margin-left: 1%;
+          margin-bottom: 20px;
+          height: auto;
+      }
+    }
+}
