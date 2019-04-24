@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
-import { Layout, Home, Login, Register, Article, Setting, Collect, User, Member, Achievement } from './pages'
+import { Layout, Home, Login, Register, Article, Setting, Collect, User, Member, Achievement,Resource } from './pages'
 
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
@@ -23,6 +23,7 @@ export default (
 			<Route path="register" component={Register} />
 			<Route path='member' component={Member} />
 			<Route path='achievement' component={Achievement} />
+			<Route path='resource' component={Resource}></Route>
 			<Route path="setting" component={Setting} onEnter={requireAuth} />
 			<Route path='user' component={User} onEnter={requireAuth}>
 				<Route path='/user/collect' component={Collect} onEnter={requireAuth} />

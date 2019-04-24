@@ -98,7 +98,11 @@ export default class Layout extends Component {
 									文章动态
 								</Link>
 							</div>
-							<div className="nav-bar-menu-item">资源分享</div>
+							<div className="nav-bar-menu-item">
+								<Link to='/resource' activeClassName='action' >
+									资源分享
+								</Link>
+							</div>
 							<div className="nav-bar-menu-item">
 								<Link to='/achievement' activeClassName='active' >
 									成果展示
