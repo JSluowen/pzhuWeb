@@ -3,7 +3,7 @@
 module.exports = {
   up:async (queryInterface, Sequelize) => {
      const { INTEGER, DATE, STRING } = Sequelize;
-     await queryInterface.createTable('user',{
+     await queryInterface.createTable('User',{
        id:{type:STRING(16),primaryKey:true},
        password:STRING(32),
        name:STRING(16),
@@ -15,6 +15,6 @@ module.exports = {
   },
 
   down:async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('user');
+    await queryInterface.dropTable('User');
   }
 };

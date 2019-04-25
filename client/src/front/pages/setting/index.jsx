@@ -8,7 +8,7 @@ import './index.scss'
 
 const confirm = Modal.confirm
 
-class Person extends Component {
+class Setting extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -76,10 +76,10 @@ class Person extends Component {
 		e.preventDefault()
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				values.id = Cookies.getCookies('id')
+				values.id = Cookies.getCookies('id');
 				PersonAPI.uploadUserInfo(values).then((res) => {
-					if (res.success) {	
-						message.success('保存成功')
+					if (res.success) {
+						message.success('保存成功');
 					}
 				})
 			}
@@ -190,6 +190,6 @@ class Person extends Component {
 	}
 }
 
-const Persons = Form.create()(Person)
+const Settings = Form.create()(Setting);
 
-export default Persons
+export default Settings;

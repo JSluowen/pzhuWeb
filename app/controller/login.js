@@ -62,5 +62,79 @@ class Login extends Controller {
             message: time
         }
     }
+    //忘记密码
+    async forgetPassword() {
+        const {
+            ctx
+        } = this;
+        const {
+            ids,
+            passwords,
+            emails
+        } = ctx.request.body;
+        try {
+            let table = 'User';
+            let params = {
+                where: {
+                    id: ids,
+                    email: emails
+                }
+            }
+            let isUser = await ctx.service.mysql.findAll(params, table);
+            if (isUser.length != 0) {
+                ctx.session.id = ids;
+                ctx.session.password = passwords;
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1
+                }
+            } else {
+                ctx.status = 200;
+                ctx.body = {
+                    success: 0,
+                    message: '用户信息有误'
+                }
+            }
+        } catch (err) {
+            // console.log(err)
+            ctx.status = 404;
+
+        }
+    }
+    async changePassword() {
+        const {
+            ctx
+        } = this;
+        try {
+            const {
+                code
+            } = ctx.request.body;
+            if (ctx.session.code != code) {
+                ctx.status = 200;
+                ctx.body = {
+                    success: 0,
+                    message: '验证码有误'
+                }
+            } else {
+                let id = ctx.session.id;
+                let table = 'User';
+                let isUser = await ctx.service.mysql.findById(id, table);
+                await isUser.update({
+                    password: ctx.session.password
+                })
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1,
+                    data: {
+                        password: ctx.session.password
+                    }
+                }
+            }
+
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
 }
 module.exports = Login;

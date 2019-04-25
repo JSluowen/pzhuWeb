@@ -17,6 +17,7 @@ class QiniuService extends Service {
         let uploadToken = putPolicy.uploadToken(mac);
         return uploadToken;
     }
+    
     //获取cdn链接
     async getCDN(key) {
         const {
@@ -45,7 +46,6 @@ class QiniuService extends Service {
                 return err
             } else {
                 return respInfo.statusCode
-
             }
         })
     }

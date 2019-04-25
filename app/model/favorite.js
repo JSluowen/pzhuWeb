@@ -6,26 +6,28 @@ module.exports = app => {
         STRING,
         DATE
     } = app.Sequelize;
-    const Major = app.model.define('Major', {
+    const Favorite = app.model.define('Favorite', {
         id: {
             type: INTEGER(10),
             primaryKey: true
         },
-        name: {
+        userid: {
             type: STRING(16)
         },
-        school: {
+        articleid: {
             type: INTEGER(10),
             references: {
-                model: 'School'
+                model: 'Article'
             }
         },
         created_at: DATE,
         updated_at: DATE,
+
     })
-    Major.associate = function(){
-        app.model.Major.belongsTo(app.model.School,{foreignKey:'school',targetKey:'id'})
+
+    Favorite.associate = function () {
+        app.model.Favorite.belongsTo(app.model.Article, { foreignKey: 'articleid', targetKey: 'id' })
     }
-    
-    return Major
+
+    return Favorite
 }

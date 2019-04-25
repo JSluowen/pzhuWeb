@@ -7,7 +7,7 @@ module.exports = {
       DATE,
       STRING
     } = Sequelize;
-    await queryInterface.createTable('userinfo', {
+    await queryInterface.createTable('UserInfo', {
       id: {
         type: STRING(16),
         primaryKey: true,
@@ -28,6 +28,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('userinfo');
+    await queryInterface.dropTable('UserInfo');
   }
 };

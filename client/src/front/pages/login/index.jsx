@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, message } from 'antd';
+import { Form, Icon, Input, Button, message, Modal } from 'antd';
 import md5 from 'md5';
 import LoginApi from '../../api/login';
 import Cookies from '../../../http/cookies';
+import Forget from './forget';
 import './index.scss';
 
 class Login extends Component {
@@ -10,7 +11,8 @@ class Login extends Component {
 		super(props);
 		this.state = {
 			confirmMessage: '',
-			confirmResult: ''
+			confirmResult: '',
+			visible: false
 		};
 	}
 	componentDidMount() {
@@ -22,13 +24,14 @@ class Login extends Component {
 		let id = Cookies.getCookies('id');
 		let password = Cookies.getCookies('password');
 		let form = this.props.form;
+
 		form.setFieldsValue({ id: id });
 		form.setFieldsValue({ password: password });
 	}
 	componentWillUnmount() {
 		sessionStorage.removeItem('time');
 	}
-	//判断用户信息是否正确
+	// 判断用户信息Cookies的存储
 	handleUser = (e) => {
 		if (e.target.type == 'password') {
 			Cookies.setCookies({ password: '' });
@@ -90,18 +93,51 @@ class Login extends Component {
 			}
 		});
 	};
+	handelUser = (e) => {
+		if (e.target.type == 'password') {
+			Cookies.setCookies({ password: '' });
+		} else {
+			Cookies.setCookies({ id: '' });
+		}
+	};
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
 
 		return (
+			
 			<div className="login-container">
 				<div className="login-img">
 					<img src="http://cdn.niuxingxing.com/3.jpg" alt="登录封面图" />
 				</div>
 				<div className="login-content">
 					<div className="login-form">
-						<div className="form-title">用户登录</div>
+						<div className="form-top">
+							<div className="form-top-title">用户登录</div>
+							<div
+								className="form-top-forget"
+								onClick={() => {
+									this.setState({ visible: true });
+								}}
+							>
+								忘记密码？
+							</div>
+							<Modal
+								title="找回密码"
+								visible={this.state.visible}
+								onCancel={() => {
+									this.setState({ visible: false });
+								}}
+								footer={null}
+								maskClosable={false}
+							>
+								<Forget
+									visible={(flag) => {
+										this.setState({ visible: flag });
+									}}
+								/>
+							</Modal>
+						</div>
 						<div className="form-content">
 							<Form className="login-form">
 								<Form.Item>

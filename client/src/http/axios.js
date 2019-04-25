@@ -1,7 +1,11 @@
 import axios from 'axios';
 import qs from 'qs';
-import { message } from 'antd';
-import { hashHistory} from 'react-router';
+import {
+	message
+} from 'antd';
+import {
+	hashHistory
+} from 'react-router';
 message.config({
 	top: 100,
 	duration: 2,

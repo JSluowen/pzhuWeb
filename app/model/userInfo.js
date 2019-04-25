@@ -5,7 +5,7 @@ module.exports = app => {
         DATE,
         STRING
     } = app.Sequelize;
-    const UserInfo = app.model.define('userinfo', {
+    const UserInfo = app.model.define('UserInfo', {
         id: {
             type: STRING(16),
             primaryKey: true,
@@ -22,5 +22,10 @@ module.exports = app => {
         created_at: DATE,
         updated_at: DATE,
     })
+
+    UserInfo.associate = function () {
+        app.model.UserInfo.hasMany(app.model.Article,{foreignKey:'userid',targetKey:'id'})
+    }
+
     return UserInfo;
 }
