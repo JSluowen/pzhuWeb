@@ -6,7 +6,7 @@ module.exports = app => {
         STRING,
         DATE
     } = app.Sequelize;
-    const Menu = app.model.define('menu', {
+    const Domain = app.model.define('Domain', {
         id: {
             type: INTEGER(10),
             primaryKey: true
@@ -19,11 +19,12 @@ module.exports = app => {
     },
         {
             underscored: true,
-            tableName: 'menu',
+            tableName: 'domain',
         })
 
-    Menu.associate = function () {
-        app.model.Menu.hasMany(app.model.Article, { foreignKey: 'menuid', targetKey: 'id' })
+    Domain.associate = function () {
+        app.model.Domain.hasMany(app.model.UserInfo, { foreignKey: 'domain', targetKey: 'id' })
     }
-    return Menu
+
+    return Domain
 }

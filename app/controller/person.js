@@ -37,8 +37,8 @@ class Person extends Controller {
         }
 
     }
-    //获取学院专业信息
-    async selectSchoolMajor() {
+    //获取学院专业信息,研究方向信息
+    async getInitMessage() {
         const {
             ctx,
             app
@@ -50,18 +50,27 @@ class Person extends Controller {
                 ctx.status = 403;
             } else {
                 let table = 'School'
+                let table1 = 'Domain'
                 let params = {
                     include: {
                         model: app.model.Major
                     }
                 }
                 let schoolmajor = await ctx.service.mysql.findAll(params, table)
-                let reslut = await ctx.service.fun.getSchool(schoolmajor);
+                let reslut = await ctx.service.fun.getSchool(schoolmajor)
+                let domain = await ctx.service.mysql.findAll({}, table1)
+                domain = domain.map(item => {
+                    return {
+                        value: item.dataValues.id,
+                        label: item.dataValues.name
+                    }
+                })
                 ctx.status = 200
                 ctx.body = {
                     success: 1,
                     data: {
-                        schoolmajor: reslut
+                        schoolmajor: reslut,
+                        domain: domain
                     }
                 }
             }
@@ -157,6 +166,7 @@ class Person extends Controller {
                 const {
                     id,
                     phone,
+                    domain,
                     schoolMajor,
                     description
                 } = ctx.request.body;
@@ -167,6 +177,7 @@ class Person extends Controller {
                         phone: phone,
                         school: schoolMajor[0],
                         major: schoolMajor[1],
+                        domain: domain[0],
                         description: description
                     })
                     ctx.status = 200;
@@ -190,6 +201,49 @@ class Person extends Controller {
         } catch (err) {
             console.log(err)
             ctx.status = 404
+        }
+    }
+    async getInitInfo() {
+        const { ctx, app } = this;
+        try {
+            let token = ctx.header.authorization;
+            let author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                let { id } = ctx.request.body
+                let table = 'UserInfo'
+                let params = {
+                    include: [
+                        {
+                            model: app.model.School
+                        }, {
+                            model: app.model.Major
+                        }, {
+                            model: app.model.Domain
+                        }
+                    ],
+                    where: {
+                        id: id
+                    }
+                }
+                let result = await ctx.service.mysql.findAll(params, table)
+                if (result.length != 0) {
+                    ctx.status = 200
+                    ctx.body = {
+                        success: 1,
+                        data: result[0].dataValues
+                    }
+                } else {
+                    ctx.status = 200
+                    ctx.body = {
+                        success: 0
+                    }
+                }
+            }
+        } catch (err) {
+            ctx.status = 404
+            console.log(err)
         }
     }
 

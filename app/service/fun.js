@@ -9,13 +9,13 @@ class Fun extends Service {
             for (let i = 0; i < data.length; i++) {
                 if (data[i].dataValues.Majors) {
                     node.push({
-                        value: data[i].dataValues.name,
+                        value: data[i].dataValues.id,
                         label: data[i].dataValues.name,
                         children: foo(data[i].dataValues.Majors)
                     })
                 } else {
                     node.push({
-                        value: data[i].dataValues.name,
+                        value: data[i].dataValues.id,
                         label: data[i].dataValues.name,
                     })
 
