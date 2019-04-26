@@ -12,36 +12,21 @@ class Setting extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-<<<<<<< HEAD
-			defaultSchoolMajor:[],
-=======
 			defaultSchoolMajor: [],
 			defaultDomain: [],
->>>>>>> feature/member
 			visible: false,
 			src: 'http://img.pzhuweb.cn/2.jpg',
 			loading: false,
 			schoolMajor: [],
-<<<<<<< HEAD
-			phone:'',
-			introduction:''
-
-		}
-=======
 			domain: [],
 
 		};
->>>>>>> feature/member
 	}
 	//初始化信息搜索过滤
 	filter = (inputValue, path) => {
 		return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
 	}
 	handleCancel = (e) => {
-<<<<<<< HEAD
-		console.log(e)
-=======
->>>>>>> feature/member
 		this.setState({
 			visible: false
 		})

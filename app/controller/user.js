@@ -40,7 +40,6 @@ class User extends Controller {
                     return total + currentValue
                 })
                 let favoriteNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table2)
-                console.log("收藏夹的数量",)
                 userinfo.readNum = readNum
                 userinfo.articleNum = articleNum
                 userinfo.favoriteNum= favoriteNum.length
