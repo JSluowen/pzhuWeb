@@ -16,10 +16,16 @@ module.exports = app => {
         },
         created_at: DATE,
         updated_at: DATE,
-    })
+    }, 
+    {
+            underscored: true,
+            tableName: 'school',
+    }
+    )
 
     School.associate = function(){
         app.model.School.hasMany(app.model.Major,{foreignKey:'school',targetKey:'id'})
+        app.model.School.hasMany(app.model.UserInfo,{foreignKey:'school',targetKey:'id'})
     }
 
     return School;

@@ -23,7 +23,12 @@ module.exports = app => {
         created_at: DATE,
         updated_at: DATE,
 
-    })
+    },
+    {
+        underscored: true,
+        tableName: 'favorite',
+    }
+    )
 
     Favorite.associate = function () {
         app.model.Favorite.belongsTo(app.model.Article, { foreignKey: 'articleid', targetKey: 'id' })

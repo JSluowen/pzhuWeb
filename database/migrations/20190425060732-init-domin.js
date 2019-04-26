@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const { INTEGER, DATE, STRING } = Sequelize;
-    await queryInterface.createTable('menu', {
+    await queryInterface.createTable('domin', {
       id: {
         type: INTEGER(10),
         primaryKey: true
@@ -17,6 +17,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('menu');
+    await queryInterface.dropTable('domin');
   }
 };

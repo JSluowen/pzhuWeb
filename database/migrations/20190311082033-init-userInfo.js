@@ -7,17 +7,36 @@ module.exports = {
       DATE,
       STRING
     } = Sequelize;
-    await queryInterface.createTable('UserInfo', {
+    await queryInterface.createTable('userinfo', {
       id: {
         type: STRING(16),
         primaryKey: true,
         references: {
-          model: user,
+          model: 'user',
           key: 'id'
         }
       },
-      school: STRING(32),
-      major: STRING(32),
+      school: {
+        type: INTEGER(10),
+        references: {
+          model: 'school',
+          key: 'id'
+        }
+      },
+      major: {
+        type: INTEGER(10),
+        references: {
+          model: 'major',
+          key: 'id'
+        }
+      },
+      domin:{
+        type:INTEGER(10),
+        references:{
+          model:'domin',
+          key:'id'
+        }
+      },
       avatar: STRING(128),
       phone: STRING(11),
       email: STRING(32),
@@ -28,6 +47,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('UserInfo');
+    await queryInterface.dropTable('userinfo');
   }
 };

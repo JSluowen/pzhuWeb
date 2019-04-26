@@ -12,36 +12,71 @@ class Setting extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+<<<<<<< HEAD
 			defaultSchoolMajor:[],
+=======
+			defaultSchoolMajor: [],
+			defaultDomain: [],
+>>>>>>> feature/member
 			visible: false,
 			src: 'http://img.pzhuweb.cn/2.jpg',
 			loading: false,
 			schoolMajor: [],
+<<<<<<< HEAD
 			phone:'',
 			introduction:''
 
 		}
+=======
+			domain: [],
+
+		};
+>>>>>>> feature/member
 	}
-	//学院专业搜索过滤
+	//初始化信息搜索过滤
 	filter = (inputValue, path) => {
 		return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
 	}
 	handleCancel = (e) => {
+<<<<<<< HEAD
 		console.log(e)
+=======
+>>>>>>> feature/member
 		this.setState({
 			visible: false
 		})
 	}
 	componentWillMount() {
-		this.selectSchoolMajor()
+		this.getInitMessage();
 	}
-	//获取学院专业
-	selectSchoolMajor = () => {
-		PersonAPI.selectSchoolMajor().then((res) => {
+	// 初始化获取
+	getInitInfo = () => {
+		PersonAPI.getInitInfo({ id: Cookies.getCookies('id') }).then(res => {
+			if (res.success) {
+				let { setFieldsValue } = this.props.form;
+				setFieldsValue({ "phone": res.data.phone })
+				setFieldsValue({ "description": res.data.description })
+				this.setState({
+					src: res.data.avatar
+					
+				})
+
+			} else {
+				message.warning('请立即完善个人信息')
+			}
+		})
+	}
+	//获取初始信息：学院专业，研究方向
+	getInitMessage = () => {
+		PersonAPI.getInitMessage().then((res) => {
 			if (res.success) {
 				this.setState({
-					schoolMajor: res.data.schoolmajor
-				})
+					schoolMajor: res.data.schoolmajor,
+					domain: res.data.domain
+				}, () => {
+					this.getInitInfo()
+				});
+
 			}
 		})
 	}
@@ -76,10 +111,12 @@ class Setting extends Component {
 		e.preventDefault()
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
+				console.log(values)
 				values.id = Cookies.getCookies('id');
 				PersonAPI.uploadUserInfo(values).then((res) => {
 					if (res.success) {
 						message.success('保存成功');
+
 					}
 				})
 			}
@@ -103,9 +140,6 @@ class Setting extends Component {
 	}
 	render() {
 		const { getFieldDecorator } = this.props.form
-		const {getFieldsValue} = this.props.form
-		const valuesChange = getFieldsValue(['phone','schoolMajor','description'])
-		console.log(valuesChange)
 		return (
 			<div className="personinfo">
 				<div className="personinfo-container">
@@ -125,7 +159,7 @@ class Setting extends Component {
 								</Form.Item>
 								<Form.Item label="学院专业">
 									{getFieldDecorator('schoolMajor', {
-										initialValue: this.state.defaultSchoolMajor,
+									
 										rules: [
 											{
 												type: 'array',
@@ -139,6 +173,24 @@ class Setting extends Component {
 											placeholder="请选择学院专业"
 											showSearch={this.filter}
 											options={this.state.schoolMajor}
+										/>
+									)}
+								</Form.Item>
+								<Form.Item label="研究方向">
+									{getFieldDecorator('domain', {
+									
+										rules: [
+											{
+												type: 'array',
+												required: true,
+												message: '请选择研究方向'
+											}
+										]
+									})(
+										<Cascader
+											placeholder="请选择研究方向"
+											showSearch={this.filter}
+											options={this.state.domain}
 										/>
 									)}
 								</Form.Item>
@@ -157,11 +209,6 @@ class Setting extends Component {
 									<Button type="primary" onClick={this.handelSave}>
 										保存
 									</Button>
-									<Button onClick={this.cancelSave} disabled={
-										(valuesChange.phone===undefined||valuesChange.phone==='')&&
-										(valuesChange.schoolMajor === undefined ||valuesChange.schoolMajor.length===0)&&
-										(valuesChange.description===undefined||valuesChange.description==='')?true:false
-									} >取消</Button>
 								</Form.Item>
 							</Form>
 						</div>

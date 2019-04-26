@@ -22,10 +22,18 @@ module.exports = app => {
         },
         created_at: DATE,
         updated_at: DATE,
-    })
-    Major.associate = function(){
-        app.model.Major.belongsTo(app.model.School,{foreignKey:'school',targetKey:'id'})
+    },
+        {
+            underscored: true,
+            tableName: 'major',
+        }
+        )
+
+
+    Major.associate = function () {
+        app.model.Major.hasMany(app.model.UserInfo,{foreignKey: 'major', targetKey: 'id'})
+        app.model.Major.belongsTo(app.model.School, { foreignKey: 'school', targetKey: 'id' })
     }
-    
+
     return Major
 }

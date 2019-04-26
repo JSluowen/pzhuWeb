@@ -14,7 +14,7 @@ module.exports = {
       school:{
         type:INTEGER(10),
         references:{
-          model:'school'
+          model:'School'
         }
       },
       created_at: DATE,

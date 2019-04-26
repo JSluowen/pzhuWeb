@@ -101,6 +101,7 @@ class Login extends Controller {
 
         }
     }
+    //修改密码
     async changePassword() {
         const {
             ctx
