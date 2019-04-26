@@ -22,9 +22,9 @@ const base = {
     getMenuLabel:'/collect/getmenulabel',// 获取技术标签
     getCollectList:'/collect/getcollectlist',//获取收藏列表
     cancelCollect:'/collect/cancelcollect',//取消收藏
-    collectSearch:'/collect/collectsearch'//收藏夹搜索
-    //用户个人界面
-    
+    collectSearch:'/collect/collectsearch',//收藏夹搜索
+    //用户个人界面接口
+    getUserInfo:'/user/getUserInfo',//获取用户个人信息
     
 }
 export default base;

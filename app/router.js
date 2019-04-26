@@ -26,5 +26,7 @@ module.exports = app => {
   router.post('/api/collect/getcollectlist', controller.collect.getCollectList)//获取收藏列表
   router.post('/api/collect/cancelcollect',controller.collect.cancelCollect)//取消收藏
   router.post('/api/collect/collectsearch',controller.collect.collectSearch)//收藏夹搜索
+  //用户个人主页接口
+  router.post('/api/user/getUserInfo',controller.user.getUserInfo)//获取个人主页信息
 }
 
