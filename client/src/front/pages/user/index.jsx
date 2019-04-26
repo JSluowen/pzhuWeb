@@ -40,20 +40,20 @@ class User extends Component {
                     <div className='user-left-header'>
                         <div className='user-left-header-avatar'>
                             <div className='user-left-header-avatar-img'>
-                                <img src={this.state.userinfo.avatar} alt="" /></div>
+                                <img src={this.state.userinfo.avatar||'http://img.pzhuweb.cn/1556260506598'} alt="" /></div>
                         </div>
                         <div className='user-left-header-info'>
                             <div className='user-left-header-info-name'>
                                 {Cookies.getCookies('name')}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="phone" />{this.state.userinfo.phone}
+                                <Icon type="phone" />{this.state.userinfo.phone||'联系方式'}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="idcard" />{this.state.school}{'/'}{this.state.major}
+                                <Icon type="idcard" />{this.state.school||'学院'}{'/'}{this.state.major||'专业'}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="smile" />{this.state.userinfo.description}
+                                <Icon type="smile" />{this.state.userinfo.description||'自我描述'}
                             </div>
                         </div>
                         <div className='user-left-header-edit'>
@@ -88,12 +88,12 @@ class User extends Component {
                         个人成就
                     </div>
                     <div className='user-right-article'>
-                        <Icon style={{ marginRight: '10px' }} theme="twoTone" type="eye" />  文章被阅读了{this.state.userinfo.readNum}次
+                        <Icon style={{ marginRight: '10px' }} theme="twoTone" type="eye" />  文章被阅读了{this.state.userinfo.readNum||'0'}次
                     </div>
                     <div className='user-right-ach'>
                         <div className='user-right-ach-item'>
                             <p>文章</p>
-                            <p>{this.state.userinfo.articleNum}</p>
+                            <p>{this.state.userinfo.articleNum||0}</p>
                         </div>
                         <div className='user-right-ach-item'>
                             <p>成果</p>
@@ -107,7 +107,7 @@ class User extends Component {
                     <div className='user-right-info'>
                         <div className='user-right-info-item'>
                             <p>收藏集</p>
-                            <p>{this.state.userinfo.favoriteNum}</p>
+                            <p>{this.state.userinfo.favoriteNum||'0'}</p>
                         </div>
                         <div className='user-right-info-item'>
                             <p>研究方向</p>

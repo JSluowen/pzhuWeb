@@ -28,26 +28,36 @@ class User extends Controller {
                     }
                 }
                 let userinfo = await ctx.service.mysql.findAll(params, table)
-                userinfo = userinfo[0].dataValues
-                
-                let article = await ctx.service.mysql.findAll({ where: { userid: id } }, table1)
-                let articleNum = article.length;// 获取发表文章的数量
-                // 获取文章被阅读量
-                let readNum = article.map(item => {
-                    return item.dataValues.readnumber
-                })
-                readNum = readNum.reduce((total, currentValue) => {
-                    return total + currentValue
-                })
-                let favoriteNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table2)
-                userinfo.readNum = readNum
-                userinfo.articleNum = articleNum
-                userinfo.favoriteNum= favoriteNum.length
-                ctx.status = 200;
-                ctx.body = {
-                    success: 1,
-                    data: userinfo
+                if (userinfo.length != 0) {
+                    userinfo = userinfo[0].dataValues
+                    let article = await ctx.service.mysql.findAll({ where: { userid: id } }, table1)
+                    let articleNum = article.length;// 获取发表文章的数量
+                    // 获取文章被阅读量
+                    let readNum = 0;
+                    if (articleNum != 0) {
+                        readNum = article.map(item => {
+                            return item.dataValues.readnumber
+                        })
+                        readNum = readNum.reduce((total, currentValue) => {
+                            return total + currentValue
+                        })
+                    }
+                    let favoriteNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table2)
+                    userinfo.readNum = readNum
+                    userinfo.articleNum = articleNum
+                    userinfo.favoriteNum = favoriteNum.length
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 1,
+                        data: userinfo
+                    }
+                }else{
+                    ctx.status = 200 ;
+                    ctx.body={
+                        success:0
+                    }
                 }
+
             }
         } catch (err) {
             ctx.status = 404;

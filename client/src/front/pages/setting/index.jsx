@@ -42,8 +42,7 @@ class Setting extends Component {
 				setFieldsValue({ "phone": res.data.phone })
 				setFieldsValue({ "description": res.data.description })
 				this.setState({
-					src: res.data.avatar
-					
+					src: res.data.avatar||this.state.src	
 				})
 
 			} else {
