@@ -27,6 +27,7 @@ module.exports = app => {
     })
     User.associate = function () {
         app.model.User.hasMany(app.model.Article,{foreignKey:'userid',targetKey:'id'})
+        app.model.User.hasMany(app.model.UserInfo,{foreignKey:'id',targetKey:'id'})
     }
     return User;
 }

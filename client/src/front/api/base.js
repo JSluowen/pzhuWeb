@@ -25,6 +25,11 @@ const base = {
     collectSearch:'/collect/collectsearch',//收藏夹搜索
     //用户个人界面接口
     getUserInfo:'/user/getUserInfo',//获取用户个人信息
+
+    //成员信息界面接口
+    getMemberInfo:'/member/getMemberInfo',//获取成员展示界面的信息
+
+    
     
 }
 export default base;

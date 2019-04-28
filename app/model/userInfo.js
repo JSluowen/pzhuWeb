@@ -50,6 +50,7 @@ module.exports = app => {
         app.model.UserInfo.belongsTo(app.model.School, { foreignKey: 'school', targetKey: 'id' })
         app.model.UserInfo.belongsTo(app.model.Major, { foreignKey: 'major', targetKey: 'id' })
         app.model.UserInfo.belongsTo(app.model.Domain, { foreignKey: 'domain', targetKey: 'id' })
+        app.model.UserInfo.belongsTo(app.model.User, { foreignKey: 'id', targetKey: 'id' })
     }
 
     return UserInfo;

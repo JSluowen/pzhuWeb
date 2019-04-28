@@ -28,5 +28,8 @@ module.exports = app => {
   router.post('/api/collect/collectsearch',controller.collect.collectSearch)//收藏夹搜索
   //用户个人主页接口
   router.post('/api/user/getUserInfo',controller.user.getUserInfo)//获取个人主页信息
+
+  //成员展示界面的信息接口
+  router.get('/api/member/getMemberInfo',controller.member.getMemberInfo)// 获取成员展示界面的信息
 }
 
