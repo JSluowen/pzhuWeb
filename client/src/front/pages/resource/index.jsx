@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Skeleton, Button, Card, Input, Icon, Avatar, Row, Col } from 'antd'
+import { Button, Card, Input, Icon, Avatar, Row, Col } from 'antd'
 import './index.scss'
-
+import ResourceAPI from '../../api/resource'
 const Search = Input.Search;
 const { Meta } = Card;
 
@@ -10,15 +10,25 @@ class Resource extends Component {
         super(props);
         this.state = {};
     }
+
+    componentDidMount() {
+        this.getResource()
+    }
+
+    getResource = () => {
+        ResourceAPI.getResource().then(res => {
+            if (res.success) {
+                console.log(res.data)
+            }
+        })
+    }
+
     render() {
         return (
             <div className='resource'>
                 <div className='resource-left'>
                     <div className='resource-left-header'>
                         资源分类
-                    </div>
-                    <div className='resource-left-item'>
-                        <p> 全部</p>
                     </div>
                     <div className='resource-left-item'>
                         <p>绿色软件</p>
@@ -135,8 +145,8 @@ class Resource extends Component {
 
                                 </Card>
                             </Col>
-                      
-                      
+
+
                         </Row>
 
 

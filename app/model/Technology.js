@@ -1,5 +1,4 @@
-'use strict';
-
+"use strict"
 module.exports = app => {
     const {
         INTEGER,
@@ -17,8 +16,8 @@ module.exports = app => {
         created_at: DATE,
         updated_at: DATE,
     })
-    Technology.associate = function(){
-        app.model.Technology.hasMany(app.model.Article,{foreignKey:'technologyid',targetKey:'id'})
+    Technology.associate = function () {
+        app.model.Technology.hasMany(app.model.Article, { foreignKey: 'technologyid', targetKey: 'id' })
     }
 
 

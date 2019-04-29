@@ -64,10 +64,10 @@ module.exports = app => {
 
     Article.associate = function () {
         app.model.Article.hasMany(app.model.Favorite, { foreignKey: 'articleid', targetKey: 'id' })
-        app.model.Article.belongsTo(app.model.User,{foreignKey:'userid',targetKey:'id'})
-        app.model.Article.belongsTo(app.model.UserInfo,{foreignKey:'userid',targetKey:'id'})
-        app.model.Article.belongsTo(app.model.Menu,{foreignKey:'menuid',targetKey:'id'})
-        app.model.Article.belongsTo(app.model.Technology,{foreignKey:'technologyid',targetKey:'id'})
+        app.model.Article.belongsTo(app.model.User, { foreignKey: 'userid', targetKey: 'id' })
+        app.model.Article.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' })
+        app.model.Article.belongsTo(app.model.Menu, { foreignKey: 'menuid', targetKey: 'id' })
+        app.model.Article.belongsTo(app.model.Technology, { foreignKey: 'technologyid', targetKey: 'id' })
     }
 
 

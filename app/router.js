@@ -26,5 +26,7 @@ module.exports = app => {
   router.post('/api/collect/getcollectlist', controller.collect.getCollectList)//获取收藏列表
   router.post('/api/collect/cancelcollect',controller.collect.cancelCollect)//取消收藏
   router.post('/api/collect/collectsearch',controller.collect.collectSearch)//收藏夹搜索
+  //资源分享列表的接口
+  router.get('/api/resource/getResource',controller.resource.getResource)//获取资源
 }
 

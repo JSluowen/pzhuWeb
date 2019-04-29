@@ -3,18 +3,62 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const { INTEGER, DATE, STRING } = Sequelize;
-    await queryInterface.createTable('article',{
-      id:{}
+    await queryInterface.createTable('article', {
+      id: {
+        type: INTEGER(10),
+        primaryKey: true
+      },
+      userid: {
+        type: STRING(16),
+        references: {
+          model: 'UserInfo'
+        }
+      },
+      menuid: {
+        type: INTEGER(10),
+        references: {
+          model: 'Menu'
+        }
+      },
+      technologyid: {
+        type: INTEGER(10),
+        references: {
+          model: 'Technology'
+        }
+      },
+      title: {
+        type: STRING(64)
+      },
+      abstract: {
+        type: STRING(128)
+      },
+      keywords: {
+        type: STRING(64)
+      },
+      postlink: {
+        type: STRING(128)
+      },
+      context: {
+        type: TEXT
+      },
+      time: {
+        type: TIME
+      },
+      readnumber: {
+        type: INTEGER(10)
+      },
+      status: {
+        type: INTEGER(4)
+      },
+      top: {
+        type: INTEGER(4)
+      },
+      created_at: DATE,
+      updated_at: DATE,
     })
   },
 
   down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.dropTable('users');
-    */
+    await queryInterface.dropTable('article');
   }
 };

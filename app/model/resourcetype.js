@@ -6,7 +6,7 @@ module.exports = app => {
         STRING,
         DATE
     } = app.Sequelize;
-    const Menu = app.model.define('Menu', {
+    const ResourceType = app.model.define('ResourceType', {
         id: {
             type: INTEGER(10),
             primaryKey: true
@@ -19,12 +19,11 @@ module.exports = app => {
     },
         {
             underscored: true,
-            tableName: 'menu',
-        }
-    )
+            tableName: 'resourcetype',
+        })
 
-    Menu.associate = function () {
-        app.model.Menu.hasMany(app.model.Article, { foreignKey: 'menuid', targetKey: 'id' })
+    ResourceType.associate = function () {
+        app.model.ResourceType.hasMany(app.model.Resource, { foreignKey: 'type', targetKey: 'id' })
     }
-    return Menu
+    return ResourceType
 }

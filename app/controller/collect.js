@@ -1,7 +1,8 @@
-const Controller = require('egg').Controller
+'use strict';
+const Controller = require('egg').Controller;
 
 class Collect extends Controller {
-    async getMenuLabel() {
+  async getMenuLabel() {
         const { ctx } = this;
         try {
             let token = ctx.header.authorization;
@@ -68,15 +69,15 @@ class Collect extends Controller {
                     return item.dataValues
                 })
                 ctx.status = 200;
-                if (Num-(offset%Num)>limit) {
+                if (Num - (offset % Num) > limit) {
                     ctx.body = {
                         success: 1,
                         data: result
                     }
                 } else {
-                    ctx.body={
-                        success:0,
-                        data:result
+                    ctx.body = {
+                        success: 0,
+                        data: result
                     }
                 }
 
