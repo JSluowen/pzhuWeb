@@ -5,8 +5,8 @@ class Collect extends Controller {
     async getMenuLabel() {
         const { ctx } = this;
         try {
-            let token = ctx.header.authorization;
-            let author = await ctx.service.jwt.verifyToken(token);
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
             if (!author) {
                 ctx.status = 403;
             } else {
@@ -14,12 +14,12 @@ class Collect extends Controller {
                 let result = await ctx.service.mysql.findAll({}, table);
                 result = result.map(item => {
                     return item.dataValues;
-                })
+                });
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,
                     data: result,
-                }
+                };
             }
         } catch (err) {
             console.log(err);
@@ -27,62 +27,60 @@ class Collect extends Controller {
         }
     }
     async getCollectList() {
-        const { ctx, app } = this
+        const { ctx, app } = this;
         try {
-            let token = ctx.header.authorization;
-            let author = await ctx.service.jwt.verifyToken(token);
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
             if (!author) {
-                ctx.status = 403
+                ctx.status = 403;
             } else {
-                let { id, limit, offset } = ctx.request.body
-                limit = parseInt(limit)
-                offset = parseInt(offset)
-                let params = {
+                let { id, limit, offset } = ctx.request.body;
+                limit = parseInt(limit);
+                offset = parseInt(offset);
+                const params = {
                     include: [
                         {
                             model: app.model.Article,
-                            include: [{
-                                model: app.model.User
-                            }, {
-                                model: app.model.Menu
-                            }, {
-                                model: app.model.Technology
-                            }
+                            include: [
+                                {
+                                    model: app.model.User,
+                                },
+                                {
+                                    model: app.model.Menu,
+                                },
+                                {
+                                    model: app.model.Technology,
+                                },
                             ],
-                        }
+                        },
                     ],
                     where: {
-                        userid: id
-
+                        userid: id,
                     },
-                    order: [
-                        ['id', "DESC"]
-                    ],
-                    offset: offset,
-                    limit: limit
-                }
-                let table = 'Favorite'
-                let resultNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table);
-                let Num = parseInt(resultNum.length)
-                let result = await ctx.service.mysql.findAll(params, table)
+                    order: [['id', 'DESC']],
+                    offset,
+                    limit,
+                };
+                const table = 'Favorite';
+                const resultNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table);
+                const Num = parseInt(resultNum.length);
+                let result = await ctx.service.mysql.findAll(params, table);
                 result = result.map(item => {
-                    return item.dataValues
-                })
+                    return item.dataValues;
+                });
                 ctx.status = 200;
                 if (Num - (offset % Num) > limit) {
                     ctx.body = {
                         success: 1,
-                        data: result
-                    }
+                        data: result,
+                    };
                 } else {
                     ctx.body = {
                         success: 0,
-                        data: result
-                    }
+                        data: result,
+                    };
                 }
-
             }
-
         } catch (err) {
             ctx.status = 404;
             console.log(err);
@@ -90,77 +88,79 @@ class Collect extends Controller {
     }
 
     async cancelCollect() {
-        const { ctx } = this
+        const { ctx } = this;
         try {
-            let token = ctx.header.authorization;
-            let author = await ctx.service.jwt.verifyToken(token);
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
             if (!author) {
-                ctx.status = 403
+                ctx.status = 403;
             } else {
-                let { id } = ctx.request.body
-                let table = 'Favorite'
-                let favorite = await ctx.service.mysql.findById(id, table)
-                await favorite.destroy()
+                const { id } = ctx.request.body;
+                const table = 'Favorite';
+                const favorite = await ctx.service.mysql.findById(id, table);
+                await favorite.destroy();
                 ctx.status = 200;
                 ctx.body = {
-                    success: 1
-                }
+                    success: 1,
+                };
             }
         } catch (err) {
-            ctx.status = 404
-            console.log(err)
+            ctx.status = 404;
+            console.log(err);
         }
     }
 
     async collectSearch() {
-        const { ctx, app } = this
-        const { Op } = app.Sequelize
+        const { ctx, app } = this;
+        const { Op } = app.Sequelize;
         try {
-            let token = ctx.header.authorization;
-            let author = await ctx.service.jwt.verifyToken(token);
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
             if (!author) {
-                ctx.status = 403
+                ctx.status = 403;
             } else {
-                let { id, value } = ctx.request.body;
-                let params = {
+                const { id, value } = ctx.request.body;
+                const params = {
                     include: [
                         {
                             model: app.model.Article,
                             where: {
                                 title: {
-                                    [Op.like]: '%' + value + '%'
-                                }
+                                    [Op.like]: '%' + value + '%',
+                                },
                             },
-                            include: [{
-                                model: app.model.User
-                            }, {
-                                model: app.model.Menu
-                            }, {
-                                model: app.model.Technology
-                            }
+                            include: [
+                                {
+                                    model: app.model.User,
+                                },
+                                {
+                                    model: app.model.Menu,
+                                },
+                                {
+                                    model: app.model.Technology,
+                                },
                             ],
-                        }
+                        },
                     ],
                     where: {
-                        userid: id
+                        userid: id,
                     },
-                }
-                let table = 'Favorite'
-                let result = await ctx.service.mysql.findAll(params, table)
-                console.log(result)
+                };
+                const table = 'Favorite';
+                let result = await ctx.service.mysql.findAll(params, table);
+                console.log(result);
                 result = result.map(item => {
-                    return item.dataValues
-                })
-                ctx.status = 200
+                    return item.dataValues;
+                });
+                ctx.status = 200;
                 ctx.body = {
                     success: 1,
-                    data: result
-                }
-
+                    data: result,
+                };
             }
         } catch (err) {
             console.log(err);
-            ctx.status = 404
+            ctx.status = 404;
         }
     }
 }

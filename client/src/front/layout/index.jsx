@@ -14,7 +14,7 @@ export default class Layout extends Component {
 		this.state = {
 			status: false,
 			avatar: 'http://img.pzhuweb.cn/443625372.jpeg',
-			flag: true
+			flag: true,
 		};
 	}
 

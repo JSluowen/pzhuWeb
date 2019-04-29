@@ -2,11 +2,37 @@ import React, { Component } from 'react';
 import { Button, Icon } from 'antd';
 import { Link } from 'react-router';
 import './index.scss'
+import UserAPI from '../../api/user'
+import Cookies from '../../../http/cookies'
 class User extends Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            userinfo:{},
+            school:'',
+            major:'',
+            domain:'',
+        }
     }
+    
+    componentWillMount(){
+      this.getUserInfo()
+    }
+    
+    getUserInfo=()=>{
+        UserAPI.getUserInfo({id:Cookies.getCookies('id')}).then(res=>{
+            if(res.success){
+               console.log(res.data)
+               this.setState({
+                   userinfo:res.data,
+                   school:res.data.School.name,
+                   major:res.data.Major.name,
+                   domain:res.data.Domain.name,
+               })
+            }
+        })
+    }
+
     render() {
         return (
             <div className="user">
@@ -14,20 +40,20 @@ class User extends Component {
                     <div className='user-left-header'>
                         <div className='user-left-header-avatar'>
                             <div className='user-left-header-avatar-img'>
-                                <img src='http://img.pzhuweb.cn/443625372.jpeg' alt="" /></div>
+                                <img src={this.state.userinfo.avatar||'http://img.pzhuweb.cn/1556260506598'} alt="" /></div>
                         </div>
                         <div className='user-left-header-info'>
                             <div className='user-left-header-info-name'>
-                                小丑面具
+                                {Cookies.getCookies('name')}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="phone" />13118310939
+                                <Icon type="phone" />{this.state.userinfo.phone||'联系方式'}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="idcard" />数学与计算机学院{'/'}软件工程
+                                <Icon type="idcard" />{this.state.school||'学院'}{'/'}{this.state.major||'专业'}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="smile" />热爱生活，热爱敲代码
+                                <Icon type="smile" />{this.state.userinfo.description||'自我描述'}
                             </div>
                         </div>
                         <div className='user-left-header-edit'>
@@ -62,12 +88,12 @@ class User extends Component {
                         个人成就
                     </div>
                     <div className='user-right-article'>
-                        <Icon style={{ marginRight: '10px' }} theme="twoTone" type="eye" />  文章被阅读了20次
+                        <Icon style={{ marginRight: '10px' }} theme="twoTone" type="eye" />  文章被阅读了{this.state.userinfo.readNum||'0'}次
                     </div>
                     <div className='user-right-ach'>
                         <div className='user-right-ach-item'>
                             <p>文章</p>
-                            <p>10</p>
+                            <p>{this.state.userinfo.articleNum||0}</p>
                         </div>
                         <div className='user-right-ach-item'>
                             <p>成果</p>
@@ -81,15 +107,15 @@ class User extends Component {
                     <div className='user-right-info'>
                         <div className='user-right-info-item'>
                             <p>收藏集</p>
-                            <p>20</p>
+                            <p>{this.state.userinfo.favoriteNum||'0'}</p>
                         </div>
                         <div className='user-right-info-item'>
                             <p>研究方向</p>
-                            <p>前端</p>
+                            <p>{this.state.domain}</p>
                         </div>
                         <div className='user-right-info-item'>
                             <p>加入时间</p>
-                            <p>2016年9月1日</p>
+                            <p>{this.state.userinfo.created_at}</p>
                         </div>
                     </div>
                 </div>

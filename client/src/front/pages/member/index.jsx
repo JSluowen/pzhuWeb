@@ -1,11 +1,107 @@
 import React, { Component } from 'react'
 import { Icon, Card, Button } from 'antd'
 import './index.scss'
+import MemberAPI from '../../api/member'
+import ma5 from 'md5'
 class Member extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            domain: [],
+            userInfoList: [],
+            newUserinfoList: [],
+            grade: [],//获取成员的年级
+            teacherInfo: []
+        };
     }
+
+    componentWillMount() {
+        this.getMemberInfo()
+    }
+
+    getMemberInfo = () => {
+        MemberAPI.getMemberInfo().then(res => {
+            if (res.success) {
+                this.setState({
+                    domain: this.filterDomainNum(res.domain, res.data),
+                    userInfoList: res.data,
+                    newUserInfoList: res.data,
+                    teacherInfo: this.filterTeacherInfo(res.data),
+                    grade: this.filterGrade(res.data)
+                })
+            }
+        })
+    }
+    //过滤研究方向
+    filterDomainNum = (domain, data) => {
+        return domain.map(item => {
+            let num = 0;
+            for (let i of data) {
+                if (item.id === i.domain && i.User.status !==3) {
+                    num++
+                }
+            }
+            return {
+                id: item.id,
+                name: item.name,
+                index: num
+            }
+        })
+
+    }
+    //过滤刷选老师的信息
+    filterTeacherInfo = (data) => {
+        return data.filter(item => {
+            return item.User.status === 3
+        })
+    }
+    //过滤刷选成员的年级类别
+    filterGrade = (data) => {
+        let val = data.map(item => {
+            if (item.User !== 3) {
+                return parseInt(item.id.substring(0, 4))
+            }
+        })
+        val = val.sort((a, b) => { return b - a })
+        let temp = []
+        for (let i = 0; i < val.length; i++) {
+            if (temp.indexOf(val[i]) == -1) {
+                temp.push(val[i]);
+            }
+        }
+        return temp
+
+    }
+    //过滤刷选成员研究方向
+    filterUser = (e) => {
+        let event
+        if(e.target.tagName=="DIV"){
+            event =  e.target
+        }else{
+            event = e.target.parentNode
+        }
+        let parent = event.parentNode.children
+        for(let i=0;i<parent.length;i++){
+            parent[i].classList.remove("memberActive");
+        }
+        event.classList.add('memberActive')
+
+
+        let index = event.getAttribute('index')
+
+        if(parseInt(index)===0){
+            this.setState({
+                newUserInfoList:this.state.userInfoList
+            })
+            return 
+        }
+        let user = this.state.userInfoList.filter(item=>{
+            return item.domain===parseInt(index)&& item.User.status !==3
+        })
+        this.setState({
+            newUserInfoList:user
+        })
+    }   
     render() {
         return (
             <div className='member'>
@@ -13,110 +109,90 @@ class Member extends Component {
                     <div className='member-left-header'>
                         成员分类
                     </div>
-                    <div className='member-left-item'>
-                        <p> 前端</p>
-                        <p>10人</p>
+                    <div className='member-left-item' index='0' onClick={this.filterUser} >
+                        <p index='0'>全部</p>
                     </div>
-                    <div className='member-left-item'>
+                    {
+                        this.state.domain.map(item => {
+                            return <div className='member-left-item' index={item.id} key={item.id} onClick={this.filterUser} >
+                                <p index={item.id}>{item.name}</p>
+                                <p index={item.id}>{item.index}</p>
+                            </div>
+                        })
 
-                        <p> 后台</p>
-                        <p>10人</p></div>
-                    <div className='member-left-item'>
-
-                        <p> 算法</p>
-                        <p>10人</p></div>
-                    <div className='member-left-item'>
-
-                        <p> 动画</p>
-                        <p>10人</p></div>
-                    <div className='member-left-item'>
-
-                        <p> 全栈</p>
-                        <p>10人</p></div>
+                    }
                 </div>
                 <div className='member-right'>
-                    <Card
-                        title="指导教师"
-                        style={{ width: '100%' }}
-                    >
-                        <div className='member-right-item'>
+                    {
+                        this.state.teacherInfo.length !== 0 ?
+                            <Card
+                                title="指导教师"
+                                style={{ width: '100%' }}
+                            >
+                                {
+                                    this.state.teacherInfo.map((item, index) => {
+                                        return <div className='member-right-item' key={index}>
 
-                            <div className='member-right-item-left'>
-                                <div className='member-right-item-left-avatar'>
-                                    <img src="http://img.pzhuweb.cn/443625372.jpeg" alt="这是头像" />
-                                </div>
-                                <Button type='primary'>立即查看</Button>
-                            </div>
-                            <div className='member-right-item-right'>
-                                <p>李四</p>
-                                <p> <Icon type="phone" />13118310939</p>
-                                <p> <Icon type="mail" />1291962779@qq.com</p>
-                                <p> <Icon type="idcard" />数学与计算机学院{'/'}软件工程</p>
-                                <p> <Icon type="smile" />热爱生活，热爱敲代码</p>
-                            </div>
-                        </div>
-                        <div className='member-right-item'>
+                                            <div className='member-right-item-left'>
+                                                <div className='member-right-item-left-avatar'>
+                                                    <img src={item.avatar} alt="这是头像" />
+                                                </div>
+                                                <Button index={ma5(item.id)} type='primary'>立即查看</Button>
+                                            </div>
+                                            <div className='member-right-item-right'>
+                                                <p>{item.User.name}</p>
+                                                <p> <Icon type="phone" />{item.phone}</p>
+                                                <p> <Icon type="mail" />{item.User.email}</p>
+                                                <p> <Icon type="idcard" />{item.School.name}{'/'}{item.Major.name}</p>
+                                                <p> <Icon type="smile" />{item.description}</p>
+                                            </div>
+                                        </div>
+                                    })
+                                }
 
-                            <div className='member-right-item-left'>
-                                <div className='member-right-item-left-avatar'>
-                                    <img src="http://img.pzhuweb.cn/443625372.jpeg" alt="这是头像" />
-                                </div>
-                                <Button type='primary'>立即查看</Button>
-                            </div>
-                            <div className='member-right-item-right'>
-                                <p>李四</p>
-                                <p> <Icon type="phone" />13118310939</p>
-                                <p> <Icon type="mail" />1291962779@qq.com</p>
-                                <p> <Icon type="idcard" />数学与计算机学院{'/'}软件工程</p>
-                                <p> <Icon type="smile" />热爱生活，热爱敲代码</p>
-                            </div>
-                        </div>
 
-                    </Card>
-                    <Card
-                        title="2018"
-                        style={{ width: '100%' }}
-                    >
-                        <div className='member-right-item'>
+                            </Card> : ''
+                    }
+                    {
+                        this.state.grade.map((item, index) => {
+                            return <Card
+                                title={item + "届"}
+                                style={{ width: '100%' }}
+                                key={index}
+                            >
 
-                            <div className='member-right-item-left'>
-                                <div className='member-right-item-left-avatar'>
-                                    <img src="http://img.pzhuweb.cn/443625372.jpeg" alt="这是头像" />
-                                </div>
-                                <Button type='primary'>立即查看</Button>
-                            </div>
-                            <div className='member-right-item-right'>
-                                <p>李四</p>
-                                <p> <Icon type="phone" />13118310939</p>
-                                <p> <Icon type="mail" />1291962779@qq.com</p>
-                                <p> <Icon type="idcard" />数学与计算机学院{'/'}软件工程</p>
-                                <p> <Icon type="smile" />热爱生活，热爱敲代码</p>
-                            </div>
-                        </div>
+                                {
+                                    this.state.newUserInfoList.map((useritem, index) => {
+                                        if (item === parseInt(useritem.id.substring(0, 4)) && useritem.User.status !== 3) {
+                                            return <div className='member-right-item' key={index}>
 
-                    </Card>
-                    <Card
-                        title="2017"
-                        style={{ width: '100%' }}
-                    >
-                        <div className='member-right-item'>
+                                                <div className='member-right-item-left'>
+                                                    <div className='member-right-item-left-avatar'>
+                                                        <img src={useritem.avatar} alt="这是头像" />
+                                                    </div>
+                                                    <Button index={ma5(useritem.User.id)} type='primary'>立即查看</Button>
+                                                </div>
+                                                <div className='member-right-item-right'>
+                                                    <p>{useritem.User.name}</p>
+                                                    <p> <Icon type="phone" />{useritem.phone}</p>
+                                                    <p> <Icon type="mail" />{useritem.User.email}</p>
+                                                    <p> <Icon type="idcard" />{useritem.School.name}{'/'}{useritem.Major.name}</p>
+                                                    <p> <Icon type="smile" />{useritem.description}</p>
+                                                </div>
+                                            </div>
+                                        }
 
-                            <div className='member-right-item-left'>
-                                <div className='member-right-item-left-avatar'>
-                                    <img src="http://img.pzhuweb.cn/443625372.jpeg" alt="这是头像" />
-                                </div>
-                                <Button type='primary'>立即查看</Button>
-                            </div>
-                            <div className='member-right-item-right'>
-                                <p>李四</p>
-                                <p> <Icon type="phone" />13118310939</p>
-                                <p> <Icon type="mail" />1291962779@qq.com</p>
-                                <p> <Icon type="idcard" />数学与计算机学院{'/'}软件工程</p>
-                                <p> <Icon type="smile" />热爱生活，热爱敲代码</p>
-                            </div>
-                        </div>
 
-                    </Card>
+                                    })
+                                }
+
+                            </Card>
+
+                        })
+
+
+                    }
+
                 </div>
             </div>
         );

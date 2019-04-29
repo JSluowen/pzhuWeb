@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
-import { Form, Input, Button, Cascader, Modal, message, Spin } from 'antd';
-import Cropper from '../../components/cropper';
-import qiniu from '../../common/qiniu';
-import Cookies from '../../../http/cookies';
-import PersonAPI from '../../api/person';
-import './index.scss';
+import React, { Component } from 'react'
+import { Form, Input, Button, Cascader, Modal, message, Spin } from 'antd'
+import Cropper from '../../components/cropper'
+import qiniu from '../../common/qiniu'
+import Cookies from '../../../http/cookies'
+import PersonAPI from '../../api/person'
+import './index.scss'
+
+const confirm = Modal.confirm
 
 class Setting extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			defaultSchoolMajor: [],
 			defaultDomain: [],
@@ -22,13 +24,13 @@ class Setting extends Component {
 	}
 	//初始化信息搜索过滤
 	filter = (inputValue, path) => {
-		return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
-	};
+		return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
+	}
 	handleCancel = (e) => {
 		this.setState({
 			visible: false
-		});
-	};
+		})
+	}
 	componentWillMount() {
 		this.getInitMessage();
 	}
@@ -40,8 +42,7 @@ class Setting extends Component {
 				setFieldsValue({ "phone": res.data.phone })
 				setFieldsValue({ "description": res.data.description })
 				this.setState({
-					src: res.data.avatar
-					
+					src: res.data.avatar||this.state.src	
 				})
 
 			} else {
@@ -61,37 +62,37 @@ class Setting extends Component {
 				});
 
 			}
-		});
-	};
+		})
+	}
 	//上传头像
 	uploadAvatar = (dataBlob) => {
 		this.setState({
 			loading: true
-		});
+		})
 		qiniu(dataBlob)
 			.then((res) => {
 				let params = {
 					avatar: res.key,
 					id: Cookies.getCookies('id')
-				};
+				}
 				PersonAPI.uploadAvatar(params).then((res) => {
 					if (res.success) {
-						message.success('头像上传成功');
+						message.success('头像上传成功')
 						this.setState({
 							src: res.data.avatar,
 							visible: false,
 							loading: false
-						});
+						})
 					}
-				});
+				})
 			})
 			.catch((err) => {
-				console.log(err);
-			});
-	};
+				console.log(err)
+			})
+	}
 	//保存用户信息
 	handelSave = (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log(values)
@@ -101,14 +102,28 @@ class Setting extends Component {
 						message.success('保存成功');
 
 					}
-				});
+				})
 			}
-		});
-	};
-
+		})
+	}
+	//取消用户信息修改
+	cancelSave=(e)=>{
+		let that = this
+		confirm({
+			title: '修改未保存',
+			content: '修改的信息尚未保存，是否保存后离开？',
+			okText: '保存',
+			cancelText: '取消',
+			onOk() {
+				that.handelSave(e)
+			},
+			onCancel() {
+				that.props.router.push('/index')
+			},
+		  })
+	}
 	render() {
 		const { getFieldDecorator } = this.props.form
-
 		return (
 			<div className="personinfo">
 				<div className="personinfo-container">
@@ -124,7 +139,7 @@ class Setting extends Component {
 												message: '请输入联系方式'
 											}
 										]
-									})(<Input placeholder="请输入联系方式" />)}
+									})(<Input placeholder="请输入联系方式"  />)}
 								</Form.Item>
 								<Form.Item label="学院专业">
 									{getFieldDecorator('schoolMajor', {
@@ -135,6 +150,7 @@ class Setting extends Component {
 												required: true,
 												message: '请选择学院专业'
 											}
+											
 										]
 									})(
 										<Cascader
@@ -186,7 +202,7 @@ class Setting extends Component {
 							</div>
 							<Button
 								onClick={() => {
-									this.setState({ visible: true });
+									this.setState({ visible: true })
 								}}
 							>
 								修改头像
@@ -201,7 +217,7 @@ class Setting extends Component {
 					</div>
 				</div>
 			</div>
-		);
+		)
 	}
 }
 

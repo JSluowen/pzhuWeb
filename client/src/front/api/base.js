@@ -23,8 +23,13 @@ const base = {
     getCollectList:'/collect/getcollectlist',//获取收藏列表
     cancelCollect:'/collect/cancelcollect',//取消收藏
     collectSearch:'/collect/collectsearch',//收藏夹搜索
-    //资源分享界面的API
-    getResource:'/resource/getResource'//获取初始化资源
+    //用户个人界面接口
+    getUserInfo:'/user/getUserInfo',//获取用户个人信息
+
+    //成员信息界面接口
+    getMemberInfo:'/member/getMemberInfo',//获取成员展示界面的信息
+
+    
     
 }
 export default base;

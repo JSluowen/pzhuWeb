@@ -117,7 +117,7 @@ class Collect extends Component {
             labelName: labelName
         })
         let newList = this.state.CollectList.filter(item => {
-            return item.Article.Menu.id === parseInt(labelKey)
+            return item.Article.menuid === parseInt(labelKey)
         })
         this.setState({
             newCollectList: newList
