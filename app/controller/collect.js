@@ -2,7 +2,7 @@
 const Controller = require('egg').Controller;
 
 class Collect extends Controller {
-  async getMenuLabel() {
+    async getMenuLabel() {
         const { ctx } = this;
         try {
             let token = ctx.header.authorization;
@@ -10,15 +10,15 @@ class Collect extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                let table = 'Menu';
+                const table = 'Menu';
                 let result = await ctx.service.mysql.findAll({}, table);
                 result = result.map(item => {
-                    return item.dataValues
+                    return item.dataValues;
                 })
-                ctx.status = 200
+                ctx.status = 200;
                 ctx.body = {
                     success: 1,
-                    data: result
+                    data: result,
                 }
             }
         } catch (err) {
@@ -85,7 +85,7 @@ class Collect extends Controller {
 
         } catch (err) {
             ctx.status = 404;
-            console.log(err)
+            console.log(err);
         }
     }
 
