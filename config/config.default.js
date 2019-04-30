@@ -40,7 +40,16 @@ module.exports = appInfo => {
     host: '127.0.0.1',
     username: 'root',
     password: '491085932',
-  }
+    
+    define: {
+      underscored: true,
+      charset: 'utf8',
+      dialectOptions: {
+        collate: 'utf8_general_ci'
+      },
+    }
+  
+ }
   //token鉴权秘钥
   config.token = 'webJWT'
 

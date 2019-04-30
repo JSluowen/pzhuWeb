@@ -20,7 +20,19 @@ module.exports = app => {
         },
         created_at: DATE,
         updated_at: DATE,
+    },
+    {
+        freezeTableName: true,  
+        tableName: 'user',       
+        timestamps: false     
     })
+    User.associate = function (){
+        app.model.User.hasOne(app.model.UserInfo,{foreignKey:'id'});
+        app.model.User.hasMany(app.model.Achievement,{foreignKey:'user_id',targetKey:'id'});
+        app.model.User.hasMany(app.model.Favorite,{foreignKey:'user_id',targetKey:'id'});
+        app.model.User.hasMany(app.model.Article,{foreignKey:'user_id',targetKey:'id'});
+        app.model.User.hasMany(app.model.UserDomain,{foreignKey:'user_id',targetKey:'id'});
+    }
 
     return User;
 }

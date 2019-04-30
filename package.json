@@ -22,7 +22,8 @@
     "md5": "^2.2.1",
     "mysql2": "^1.6.5",
     "nodemailer": "^5.1.1",
-    "qiniu": "^7.2.1"
+    "qiniu": "^7.2.1",
+    "react-highlight-words": "^0.16.0"
   },
   "devDependencies": {
     "egg-bin": "^4.9.0",
