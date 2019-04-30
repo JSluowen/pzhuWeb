@@ -10,15 +10,16 @@ module.exports = app => {
     const Resource = app.model.define('Resource', {
         id: {
             type: INTEGER(10),
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         userid: {
             type: STRING(16),
             references: {
-                model: 'User'
+                model: 'UserInfo'
             }
         },
-        type: {
+        resourcetypeid: {
             type: INTEGER(10),
             references: {
                 model: 'ResourceType'
@@ -40,20 +41,21 @@ module.exports = app => {
             type: STRING(128)
         },
         status: {
-            type: BOOLEAN(4)
+            type: BOOLEAN(4),
+            defaultValue: 1
         },
         created_at: DATE,
         updated_at: DATE,
     },
-        {
-            underscored: true,
-            tableName: 'resource',
-        }
-    )
+    {
+        underscored: true,
+        tableName: 'resource',
+    }
+    );
 
-    // Resource.associate = function () {
-    //     app.model.Resource.belongsTo(app.model.ResourceType, { foreignKey: 'type', targetKey: 'id' })
-    // }
-
-    return Resource
-}
+    Resource.associate = function() {
+        app.model.Resource.belongsTo(app.model.ResourceType, { foreignKey: 'resourcetypeid', targetKey: 'id' });
+        app.model.Resource.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
+    };
+    return Resource;
+};

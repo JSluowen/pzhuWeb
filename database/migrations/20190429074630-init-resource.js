@@ -11,10 +11,10 @@ module.exports = {
       userid: {
         type: STRING(16),
         references: {
-          model: 'User'
+          model: 'UserInfo'
         }
       },
-      type: {
+      resourcetypeid: {
         type: INTEGER(10),
         references: {
           model: 'ResourceType'
@@ -36,7 +36,8 @@ module.exports = {
         type: STRING(128)
       },
       status: {
-        type: BOOLEAN(4)
+        type: BOOLEAN(4),
+        defaultValue: 0,
       },
       created_at: DATE,
       updated_at: DATE,

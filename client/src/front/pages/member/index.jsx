@@ -11,14 +11,13 @@ class Member extends Component {
             userInfoList: [],
             newUserinfoList: [],
             grade: [],//获取成员的年级
-            teacherInfo: []
+            teacherInfo: [],
         };
     }
 
     componentWillMount() {
         this.getMemberInfo()
     }
-
     getMemberInfo = () => {
         MemberAPI.getMemberInfo().then(res => {
             if (res.success) {
@@ -32,12 +31,12 @@ class Member extends Component {
             }
         })
     }
-    //过滤研究方向
+    //过滤研究方向的个数
     filterDomainNum = (domain, data) => {
         return domain.map(item => {
             let num = 0;
             for (let i of data) {
-                if (item.id === i.domain && i.User.status !==3) {
+                if (item.id === i.domain && i.User.status !== 3) {
                     num++
                 }
             }
@@ -47,7 +46,6 @@ class Member extends Component {
                 index: num
             }
         })
-
     }
     //过滤刷选老师的信息
     filterTeacherInfo = (data) => {
@@ -70,18 +68,17 @@ class Member extends Component {
             }
         }
         return temp
-
     }
     //过滤刷选成员研究方向
     filterUser = (e) => {
         let event
-        if(e.target.tagName=="DIV"){
-            event =  e.target
-        }else{
+        if (e.target.tagName == "DIV") {
+            event = e.target
+        } else {
             event = e.target.parentNode
         }
         let parent = event.parentNode.children
-        for(let i=0;i<parent.length;i++){
+        for (let i = 0; i < parent.length; i++) {
             parent[i].classList.remove("memberActive");
         }
         event.classList.add('memberActive')
@@ -89,19 +86,19 @@ class Member extends Component {
 
         let index = event.getAttribute('index')
 
-        if(parseInt(index)===0){
+        if (parseInt(index) === 0) {
             this.setState({
-                newUserInfoList:this.state.userInfoList
+                newUserInfoList: this.state.userInfoList
             })
-            return 
+            return
         }
-        let user = this.state.userInfoList.filter(item=>{
-            return item.domain===parseInt(index)&& item.User.status !==3
+        let user = this.state.userInfoList.filter(item => {
+            return item.domain === parseInt(index) && item.User.status !== 3
         })
         this.setState({
-            newUserInfoList:user
+            newUserInfoList: user
         })
-    }   
+    }
     render() {
         return (
             <div className='member'>
@@ -149,8 +146,6 @@ class Member extends Component {
                                         </div>
                                     })
                                 }
-
-
                             </Card> : ''
                     }
                     {
@@ -160,7 +155,6 @@ class Member extends Component {
                                 style={{ width: '100%' }}
                                 key={index}
                             >
-
                                 {
                                     this.state.newUserInfoList.map((useritem, index) => {
                                         if (item === parseInt(useritem.id.substring(0, 4)) && useritem.User.status !== 3) {
@@ -181,18 +175,11 @@ class Member extends Component {
                                                 </div>
                                             </div>
                                         }
-
-
                                     })
                                 }
-
                             </Card>
-
                         })
-
-
                     }
-
                 </div>
             </div>
         );

@@ -9,7 +9,8 @@ module.exports = app => {
     const ResourceType = app.model.define('ResourceType', {
         id: {
             type: INTEGER(10),
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         name: {
             type: STRING(16)
@@ -17,13 +18,13 @@ module.exports = app => {
         created_at: DATE,
         updated_at: DATE,
     },
-        {
-            underscored: true,
-            tableName: 'resourcetype',
-        })
+    {
+        underscored: true,
+        tableName: 'resourcetype',
+    });
 
-    ResourceType.associate = function () {
-        app.model.ResourceType.hasMany(app.model.Resource, { foreignKey: 'type', targetKey: 'id' })
-    }
-    return ResourceType
-}
+    ResourceType.associate = function() {
+        app.model.ResourceType.hasMany(app.model.Resource, { foreignKey: 'resourcetypeid', targetKey: 'id' });
+    };
+    return ResourceType;
+};

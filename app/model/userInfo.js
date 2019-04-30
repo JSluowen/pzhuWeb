@@ -2,7 +2,7 @@
 module.exports = app => {
     const { INTEGER, DATE, STRING } = app.Sequelize;
     const UserInfo = app.model.define(
-        'userinfo',
+        'UserInfo',
         {
             id: {
                 type: STRING(16),
@@ -47,6 +47,7 @@ module.exports = app => {
 
     UserInfo.associate = function() {
         app.model.UserInfo.hasMany(app.model.Article, { foreignKey: 'userid', targetKey: 'id' });
+        app.model.UserInfo.hasMany(app.model.Resource, { foreignKey: 'userid', targetKey: 'id' });
         app.model.UserInfo.belongsTo(app.model.School, { foreignKey: 'school', targetKey: 'id' });
         app.model.UserInfo.belongsTo(app.model.Major, { foreignKey: 'major', targetKey: 'id' });
         app.model.UserInfo.belongsTo(app.model.Domain, { foreignKey: 'domain', targetKey: 'id' });

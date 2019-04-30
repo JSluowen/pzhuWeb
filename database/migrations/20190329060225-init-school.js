@@ -10,7 +10,8 @@ module.exports = {
     await queryInterface.createTable('school', {
       id: {
         type: INTEGER(10),
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
       },
       name: {
         type: STRING(16)

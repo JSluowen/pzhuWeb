@@ -28,8 +28,9 @@ const base = {
 
     //成员信息界面接口
     getMemberInfo:'/member/getMemberInfo',//获取成员展示界面的信息
-
-    
+    //获取资源列表接口
+    getResource: '/resource/getResource',//获取资源界面初始化资源
+    serachResource:'/resource/searchResource',//搜索资源
     
 }
 export default base;

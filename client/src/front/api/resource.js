@@ -2,15 +2,25 @@ import base from './base';
 import axios from '../../http/axios';
 
 const Resource ={
-    getResource(){
+    getResource(params){
         return new Promise((resolve,reject)=>{
-            axios.get(`${base.getResource}`).then(res=>{
+            axios.post(`${base.getResource}`, params).then(res=> {
                 resolve(res.data)
-            }).catch(err=>{
+            }).catch(err=> {
                 reject(err.data)
             })
 
         })
+    },
+    serachResource(params){
+        return new Promise((resolve,reject)=>{
+            axios.post(`${base.serachResource}`, params).then(res=> {
+                resolve(res.data)
+            }).catch(err=> {
+                reject(err.data)
+            })
+
+        }) 
     }
 }
 

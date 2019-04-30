@@ -1,11 +1,9 @@
 'use strict';
 module.exports = app => {
     const { router, controller } = app;
-
     // const verify = app.middleware.verify({
     //   token: 'webJWT'
     // }); //登录权限验证中间件
-
     router.post('/api/code', controller.register.uploadCode); // 上传邮箱验证码
     router.post('/api/registeruser', controller.register.registerUser); // 注册用户信息
     router.post('/api/login', controller.login.login); // 用户登录
@@ -26,7 +24,9 @@ module.exports = app => {
     router.post('/api/collect/collectsearch', controller.collect.collectSearch); // 收藏夹搜索
     // 用户个人主页接口
     router.post('/api/user/getUserInfo', controller.user.getUserInfo); // 获取个人主页信息
-
     // 成员展示界面的信息接口
     router.get('/api/member/getMemberInfo', controller.member.getMemberInfo); // 获取成员展示界面的信息
+    // 资源分享界面的接口
+    router.post('/api/resource/getResource', controller.resource.getResource); // 获取资源列表
+    router.post('/api/resource/searchResource', controller.resource.searchResource); // 搜索资源
 };
