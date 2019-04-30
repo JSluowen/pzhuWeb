@@ -5,7 +5,7 @@ import Layout from './layout/index.jsx';
 import MenberApplay from './pages/menber/applay';
 
 import MenberList from './pages/menber/menberList';
-import Distribution from './pages/menber/distribution';
+import Info from './pages/menber/info';
 
 
 const requireAuth = (nextState, replace, cb) => {
@@ -22,7 +22,7 @@ export default (
 		<Route path="/" component={Layout}>
 			<Route path ="apply" component={MenberApplay} />
 			<Route path ="MenberList" component={MenberList} />
-			<Route path ="Distribution" component={Distribution} />
+			<Route path ="info" component={Info} />
 		</Route>
 	</Router>
 );

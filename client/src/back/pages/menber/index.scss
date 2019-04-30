@@ -11,6 +11,7 @@
 }
 .span_button {
     padding-right: 20px;
+    
 }
 .appaly_list_header{
     display: flex;
@@ -22,4 +23,8 @@
 .antd_Button_space{
     margin-left: 10px;
     margin-right: 10px;
+}
+.span_button:hover{
+    cursor: pointer;
+    background-color: #abcdef;
 }
