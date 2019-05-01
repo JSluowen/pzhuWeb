@@ -8,27 +8,26 @@ class User extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userinfo:{},
-            school:'',
-            major:'',
-            domain:'',
+            userinfo: {},
+            school: '',
+            major: '',
+            domain: '',
         }
     }
-    
-    componentWillMount(){
-      this.getUserInfo()
+
+    componentWillMount() {
+        this.getUserInfo()
     }
-    
-    getUserInfo=()=>{
-        UserAPI.getUserInfo({id:Cookies.getCookies('id')}).then(res=>{
-            if(res.success){
-               console.log(res.data)
-               this.setState({
-                   userinfo:res.data,
-                   school:res.data.School.name,
-                   major:res.data.Major.name,
-                   domain:res.data.Domain.name,
-               })
+
+    getUserInfo = () => {
+        UserAPI.getUserInfo({ id: Cookies.getCookies('id') }).then(res => {
+            if (res.success) {
+                this.setState({
+                    userinfo: res.data,
+                    school: res.data.School.name,
+                    major: res.data.Major.name,
+                    domain: res.data.Domain.name,
+                })
             }
         })
     }
@@ -40,20 +39,20 @@ class User extends Component {
                     <div className='user-left-header'>
                         <div className='user-left-header-avatar'>
                             <div className='user-left-header-avatar-img'>
-                                <img src={this.state.userinfo.avatar||'http://img.pzhuweb.cn/1556260506598'} alt="" /></div>
+                                <img src={this.state.userinfo.avatar || 'http://img.pzhuweb.cn/1556260506598'} alt="" /></div>
                         </div>
                         <div className='user-left-header-info'>
                             <div className='user-left-header-info-name'>
                                 {Cookies.getCookies('name')}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="phone" />{this.state.userinfo.phone||'联系方式'}
+                                <Icon type="phone" />{this.state.userinfo.phone || '联系方式'}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="idcard" />{this.state.school||'学院'}{'/'}{this.state.major||'专业'}
+                                <Icon type="idcard" />{this.state.school || '学院'}{'/'}{this.state.major || '专业'}
                             </div>
                             <div className='user-left-header-info-mes'>
-                                <Icon type="smile" />{this.state.userinfo.description||'自我描述'}
+                                <Icon type="smile" />{this.state.userinfo.description || '自我描述'}
                             </div>
                         </div>
                         <div className='user-left-header-edit'>
@@ -72,7 +71,7 @@ class User extends Component {
                                 <Link activeClassName='userActive' >成果</Link>
                             </div>
                             <div className='user-left-body-navbar-item'>
-                                <Link activeClassName='userActive' >资源</Link>
+                                <Link activeClassName='userActive' to='/user/resource' >资源</Link>
                             </div>
                             <div className='user-left-body-navbar-item'>
                                 <Link activeClassName='userActive' to='/user/collect'>收藏</Link>
@@ -88,26 +87,26 @@ class User extends Component {
                         个人成就
                     </div>
                     <div className='user-right-article'>
-                        <Icon style={{ marginRight: '10px' }} theme="twoTone" type="eye" />  文章被阅读了{this.state.userinfo.readNum||'0'}次
+                        <Icon style={{ marginRight: '10px' }} theme="twoTone" type="eye" />  文章被阅读了{this.state.userinfo.readNum || '0'}次
                     </div>
                     <div className='user-right-ach'>
                         <div className='user-right-ach-item'>
                             <p>文章</p>
-                            <p>{this.state.userinfo.articleNum||0}</p>
+                            <p>{this.state.userinfo.articleNum || 0}</p>
                         </div>
                         <div className='user-right-ach-item'>
                             <p>成果</p>
-                            <p>10</p>
+                            <p>{this.state.userinfo.achievementNum}</p>
                         </div>
                         <div className='user-right-ach-item'>
                             <p>资源</p>
-                            <p>10</p>
+                            <p>{this.state.userinfo.resourceNum}</p>
                         </div>
                     </div>
                     <div className='user-right-info'>
                         <div className='user-right-info-item'>
                             <p>收藏集</p>
-                            <p>{this.state.userinfo.favoriteNum||'0'}</p>
+                            <p>{this.state.userinfo.favoriteNum || '0'}</p>
                         </div>
                         <div className='user-right-info-item'>
                             <p>研究方向</p>

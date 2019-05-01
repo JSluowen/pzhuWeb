@@ -234,6 +234,7 @@ class Collect extends Component {
                          </div>
                         }
                     </div>
+                    
                     <Spin tip="Loading..." spinning={this.state.loading}>
                         {
                             this.state.isFooter && (this.state.newCollectList.length >= this.state.limit) ?

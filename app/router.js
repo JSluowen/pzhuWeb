@@ -24,6 +24,8 @@ module.exports = app => {
     router.post('/api/collect/collectsearch', controller.collect.collectSearch); // 收藏夹搜索
     // 用户个人主页接口
     router.post('/api/user/getUserInfo', controller.user.getUserInfo); // 获取个人主页信息
+    router.post('/api/user/getUserResource', controller.user.getUserResource); // 获取个人主界面的资源
+    router.post('/api/user/searchUserResource', controller.user.searchUserResource);// 搜索用户个人资源
     // 成员展示界面的信息接口
     router.get('/api/member/getMemberInfo', controller.member.getMemberInfo); // 获取成员展示界面的信息
     // 资源分享界面的接口

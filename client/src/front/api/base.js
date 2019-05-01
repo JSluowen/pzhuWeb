@@ -25,7 +25,8 @@ const base = {
     collectSearch:'/collect/collectsearch',//收藏夹搜索
     //用户个人界面接口
     getUserInfo:'/user/getUserInfo',//获取用户个人信息
-
+    getUserResource:'/user/getUserResource',//获取用户个人资源信息
+    searchUserResource:'/user/searchUserResource',// 搜索用户个人资源信息
     //成员信息界面接口
     getMemberInfo:'/member/getMemberInfo',//获取成员展示界面的信息
     //获取资源列表接口
