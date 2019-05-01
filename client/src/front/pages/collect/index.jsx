@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Dropdown, Icon, message, Input, Modal, Spin,Popconfirm } from 'antd';
+import { Menu, Dropdown, Icon, message, Input, Modal, Spin, Popconfirm } from 'antd';
 import { CollectAPI } from '../../api';
 import Cookies from '../../../http/cookies'
 import './index.scss'
@@ -24,12 +24,9 @@ class Collect extends Component {
             offset: 0,//每次跳过的数
         };
     }
-    componentWillMount() {
+    componentDidMount() {
         this.getTechnologyLabel()
         this.getCollectList()
-
-    }
-    componentDidMount() {
         window.addEventListener('scroll', this.handelScroll)
     }
     //监听滚动条
@@ -46,7 +43,7 @@ class Collect extends Component {
             this.handelLoading()
         }
     }
-    
+
     handelLoading = () => {
         if (this.state.isLoading) {
             this.setState({
@@ -85,9 +82,7 @@ class Collect extends Component {
                 CollectList: arry,
                 newCollectList: arry,
             })
-
             if (res.success) {
-
                 this.setState({
                     isLoading: true,
                     loading: false
@@ -227,7 +222,7 @@ class Collect extends Component {
                                                     }
                                                 </p>
                                                 <p style={{ flex: 1 }}>
-                                                    <span style={{ color: '#1890ff' }} onClick={this.cancelCollect} id={item.id} index={index} >取消收藏</span> 
+                                                    <span style={{ color: '#1890ff' }} onClick={this.cancelCollect} id={item.id} index={index} >取消收藏</span>
                                                 </p>
                                             </div>
                                         })

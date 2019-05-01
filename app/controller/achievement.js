@@ -28,19 +28,25 @@ class Achievement extends Controller {
             let ac = await ctx.service.mysql.findAll(params, table1);
             acType = await ctx.service.fun.filterTypeNum(acType, ac);
             ac = await ctx.service.fun.filterType(ac, index);
-            if (ac.length >= end) {
+            if (parseInt(ac.length) >= end) {
                 ac = ac.slice(beg, end);
+                ctx.body = {
+                    success: 1,
+                    data: {
+                        acType,
+                        ac
+                    }
+                };
             } else {
                 ac = ac.slice(beg);
+                ctx.body = {
+                    success: 0,
+                    data: {
+                        acType,
+                        ac
+                    }
+                };
             }
-            ctx.status = 200;
-            ctx.body = {
-                success: 1,
-                data: {
-                    ac,
-                    acType
-                }
-            };
         } catch (err) {
             ctx.status = 404;
             console.log(err);

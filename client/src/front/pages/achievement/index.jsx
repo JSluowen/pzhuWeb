@@ -8,9 +8,11 @@ class Achievement extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            limit: 10,// 获取的数据量
             beg: 0,
             end: 10,
-            loading: false,
+            loading: true,
+            isLoading: true,
             acType: [], // 成果类别
             ac: [], // 成果资源
             flag: true,
@@ -20,32 +22,72 @@ class Achievement extends Component {
     }
     componentDidMount() {
         this.getAchievement()
+        window.addEventListener('scroll', this.handelScroll)
+    }
+    handelScroll = (e) => {
+        // 滚动的高度
+        const scrollTop = (event.srcElement ? event.srcElement.documentElement.scrollTop : false) || window.pageYOffset || (event.srcElement ? event.srcElement.body.scrollTop : 0);
+        // 视窗高度
+        const clientHeight = (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
+        // 页面高度
+        const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
+        // 距离页面底部的高度
+        const height = scrollHeight - scrollTop - clientHeight;
+        if (height <= 10) {
+            this.handelLoading()
+        }
+    }
+    handelLoading = () => {
+        if (this.state.isLoading) {
+            this.setState({
+                isLoading: false,
+                beg: this.state.end,
+                end: this.state.end + this.state.limit
+            })
+            this.getAchievement()
+        }
     }
     // 设置初始化的资源分类
     setAchievementTyep = () => {
         let e = this.achievementTypeRef.current;
         e = e.childNodes;
-        e[1].classList.add('achievementActive')
+        e[1].classList.add('achievementActive');
+        this.setState({
+            flag: false
+        })
     }
+
     getAchievement = () => {
         let params = {
             beg: this.state.beg,
             end: this.state.end,
             index: this.state.index
         }
-        this.setState({
-            loading: true
-        })
         AchievementAPI.getAachievement(params).then(res => {
+            let arry = this.state.ac
+            for (let item of res.data.ac) {
+                arry.push(item)
+            }
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
                         loading: false,
                         acType: res.data.acType,
-                        ac: res.data.ac
+                        ac: arry,
+                        isLoading: true
                     })
                     if (this.state.flag) this.setAchievementTyep()
-                }, 1000)
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        acType: res.data.acType,
+                        ac: arry,
+                        loading: false,
+                        isLoading: false
+                    })
+                    if (this.state.flag) this.setAchievementTyep()
+                }, 500)
             }
         })
     }
@@ -64,13 +106,16 @@ class Achievement extends Component {
         event.classList.add('achievementActive')
         let index = event.getAttribute('index')
 
-        if (this.state.index === index) {
+        if (this.state.index ===  parseInt(index)) {
             return
         } else {
             this.setState({
                 index: parseInt(index),
                 flag: false,
-                loading: true
+                loading: true,
+                beg: 0,
+                end: this.state.limit,
+                ac: []
             }, () => {
                 this.getAchievement();
             })
@@ -79,6 +124,10 @@ class Achievement extends Component {
     }
     // 搜索资源
     handelSerach = (value) => {
+        if (value === '') {
+            message.warning('请先输入成果标题')
+            return;
+        }
         let params = {
             value: value
         }

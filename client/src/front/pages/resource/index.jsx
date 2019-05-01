@@ -9,13 +9,15 @@ class Resource extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            limit: 10,// 获取的数据量
             beg: 0,//截取后台数据开始的位置
             end: 10,//后台数据结束的位置
             resourceType: [],
             resource: [],
             index: 1,//默认查询选项第一个,
             flag: true,
-            loading: true
+            loading: true,
+            isLoading: true
         };
         this.reourceTypeRef = React.createRef();
 
@@ -23,12 +25,40 @@ class Resource extends Component {
 
     componentDidMount() {
         this.getResource()
+        window.addEventListener('scroll', this.handelScroll)
     }
     // 设置初始化的资源分类
     setResourceTyep = () => {
         let e = this.reourceTypeRef.current;
         e = e.childNodes;
         e[1].classList.add('resourceActive')
+        this.setState({
+            flag:false
+        })
+    }
+    //监听滚动条
+    handelScroll = (e) => {
+        // 滚动的高度
+        const scrollTop = (event.srcElement ? event.srcElement.documentElement.scrollTop : false) || window.pageYOffset || (event.srcElement ? event.srcElement.body.scrollTop : 0);
+        // 视窗高度
+        const clientHeight = (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
+        // 页面高度
+        const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
+        // 距离页面底部的高度
+        const height = scrollHeight - scrollTop - clientHeight;
+        if (height <= 10) {
+            this.handelLoading()
+        }
+    }
+    handelLoading = () => {
+        if (this.state.isLoading) {
+            this.setState({
+                isLoading: false,
+                beg: this.state.end,
+                end: this.state.end + this.state.limit
+            })
+            this.getResource()
+        }
     }
     // 筛选资源类别
     filterResource = (e) => {
@@ -45,22 +75,27 @@ class Resource extends Component {
         event.classList.add('resourceActive')
         let index = event.getAttribute('index')
 
-        if (this.state.index === index) {
+        if (this.state.index === parseInt(index)) {
             return
         } else {
             this.setState({
                 index: parseInt(index),
                 flag: false,
-                loading: true
+                loading: true,
+                beg: 0,
+                end: this.state.limit,
+                resource:[]
             }, () => {
                 this.getResource();
             })
         }
-
-
     }
     // 搜索资源
     handelSerach = (value) => {
+        if (value === '') {
+            message.warning('请先输入资源标题')
+            return;
+        }
         let params = {
             value: value
         }
@@ -93,15 +128,30 @@ class Resource extends Component {
             index: this.state.index,
         }
         ResourceAPI.getResource(params).then(res => {
+            let arry = this.state.resource
+            for (let item of res.data.resource) {
+                arry.push(item)
+            }
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
                         resourceType: res.data.resourceType,
-                        resource: res.data.resource,
-                        loading: false
+                        resource: arry,
+                        loading: false,
+                        isLoading:true
                     })
                     if (this.state.flag) this.setResourceTyep()
-                }, 1000)
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        resourceType: res.data.resourceType,
+                        resource: arry,
+                        loading: false,
+                        isLoading: false
+                    })
+                    if (this.state.flag) this.setResourceTyep()
+                }, 500)
             }
         })
     }

@@ -30,19 +30,26 @@ class Resource extends Controller {
             let resource = await ctx.service.mysql.findAll(params, table1);
             resourceType = await ctx.service.fun.filterTypeNum(resourceType, resource);// 过滤类别所对应的数目
             resource = await ctx.service.fun.filterType(resource, index);// 过滤资源所对应的类别
-            if (resource.length >= end) {
+            ctx.status = 200;
+            if (parseInt(resource.length) >= end) {
                 resource = resource.slice(beg, end);
+                ctx.body = {
+                    success: 1,
+                    data: {
+                        resourceType,
+                        resource
+                    }
+                };
             } else {
                 resource = resource.slice(beg);
+                ctx.body = {
+                    success: 0,
+                    data: {
+                        resourceType,
+                        resource
+                    }
+                };
             }
-            ctx.status = 200;
-            ctx.body = {
-                success: 1,
-                data: {
-                    resourceType,
-                    resource
-                }
-            };
         } catch (err) {
             console.log(err);
             ctx.status = 404;
