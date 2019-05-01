@@ -29,4 +29,6 @@ module.exports = app => {
     // 资源分享界面的接口
     router.post('/api/resource/getResource', controller.resource.getResource); // 获取资源列表
     router.post('/api/resource/searchResource', controller.resource.searchResource); // 搜索资源
+    // 成果展示界面的接口
+    router.post('/api/achievement/getAchievement', controller.achievement.getAchievement);// 获取成果展示界面的接口
 };

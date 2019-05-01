@@ -28,8 +28,8 @@ class Resource extends Controller {
             };
             let resourceType = await ctx.service.mysql.findAll({}, table);
             let resource = await ctx.service.mysql.findAll(params, table1);
-            resourceType = await ctx.service.resource.filterResourceNum(resourceType, resource);// 过滤资源所对应的数目
-            resource = await ctx.service.resource.filterResourceType(resource, index);// 过滤资源所对应的类别
+            resourceType = await ctx.service.fun.filterTypeNum(resourceType, resource);// 过滤类别所对应的数目
+            resource = await ctx.service.fun.filterType(resource, index);// 过滤资源所对应的类别
             if (resource.length >= end) {
                 resource = resource.slice(beg, end);
             } else {

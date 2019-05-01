@@ -1,3 +1,8 @@
+.achievementActive{
+    border-right: 3px solid #1890ff;
+    background-color: rgba(24, 144, 255, .2);
+
+}
 .achievement {
     width: 100%;
     min-height: 600px;
@@ -32,8 +37,7 @@
             }
             &:hover {
                 cursor: pointer;
-                border-right: 3px solid #1890ff;
-                background-color: rgba(24, 144, 255, .2);
+                color:  #1890ff;
             }
         }
     }
@@ -51,6 +55,20 @@
           margin-left: 1%;
           margin-bottom: 20px;
           height: auto;
+      }
+      .ant-card-meta-title{
+          white-space: normal;
+      }
+      .ant-card-cover{
+         width: 100%;
+         max-height: 300px;
+         overflow: hidden;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         img{
+             width: 100%;
+         }
       }
     }
 }

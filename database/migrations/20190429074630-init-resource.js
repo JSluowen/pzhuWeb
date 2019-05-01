@@ -14,7 +14,7 @@ module.exports = {
           model: 'UserInfo'
         }
       },
-      resourcetypeid: {
+      typeid: {
         type: INTEGER(10),
         references: {
           model: 'ResourceType'
@@ -37,7 +37,7 @@ module.exports = {
       },
       status: {
         type: BOOLEAN(4),
-        defaultValue: 0,
+        defaultValue: 1,
       },
       created_at: DATE,
       updated_at: DATE,

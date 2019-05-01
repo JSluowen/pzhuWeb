@@ -7,11 +7,14 @@ module.exports = app => {
         DATE,
         BOOLEAN
     } = app.Sequelize;
-    const Resource = app.model.define('Resource', {
+    const Achievement = app.model.define('Achievement', {
         id: {
             type: INTEGER(10),
             primaryKey: true,
             autoIncrement: true
+        },
+        title: {
+            type: STRING(16)
         },
         userid: {
             type: STRING(16),
@@ -22,19 +25,16 @@ module.exports = app => {
         typeid: {
             type: INTEGER(10),
             references: {
-                model: 'ResourceType'
+                model: 'AchievementType'
             }
         },
-        title: {
-            type: STRING(64)
-        },
-        description: {
-            type: STRING(128)
+        abstract: {
+            type: STRING(128),
         },
         posterlink: {
             type: STRING(128)
         },
-        link: {
+        achivementlink: {
             type: STRING(128)
         },
         attachment: {
@@ -42,20 +42,20 @@ module.exports = app => {
         },
         status: {
             type: BOOLEAN(4),
-            defaultValue: 1
+            defaultValue: 0
         },
         created_at: DATE,
         updated_at: DATE,
     },
     {
         underscored: true,
-        tableName: 'resource',
+        tableName: 'achievement',
     }
     );
 
-    Resource.associate = function() {
-        app.model.Resource.belongsTo(app.model.ResourceType, { foreignKey: 'typeid', targetKey: 'id' });
-        app.model.Resource.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
+    Achievement.associate = function() {
+        app.model.Achievement.belongsTo(app.model.AchievementType, { foreignKey: 'typeid', targetKey: 'id' });
+        app.model.Achievement.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
     };
-    return Resource;
+    return Achievement;
 };

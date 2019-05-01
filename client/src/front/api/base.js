@@ -31,6 +31,7 @@ const base = {
     //获取资源列表接口
     getResource: '/resource/getResource',//获取资源界面初始化资源
     serachResource:'/resource/searchResource',//搜索资源
-    
+    //成果展示的接口
+    getAchievement:'/achievement/getAchievement',// 获取成果
 }
 export default base;

@@ -88,9 +88,12 @@
 
                 &-cover {
                     width: 60%;
+                    height: 150px;
                     overflow: hidden;
                     margin-top: 10px;
-
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     img {
                         width: 100%;
                     }

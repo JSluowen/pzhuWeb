@@ -27,8 +27,7 @@ class Member extends Controller {
             ctx.body = {
                 success: 1,
                 data: userinfo,
-                domain,
-                // teacherInfo:teacherInfo
+                domain
             };
         } catch (err) {
             console.log(err);

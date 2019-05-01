@@ -25,6 +25,24 @@ class Fun extends Service {
         }
         return foo(data);
     }
+    // 过虑资源分类所对应的数目
+    async filterTypeNum(Type, data) {
+        return Type.map(item => {
+            let num = 0;
+            for (const val of data) {
+                if (parseInt(item.id) === parseInt(val.typeid)) {
+                    num++;
+                }
+            }
+            item.dataValues.index = num;
+            return item;
+        });
+    }
+    async filterType(resource, index) {
+        return resource.filter(item => {
+            return item.dataValues.typeid === parseInt(index);
+        });
+    }
 }
 
 module.exports = Fun;

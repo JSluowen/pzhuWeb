@@ -6,7 +6,7 @@ module.exports = app => {
         STRING,
         DATE
     } = app.Sequelize;
-    const ResourceType = app.model.define('ResourceType', {
+    const AchievementType = app.model.define('AchievementType', {
         id: {
             type: INTEGER(10),
             primaryKey: true,
@@ -20,11 +20,11 @@ module.exports = app => {
     },
     {
         underscored: true,
-        tableName: 'resourcetype',
+        tableName: 'achievementtype',
     });
 
-    ResourceType.associate = function() {
-        app.model.ResourceType.hasMany(app.model.Resource, { foreignKey: 'typeid', targetKey: 'id' });
+    AchievementType.associate = function() {
+        app.model.ResourceType.hasMany(app.model.Achievement, { foreignKey: 'typeid', targetKey: 'id' });
     };
-    return ResourceType;
+    return AchievementType;
 };
