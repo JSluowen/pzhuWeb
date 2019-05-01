@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Card, Button, Avatar, Row, Col, Input, Skeleton } from 'antd'
+import { Icon, Card, Button, Avatar, Row, Col, Input, Skeleton, message } from 'antd'
 import './index.scss'
 import AchievementAPI from '../../api/achievement'
 const { Meta } = Card;
@@ -77,6 +77,34 @@ class Achievement extends Component {
         }
 
     }
+    // 搜索资源
+    handelSerach = (value) => {
+        let params = {
+            value: value
+        }
+        this.setState({
+            loading: true
+        })
+        AchievementAPI.searchAchievement(params).then(res => {
+            if (res.success) {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        ac: res.data
+                    })
+                }, 500)
+                message.success('搜索成功')
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false
+                    })
+                }, 500)
+                message.warning('为搜索到您想要的资源')
+            }
+        })
+    }
+
     render() {
         return (
             <div className='achievement'>
@@ -122,7 +150,7 @@ class Achievement extends Component {
                                                 actions={[<span><Icon type="user" />{" "}{item.UserInfo.User.name}</span>, <span><Icon type="calendar" />{" "}{item.updated_at}</span>]}
                                             >
                                                 <Meta
-                                                    style={{width:'100%'}}
+                                                    style={{ width: '100%' }}
                                                     avatar={<Avatar src={item.UserInfo.avatar} />}
                                                     title={item.title}
                                                     description={item.abstract}

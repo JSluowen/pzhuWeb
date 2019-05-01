@@ -99,7 +99,7 @@ export default class Layout extends Component {
 								</Link>
 							</div>
 							<div className="nav-bar-menu-item">
-								<Link to='/resource' activeClassName='action' >
+								<Link to='/resource' activeClassName='active' >
 									资源分享
 								</Link>
 							</div>

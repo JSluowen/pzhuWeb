@@ -31,4 +31,5 @@ module.exports = app => {
     router.post('/api/resource/searchResource', controller.resource.searchResource); // 搜索资源
     // 成果展示界面的接口
     router.post('/api/achievement/getAchievement', controller.achievement.getAchievement);// 获取成果展示界面的接口
+    router.post('/api/achievement/searchAchievement', controller.achievement.searchAchievement);// 搜索成果资源
 };

@@ -76,10 +76,16 @@ class Resource extends Controller {
             const table = 'Resource';
             const resource = await ctx.service.mysql.findAll(params, table);
             ctx.status = 200;
-            ctx.body = {
-                success: 1,
-                data: resource
-            };
+            if (resource.length !== 0) {
+                ctx.body = {
+                    success: 1,
+                    data: resource
+                };
+            } else {
+                ctx.body = {
+                    success: 0
+                };
+            }
         } catch (err) {
             ctx.status = 404;
             console.log(err);

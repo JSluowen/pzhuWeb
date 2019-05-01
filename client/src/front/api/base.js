@@ -33,5 +33,6 @@ const base = {
     serachResource:'/resource/searchResource',//搜索资源
     //成果展示的接口
     getAchievement:'/achievement/getAchievement',// 获取成果
+    searchAchievement:'/achievement/searchAchievement',// 搜索成果
 }
 export default base;

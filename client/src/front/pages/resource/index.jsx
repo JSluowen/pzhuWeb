@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Card, Input, Icon, Avatar, Row, Col, Skeleton } from 'antd'
+import { Button, Card, Input, Icon, Avatar, Row, Col, Skeleton, message } from 'antd'
 import './index.scss'
 import ResourceAPI from '../../api/resource'
 const Search = Input.Search;
@@ -60,19 +60,29 @@ class Resource extends Component {
 
     }
     // 搜索资源
-    handelSerach=(value)=>{
+    handelSerach = (value) => {
         let params = {
-            value:value
+            value: value
         }
         this.setState({
-            loading:true
+            loading: true
         })
-        ResourceAPI.serachResource(params).then(res=>{
-            if(res.success) {
-                this.setState({
-                    loading:false,
-                    resource:res.data
-                })
+        ResourceAPI.serachResource(params).then(res => {
+            if (res.success) {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        resource: res.data
+                    })
+                    message.success('搜索成功')
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false
+                    })
+                    message.warning('未搜索到您想要的资源')
+                }, 500)
             }
         })
     }
@@ -144,7 +154,7 @@ class Resource extends Component {
                                                     <Button link={item.link} type='primary' ghost >点击获取</Button>
                                                 </div>
                                                 <div className='resource-right-item-body'>
-                                                    <p style={{fontSize:'18px',fontWeight:'600'}}>{item.title}</p>
+                                                    <p style={{ fontSize: '18px', fontWeight: '600' }}>{item.title}</p>
                                                     <p>
                                                         {
                                                             item.description
