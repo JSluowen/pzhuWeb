@@ -41,7 +41,7 @@ module.exports = app => {
         },
         {
             underscored: true,
-            tableName: 'userinfo',
+            tableName: 'user_info',
         },
     );
 
@@ -53,6 +53,5 @@ module.exports = app => {
         app.model.UserInfo.belongsTo(app.model.Domain, { foreignKey: 'domain', targetKey: 'id' });
         app.model.UserInfo.belongsTo(app.model.User, { foreignKey: 'id', targetKey: 'id' });
     };
-
     return UserInfo;
 };

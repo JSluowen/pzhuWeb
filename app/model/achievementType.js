@@ -20,11 +20,11 @@ module.exports = app => {
     },
     {
         underscored: true,
-        tableName: 'achievementtype',
+        tableName: 'achievement_type',
     });
 
     AchievementType.associate = function() {
-        app.model.ResourceType.hasMany(app.model.Achievement, { foreignKey: 'typeid', targetKey: 'id' });
+        app.model.AchievementType.hasMany(app.model.Achievement, { foreignKey: 'typeid', targetKey: 'id' });
     };
     return AchievementType;
 };

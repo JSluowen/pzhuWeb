@@ -20,7 +20,7 @@ module.exports = app => {
     },
     {
         underscored: true,
-        tableName: 'resourcetype',
+        tableName: 'resource_type',
     });
 
     ResourceType.associate = function() {
