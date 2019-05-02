@@ -1,3 +1,5 @@
+import UserAchievement from "./userAchievement";
+
 export Layout from '../layout';
 export Home from './home';
 export Login from './login';
@@ -10,3 +12,4 @@ export Member from './member'
 export Achievement from './achievement'
 export Resource from './resource'
 export userResource from './userResource'
+export userAchievement from './userAchievement'

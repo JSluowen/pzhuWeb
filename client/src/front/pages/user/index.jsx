@@ -68,7 +68,7 @@ class User extends Component {
                                 <Link activeClassName='userActive' >文章</Link>
                             </div>
                             <div className='user-left-body-navbar-item'>
-                                <Link activeClassName='userActive' >成果</Link>
+                                <Link activeClassName='userActive' to='/user/achievement' >成果</Link>
                             </div>
                             <div className='user-left-body-navbar-item'>
                                 <Link activeClassName='userActive' to='/user/resource' >资源</Link>

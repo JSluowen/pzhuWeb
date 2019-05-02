@@ -27,8 +27,45 @@ const User = {
             }).catch(err => {
                 reject(err.data)
             })
-        }) 
+        })
+    },
+    delUserResource(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.delUserResource}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    getUserAchievement(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.getUserAchievement}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    delUserAchievement(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.delUserAchievement}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    searchUserAchievement(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.searchUserAchievement}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
     }
+
 }
 
 export default User

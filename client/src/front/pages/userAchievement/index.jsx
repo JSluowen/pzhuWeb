@@ -6,7 +6,7 @@ import Cookies from '../../../http/cookies'
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
-class UserResource extends Component {
+class UserAchievement extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,18 +15,19 @@ class UserResource extends Component {
             end: 10,//后台数据结束的位置
             loading: true,
             index: 0,
-            resourceType: [],
-            resource: [],
+            acType: [],
+            ac: [],
             color: ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"],
             isLoading: true //是否滚动监听
         };
     }
 
     componentDidMount() {
-        this.getUserResource()
+        this.getUserAchievement()
         window.addEventListener('scroll', this.handelScroll)
     }
-    getUserResource = () => {
+    getUserAchievement = () => {
+
         let params = {
             index: this.state.index,
             id: Cookies.getCookies('id'),
@@ -34,17 +35,17 @@ class UserResource extends Component {
             beg: this.state.beg,
             end: this.state.end
         }
-        UserAPI.getUserResource(params).then(res => {
-            let arry = this.state.resource
-            for (let item of res.data.resource) {
+        UserAPI.getUserAchievement(params).then(res => {
+            let arry = this.state.ac
+            for (let item of res.data.ac) {
                 arry.push(item)
             }
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
                         loading: false,
-                        resourceType: res.data.resourceType,
-                        resource: arry,
+                        acType: res.data.acType,
+                        ac: arry,
                         isLoading: true
                     })
                 }, 500)
@@ -52,8 +53,8 @@ class UserResource extends Component {
                 setTimeout(() => {
                     this.setState({
                         loading: false,
-                        resourceType: res.data.resourceType,
-                        resource: arry,
+                        acType: res.data.acType,
+                        ac: arry,
                         isLoading: false
                     })
                 }, 500)
@@ -62,10 +63,10 @@ class UserResource extends Component {
 
         })
     }
-    //搜索资源
-    onSearch = (value) => {
+     //搜索资源
+     onSearch = (value) => {
         if (value === '') {
-            message.warning('请输入资源名称');
+            message.warning('请输入成果名称');
             return;
         }
         this.setState({
@@ -75,12 +76,12 @@ class UserResource extends Component {
             id: Cookies.getCookies('id'),
             value: value,
         }
-        UserAPI.searchUserResource(params).then(res => {
+        UserAPI.searchUserAchievement(params).then(res => {
             if (!res.success) message.warning('为搜索到您想要的资源')
             setTimeout(() => {
                 this.setState({
                     loading: false,
-                    resource: res.data
+                    ac: res.data
                 })
             }, 500)
         })
@@ -92,9 +93,9 @@ class UserResource extends Component {
             loading: true,
             beg: 0,
             end: this.state.limit,
-            resource: []
+            ac: []
         }, () => {
-            this.getUserResource()
+            this.getUserAchievement()
         })
 
     }
@@ -110,6 +111,16 @@ class UserResource extends Component {
         const height = scrollHeight - scrollTop - clientHeight;
         if (height <= 50) {
             this.handelLoading()
+        }
+    }
+    handelLoading = (e) => {
+        if (this.state.isLoading) {
+            this.setState({
+                isLoading: false,
+                beg: this.state.end,
+                end: this.state.end + this.state.limit
+            })
+            this.getUserAchievement()
         }
     }
     handelDel = (e) => {
@@ -134,82 +145,71 @@ class UserResource extends Component {
             okType: 'danger',
             cancelText: '考虑一下',
             onOk() {
-                UserAPI.delUserResource(params).then(res => {
+                UserAPI.delUserAchievement(params).then(res => {
                     if (res.success) {
                         message.success('删除成功')
-                        that.state.resource.splice(index, 1)
+                        that.state.ac.splice(index, 1)
                         that.setState({
-                            resource: that.state.resource
-                            
+                            ac: that.state.ac
+
                         })
                     }
                 })
             }
         });
     }
-    handelLoading = (e) => {
-        if (this.state.isLoading) {
-            this.setState({
-                isLoading: false,
-                beg: this.state.end,
-                end: this.state.end + this.state.limit
-            })
-            this.getUserResource()
-        }
-    }
+
+
     render() {
         return (
-            <div className='userResource'>
-                <div className='userResource-container'>
-
-                    <div className='userResource-container-header'>
-                        <div className='userResource-container-header-left'>
+            <div className='userAchievement'>
+                <div className='userAchievement-container'>
+                    <div className='userAchievement-container-header'>
+                        <div className='userAchievement-container-header-left'>
                             <Select defaultValue="全部资源" style={{ width: 120 }} onChange={this.handleChange} loading={this.state.loading}>
                                 <Option value="0">全部资源</Option>
                                 {
-                                    this.state.resourceType.map(item => {
+                                    this.state.acType.map(item => {
                                         return <Option key={item.id} value={item.id}>{item.name}</Option>
                                     })
                                 }
-
-
                             </Select>
                         </div>
-                        <div className='userResource-container-header-right'>
+                        <div className='userAchievement-container-header-right'>
                             <Search
-                                placeholder="搜索资源名称"
+                                placeholder="搜索成果名称"
                                 onSearch={value => { this.onSearch(value) }}
                                 style={{ width: 200 }}
                             />
                         </div>
                     </div>
 
-                    <div className='userResource-container-body'>
-                        <div className='userResource-container-body-top'>
-                            <p style={{ width: '50%' }}>资源名称</p>
-                            <p style={{ width: '20%' }}>资源类别</p>
+                    <div className='userAchievement-container-body'>
+                        <div className='userAchievement-container-body-top'>
+                            <p style={{ width: '50%' }}>成果名称</p>
+                            <p style={{ width: '20%' }}>成果类别</p>
                             <p style={{ width: '20%' }}>更新时间</p>
                         </div>
                         <Skeleton loading={this.state.loading} active >
                             {
-                                this.state.resource.length === 0 ?
+                                this.state.ac.length === 0 ?
                                     <p style={{ lineHeight: "50px", textAlign: 'center' }}>暂无数据</p>
                                     :
                                     <div>
                                         {
-                                            this.state.resource.map(((item, index) => {
+                                            this.state.ac.map(((item, index) => {
                                                 return <div key={item.id}>
-                                                    <div className='userResource-container-body-item' >
+                                                    <div className='userAchievement-container-body-item' >
                                                         <div style={{ width: '50%' }}  >
                                                             <span>{item.title}</span>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
-                                                            <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.ResourceType.name}</Tag>
+                                                            <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.AchievementType.name}</Tag>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
                                                             {item.updated_at}
                                                         </div>
-                                                        <div className='userResource-container-body-item-work' style={{ flex: 1 }}>
+                                                        <div className='userAchievement-container-body-item-work' style={{ flex: 1 }}>
                                                             <p index={item.id} >
                                                                 <Icon type="edit" />
                                                             </p>
@@ -226,10 +226,12 @@ class UserResource extends Component {
                             }
                         </Skeleton>
                     </div>
+
                 </div>
             </div>
+
         );
     }
 }
 
-export default UserResource;
+export default UserAchievement;

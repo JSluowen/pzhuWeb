@@ -92,7 +92,7 @@ class User extends Controller {
                             model: app.model.ResourceType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'userid', 'title'],
+                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
                     where: {
                         userid: id,
                     },
@@ -144,7 +144,7 @@ class User extends Controller {
                             model: app.model.ResourceType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'userid', 'title'],
+                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
                     where: {
                         userid: id,
                         title: {
@@ -165,6 +165,151 @@ class User extends Controller {
                     ctx.body = {
                         success: 1,
                         data: resource
+                    };
+                }
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
+    async delUserResource() {
+        const { ctx } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id } = ctx.request.body;
+                const table = 'Resource';
+                const resource = await ctx.service.mysql.findById(id, table);
+                await resource.destroy();
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1,
+                };
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
+    async getUserAchievement() {
+        const { ctx, app } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                let { id, index, beg, end } = ctx.request.body;
+                index = parseInt(index);
+                beg = parseInt(beg);
+                end = parseInt(end);
+                const table = 'AchievementType';
+                const table1 = 'Achievement';
+                const params = {
+                    include: [
+                        {
+                            model: app.model.AchievementType
+                        }
+                    ],
+                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
+                    where: {
+                        userid: id,
+                    },
+                    order: [['id', 'DESC']],
+                };
+                const acType = await ctx.service.mysql.findAll({}, table);
+                let ac = await ctx.service.mysql.findAll(params, table1);
+                ctx.status = 200;
+                if (index !== 0) ac = await ctx.service.fun.filterType(ac, index); // 过滤资源所对应的类别
+                if (parseInt(ac.length) > end) {
+                    ac = ac.slice(beg, end);
+                    ctx.body = {
+                        success: 1,
+                        data: {
+                            acType,
+                            ac
+                        }
+                    };
+                } else {
+                    ac = ac.slice(beg);
+                    ctx.body = {
+                        success: 0,
+                        data: {
+                            acType,
+                            ac
+                        }
+                    };
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 404;
+        }
+    }
+    async delUserAchievement() {
+        const { ctx } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id } = ctx.request.body;
+                const table = 'Achievement';
+                const resource = await ctx.service.mysql.findById(id, table);
+                await resource.destroy();
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1,
+                };
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
+    async searchUserAchievement() {
+        const { ctx, app } = this;
+        const { Op } = app.Sequelize;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id, value } = ctx.request.body;
+                const table = 'Achievement';
+                const params = {
+                    include: [
+                        {
+                            model: app.model.AchievementType
+                        }
+                    ],
+                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
+                    where: {
+                        userid: id,
+                        title: {
+                            [Op.like]: '%' + value + '%',
+                        },
+                    },
+                    order: [['id', 'DESC']],
+                };
+                const ac = await ctx.service.mysql.findAll(params, table);
+                if (ac.length === 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                        data: ac
+                    };
+                } else {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 1,
+                        data: ac
                     };
                 }
             }

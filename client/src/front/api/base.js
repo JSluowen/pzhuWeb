@@ -27,6 +27,10 @@ const base = {
     getUserInfo:'/user/getUserInfo',//获取用户个人信息
     getUserResource:'/user/getUserResource',//获取用户个人资源信息
     searchUserResource:'/user/searchUserResource',// 搜索用户个人资源信息
+    delUserResource:'/user/delUserResource',//删除用户资源
+    getUserAchievement:'/user/getUserAchievement',// 获取用户成果资源
+    delUserAchievement:'/user/delUserAchievement',// 删除用户的成果资源
+    searchUserAchievement:'/user/searchUserAchievement',// 搜索用户的成果信息
     //成员信息界面接口
     getMemberInfo:'/member/getMemberInfo',//获取成员展示界面的信息
     //获取资源列表接口
