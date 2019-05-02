@@ -30,6 +30,9 @@ module.exports = app => {
     router.post('/api/user/getUserAchievement', controller.user.getUserAchievement); // 获取个人主界面的资源
     router.post('/api/user/delUserAchievement', controller.user.delUserAchievement);// 删除用户成果资源.
     router.post('/api/user/searchUserAchievement', controller.user.searchUserAchievement);// 搜索用户个人成果
+    router.post('/api/user/getUserArticle', controller.user.getUserArticle);// 搜索用户个人成果
+    router.post('/api/user/delUserArticle', controller.user.delUserArticle);// 删除用户成果资源.
+    router.post('/api/user/searchUserArticle', controller.user.searchUserArticle);// 搜索用户个人文章
     // 成员展示界面的信息接口
     router.get('/api/member/getMemberInfo', controller.member.getMemberInfo); // 获取成员展示界面的信息
     // 资源分享界面的接口

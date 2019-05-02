@@ -318,6 +318,140 @@ class User extends Controller {
             console.log(err);
         }
     }
+    async getUserArticle() {
+        const { ctx, app } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                let { id, index, beg, end } = ctx.request.body;
+                index = parseInt(index);
+                beg = parseInt(beg);
+                end = parseInt(end);
+                const table = 'Menu';
+                const table1 = 'Article';
+                const params = {
+                    include: [
+                        {
+                            model: app.model.Menu
+                        },
+                        {
+                            model: app.model.Technology
+                        }
+                    ],
+                    attributes: ['id', 'technologyid', 'title', 'updated_at'],
+                    where: {
+                        userid: id,
+                    },
+                    order: [['id', 'DESC']],
+                };
+                const articleType = await ctx.service.mysql.findAll({}, table);
+                let article = await ctx.service.mysql.findAll(params, table1);
+                ctx.status = 200;
+                if (index !== 0) {
+                    article = article.filter(item => {
+                        return item.dataValues.Menu.id === parseInt(index);
+                    }); // 过滤资源所对应的类别
+                }
+                if (parseInt(article.length) > end) {
+                    article = article.slice(beg, end);
+                    ctx.body = {
+                        success: 1,
+                        data: {
+                            articleType,
+                            article
+                        }
+                    };
+                } else {
+                    article = article.slice(beg);
+                    ctx.body = {
+                        success: 0,
+                        data: {
+                            articleType,
+                            article
+                        }
+                    };
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 404;
+        }
+    }
+    async delUserArticle() {
+        const { ctx } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id } = ctx.request.body;
+                const table = 'Article';
+                const resource = await ctx.service.mysql.findById(id, table);
+                await resource.destroy();
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1,
+                };
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
+    async searchUserArticle() {
+        const { ctx, app } = this;
+        const { Op } = app.Sequelize;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id, value } = ctx.request.body;
+                const table = 'Article';
+                const params = {
+                    include: [
+                        {
+                            model: app.model.Menu
+                        },
+                        {
+                            model: app.model.Technology
+                        }
+                    ],
+                    attributes: ['id', 'technologyid', 'title', 'updated_at'],
+                    where: {
+                        userid: id,
+                        title: {
+                            [Op.like]: '%' + value + '%',
+                        },
+                    },
+                    order: [['id', 'DESC']],
+                };
+                const article = await ctx.service.mysql.findAll(params, table);
+                if (article.length === 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                        data: article
+                    };
+                } else {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 1,
+                        data: article
+                    };
+                }
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
+
 }
 
 module.exports = User;

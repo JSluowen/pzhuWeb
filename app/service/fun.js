@@ -38,8 +38,8 @@ class Fun extends Service {
             return item;
         });
     }
-    async filterType(resource, index) {
-        return resource.filter(item => {
+    async filterType(data, index) {
+        return data.filter(item => {
             return item.dataValues.typeid === parseInt(index);
         });
     }

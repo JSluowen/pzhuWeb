@@ -2,7 +2,7 @@
 module.exports = app => {
     const { INTEGER, STRING, DATE } = app.Sequelize;
     const Menu = app.model.define(
-        'menu',
+        'Menu',
         {
             id: {
                 type: INTEGER(10),

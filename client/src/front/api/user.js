@@ -64,7 +64,35 @@ const User = {
                 reject(err.data)
             })
         })
+    },
+    getUserArticle(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.getUserArticle}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    delUserArticle(params){
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.delUserArticle}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    searchUserArticle(params){
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.searchUserArticle}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
     }
+
 
 }
 

@@ -31,6 +31,9 @@ const base = {
     getUserAchievement:'/user/getUserAchievement',// 获取用户成果资源
     delUserAchievement:'/user/delUserAchievement',// 删除用户的成果资源
     searchUserAchievement:'/user/searchUserAchievement',// 搜索用户的成果信息
+    getUserArticle:'/user/getUserArticle',// 获取个人文章信息
+    delUserArticle:'/user/delUserArticle',// 删除用户的文章信息
+    searchUserArticle:'/user/searchUserArticle',// 搜索用户的文章信息
     //成员信息界面接口
     getMemberInfo:'/member/getMemberInfo',//获取成员展示界面的信息
     //获取资源列表接口
