@@ -33,7 +33,7 @@ class Resource extends Component {
         e = e.childNodes;
         e[1].classList.add('resourceActive')
         this.setState({
-            flag:false
+            flag: false
         })
     }
     //监听滚动条
@@ -84,7 +84,7 @@ class Resource extends Component {
                 loading: true,
                 beg: 0,
                 end: this.state.limit,
-                resource:[]
+                resource: []
             }, () => {
                 this.getResource();
             })
@@ -109,14 +109,6 @@ class Resource extends Component {
                         loading: false,
                         resource: res.data
                     })
-                    message.success('搜索成功')
-                }, 500)
-            } else {
-                setTimeout(() => {
-                    this.setState({
-                        loading: false
-                    })
-                    message.warning('未搜索到您想要的资源')
                 }, 500)
             }
         })
@@ -132,13 +124,14 @@ class Resource extends Component {
             for (let item of res.data.resource) {
                 arry.push(item)
             }
+            console.log(res.data)
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
                         resourceType: res.data.resourceType,
                         resource: arry,
                         loading: false,
-                        isLoading:true
+                        isLoading: true
                     })
                     if (this.state.flag) this.setResourceTyep()
                 }, 500)
@@ -188,38 +181,60 @@ class Resource extends Component {
                         <Skeleton loading={this.state.loading} active>
                             <Row style={{ width: '100%', margin: 0 }} gutter={16}>
                                 {
-                                    this.state.resource.map(item => {
-                                        return <Col span={12} key={item.id} >
-                                            <Card
-                                                className="resource-right-item"
-                                                hoverable={true}
-                                                actions={[<span><Icon type="like" />{" "}2</span>, <span><Icon type="message" />{" "}10</span>, <Icon type="star" />]}
-                                            >
-                                                <div className='resource-right-item-header'>
-                                                    <Avatar size={55} src={item.UserInfo.avatar} />
-                                                    <div className='resource-right-item-header-info'>
-                                                        <p style={{ fontWeight: '600', fontSize: '17px' }}>{item.UserInfo.User.name}</p>
-                                                        <p> <Icon type="calendar" />{" "}{item.created_at}</p>
-                                                    </div>
-                                                    <Button link={item.link} type='primary' ghost >点击获取</Button>
-                                                </div>
-                                                <div className='resource-right-item-body'>
-                                                    <p style={{ fontSize: '18px', fontWeight: '600' }}>{item.title}</p>
-                                                    <p>
-                                                        {
-                                                            item.description
-                                                        }
-                                                    </p>
-                                                    <div className='resource-right-item-body-cover'>
-                                                        <img src={item.posterlink} alt="" />
-                                                    </div>
-                                                </div>
+                                    this.state.resource.length === 0 ?
+                                        <div className='resource-right-null'>
+                                            暂无数据
+                                         </div>
+                                        :
+                                        <div>
+                                            {
+                                                this.state.resource.map(item => {
+                                                    return <Col span={12} key={item.id} >
+                                                        <Card
+                                                            className="resource-right-item"
+                                                            hoverable={true}
+                                                        // actions={[<span><Icon type="like" />{" "}2</span>, <span><Icon type="message" />{" "}10</span>, <Icon type="star" />]}
+                                                        >
+                                                            <div className='resource-right-item-header'>
+                                                                <Avatar size={55} src={item.UserInfo.avatar} />
+                                                                <div className='resource-right-item-header-info'>
+                                                                    <p style={{ fontWeight: '600', fontSize: '17px' }}>{item.UserInfo.User.name}</p>
+                                                                    <p> <Icon type="calendar" />{" "}{item.updated_at}</p>
+                                                                </div>
+                                                                <Button link={item.link} type='primary' ghost >
+                                                                    <a href={item.link}>点击获取</a>
+                                                                </Button>
+                                                            </div>
+                                                            <div className='resource-right-item-body'>
+                                                                <p style={{ fontSize: '18px', fontWeight: '600' }}>{item.title}</p>
+                                                                <p>
+                                                                    {
+                                                                        item.description
+                                                                    }
+                                                                </p>
+                                                                <div className='resource-right-item-body-cover'>
+                                                                    <img src={item.posterlink} alt="" />
+                                                                </div>
+                                                                <div className='resource-right-item-body-attachment'>
+                                                                    {
+                                                                        item.attachment === "" || item.attachment === null ?
+                                                                            ''
+                                                                            :
+                                                                            <p style={{ color: '#1890ff' }}>
+                                                                                <Icon type="paper-clip" />{' '}<a style={{ color: '#1890ff' }} href={item.attachment}>附件下载</a>
+                                                                            </p>
+                                                                    }
+                                                                </div>
+                                                            </div>
 
-                                            </Card>
-                                        </Col>
+                                                        </Card>
+                                                    </Col>
 
-                                    })
+                                                })
+                                            }
+                                        </div>
                                 }
+
                             </Row>
                         </Skeleton>
                     </Card>

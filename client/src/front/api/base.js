@@ -25,7 +25,6 @@ const base = {
     collectSearch:'/collect/collectsearch',//收藏夹搜索
     //用户个人界面接口
     getUserInfo:'/user/getUserInfo',//获取用户个人信息
-
     //成员信息界面接口
     getMemberInfo:'/member/getMemberInfo',//获取成员展示界面的信息
     //获取资源列表接口
@@ -34,5 +33,12 @@ const base = {
     //成果展示的接口
     getAchievement:'/achievement/getAchievement',// 获取成果
     searchAchievement:'/achievement/searchAchievement',// 搜索成果
+    //资源发布界面的接口
+    getResourceIssue:'/resourceIssue/getResourceIssue',// 获取资源发布的信息
+    uploadResource:'/resourceIssue/uploadResource',// 上传资源信息
+    uploadResourceCover:'/resourceIssue/uploadResourceCover',//上传资源封面图
+    delResourceCover:'/resourceIssue/delResourceCover',// 删除封面图片
+    uploadResourceAttachment:'/resourceIssue/uploadResourceAttachment',//上传资源附件
+    delAttachment:'/resourceIssue/delAttachment',// 删除附加
 }
 export default base;

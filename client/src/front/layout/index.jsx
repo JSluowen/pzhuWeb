@@ -75,7 +75,9 @@ export default class Layout extends Component {
 	render() {
 		const menu = (
 			<Menu onClick={this.handleMenuClick}>
-				<Menu.Item key="1">资源发布</Menu.Item>
+				<Menu.Item key="1">
+					<Link to='/resourceIssue'>资源分享</Link>
+				</Menu.Item>
 				<Menu.Item key="2">成果发布</Menu.Item>
 			</Menu>
 		);

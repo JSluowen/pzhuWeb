@@ -32,4 +32,11 @@ module.exports = app => {
     // 成果展示界面的接口
     router.post('/api/achievement/getAchievement', controller.achievement.getAchievement);// 获取成果展示界面的接口
     router.post('/api/achievement/searchAchievement', controller.achievement.searchAchievement);// 搜索成果资源
+    // 资源发布界面的接扣
+    router.post('/api/resourceIssue/getResourceIssue', controller.resourceIssue.getResourceIssue);// 获取资源发布界面的信息
+    router.post('/api/resourceIssue/uploadResource', controller.resourceIssue.uploadResource); // 上传发布资源
+    router.post('/api/resourceIssue/uploadResourceCover', controller.resourceIssue.uploadResourceCover);// 上传封面图片
+    router.post('/api/resourceIssue/delResourceCover', controller.resourceIssue.delResourceCover);// 删除资源封面图片
+    router.post('/api/resourceIssue/uploadResourceAttachment', controller.resourceIssue.uploadResourceAttachment);// 上传资源附件
+    router.post('/api/resourceIssue/delAttachment', controller.resourceIssue.delAttachment);// 删除附加
 };
