@@ -1,0 +1,105 @@
+body {
+    font-family: arial, helvetica;
+  }
+  
+  
+  #fp-nav ul li:hover a.active span,
+  #fp-nav ul li a.active span,
+  .fp-slidesNav ul li:hover a.active span,
+  .fp-slidesNav ul li a.active span {
+    background-color: chartreuse;
+  }
+  .headInfo{
+    display: flex;
+    vertical-align: baseline;
+    flex-direction: column;
+  }
+
+  .fullpage-nav{
+      height: 140px;
+      background: #fff;
+      vertical-align: center;
+      line-height: 140px;
+  }
+  .float{
+      float: right;
+      right: 30px;
+      align-content: center;
+  }
+  .fullpage-content{
+      width: 100vd;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+  }
+  .tempDiv{
+    height: 100vh;
+    width: 64%;
+    overflow: hidden;
+  }
+  .fullpage-content .img{ 
+      background-image: url('./banner1.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100vh;
+      align-content: center;
+      border: 1px solid #ffee22;
+      @keyframes scale{
+          0%{
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            opacity: .5;
+          }
+          50% {
+              -webkit-transform: scale(1.05);
+              transform: scale(1.05);
+              opacity: 1;
+          }
+          100% {
+              -webkit-transform: scale(1);
+              transform: scale(1);
+              opacity: .5;
+          }
+      }
+      animation: scale 5s linear 0s infinite;
+      animation-name: scale;
+      -webkit-animation-name:scale;
+      animation-duration: 5s;
+      -webkit-animation-duration:5s;
+      animation-timing-function:linear;
+      -webkit-animation-timing-function:linear;
+      animation-delay:0s;
+     -webkit-animation-delay:0s;
+      animation-iteration-count: infinite;
+      -webkit-animation-iteration-count:infinite;
+      animation-direction: normal;
+      -webkit-animation-direction:normal;
+      animation-fill-mode: none;
+      -webkit-animation-fill-mode:none;
+      animation-play-state: running;
+      -webkit-animation-play-state:running;
+  }
+
+  .fullpage-content .information{
+        width: 36%;
+        height: 100vh;
+        overflow: hidden;
+        scroll-behavior: unset;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+  }
+  .information p{ 
+      padding-left: 4vh; 
+      text-align: justify;
+      text-indent: 2em;
+      letter-spacing: 3px;
+      line-height: 1.5em;
+      width: 80%;
+  }
+
+  .section {
+    height: auto;
+  }
