@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
-import { Layout, Home, Login, Register, Article, Setting, Collect, User, Member, Achievement, Resource, ResourceIssue } from './pages'
+import { Layout, Home, Login, Register, Article, Setting, Collect, User, Member, Achievement, Resource, ResourceIssue,AchievementIssue } from './pages'
 
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
@@ -25,7 +25,8 @@ export default (
 			<Route path='achievement' component={Achievement} />
 			<Route path='resource' component={Resource} />
 			<Route path="setting" component={Setting} onEnter={requireAuth} />
-			<Route path='resourceIssue' component={ResourceIssue}onEnter={requireAuth}  />
+			<Route path='resourceIssue' component={ResourceIssue} onEnter={requireAuth}/>
+			<Route path='achievementIssue' component={AchievementIssue} onEnter={requireAuth}/>
 			<Route path='user' component={User} onEnter={requireAuth}>
 				<Route path='/user/collect' component={Collect} onEnter={requireAuth} />
 			</Route>

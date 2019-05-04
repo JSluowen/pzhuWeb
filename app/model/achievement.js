@@ -5,7 +5,8 @@ module.exports = app => {
         INTEGER,
         STRING,
         DATE,
-        BOOLEAN
+        BOOLEAN,
+        TEXT
     } = app.Sequelize;
     const Achievement = app.model.define('Achievement', {
         id: {
@@ -34,8 +35,8 @@ module.exports = app => {
         posterlink: {
             type: STRING(128)
         },
-        achivementlink: {
-            type: STRING(128)
+        achievementlink: {
+            type: TEXT
         },
         attachment: {
             type: STRING(128)

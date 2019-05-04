@@ -78,7 +78,9 @@ export default class Layout extends Component {
 				<Menu.Item key="1">
 					<Link to='/resourceIssue'>资源分享</Link>
 				</Menu.Item>
-				<Menu.Item key="2">成果发布</Menu.Item>
+				<Menu.Item key="2">
+					<Link to='/achievementIssue'>成果发布</Link>
+				</Menu.Item>
 			</Menu>
 		);
 
