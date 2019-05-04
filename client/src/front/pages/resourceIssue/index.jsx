@@ -102,7 +102,7 @@ class ResourceIssue extends Component {
     // 上传封面图
     uploadCover = (e) => {
         let file = e.target.files
-        const { size, type } = file[0];
+        const { size, type, name } = file[0];
         if (type !== "image/jpeg" && type !== 'image/png') {
             message.warning('请上传类型为 png 或 jpg 的图片 ')
             return;
@@ -111,13 +111,15 @@ class ResourceIssue extends Component {
             message.warning('请上传小于1M的图片');
             return;
         }
+        let arry = name.split('.')
+        let postfix = arry[arry.length-1]
         const that = this;
         this.setState({
             coverLoading: true
         })
         qiniuAPI.getToken().then(res => {
             let token = res.data;
-            let key = Cookies.getCookies('id') + Date.now();
+            let key = Cookies.getCookies('id') + Date.now()+`.${postfix}`;
             let config = {
                 useCdnDomain: true, //是否使用 cdn 加速域名
                 region: qiniu.region.z2 //选择上传域名 华南
