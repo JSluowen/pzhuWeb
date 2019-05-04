@@ -34,7 +34,7 @@ module.exports = app => {
         posterlink: {
             type: STRING(128)
         },
-        achivementlink: {
+        achievementlink: {
             type: STRING(128)
         },
         attachment: {

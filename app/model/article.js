@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = app => {
-    const { INTEGER, STRING, DATE, TEXT, TIME } = app.Sequelize;
+    const { INTEGER, STRING, DATE, TEXT } = app.Sequelize;
     const Article = app.model.define(
         'Article',
         {
@@ -42,9 +42,6 @@ module.exports = app => {
             },
             context: {
                 type: TEXT,
-            },
-            time: {
-                type: TIME,
             },
             readnumber: {
                 type: INTEGER(10),

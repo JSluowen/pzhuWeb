@@ -12,6 +12,10 @@ module.exports = app => {
         },
         created_at: DATE,
         updated_at: DATE,
+    },
+    {
+        underscored: true,
+        tableName: 'technology',
     });
     Technology.associate = function() {
         app.model.Technology.hasMany(app.model.Article, { foreignKey: 'technologyid', targetKey: 'id' });
