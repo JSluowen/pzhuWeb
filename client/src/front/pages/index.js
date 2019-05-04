@@ -5,6 +5,7 @@ export Layout from '../layout';
 export Home from './home';
 export Login from './login';
 export Register from './register';
+export ArticleEdit from './articleEdit'
 export Article from './article';
 export Setting from './setting';
 export Collect from './collect'

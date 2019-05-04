@@ -30,7 +30,6 @@ class UserArticle extends Component {
         let params = {
             index: this.state.index,
             id: Cookies.getCookies('id'),
-            value: this.state.searchValue,
             beg: this.state.beg,
             end: this.state.end
         }
@@ -39,7 +38,6 @@ class UserArticle extends Component {
             for (let item of res.data.article) {
                 arry.push(item)
             }
-            console.log(res.data)
             if (res.success) {
                 setTimeout(() => {
                     this.setState({

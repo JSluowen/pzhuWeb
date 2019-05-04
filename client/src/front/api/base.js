@@ -42,5 +42,7 @@ const base = {
     //成果展示的接口
     getAchievement:'/achievement/getAchievement',// 获取成果
     searchAchievement:'/achievement/searchAchievement',// 搜索成果
+    // 获取文章界面的接口
+    getArticle:'/article/getArticle',// 获取文章界面的接口
 }
 export default base;

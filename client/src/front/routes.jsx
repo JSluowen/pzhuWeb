@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
-import { Layout, Home, Login, Register, Article, Setting, Collect, User, Member, Achievement, Resource, UserResource, UserAchievement, UserArticle } from './pages'
+import { Layout, Home, Login, Register, Article, ArticleEdit, Setting, Collect, User, Member, Achievement, Resource, UserResource, UserAchievement, UserArticle } from './pages'
 
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
@@ -32,5 +32,6 @@ export default (
 				<Route path='/user/article' component={UserArticle} onEnter={requireAuth} />
 			</Route>
 		</Route>
+		<Route path='articleEdit' component={ArticleEdit} />
 	</Router>
 );
