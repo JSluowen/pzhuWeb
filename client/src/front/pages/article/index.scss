@@ -126,14 +126,12 @@
                         font-size: 18px;
                         margin-right: 5px;
                     }
-
                     .article-top {
+                        display: block;
                         width: 100%;
-                        height: 70px;
-
+                        color: gray;
                         &:hover {
                             cursor: pointer;
-
                             .article-title,
                             .article-summary {
                                 color: rgb(0, 133, 161);
@@ -148,9 +146,11 @@
 
                         .article-summary {
                             font-size: 17px;
-                            line-height: 1.8;
-                            min-height: 124px;
+                            line-height: 1.2;
                             color: #a3a3a3;
+                            &::after{
+                                content: '...'
+                            }
                         }
                     }
 

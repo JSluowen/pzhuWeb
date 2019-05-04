@@ -111,6 +111,11 @@ export default class Article extends Component {
 
 		}
 	}
+	// 点击访问页面
+	interview = (e) => {
+		let index = e.target.getAttribute('index');
+		console.log(index)
+	}
 	render() {
 		return (
 			<div className="article-container">
@@ -154,14 +159,15 @@ export default class Article extends Component {
 															<img src={item.postlink} alt="这是封面图" />
 														</div>
 														<div className="article-content">
-															<div className="article-top">
+															<Link to={`/articleInfo/${item.id}`} className="article-top" >
 																<div className="article-title">{item.title}</div>
 																<div className="article-summary">{item.abstract}</div>
-															</div>
+															</Link>
+
 															<div className="article-bottom">
 																<Tooltip placement="bottom" title={`阅读量${item.readnumber}`}>
 																	<div className="read-number">
-																		<Icon type="eye" />																	
+																		<Icon type="eye" />
 																	</div>
 																</Tooltip>
 																<Tooltip placement="bottom" title={'点击收藏'}>

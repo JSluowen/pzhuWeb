@@ -1,6 +1,6 @@
 import UserAchievement from "./userAchievement";
 import UserArticle from "./userArticle";
-
+import ArticleInfo from "./articleInfo";
 export Layout from '../layout';
 export Home from './home';
 export Login from './login';
@@ -16,3 +16,4 @@ export Resource from './resource'
 export UserResource from './userResource'
 export UserAchievement from './userAchievement'
 export UserArticle from './userArticle'
+export ArticleInfo from './articleInfo'
