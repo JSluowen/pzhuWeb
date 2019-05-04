@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Avatar, Input, BackTop, Modal, Icon, message } from 'antd';
+import { Avatar, Input, BackTop, Modal, Menu, Icon, Dropdown, message, Button } from 'antd';
 import Cookies from '../../http/cookies';
 import PersonApi from '../api/person';
 import './index.scss';
 
 const Search = Input.Search;
 const confirm = Modal.confirm;
-
+const ButtonGroup = Button.Group;
 export default class Layout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			status: false,
-			show: true,
-			name: '',
 			avatar: 'http://img.pzhuweb.cn/443625372.jpeg',
-			flag: true
+			flag: true,
 		};
 	}
 
@@ -42,7 +40,7 @@ export default class Layout extends Component {
 		if (sessionStorage.getItem('token')) {
 			this.getUserinfo();
 		}
-	}	
+	}
 	componentWillReceiveProps(props) {
 		if (props.location.pathname == '/index') {
 			if (sessionStorage.getItem('token')) {
@@ -50,12 +48,7 @@ export default class Layout extends Component {
 			}
 		}
 	}
-
-	handelShow = () => {
-		this.setState({
-			show: !this.state.show
-		});
-	};
+	//退出登录
 	handleExit = () => {
 		let _this = this;
 		confirm({
@@ -66,7 +59,6 @@ export default class Layout extends Component {
 			onOk() {
 				_this.setState({
 					status: !_this.state.status,
-					show: !_this.state.show
 				});
 				sessionStorage.removeItem('token');
 				_this.props.router.push('/login');
@@ -76,7 +68,19 @@ export default class Layout extends Component {
 			}
 		});
 	};
+	//文章，资源，成果选择
+	handleMenuClick = (value) => {
+
+	}
 	render() {
+		const menu = (
+			<Menu onClick={this.handleMenuClick}>
+				<Menu.Item key="1">资源发布</Menu.Item>
+				<Menu.Item key="2">成果发布</Menu.Item>
+			</Menu>
+		);
+
+
 		return (
 			<div className="container">
 				{/* 回到顶部 */}
@@ -88,14 +92,27 @@ export default class Layout extends Component {
 							Web应用专业团队
 						</a>
 						<div className="nav-bar-menu">
-							<div className="nav-bar-menu-item">技术交流</div>
+
 							<div className="nav-bar-menu-item">
 								<Link to="/article" activeClassName="active">
 									文章动态
 								</Link>
 							</div>
-							<div className="nav-bar-menu-item">成员展示</div>
-							<div className="nav-bar-menu-item">成果展示</div>
+							<div className="nav-bar-menu-item">
+								<Link to='/resource' activeClassName='active' >
+									资源分享
+								</Link>
+							</div>
+							<div className="nav-bar-menu-item">
+								<Link to='/achievement' activeClassName='active' >
+									成果展示
+								</Link>
+							</div>
+							<div className="nav-bar-menu-item">
+								<Link to='/member' activeClassName="active">
+									成员展示
+								</Link>
+							</div>
 						</div>
 					</div>
 					<div className="nav-bar-right">
@@ -107,101 +124,42 @@ export default class Layout extends Component {
 								width: 200
 							}}
 						/>
+
+
 						{this.state.status ? (
 							<div className="nav-bar-right-userinfo">
-								<Avatar
-									className="nav-bar-right-userinfo-avator"
-									size={35}
-									style={{
-										backgroundColor: '#87d068'
-									}}
-									icon="user"
-									src={this.state.avatar}
-								/>
-								<div className="nav-bar-right-userinfo-name" onClick={this.handelShow}>
-									{this.state.name}
-									<Icon type="caret-down" />
-								</div>
-								<div
-									className="nav-bar-right-userinfo-content"
-									style={this.state.show ? { display: 'none' } : { display: 'block' }}
-								>
-									<div className="nav-bar-right-userinfo-content-header">
-										<div className="nav-bar-right-userinfo-content-header-user">
-											<Avatar
-												size={43}
-												style={{
-													backgroundColor: '#87d068'
-												}}
-												icon="user"
-												src={this.state.avatar}
-											/>
-											<div className="nav-bar-right-userinfo-content-header-user-name">
-												{this.state.name}
-											</div>
-										</div>
-										<div className="nav-bar-right-userinfo-content-header-btn">
-											<Link to="/personinfo" onClick={()=>{this.setState({show:true})}} >
-												<Icon style={{ fontSize: '25px' }} size="large" type="setting" />
-											</Link>
-										</div>
-									</div>
-									<div className="nav-bar-right-userinfo-content-body">
-										<div className="nav-bar-right-userinfo-content-body-item">
-											<div className="nav-bar-right-userinfo-content-body-item-num">1</div>
-											<div className="nav-bar-right-userinfo-content-body-item-text">文章</div>
-										</div>
-										<div className="nav-bar-right-userinfo-content-body-item">
-											<div className="nav-bar-right-userinfo-content-body-item-num">1</div>
-											<div className="nav-bar-right-userinfo-content-body-item-text">资源</div>
-										</div>
-										<div className="nav-bar-right-userinfo-content-body-item">
-											<div className="nav-bar-right-userinfo-content-body-item-num">1</div>
-											<div className="nav-bar-right-userinfo-content-body-item-text">成果</div>
-										</div>
-									</div>
-									<div className="nav-bar-right-userinfo-content-footer">
-										<div className="nav-bar-right-userinfo-content-footer-item">
-											<Icon type="file-pdf" />
-											<span>文章发布</span>
-										</div>
-										<div className="nav-bar-right-userinfo-content-footer-item">
-											<Icon type="file-pdf" />
-											<span>成果发布</span>
-										</div>
-										<div className="nav-bar-right-userinfo-content-footer-item">
-											<Icon type="file-pdf" />
-											<span>资源分享</span>
-										</div>
-										<div className="nav-bar-right-userinfo-content-footer-item">
-											<Icon type="file-pdf" />
-											<span>个人收藏</span>
-										</div>
-										<div className="nav-bar-right-userinfo-content-footer-item">
-											<Icon type="file-pdf" />
-											<span>回收站</span>
-										</div>
-										<div
-											className="nav-bar-right-userinfo-content-footer-item"
-											onClick={this.handleExit}
-										>
-											<Icon type="file-pdf" />
-											<span>退出登录</span>
-										</div>
-									</div>
-								</div>
+								<ButtonGroup style={{ marginRight: '20px' }}>
+									<Button type='primary' ghost >文章发布</Button>
+									<Dropdown overlay={menu}>
+										<Button type='primary' ghost icon="down" >
+										</Button>
+									</Dropdown>
+
+								</ButtonGroup>
+								<Link to='user'>
+									<Avatar
+										className="nav-bar-right-userinfo-avator"
+										size={35}
+										style={{
+											backgroundColor: '#87d068',
+										}}
+										icon="user"
+										src={this.state.avatar}
+									/>
+								</Link>
+								<p onClick={this.handleExit}>注销</p>
 							</div>
 						) : (
-							<div className="nav-bar-right-user">
-								<div className="login">
-									<Link to="login">登录</Link>
-								</div>
-								/
+								<div className="nav-bar-right-user">
+									<div className="login">
+										<Link to="login">登录</Link>
+									</div>
+									/
 								<div className="register">
-									<Link to="register">注册</Link>
+										<Link to="register">注册</Link>
+									</div>
 								</div>
-							</div>
-						)}
+							)}
 					</div>
 				</div>
 				<div className="content">{this.props.children}</div>

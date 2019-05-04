@@ -7,8 +7,6 @@ import './override.scss';
 class TeamInfo extends React.Component {
 	render() {
     const { data,i} = this.props;
-    console.log(data);
-    console.log(i)
 		if (!!(i%2 === 0)) { 
 			return (
 				<div className="section">
@@ -63,7 +61,7 @@ const Fullpage = (props) => (
 			return (
 				<div>
 					{teamInfo.map((v, i) => {
-						return <TeamInfo data={v} i={i} />;
+						return <TeamInfo key={i} data={v} i={i} />;
 					})}
 				</div>
 			);

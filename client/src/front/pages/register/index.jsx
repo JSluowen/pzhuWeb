@@ -34,7 +34,7 @@ class Register extends Component {
 						if (res.success) {
 							message.success(`${res.message},1秒后自动跳转登录界面`);
 							setTimeout(() => {
-								hashHistory.push('/login');
+								this.props.router.push('/login');
 							}, 1000);
 						}
 					})

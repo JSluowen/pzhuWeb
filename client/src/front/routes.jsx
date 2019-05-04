@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
-import Layout from './layout/index';
-import Home from './pages/home';
-import Login from './pages/login';
-import Register from './pages/register';
-import Article from './pages/article';
-import PersonInfo from './pages/personInfo';
+import { Layout, Home, Login, Register, Article, Setting, Collect, User, Member, Achievement, Resource, UserResource, UserAchievement, UserArticle } from './pages'
 
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
@@ -26,7 +21,16 @@ export default (
 			<Route path="article" component={Article} />
 			<Route path="login" component={Login} />
 			<Route path="register" component={Register} />
-			<Route path="personinfo" component={PersonInfo} onEnter={requireAuth} />
+			<Route path='member' component={Member} />
+			<Route path='achievement' component={Achievement} />
+			<Route path='resource' component={Resource}></Route>
+			<Route path="setting" component={Setting} onEnter={requireAuth} />
+			<Route path='user' component={User} onEnter={requireAuth}>
+				<Route path='/user/collect' component={Collect} onEnter={requireAuth} />
+				<Route path='/user/resource' component={UserResource} onEnter={requireAuth} />
+				<Route path='/user/achievement' component={UserAchievement} onEnter={requireAuth} />
+				<Route path='/user/article' component={UserArticle} onEnter={requireAuth} />
+			</Route>
 		</Route>
 	</Router>
 );
