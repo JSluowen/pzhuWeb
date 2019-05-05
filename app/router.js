@@ -45,4 +45,18 @@ module.exports = app => {
     router.post('/api/article/getArticle', controller.article.getArticle);// 获取文章资源
     // 获取文章详情界面的接口
     router.post('/api/articleInfo/getArticleInfo', controller.articleInfo.getArticleInfo); // 获取文章详情界面资源
+    // 资源发布界面的接口
+    router.post('/api/resourceIssue/getResourceIssue', controller.resourceIssue.getResourceIssue);// 获取资源发布界面的信息
+    router.post('/api/resourceIssue/uploadResource', controller.resourceIssue.uploadResource); // 上传发布资源
+    router.post('/api/resourceIssue/uploadResourceCover', controller.resourceIssue.uploadResourceCover);// 上传封面图片
+    router.post('/api/resourceIssue/delResourceCover', controller.resourceIssue.delResourceCover);// 删除资源封面图片
+    router.post('/api/resourceIssue/uploadResourceAttachment', controller.resourceIssue.uploadResourceAttachment);// 上传资源附件
+    router.post('/api/resourceIssue/delAttachment', controller.resourceIssue.delAttachment);// 删除附加
+    // 成果资源发布接口
+    router.post('/api/achievementIssue/getAchievementIssue', controller.achievementIssue.getAchievementIssue);// 获取成果发布界面的信息
+    router.post('/api/achievementIssue/uploadAchievement', controller.achievementIssue.uploadAchievement); // 上传成果发布资源
+    router.post('/api/achievementIssue/uploadAchievementCover', controller.achievementIssue.uploadAchievementCover);// 上传成果封面图片
+    router.post('/api/achievementIssue/delAchievementCover', controller.achievementIssue.delAchievementCover);// 删除资源封面图片
+    router.post('/api/achievementIssue/uploadAchievementAttachment', controller.achievementIssue.uploadAchievementAttachment);// 上传资源附件
+    router.post('/api/achievementIssue/delAttachment', controller.achievementIssue.delAttachment);// 删除附加
 };

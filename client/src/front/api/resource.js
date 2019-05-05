@@ -19,7 +19,6 @@ const Resource ={
             }).catch(err=> {
                 reject(err.data)
             })
-
         }) 
     }
 }
