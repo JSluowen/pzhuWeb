@@ -32,15 +32,25 @@ const Person = {
             })
         })
     },
-    //查询用户的个人详情信息
-    selectSchoolMajor(){
-        return new Promise((resolve,reject)=>{
-            axios.get(`${base.selectSchoolMajor}`).then(res=>{
+    //获取初始信息：学院专业，研究方向
+    getInitMessage() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${base.getInitMessage}`).then(res => {
                 resolve(res.data)
-            }).catch(err=>{
+            }).catch(err => {
                 reject(err.data)
             })
         })
+    },
+    getInitInfo(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.getInitInfo}`,params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+
     }
 
 }

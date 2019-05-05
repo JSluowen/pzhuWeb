@@ -25,11 +25,12 @@
     "qiniu": "^7.2.1"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "egg-bin": "^4.9.0",
     "egg-mock": "^3.20.1",
     "egg-scripts": "^2.11.0",
     "eslint": "^5.10.0",
-    "eslint-config-egg": "^7.1.0",
+    "eslint-config-egg": "^7.3.1",
     "sequelize-cli": "^5.4.0"
   }
 }

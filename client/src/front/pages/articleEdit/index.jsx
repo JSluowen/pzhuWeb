@@ -3,7 +3,7 @@ import { Input, Button,Avatar, Upload, Menu, Icon, message, Dropdown } from 'ant
 
 import ArticleEdi from './ArticleEdi';
 
-import './article.scss';
+import './index.scss';
 
 import logo from '../../images/logo.3c28af6.png'
 
@@ -17,7 +17,7 @@ const tag = [
 	{ type: '面试经验', value: 123 }
 ];
 
-class index extends React.Component {
+class ArticleEdit extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -114,4 +114,4 @@ class index extends React.Component {
   } 
 }
 
-export default index;
+export default ArticleEdit;
