@@ -1,35 +1,121 @@
 import React, { Component } from 'react';
-import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel } from 'antd';
+import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel, Skeleton } from 'antd';
 import { Link } from 'react-router';
 import './index.scss';
 import cn from 'classnames';
+import ArticleAPI from '../../api/article';
 export default class Article extends Component {
-	state = {
-		active: false
-	};
-	// 点击收藏heart变红
-	handleHeart = (event) => {
-		event.preventDefault();
-		if (!this.state.active) {
-			this.setState(
-				{
-					active: true
-				},
-				() => {
-					message.success('收藏成功');
-				}
-			);
-		} else {
-			this.setState(
-				{
-					active: false
-				},
-				() => {
-					message.warning('取消收藏');
-				}
-			);
+	constructor(props) {
+		super(props)
+		this.state = {
+			active: false,
+			limit: 12,// 获取的数据量
+			beg: 0,//截取后台数据开始的位置
+			end: 12,//后台数据结束的位置
+			index: 0,//根据标签刷选资源
+			article: [],//文章资源
+			technology: [],// 技术标签
+			technologyStatus: true,
+			slideshow: [],// 轮播图
+			hotArticle: [],// 热门文章
+			loading: true,
+			isLoading: true,
 		}
-	};
+	}
+	componentDidMount() {
+		this.getArticle()
+		window.addEventListener('scroll', this.handelScroll)
+	}
+	// 获取文章界面信息
+	getArticle = () => {
+		let params = {
+			beg: this.state.beg,
+			end: this.state.end,
+			index: this.state.index
+		}
+		ArticleAPI.getArticle(params).then(res => {
+			if (this.state.technologyStatus) {
+				this.setState({
+					technology: res.data.technology,
+					slideshow: res.data.slideshow,
+					hotArticle: res.data.hotArticle,
+					technologyStatus: false
+				})
+			}
+			let arry = this.state.article
+			for (let item of res.data.article) {
+				arry.push(item)
+			}
+			if (res.success) {
+				setTimeout(() => {
+					this.setState({
+						article: arry,
+						loading: false,
+						isLoading: true,
+					})
+				}, 500)
+			} else {
+				setTimeout(() => {
+					this.setState({
+						article: arry,
+						loading: false,
+						isLoading: false
+					})
+				}, 500)
+			}
+		})
+	}
+	// 过滤文章类别
+	filterArticleType = (e) => {
+		let index = e.target.getAttribute('index');
+		let children = e.target.parentNode.children;
+		for (let i = 0; i < children.length; i++) {
+			children[i].classList.remove("articleActive");
+		}
+		e.target.classList.add('articleActive')
+		this.setState({
+			beg: 0,
+			end: this.state.limit,
+			index: index,
+			loading: true,
+			article: []
+		}, () => {
+			this.getArticle();
+		})
+
+	}
+
+	//监听滚动条
+	handelScroll = () => {
+		// 滚动的高度
+		const scrollTop = (event.srcElement ? event.srcElement.documentElement.scrollTop : false) || window.pageYOffset || (event.srcElement ? event.srcElement.body.scrollTop : 0);
+		// 视窗高度
+		const clientHeight = (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
+		// 页面高度
+		const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
+		// 距离页面底部的高度
+		const height = scrollHeight - scrollTop - clientHeight;
+		if (height <= 10) {
+			this.handelLoading()
+		}
+	}
+	handelLoading = () => {
+		if (this.state.isLoading) {
+			this.setState({
+				isLoading: false,
+				beg: this.state.end,
+				end: this.state.end + this.state.limit
+			}, () => {
+				this.getArticle()
+			})
+
+		}
+	}
+	// 点击访问页面
+	interview = (e) => {
+		let index = e.target.getAttribute('index');
+		console.log(index)
+	}
 	render() {
 		return (
 			<div className="article-container">
@@ -38,115 +124,77 @@ export default class Article extends Component {
 						<div className="article-left">
 							<div className="carousel">
 								<Carousel autoplay>
-									<div className="carousel-item">
-										<div
-											className="carousel-container"
-											style={{
-												backgroundImage:
-													'url(http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg)'
-											}}
-										>
-											<div className="shadow" />
-											<div className="title">
-												<Link to="">这是文章标题</Link>
+									{
+										this.state.slideshow.map(item => {
+											return <div className="carousel-item" key={item.id}>
+												<div
+													className="carousel-container"
+													style={{
+														backgroundImage:
+															`url(${item.postlink})`
+													}}
+												>
+													<div className="shadow" />
+													<div className="title">
+														<Link to="">{item.title}</Link>
+													</div>
+												</div>
 											</div>
-										</div>
-									</div>
-									<div className="carousel-item">
-										<div
-											className="carousel-container"
-											style={{
-												backgroundImage:
-													'url(http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg)'
-											}}
-										>
-											<div className="shadow" />
-											<div className="title">
-												<Link to="">这是文章标题</Link>
-											</div>
-										</div>
-									</div>
-									<div className="carousel-item">
-										<div
-											className="carousel-container"
-											style={{
-												backgroundImage: 'url(http://cdn.niuxingxing.com/1.jpg)'
-											}}
-										>
-											<div className="shadow" />
-											<div className="title">
-												<Link to="">这是文章标题</Link>
-											</div>
-										</div>
-									</div>
-									<div className="carousel-item">
-										<div
-											className="carousel-container"
-											style={{
-												backgroundImage: 'url(http://cdn.niuxingxing.com/1.jpg)'
-											}}
-										>
-											<div className="shadow" />
-											<div className="title">
-												<Link to="">这是文章标题</Link>
-											</div>
-										</div>
-									</div>
-								</Carousel>,
+
+										})
+									}
+								</Carousel>
 							</div>
 							{/* 文章列表 */}
-							<div className="article-item">
-								<div className="article-cover">
-									<img src="http://cdn.niuxingxing.com/144535sbpfgf7pfis6afhf.jpg" alt="这是封面图" />
-								</div>
-								<div className="article-content">
-									<div className="article-top">
-										<div className="article-title">我是新闻标题我是新闻标题我是新闻标题我是新闻标题</div>
-										<div className="article-summary">我是新闻摘要 我是新闻摘要 我是新闻摘要 我是新闻摘要 我是新闻摘要 我是新闻摘要</div>
-									</div>
-									<div className="article-bottom">
-										<Tooltip placement="bottom" title={'阅读量123'}>
-											<div className="read-number">
-												<Icon type="eye" />
-												123
-											</div>
-										</Tooltip>
-										<Tooltip placement="bottom" title={'点击收藏'}>
-											<div className="person-collect" onClick={this.handleHeart}>
-												<Icon
-													type="heart"
-													className={cn({ isHeart: this.state.active })}
-													theme="filled"
-												/>
-												2
-											</div>
-										</Tooltip>
-										<Tooltip placement="bottom" title={'访问作者'}>
-											<div className="autor">
-												<div className="avatar">
-													<img src="http://cdn.niuxingxing.com/avatar.jpg" alt="这是用户头像" />
-												</div>
-												<div className="name">我是作者</div>
-											</div>
-										</Tooltip>
-										<div className="date">
-											<Icon type="schedule" />
-											2019-2-27
+							<Skeleton loading={this.state.loading} active>
+								{
+									this.state.article.length === 0 ?
+										<div className='article-left-null'>暂无数据</div>
+										:
+										<div>
+											{
+												this.state.article.map(item => {
+													return <div className="article-item" key={item.id}>
+														<div className="article-cover">
+															<img src={item.postlink} alt="这是封面图" />
+														</div>
+														<div className="article-content">
+															<Link to={`/articleInfo/${item.id}`} className="article-top" >
+																<div className="article-title">{item.title}</div>
+																<div className="article-summary">{item.abstract}</div>
+															</Link>
+
+															<div className="article-bottom">
+																<Tooltip placement="bottom" title={`阅读量${item.readnumber}`}>
+																	<div className="read-number">
+																		<Icon type="eye" />
+																	</div>
+																</Tooltip>
+																<Tooltip placement="bottom" title={'点击收藏'}>
+																	<div className="person-collect" onClick={this.handleHeart}>
+																		<Icon type="star" />
+																	</div>
+																</Tooltip>
+																<div className="autor">
+																	<div className="avatar">
+																		<img src={item.UserInfo.avatar} alt="这是用户头像" />
+																	</div>
+																	<ul className="name">
+																		<li>{item.UserInfo.User.name}</li>
+																		<li>{item.updated_at}</li>
+																		<li>{item.Technology.name}</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+												})
+											}
+
 										</div>
-									</div>
-								</div>
-							</div>
-							{/* 分页按钮 */}
-							<div className="article-pagination">
-								<Button type="primary" ghost size="large">
-									<Icon type="arrow-left" />
-									更新文章
-								</Button>
-								<Button type="primary" ghost size="large">
-									更早文章
-									<Icon type="arrow-right" />
-								</Button>
-							</div>
+								}
+
+							</Skeleton>
 						</div>
 					</Col>
 					<Col span={6}>
@@ -154,12 +202,14 @@ export default class Article extends Component {
 							{/* 文章标签 */}
 
 							<div className="label">
-								<Divider orientation="left">推荐标签</Divider>
+								<Divider orientation="left">标签管理</Divider>
 								<div className="label-container">
-									<Button ghost>Default</Button>
-									<Button ghost>Default</Button>
-									<Button ghost>Default</Button>
-									<Button ghost>Default</Button>
+									<Button index='0' ghost className="articleActive" onClick={this.filterArticleType} >推荐</Button>
+									{
+										this.state.technology.map(item => {
+											return <Button onClick={this.filterArticleType} key={item.id} index={item.id} ghost>{item.name}</Button>
+										})
+									}
 								</div>
 							</div>
 
@@ -167,45 +217,17 @@ export default class Article extends Component {
 							<div className="hot">
 								<Divider orientation="left">热门文章</Divider>
 								<div className="article-hot">
-									<div className="article-item">
-										<div className="title">我是标题我是标题我是标题</div>
-										<div className="action">
-											<div className="read">
-												<Icon type="eye" />
-												&nbsp; 2
+									{
+										this.state.hotArticle.map(item => {
+											return <div className="article-item" key={item.id} index={item.id} >
+												<div className="title">{item.title}</div>
+												<div className="action">
+													<Icon type="eye" /> {item.readnumber}
+												</div>
 											</div>
-											<div className="comment">
-												<Icon type="message" />
-												&nbsp; 2
-											</div>
-										</div>
-									</div>
-									<div className="article-item">
-										<div className="title">我是标题我是标题我是标题</div>
-										<div className="action">
-											<div className="read">
-												<Icon type="eye" />
-												&nbsp; 2
-											</div>
-											<div className="comment">
-												<Icon type="message" />
-												&nbsp; 2
-											</div>
-										</div>
-									</div>
-									<div className="article-item">
-										<div className="title">我是标题我是标题我是标题</div>
-										<div className="action">
-											<div className="read">
-												<Icon type="eye" />
-												&nbsp; 2
-											</div>
-											<div className="comment">
-												<Icon type="message" />
-												&nbsp; 2
-											</div>
-										</div>
-									</div>
+
+										})
+									}
 								</div>
 							</div>
 						</div>

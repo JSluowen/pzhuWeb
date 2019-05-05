@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
 import { Form, Button, Input, Steps, Tooltip, Icon, Row, Col, AutoComplete, message } from 'antd';
 import RegisterApi from '../../api/register';
 import './index.scss';
@@ -35,7 +34,7 @@ class Register extends Component {
 						if (res.success) {
 							message.success(`${res.message},1秒后自动跳转登录界面`);
 							setTimeout(() => {
-								hashHistory.push('/login');
+								this.props.router.push('/login');
 							}, 1000);
 						}
 					})
@@ -76,7 +75,7 @@ class Register extends Component {
 		callback();
 	};
 	// 邮箱提示格式
-	handleWebsiteChange = (value) => {
+	handleEmailChange = (value) => {
 		let autoCompleteResult;
 		if (!value || value.indexOf('@') >= 0) {
 			autoCompleteResult = [];
@@ -143,8 +142,8 @@ class Register extends Component {
 		];
 		const { getFieldDecorator } = this.props.form;
 		// 邮箱自动补全
-		const websiteOptions = this.state.autoCompleteResult.map((website) => (
-			<AutoCompleteOption key={website}>{website}</AutoCompleteOption>
+		const EmailOptions = this.state.autoCompleteResult.map((Email) => (
+			<AutoCompleteOption key={Email}>{Email}</AutoCompleteOption>
 		));
 		return (
 			<div className="register-container">
@@ -233,8 +232,8 @@ class Register extends Component {
 											rules: [ { required: true, message: '请输入邮箱' } ]
 										})(
 											<AutoComplete
-												dataSource={websiteOptions}
-												onChange={this.handleWebsiteChange}
+												dataSource={EmailOptions}
+												onChange={this.handleEmailChange}
 												placeholder="请输入邮箱"
 											>
 												<Input />
@@ -243,6 +242,7 @@ class Register extends Component {
 									</Form.Item>
 									<Form.Item label="邮箱验证" extra="我们必须确保邮箱是你本人的且是正确的">
 										<Row gutter={8}>
+
 											<Col span={16}>
 												{getFieldDecorator('code', {
 													rules: [
@@ -259,6 +259,7 @@ class Register extends Component {
 													{this.state.sendEmail}
 												</Button>
 											</Col>
+											
 										</Row>
 									</Form.Item>
 
@@ -273,6 +274,7 @@ class Register extends Component {
 					</div>
 				</div>
 			</div>
+		
 		);
 	}
 }

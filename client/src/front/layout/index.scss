@@ -1,4 +1,18 @@
 .container {
+  a {
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      color: #1890ff;
+      cursor: pointer;
+    }
+  }
+
+  .active {
+    color: #1890ff;
+  }
+
   .nav-bar {
     position: fixed;
     top: 0;
@@ -11,8 +25,8 @@
     height: 70px;
     background: #222;
     color: #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,.5);
-    z-index: 9999;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+    z-index: 1000;
 
     &-left {
       display: flex;
@@ -44,18 +58,37 @@
       display: flex;
       align-items: center;
       line-height: 40px;
-
+      margin-right: 30px;
       &-search {
-        margin-right: 40px;
+        margin-right: 30px;
       }
 
-      &-user{
-        width:120px; 
+      &-userinfo {
+        display: flex;
+        align-items: center;
+        position: relative;
+        .ant-avatar{
+          &:hover{
+            cursor: pointer;
+          }
+        }
+        p{
+          color: red;
+          margin-left: 20px;
+          &:hover{
+            cursor: pointer;
+          }
+        }
+      }
+
+      &-user {
+        width: 120px;
         display: flex;
         justify-content: space-evenly;
-        a{
+        a {
           color: white;
-          &:hover{
+
+          &:hover {
             cursor: pointer;
             color: #40a9ff;
           }
@@ -64,7 +97,7 @@
 
     }
 
-   
+
 
 
   }
@@ -99,7 +132,7 @@
       min-width: 1000px;
       max-width: 1200px;
       margin: 0 auto;
-      
+
       .about-us {
         a {
           font-size: 16px;
@@ -111,7 +144,7 @@
 
       .link-wrap {
         padding: 32px 0;
-  
+
         a {
           display: inline-block;
           font-size: 14px;
@@ -133,5 +166,5 @@
         }
       }
     }
-  } 
+  }
 }

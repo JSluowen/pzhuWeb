@@ -1,6 +1,6 @@
 import base from './base';
 import axios from '../../http/axios';
-const register = {
+const Register = {
     // 上传邮箱验证码
     uploadCode(params) {
         return new Promise((resolve, reject) => {
@@ -22,4 +22,4 @@ const register = {
         })
     }
 }
-export default register
+export default Register

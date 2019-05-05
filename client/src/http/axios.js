@@ -1,6 +1,11 @@
 import axios from 'axios';
 import qs from 'qs';
-import { message } from 'antd';
+import {
+	message
+} from 'antd';
+import {
+	hashHistory
+} from 'react-router';
 message.config({
 	top: 100,
 	duration: 2,
@@ -18,8 +23,8 @@ axios.interceptors.request.use(
 		if (config.method == 'post') {
 			config.data = qs.stringify(config.data);
 		}
-		if (localStorage.token) {
-			config.headers.Authorization = localStorage.token;
+		if (sessionStorage.token) {
+			config.headers.Authorization = sessionStorage.token;
 		}
 		return config;
 	},
@@ -39,13 +44,17 @@ axios.interceptors.response.use(
 	(error) => {
 		if (error.response.status) {
 			switch (error.response.status) {
+				case 403:
+					message.error('登录过期，请重新登录');
+					sessionStorage.removeItem('token');
+					hashHistory.push('/login')
+					break;
 				case 404:
-					message.error(error.response.data.message);
+					message.error("资源不存在");
 					break;
 				default:
 					message.error('请求有误');
 			}
-			// return Promise.reject(error.response);
 		}
 	}
 );
