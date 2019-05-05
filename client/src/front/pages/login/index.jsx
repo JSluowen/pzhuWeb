@@ -104,8 +104,8 @@ class Login extends Component {
 		return (
 			
 			<div className="login-container">
-				<div className="login-img">
-					<img src="http://cdn.niuxingxing.com/3.jpg" alt="登录封面图" />
+				<div className="login-img" style={{backgroundImage:`url(http://cdn.niuxingxing.com/3.jpg)`}}>
+					
 				</div>
 				<div className="login-content">
 					<div className="login-form">

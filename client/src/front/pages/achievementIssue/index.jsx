@@ -91,9 +91,7 @@ class AchievementIssue extends Component {
     }
     // 上传资源
     handelIssue = () => {
-        if (this.state.achievementlink === '') {
-            message.warning('成果链接不能为空')
-        } else if (this.state.title === '') {
+        if (this.state.title === '') {
             message.warning('成果标题不能为空')
         } else if (this.state.type === '') {
             message.warning('请选择成果类别')
@@ -218,8 +216,8 @@ class AchievementIssue extends Component {
     uploadAttachment = (e) => {
         let file = e.target.files
         const { size, type, name } = file[0];
-        if (type !== 'application/x-zip-compressed' && type !== 'application/pdf' && type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-            message.warning('请上传文件后缀为 .docx, .zip, .pdf 的附件');
+        if (type !== 'application/pdf') {
+            message.warning('请上传文件后缀为.pdf 的附件');
             return;
         }
         if (size > (5 * 1024 * 1024)) {
@@ -393,7 +391,7 @@ class AchievementIssue extends Component {
                                                 <Icon type="upload" />添加附件
                                              </label>
                                     }
-                                    <input id='uploadFile' accept=".docx,.pdf,.zip" type="file" hidden onChange={this.uploadAttachment} />
+                                    <input id='uploadFile' accept=".pdf" type="file" hidden onChange={this.uploadAttachment} />
                                 </div>
                             </div>
 

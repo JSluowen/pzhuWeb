@@ -220,7 +220,9 @@ export default class Article extends Component {
 									{
 										this.state.hotArticle.map(item => {
 											return <div className="article-item" key={item.id} index={item.id} >
-												<div className="title">{item.title}</div>
+												<div className="title">
+													<Link style={{color:'gray'}} target='_blank'  to={`/articleInfo/${item.id}`}>{item.title}</Link>
+												</div>
 												<div className="action">
 													<Icon type="eye" /> {item.readnumber}
 												</div>
