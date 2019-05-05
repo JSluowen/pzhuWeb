@@ -10,7 +10,7 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id } = ctx.request.body;
+                const id = ctx.session.userid;
                 const table = 'UserInfo';
                 const table1 = 'Article';
                 const table2 = 'Favorite';
@@ -80,7 +80,8 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                let { id, index, beg, end } = ctx.request.body;
+                let { index, beg, end } = ctx.request.body;
+                const userid = ctx.session.userid;
                 index = parseInt(index);
                 beg = parseInt(beg);
                 end = parseInt(end);
@@ -94,7 +95,8 @@ class User extends Controller {
                     ],
                     attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
                     where: {
-                        userid: id,
+                        userid,
+                        status: 1
                     },
                     order: [['id', 'DESC']],
                 };
@@ -136,7 +138,8 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id, value } = ctx.request.body;
+                const { value } = ctx.request.body;
+                const id = ctx.session.userid;
                 const table = 'Resource';
                 const params = {
                     include: [
@@ -150,6 +153,7 @@ class User extends Controller {
                         title: {
                             [Op.like]: '%' + value + '%',
                         },
+                        status: 1
                     },
                     order: [['id', 'DESC']],
                 };
@@ -183,8 +187,22 @@ class User extends Controller {
             } else {
                 const { id } = ctx.request.body;
                 const table = 'Resource';
-                const resource = await ctx.service.mysql.findById(id, table);
-                await resource.destroy();
+                const userid = ctx.session.userid;
+                const params = {
+                    where: {
+                        id,
+                        userid
+                    }
+                };
+                const resource = await ctx.service.mysql.findAll(params, table);
+                if (resource.length === 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                    };
+                    return;
+                }
+                await resource[0].update({ status: 0 });
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,
@@ -195,6 +213,7 @@ class User extends Controller {
             console.log(err);
         }
     }
+
     async getUserAchievement() {
         const { ctx, app } = this;
         try {
@@ -203,7 +222,8 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                let { id, index, beg, end } = ctx.request.body;
+                let { index, beg, end } = ctx.request.body;
+                const id = ctx.session.userid;
                 index = parseInt(index);
                 beg = parseInt(beg);
                 end = parseInt(end);
@@ -218,6 +238,7 @@ class User extends Controller {
                     attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
                     where: {
                         userid: id,
+                        status: 1,
                     },
                     order: [['id', 'DESC']],
                 };
@@ -260,8 +281,22 @@ class User extends Controller {
             } else {
                 const { id } = ctx.request.body;
                 const table = 'Achievement';
-                const resource = await ctx.service.mysql.findById(id, table);
-                await resource.destroy();
+                const userid = ctx.session.userid;
+                const params = {
+                    where: {
+                        id,
+                        userid,
+                    }
+                };
+                const achievement = await ctx.service.mysql.findAll(params, table);
+                if (achievement.length === 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                    };
+                    return;
+                }
+                await achievement[0].update({ status: 0 });
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,
@@ -281,7 +316,8 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id, value } = ctx.request.body;
+                const { value } = ctx.request.body;
+                const userid = ctx.session.userid;
                 const table = 'Achievement';
                 const params = {
                     include: [
@@ -291,10 +327,11 @@ class User extends Controller {
                     ],
                     attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
                     where: {
-                        userid: id,
+                        userid,
                         title: {
                             [Op.like]: '%' + value + '%',
                         },
+                        status: 1
                     },
                     order: [['id', 'DESC']],
                 };
@@ -318,6 +355,7 @@ class User extends Controller {
             console.log(err);
         }
     }
+
     async getUserArticle() {
         const { ctx, app } = this;
         try {
@@ -326,10 +364,11 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                let { id, index, beg, end } = ctx.request.body;
+                let { index, beg, end } = ctx.request.body;
                 index = parseInt(index);
                 beg = parseInt(beg);
                 end = parseInt(end);
+                const id = ctx.session.userid;
                 const table = 'Menu';
                 const table1 = 'Article';
                 const params = {
@@ -344,6 +383,7 @@ class User extends Controller {
                     attributes: ['id', 'technologyid', 'title', 'updated_at'],
                     where: {
                         userid: id,
+                        status: 1
                     },
                     order: [['id', 'DESC']],
                 };
@@ -389,9 +429,23 @@ class User extends Controller {
                 ctx.status = 403;
             } else {
                 const { id } = ctx.request.body;
+                const userid = ctx.session.userid;
                 const table = 'Article';
-                const resource = await ctx.service.mysql.findById(id, table);
-                await resource.destroy();
+                const params = {
+                    where: {
+                        id,
+                        userid
+                    }
+                };
+                const article = await ctx.service.mysql.findAll(params, table);
+                if (article.length === 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                    };
+                    return;
+                }
+                await article[0].update({ status: 0 });
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,
@@ -411,7 +465,8 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id, value } = ctx.request.body;
+                const { value } = ctx.request.body;
+                const userid = ctx.session.userid;
                 const table = 'Article';
                 const params = {
                     include: [
@@ -424,10 +479,11 @@ class User extends Controller {
                     ],
                     attributes: ['id', 'technologyid', 'title', 'updated_at'],
                     where: {
-                        userid: id,
+                        userid,
                         title: {
                             [Op.like]: '%' + value + '%',
                         },
+                        status: 1
                     },
                     order: [['id', 'DESC']],
                 };
@@ -451,6 +507,7 @@ class User extends Controller {
             console.log(err);
         }
     }
+
     async getUserCollect() {
         const { ctx, app } = this;
         try {
@@ -459,7 +516,8 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                let { id, index, beg, end } = ctx.request.body;
+                let { index, beg, end } = ctx.request.body;
+                const userid = ctx.session.userid;
                 index = parseInt(index);
                 beg = parseInt(beg);
                 end = parseInt(end);
@@ -491,7 +549,7 @@ class User extends Controller {
                         },
                     ],
                     where: {
-                        userid: id,
+                        userid,
                     },
                     attributes: ['id'],
                     order: [['id', 'DESC']],
@@ -537,7 +595,8 @@ class User extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id, value } = ctx.request.body;
+                const { value } = ctx.request.body;
+                const userid = ctx.session.userid;
                 const table = 'Favorite';
                 const params = {
                     include: [
@@ -565,7 +624,7 @@ class User extends Controller {
                         },
                     ],
                     where: {
-                        userid: id
+                        userid,
                     },
                     order: [['id', 'DESC']],
                 };
@@ -602,8 +661,21 @@ class User extends Controller {
             } else {
                 const { id } = ctx.request.body;
                 const table = 'Favorite';
-                const collect = await ctx.service.mysql.findById(id, table);
-                await collect.destroy();
+                const userid = ctx.session.userid;
+                const params = {
+                    where: {
+                        id,
+                        userid
+                    }
+                };
+                const collect = await ctx.service.mysql.findAll(params, table);
+                if (collect.length === 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                    };
+                }
+                await collect[0].destroy();
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,

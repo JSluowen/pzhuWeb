@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
-import Cookies from '../../../http/cookies'
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
@@ -10,7 +9,7 @@ class UserResource extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            limit: 10,// 获取的数据量
+            limit: 10,// 获取的数据量0
             beg: 0,//截取后台数据开始的位置
             end: 10,//后台数据结束的位置
             loading: true,
@@ -29,7 +28,6 @@ class UserResource extends Component {
     getUserResource = () => {
         let params = {
             index: this.state.index,
-            id: Cookies.getCookies('id'),
             value: this.state.searchValue,
             beg: this.state.beg,
             end: this.state.end
@@ -72,7 +70,6 @@ class UserResource extends Component {
             loading: true
         })
         let params = {
-            id: Cookies.getCookies('id'),
             value: value,
         }
         UserAPI.searchUserResource(params).then(res => {
@@ -142,6 +139,8 @@ class UserResource extends Component {
                             resource: that.state.resource
                             
                         })
+                    }else{
+                        message.warning('删除失败')
                     }
                 })
             }

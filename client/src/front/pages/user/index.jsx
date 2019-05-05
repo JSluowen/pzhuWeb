@@ -18,9 +18,8 @@ class User extends Component {
     componentWillMount() {
         this.getUserInfo()
     }
-
     getUserInfo = () => {
-        UserAPI.getUserInfo({ id: Cookies.getCookies('id') }).then(res => {
+        UserAPI.getUserInfo({}).then(res => {
             if (res.success) {
                 this.setState({
                     userinfo: res.data,
@@ -61,9 +60,9 @@ class User extends Component {
                     </div>
                     <div className='user-left-body'>
                         <div className='user-left-body-navbar'>
-                            <div className='user-left-body-navbar-item'>
+                            {/* <div className='user-left-body-navbar-item'>
                                 <Link activeClassName='userActive'>动态</Link>
-                            </div>
+                            </div> */}
                             <div className='user-left-body-navbar-item'>
                                 <Link activeClassName='userActive' to='/user/article' >文章</Link>
                             </div>

@@ -16,14 +16,7 @@ class UserCollect extends Component {
             loading: true,
             index: 0,
             menu: [],
-            collect: [
-                // {
-                //     Technology: {},
-                //     UserInfo: {
-                //         User: {}
-                //     }
-                // }
-            ],
+            collect: [],
             color: ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"],
             isLoading: true //是否滚动监听
         };
@@ -36,12 +29,10 @@ class UserCollect extends Component {
     getUserCollect = () => {
         let params = {
             index: this.state.index,
-            id: Cookies.getCookies('id'),
             beg: this.state.beg,
             end: this.state.end
         }
         UserAPI.getUserCollect(params).then(res => {
-            console.log(res.data)
             let arry = this.state.collect
             for (let item of res.data.collect) {
                 arry.push(item)
@@ -106,39 +97,32 @@ class UserCollect extends Component {
             }, 500)
         })
     }
-    // // 监听滚动条
-    // handelScroll = (e) => {
-    //     // 滚动的高度
-    //     const scrollTop = (event.srcElement ? event.srcElement.documentElement.scrollTop : false) || window.pageYOffset || (event.srcElement ? event.srcElement.body.scrollTop : 0);
-    //     // 视窗高度
-    //     const clientHeight = (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
-    //     // 页面高度
-    //     const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
-    //     // 距离页面底部的高度
-    //     const height = scrollHeight - scrollTop - clientHeight;
-    //     if (height <= 50) {
-    //         this.handelLoading()
-    //     }
-    // }
-    // handelLoading = (e) => {
-    //     if (this.state.isLoading) {
-    //         this.setState({
-    //             isLoading: false,
-    //             beg: this.state.end,
-    //             end: this.state.end + this.state.limit
-    //         })
-    //         this.getUserArticle()
-    //     }
-    // }
+    // 监听滚动条
+    handelScroll = (e) => {
+        // 滚动的高度
+        const scrollTop = (event.srcElement ? event.srcElement.documentElement.scrollTop : false) || window.pageYOffset || (event.srcElement ? event.srcElement.body.scrollTop : 0);
+        // 视窗高度
+        const clientHeight = (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
+        // 页面高度
+        const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
+        // 距离页面底部的高度
+        const height = scrollHeight - scrollTop - clientHeight;
+        if (height <= 50) {
+            this.handelLoading()
+        }
+    }
+    handelLoading = (e) => {
+        if (this.state.isLoading) {
+            this.setState({
+                isLoading: false,
+                beg: this.state.end,
+                end: this.state.end + this.state.limit
+            })
+            this.getUserArticle()
+        }
+    }
     handelDel = (e) => {
         let event = e.target;
-        // if (e.target.tagName === 'svg') {
-        //     event = e.target.parentNode.parentNode
-        // } else if (e.target.tagName === 'path') {
-        //     event = e.target.parentNode.parentNode.parentNode
-        // } else {
-        //     event = e.target
-        // }
         let id = event.getAttribute('primary');
         let index = event.getAttribute('index')
         let params = {
@@ -159,6 +143,8 @@ class UserCollect extends Component {
                         that.setState({
                             collect: that.state.collect
                         })
+                    }else{
+                        message.warning('取消收藏失败')
                     }
                 })
             }

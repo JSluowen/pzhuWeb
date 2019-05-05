@@ -17,11 +17,6 @@ module.exports = app => {
     router.post('/api/person/uploaduserinfo', controller.person.uploadUserInfo); // 上传用户编辑信息
     router.get('/api/person/getInitMessage', controller.person.getInitMessage); // 获取初始信息：学院专业，研究方向
     router.post('/api/person/getInitInfo', controller.person.getInitInfo); // 获取用户个人信息
-    // 用户个人收藏接口
-    router.get('/api/collect/getmenulabel', controller.collect.getMenuLabel); // 获取技术标签接口
-    router.post('/api/collect/getcollectlist', controller.collect.getCollectList); // 获取收藏列表
-    router.post('/api/collect/cancelcollect', controller.collect.cancelCollect); // 取消收藏
-    router.post('/api/collect/collectsearch', controller.collect.collectSearch); // 收藏夹搜索
     // 用户个人主页接口
     router.post('/api/user/getUserInfo', controller.user.getUserInfo); // 获取个人主页信息
     router.post('/api/user/getUserResource', controller.user.getUserResource); // 获取个人主界面的资源

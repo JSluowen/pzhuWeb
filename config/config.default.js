@@ -48,7 +48,7 @@ module.exports = appInfo => {
     // 配置session
     config.session = {
         key: 'SESSION_ID', // key名字
-        maxAge: 1000 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true,
         encrypt: true, // 加密
         renew: true // 最大时间范围内，刷新，自动增加最大时间

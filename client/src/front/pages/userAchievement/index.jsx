@@ -30,7 +30,6 @@ class UserAchievement extends Component {
 
         let params = {
             index: this.state.index,
-            id: Cookies.getCookies('id'),
             value: this.state.searchValue,
             beg: this.state.beg,
             end: this.state.end
@@ -73,7 +72,6 @@ class UserAchievement extends Component {
             loading: true
         })
         let params = {
-            id: Cookies.getCookies('id'),
             value: value,
         }
         UserAPI.searchUserAchievement(params).then(res => {
@@ -153,6 +151,8 @@ class UserAchievement extends Component {
                             ac: that.state.ac
 
                         })
+                    }else{
+                        message.warning('删除失败')
                     }
                 })
             }

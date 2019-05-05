@@ -28,9 +28,6 @@ class Login extends Component {
 		form.setFieldsValue({ id: id });
 		form.setFieldsValue({ password: password });
 	}
-	componentWillUnmount() {
-		sessionStorage.removeItem('time');
-	}
 	// 判断用户信息Cookies的存储
 	handleUser = (e) => {
 		if (e.target.type == 'password') {
