@@ -34,6 +34,9 @@ const base = {
     getUserArticle:'/user/getUserArticle',// 获取个人文章信息
     delUserArticle:'/user/delUserArticle',// 删除用户的文章信息
     searchUserArticle:'/user/searchUserArticle',// 搜索用户的文章信息
+    getUserCollect:'/user/getUserCollect',//获取用户个人收藏信息
+    searchUserCollect:'/user/searchUserCollect',// 搜索收藏信息列表
+    delUserCollect:'/user/delUserCollect',// 取消收藏
     //成员信息界面接口
     getMemberInfo: '/member/getMemberInfo',//获取成员展示界面的信息
     //获取资源列表接口

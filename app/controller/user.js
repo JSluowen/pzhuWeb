@@ -451,6 +451,169 @@ class User extends Controller {
             console.log(err);
         }
     }
+    async getUserCollect() {
+        const { ctx, app } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                let { id, index, beg, end } = ctx.request.body;
+                index = parseInt(index);
+                beg = parseInt(beg);
+                end = parseInt(end);
+                const table = 'Menu';
+                const table1 = 'Favorite';
+                const params = {
+                    include: [
+                        {
+                            model: app.model.Article,
+                            attributes: ['title'],
+                            include: [
+                                {
+                                    model: app.model.UserInfo,
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: app.model.User,
+                                            attributes: ['name']
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: app.model.Menu,
+                                },
+                                {
+                                    model: app.model.Technology,
+                                },
+                            ],
+                        },
+                    ],
+                    where: {
+                        userid: id,
+                    },
+                    attributes: ['id'],
+                    order: [['id', 'DESC']],
+                };
+                const menu = await ctx.service.mysql.findAll({}, table);
+                let collect = await ctx.service.mysql.findAll(params, table1);
+                ctx.status = 200;
+                if (index !== 0) {
+                    collect = collect.filter(item => {
+                        return item.dataValues.Article.Menu.id === parseInt(index);
+                    }); // 过滤资源所对应的类别
+                }
+                if (parseInt(collect.length) > end) {
+                    collect = collect.slice(beg, end);
+                    ctx.body = {
+                        success: 1,
+                        data: {
+                            menu,
+                            collect
+                        }
+                    };
+                } else {
+                    collect = collect.slice(beg);
+                    ctx.body = {
+                        success: 0,
+                        data: {
+                            menu,
+                            collect
+                        }
+                    };
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 404;
+        }
+    }
+    async searchUserCollect() {
+        const { ctx, app } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id, value } = ctx.request.body;
+                const table = 'Favorite';
+                const params = {
+                    include: [
+                        {
+                            model: app.model.Article,
+                            attributes: ['title'],
+                            include: [
+                                {
+                                    model: app.model.UserInfo,
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: app.model.User,
+                                            attributes: ['name']
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: app.model.Menu,
+                                },
+                                {
+                                    model: app.model.Technology,
+                                },
+                            ],
+                        },
+                    ],
+                    where: {
+                        userid: id
+                    },
+                    order: [['id', 'DESC']],
+                };
+                let collect = await ctx.service.mysql.findAll(params, table);
+                collect = collect.filter(item => {
+                    return item.dataValues.Article.title.indexOf(value) > -1;
+                });
+                if (collect.length === 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                        data: collect
+                    };
+                } else {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 1,
+                        data: collect
+                    };
+                }
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
+    async delUserCollect() {
+        const { ctx } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id } = ctx.request.body;
+                const table = 'Favorite';
+                const collect = await ctx.service.mysql.findById(id, table);
+                await collect.destroy();
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1,
+                };
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
 
 }
 

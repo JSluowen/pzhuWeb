@@ -86,7 +86,7 @@ export default class Article extends Component {
 	}
 
 	//监听滚动条
-	handelScroll = (e) => {
+	handelScroll = () => {
 		// 滚动的高度
 		const scrollTop = (event.srcElement ? event.srcElement.documentElement.scrollTop : false) || window.pageYOffset || (event.srcElement ? event.srcElement.body.scrollTop : 0);
 		// 视窗高度

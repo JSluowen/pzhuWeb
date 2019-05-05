@@ -33,6 +33,9 @@ module.exports = app => {
     router.post('/api/user/getUserArticle', controller.user.getUserArticle);// 搜索用户个人成果
     router.post('/api/user/delUserArticle', controller.user.delUserArticle);// 删除用户成果资源.
     router.post('/api/user/searchUserArticle', controller.user.searchUserArticle);// 搜索用户个人文章
+    router.post('/api/user/getUserCollect', controller.user.getUserCollect);// 获取用户个人收藏信息
+    router.post('/api/user/searchUserCollect', controller.user.searchUserCollect);// 搜索用户个人收藏信息
+    router.post('/api/user/delUserCollect', controller.user.delUserCollect);// 取消收藏用户的个人收藏.
     // 成员展示界面的信息接口
     router.get('/api/member/getMemberInfo', controller.member.getMemberInfo); // 获取成员展示界面的信息
     // 资源分享界面的接口

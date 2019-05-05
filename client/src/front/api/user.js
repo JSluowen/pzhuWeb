@@ -91,7 +91,35 @@ const User = {
                 reject(err.data)
             })
         })
+    },
+    getUserCollect(params){
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.getUserCollect}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        }) 
+    },
+    searchUserCollect(params){
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.searchUserCollect}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    delUserCollect(params){
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.delUserCollect}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
     }
+
 
 
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Avatar, message, Skeleton } from 'antd';
 import './index.scss';
-import {Link,hashHistory} from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import articleInfoAPI from '../../api/articleInfo'
 class ArticleInfo extends Component {
     constructor(props) {
@@ -9,23 +9,25 @@ class ArticleInfo extends Component {
         this.state = {
             id: '',
             article: {
-                Menu:{},
-                Technology:{},
-                UserInfo:{
-                    User:{}
+                Menu: {},
+                Technology: {},
+                UserInfo: {
+                    User: {}
                 },
             },
             recommend: [],
-            loading: false,
+            loading: true,
             keywords: [],
         }
     }
     componentDidMount() {
+        window.scroll(0,0);
         this.setState({
             id: this.props.params.id
         }, () => {
             this.getArticleInfo();
         })
+
     }
     getArticleInfo = () => {
         let params = {
@@ -87,7 +89,7 @@ class ArticleInfo extends Component {
                                 {
                                     this.state.recommend.map(item => {
                                         return <div key={item.id} className='articleInfo-body-recommend-body-item'>
-                                            <a onClick={()=>{this.props.router.push(`/articleInfo/${item.id}`)}}  style={{ backgroundImage: `url(${item.postlink})` }}>
+                                            <a onClick={() => { this.props.router.push(`/articleInfo/${item.id}`) }} style={{ backgroundImage: `url(${item.postlink})` }}>
                                                 <span>{item.title}</span>
                                             </a>
                                         </div>
