@@ -1,59 +1,102 @@
 import React, { Component } from 'react';
-import { Button, Avatar } from 'antd';
+import { Button, Avatar, message, Skeleton } from 'antd';
 import './index.scss';
+import {Link,hashHistory} from 'react-router';
+import articleInfoAPI from '../../api/articleInfo'
 class ArticleInfo extends Component {
     constructor(props) {
         super(props)
-        this.state={
+        this.state = {
+            id: '',
+            article: {
+                Menu:{},
+                Technology:{},
+                UserInfo:{
+                    User:{}
+                },
+            },
+            recommend: [],
+            loading: false,
+            keywords: [],
         }
     }
-    componentDidMount(){
+    componentDidMount() {
+        this.setState({
+            id: this.props.params.id
+        }, () => {
+            this.getArticleInfo();
+        })
+    }
+    getArticleInfo = () => {
+        let params = {
+            id: this.state.id
+        }
+        articleInfoAPI.getArticleInfo(params).then(res => {
+            if (res.success) {
+                setTimeout(() => {
+                    this.setState({
+                        article: res.data.article[0],
+                        recommend: res.data.recommend,
+                        keywords: res.data.article[0].keywords.split(','),
+                        loading: false,
+                    })
+                }, 500);
+            } else {
+                message.warning('请求的资源不存在');
+                this.props.router.push('/article');
+            }
+        })
     }
     render() {
         return (
             <div className='articleInfo'>
-                <div className='articleInfo-header' >
-                    <div className='articleInfo-header-info'>
-                        <div className='articleInfo-header-info-label'>
-                            <Button ghost>前端</Button>
-                            <Button ghost>JavaScript</Button>
-                        </div>
-                        <div className='articleInfo-header-info-title'>
-                            见微知著，Google Photos Web UI 完善之旅</div>
-                        <div className='articleInfo-header-info-user'>
-                            <Avatar style={{ marginRight: '5px' }} size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                            <p>
-                                张三
-                            </p>
-                            <p>
-                                2019-5-4
-                            </p>
-                        </div>
-                    </div>
-                    <div className='articleInfo-header-shadow'></div>
-                    <div className='articleInfo-header-bgImg' style={{ backgroundImage: 'url("http://cdn.niuxingxing.com/2.jpg")' }}></div>
-                </div>
-                <div className='articleInfo-body'>
-                    <div className='articleInfo-body-content'></div>
-                    <div className='articleInfo-body-recommend'>
-                        <p>推荐阅读</p>
-                        <div className='articleInfo-body-recommend-body'>
-                            <div className='articleInfo-body-recommend-body-item'>
-                                <a href="#" style={{ backgroundImage: 'url("http://cdn.niuxingxing.com/2.jpg")' }}>
-                                    <span>我是标题我是标题我是标题</span>
-                                </a>
+                <Skeleton loading={this.state.loading} active>
+                    <div className='articleInfo-header' >
+                        <div className='articleInfo-header-info'>
+                            <div className='articleInfo-header-info-label'>
+                                <Button ghost>{this.state.article.Menu.name}</Button>
+                                <Button ghost>{this.state.article.Technology.name}</Button>
+                                {
+                                    this.state.keywords.map((item, index) => {
+                                        return <Button ghost key={index}>{item}</Button>
+                                    })
+                                }
                             </div>
-                            <div className='articleInfo-body-recommend-body-item'>
-                                <a href="#" style={{ backgroundImage: 'url("http://cdn.niuxingxing.com/2.jpg")' }}>
-                                    <span>我是标题</span>
-                                </a></div>
-                            <div className='articleInfo-body-recommend-body-item'>
-                                <a href="#" style={{ backgroundImage: 'url("http://cdn.niuxingxing.com/2.jpg")' }}>
-                                    <span>我是标题</span>
-                                </a></div>
+                            <div className='articleInfo-header-info-title'>
+                                {this.state.article.title}</div>
+                            <div className='articleInfo-header-info-user'>
+                                <Avatar style={{ marginRight: '5px' }} size="large" src={this.state.article.UserInfo.avatar} />
+                                <p>
+                                    {this.state.article.UserInfo.User.name}
+                                </p>
+                                <p>
+                                    {this.state.article.updated_at}
+                                </p>
+                            </div>
+                        </div>
+                        <div className='articleInfo-header-shadow'></div>
+                        <div className='articleInfo-header-bgImg' style={{ backgroundImage: `url(${this.state.article.postlink})` }}></div>
+                    </div>
+                    <div className='articleInfo-body'>
+                        <div className='articleInfo-body-content'>
+                            {this.state.article.context}
+                        </div>
+                        <div className='articleInfo-body-recommend'>
+                            <p>推荐阅读</p>
+                            <div className='articleInfo-body-recommend-body'>
+                                {
+                                    this.state.recommend.map(item => {
+                                        return <div key={item.id} className='articleInfo-body-recommend-body-item'>
+                                            <a onClick={()=>{this.props.router.push(`/articleInfo/${item.id}`)}}  style={{ backgroundImage: `url(${item.postlink})` }}>
+                                                <span>{item.title}</span>
+                                            </a>
+                                        </div>
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Skeleton>
             </div>
         );
     }
