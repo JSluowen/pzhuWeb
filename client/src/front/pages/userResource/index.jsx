@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
+import { Link } from 'react-router';
 import './index.scss'
 import UserAPI from '../../api/user'
 const Option = Select.Option;
@@ -137,9 +138,9 @@ class UserResource extends Component {
                         that.state.resource.splice(index, 1)
                         that.setState({
                             resource: that.state.resource
-                            
+
                         })
-                    }else{
+                    } else {
                         message.warning('删除失败')
                     }
                 })
@@ -209,9 +210,9 @@ class UserResource extends Component {
                                                             {item.updated_at}
                                                         </div>
                                                         <div className='userResource-container-body-item-work' style={{ flex: 1 }}>
-                                                            <p index={item.id} >
+                                                            <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/resourceIssue/${item.id}`}>
                                                                 <Icon type="edit" />
-                                                            </p>
+                                                            </Link>
                                                             <p primary={item.id} index={index} onClick={this.handelDel} >
                                                                 <Icon type="delete" />
                                                             </p>

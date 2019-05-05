@@ -49,12 +49,12 @@ module.exports = app => {
     router.post('/api/resourceIssue/uploadResourceCover', controller.resourceIssue.uploadResourceCover);// 上传封面图片
     router.post('/api/resourceIssue/delResourceCover', controller.resourceIssue.delResourceCover);// 删除资源封面图片
     router.post('/api/resourceIssue/uploadResourceAttachment', controller.resourceIssue.uploadResourceAttachment);// 上传资源附件
-    router.post('/api/resourceIssue/delAttachment', controller.resourceIssue.delAttachment);// 删除附加
+    router.post('/api/resourceIssue/delResourceAttachment', controller.resourceIssue.delResourceAttachment);// 删除附加
     // 成果资源发布接口
     router.post('/api/achievementIssue/getAchievementIssue', controller.achievementIssue.getAchievementIssue);// 获取成果发布界面的信息
     router.post('/api/achievementIssue/uploadAchievement', controller.achievementIssue.uploadAchievement); // 上传成果发布资源
     router.post('/api/achievementIssue/uploadAchievementCover', controller.achievementIssue.uploadAchievementCover);// 上传成果封面图片
     router.post('/api/achievementIssue/delAchievementCover', controller.achievementIssue.delAchievementCover);// 删除资源封面图片
     router.post('/api/achievementIssue/uploadAchievementAttachment', controller.achievementIssue.uploadAchievementAttachment);// 上传资源附件
-    router.post('/api/achievementIssue/delAttachment', controller.achievementIssue.delAttachment);// 删除附加
+    router.post('/api/achievementIssue/delAchievementAttachment', controller.achievementIssue.delAchievementAttachment);// 删除附加
 };

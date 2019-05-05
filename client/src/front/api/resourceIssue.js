@@ -51,9 +51,9 @@ const ResourceIssue = {
 
         })
     },
-    delAttachment(params) {
+    delResourceAttachment(params) {
         return new Promise((resolve, reject) => {
-            axios.post(`${base.delAttachment}`, params).then(res => {
+            axios.post(`${base.delResourceAttachment}`, params).then(res => {
                 resolve(res.data)
             }).catch(err => {
                 reject(err.data)

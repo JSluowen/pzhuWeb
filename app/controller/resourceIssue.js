@@ -12,6 +12,7 @@ class ResourceIssue extends Controller {
                 ctx.status = 403;
             } else {
                 const { id } = ctx.request.body;
+                const userid = ctx.session.userid;
                 const table = 'ResourceType';
                 const table1 = 'Resource';
                 const params = {
@@ -21,12 +22,23 @@ class ResourceIssue extends Controller {
                         }
                     ],
                     where: {
-                        userid: id,
+                        userid,
                         status: 2
                     }
                 };
+                const params1 = {
+                    where: {
+                        id,
+                        userid
+                    }
+                };
                 const resourceType = await ctx.service.mysql.findAll({}, table);
-                const resource = await ctx.service.mysql.findAll(params, table1);
+                let resource;
+                if (id === '') {
+                    resource = await ctx.service.mysql.findAll(params, table1);
+                } else {
+                    resource = await ctx.service.mysql.findAll(params1, table1);
+                }
                 if (resource.length === 0) {
                     ctx.status = 200;
                     ctx.body = {
@@ -43,7 +55,6 @@ class ResourceIssue extends Controller {
                         }
                     };
                 }
-
             }
         } catch (err) {
             ctx.status = 404;
@@ -185,7 +196,7 @@ class ResourceIssue extends Controller {
             ctx.status = 404;
         }
     }
-    async delAttachment() {
+    async delResourceAttachment() {
         const { ctx } = this;
         try {
             const token = ctx.header.authorization;

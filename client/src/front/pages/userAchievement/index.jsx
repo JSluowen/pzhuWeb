@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
-import Cookies from '../../../http/cookies'
+import {Link} from 'react-router';
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
@@ -62,8 +62,8 @@ class UserAchievement extends Component {
 
         })
     }
-     //搜索资源
-     onSearch = (value) => {
+    //搜索资源
+    onSearch = (value) => {
         if (value === '') {
             message.warning('请输入成果名称');
             return;
@@ -151,7 +151,7 @@ class UserAchievement extends Component {
                             ac: that.state.ac
 
                         })
-                    }else{
+                    } else {
                         message.warning('删除失败')
                     }
                 })
@@ -210,9 +210,9 @@ class UserAchievement extends Component {
                                                             {item.updated_at}
                                                         </div>
                                                         <div className='userAchievement-container-body-item-work' style={{ flex: 1 }}>
-                                                            <p index={item.id} >
+                                                            <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/achievementIssue/${item.id}`}>
                                                                 <Icon type="edit" />
-                                                            </p>
+                                                            </Link>                                        
                                                             <p primary={item.id} index={index} onClick={this.handelDel} >
                                                                 <Icon type="delete" />
                                                             </p>

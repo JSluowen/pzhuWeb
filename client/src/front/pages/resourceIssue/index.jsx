@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, message, Spin, Progress } from 'antd';
+import { Input, Button, Icon, message, Spin, Progress, Form } from 'antd';
 import './index.scss';
 import Cookies from '../../../http/cookies';
 import ResourceIssueAPI from '../../api/resourceIssue';
@@ -16,6 +16,7 @@ class ResourceIssue extends Component {
             descripttion: '',
             type: '',
             status: 1,// 默认1数据添加状态，2数据更新状态,
+            resource: {},
             resourceType: [],
             loading: false,
             progress: 0,
@@ -27,14 +28,19 @@ class ResourceIssue extends Component {
             attachmentStatus: false,//是否有附件
             attachmentLoading: false,//上传附件的进度
         };
+        this.selectLabel = React.createRef();
     }
     componentDidMount() {
-        this.getResourceIssue()
+        this.setState({
+            id: this.props.params.id || ''
+        }, () => {
+            this.getResourceIssue()
+        })
     }
     // 初始化获取资源信息
     getResourceIssue = () => {
         let params = {
-            id: Cookies.getCookies('id')
+            id: this.state.id
         }
         ResourceIssueAPI.getResourceIssue(params).then(res => {
             if (res.success) {
@@ -42,21 +48,39 @@ class ResourceIssue extends Component {
                     resourceType: res.data
                 })
             } else {
-                console.log(res.data)
                 this.setState({
                     id: res.data.resource[0].id,
+                    type: res.data.resource[0].typeid,
+                    resource: res.data.resource[0],
+                    link: res.data.resource[0].link,
+                    title: res.data.resource[0].title,
                     resourceType: res.data.resourceType,
                     posterlink: res.data.resource[0].posterlink,
                     attachment: res.data.resource[0].attachment,
                     status: 2
+                }, () => {
+                    this.initResource(res.data.resource[0].typeid)
                 })
+
             }
         })
+    }
+    //初始化资源
+    initResource = (data) => {
+        let node = this.selectLabel.current.children;
+        for (let item of node) {
+            if (parseInt(item.getAttribute('index')) === data) {
+                item.classList.add('tagActive');
+            }
+        }
+        let { setFieldsValue } = this.props.form;
+        setFieldsValue({ "link": this.state.resource.link })
+        setFieldsValue({ "title": this.state.resource.title })
+        setFieldsValue({ "description": this.state.resource.description })
     }
     //选择标签
     handelSelect = (e) => {
         let children = e.target.parentNode.children;
-
         for (let i = 0; i < children.length; i++) {
             children[i].classList.remove("tagActive");
         }
@@ -112,14 +136,14 @@ class ResourceIssue extends Component {
             return;
         }
         let arry = name.split('.')
-        let postfix = arry[arry.length-1]
+        let postfix = arry[arry.length - 1]
         const that = this;
         this.setState({
             coverLoading: true
         })
         qiniuAPI.getToken().then(res => {
             let token = res.data;
-            let key = Cookies.getCookies('id') + Date.now()+`.${postfix}`;
+            let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
             let config = {
                 useCdnDomain: true, //是否使用 cdn 加速域名
                 region: qiniu.region.z2 //选择上传域名 华南
@@ -204,11 +228,11 @@ class ResourceIssue extends Component {
             attachmentStatus: true
         })
         let arry = name.split('.')
-        let postfix = arry[arry.length-1]
+        let postfix = arry[arry.length - 1]
         let that = this;
         qiniuAPI.getToken().then(res => {
             let token = res.data;
-            let key = Cookies.getCookies('id') + Date.now()+`.${postfix}`;
+            let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
             let config = {
                 useCdnDomain: true, //是否使用 cdn 加速域名
                 region: qiniu.region.z2 //选择上传域名 华南
@@ -261,13 +285,13 @@ class ResourceIssue extends Component {
             }
         })
     }
-    //删除附加
-    delAttachment = () => {
+    //删除附件
+    delResourceAttachment = () => {
         let params = {
             id: this.state.id,
             attachment: this.state.attachment
         }
-        ResourceIssueAPI.delAttachment(params).then(res => {
+        ResourceIssueAPI.delResourceAttachment(params).then(res => {
             if (res.success) {
                 this.setState({
                     attachment: '',
@@ -276,10 +300,8 @@ class ResourceIssue extends Component {
             }
         })
     }
-
-
-
     render() {
+        const { getFieldDecorator } = this.props.form;
         return (
             <div className='resourceIssue'>
                 <div className='resourceIssue-container'>
@@ -289,10 +311,28 @@ class ResourceIssue extends Component {
                         </div>
                         <div className='resourceIssue-container-body'>
                             <div className='resourceIssue-container-body-left'>
-                                <Input size="large" placeholder='分享资源链接：http://www.pzhuweb.cn' onChange={(e) => { this.setState({ link: e.target.value }) }} />
-                                <Input size="large" placeholder='请输入资源标题' onChange={(e) => { this.setState({ title: e.target.value }) }} />
-                                <TextArea placeholder='描述（100字以内）' onChange={(e) => { this.setState({ description: e.target.value }) }} />
-                                <div className='resourceIssue-container-body-left-tag'>
+                                {
+                                    getFieldDecorator('link', {
+
+                                    })(
+                                        <Input size="large" placeholder='分享资源链接：http://www.pzhuweb.cn' onChange={(e) => { this.setState({ link: e.target.value }) }} />
+                                    )
+                                }
+                                {
+                                    getFieldDecorator('title', {
+
+                                    })(
+                                        <Input size="large" placeholder='请输入资源标题' onChange={(e) => { this.setState({ title: e.target.value }) }} />
+                                    )
+                                }
+                                {
+                                    getFieldDecorator('description', {
+
+                                    })(
+                                        <TextArea placeholder='描述（100字以内）' onChange={(e) => { this.setState({ description: e.target.value }) }} />
+                                    )
+                                }
+                                <div className='resourceIssue-container-body-left-tag' ref={this.selectLabel}>
                                     <p>分类</p>
                                     {
                                         this.state.resourceType.map(item => {
@@ -338,7 +378,7 @@ class ResourceIssue extends Component {
                                                         <Icon type="paper-clip" />
                                                         <a href={this.state.attachment}>附件</a>
                                                     </p>
-                                                    <p onClick={this.delAttachment} >
+                                                    <p onClick={this.delResourceAttachment} >
                                                         <Icon type="close" />
                                                     </p>
                                                 </div>
@@ -361,4 +401,5 @@ class ResourceIssue extends Component {
     }
 }
 
-export default ResourceIssue;
+const ResourceIssues = Form.create()(ResourceIssue)
+export default ResourceIssues;

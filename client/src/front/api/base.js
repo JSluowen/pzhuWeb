@@ -55,13 +55,13 @@ const base = {
     uploadResourceCover: '/resourceIssue/uploadResourceCover',//上传资源封面图
     delResourceCover: '/resourceIssue/delResourceCover',// 删除封面图片
     uploadResourceAttachment: '/resourceIssue/uploadResourceAttachment',//上传资源附件
-    delAttachment: '/resourceIssue/delAttachment',// 删除附加
+    delResourceAttachment: '/resourceIssue/delResourceAttachment',// 删除附加
     // 成果发布界面接口
     getAchievementIssue: '/achievementIssue/getAchievementIssue',// 获取成果发布的信息
     uploadAchievement: '/achievementIssue/uploadAchievement',// 上传成果信息
     uploadAchievementCover: '/achievementIssue/uploadAchievementCover',//上传资源封面图
     delAchievementCover: '/achievementIssue/delAchievementCover',// 删除封面图片
     uploadAchievementAttachment: '/achievementIssue/uploadAchievementAttachment',//上传资源附件
-    delAttachment:'/achievementIssue/delAttachment',// 删除附加
+    delAchievementAttachment:'/achievementIssue/delAchievementAttachment',// 删除附加
 }
 export default base;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, message, Spin, Progress } from 'antd';
+import { Input, Button, Icon, message, Spin, Progress, Form } from 'antd';
 import './index.scss';
 import Cookies from '../../../http/cookies';
 import AchievementIssueAPI from '../../api/achievementIssue';
@@ -10,7 +10,7 @@ class AchievementIssue extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',//文章Id
+            id: '',//成果Id
             title: '',
             achievementlink: '',
             abstract: '',
@@ -27,18 +27,22 @@ class AchievementIssue extends Component {
             attachmentStatus: false,//是否有附件
             attachmentLoading: false,//上传附件的进度
         };
+        this.selectLabel = React.createRef();
     }
     componentDidMount() {
-        this.getAchievementIssue()
+        this.setState({
+            id: this.props.params.id || ''
+        }, () => {
+            this.getAchievementIssue()
+        })
     }
     // 初始化获取资源信息
     getAchievementIssue = () => {
         let params = {
-            id: Cookies.getCookies('id')
+            id: this.state.id
         }
         AchievementIssueAPI.getAchievementIssue(params).then(res => {
             if (res.success) {
-                console.log(res.data)
                 this.setState({
                     achievementType: res.data
                 })
@@ -46,13 +50,32 @@ class AchievementIssue extends Component {
                 console.log(res.data)
                 this.setState({
                     id: res.data.achievement[0].id,
+                    type:res.data.achievement[0].typeid,
+                    title: res.data.achievement[0].title,
+                    achievementlink: res.data.achievement[0].achievementlink,
+                    abstract: res.data.achievement[0].abstract,
                     achievementType: res.data.achievementType,
                     posterlink: res.data.achievement[0].posterlink,
                     attachment: res.data.achievement[0].attachment,
                     status: 2
+                }, () => {
+                    this.initResource(res.data.achievement[0].typeid)
                 })
             }
         })
+    }
+    //初始化成果资源
+    initResource = (data) => {
+        let node = this.selectLabel.current.children;
+        for (let item of node) {
+            if (parseInt(item.getAttribute('index')) === data) {
+                item.classList.add('tagActive');
+            }
+        }
+        let { setFieldsValue } = this.props.form;
+        setFieldsValue({ "achievementlink": this.state.achievementlink })
+        setFieldsValue({ "title": this.state.title })
+        setFieldsValue({ "abstract": this.state.abstract })
     }
     //选择标签
     handelSelect = (e) => {
@@ -243,7 +266,6 @@ class AchievementIssue extends Component {
                 }
             }
             observable.subscribe(observer)
-            // subscription.unsubscribe(); //取消上传
         })
     }
     // 上传附件地址到数据库
@@ -265,12 +287,12 @@ class AchievementIssue extends Component {
         })
     }
     //删除附加
-    delAttachment = () => {
+    delAchievementAttachment = () => {
         let params = {
             id: this.state.id,
             attachment: this.state.attachment
         }
-        AchievementIssueAPI.delAttachment(params).then(res => {
+        AchievementIssueAPI.delAchievementAttachment(params).then(res => {
             if (res.success) {
                 this.setState({
                     attachment: '',
@@ -283,6 +305,7 @@ class AchievementIssue extends Component {
 
 
     render() {
+        const { getFieldDecorator } = this.props.form;
         return (
             <div className='achievementIssue'>
                 <div className='achievementIssue-container'>
@@ -292,10 +315,28 @@ class AchievementIssue extends Component {
                         </div>
                         <div className='achievementIssue-container-body'>
                             <div className='achievementIssue-container-body-left'>
-                                <Input size="large" placeholder='成果链接：http://www.pzhuweb.cn' onChange={(e) => { this.setState({ achievementlink: e.target.value }) }} />
-                                <Input size="large" placeholder='请输入成果标题' onChange={(e) => { this.setState({ title: e.target.value }) }} />
-                                <TextArea placeholder='成果描述（100字以内）' onChange={(e) => { this.setState({ abstract: e.target.value }) }} />
-                                <div className='achievementIssue-container-body-left-tag'>
+                                {
+                                    getFieldDecorator('achievementlink', {
+
+                                    })(
+                                        <Input size="large" placeholder='成果链接：http://www.pzhuweb.cn' onChange={(e) => { this.setState({ achievementlink: e.target.value }) }} />
+                                    )
+                                }
+                                {
+                                    getFieldDecorator('title', {
+
+                                    })(
+                                        <Input size="large" placeholder='请输入成果标题' onChange={(e) => { this.setState({ title: e.target.value }) }} />
+                                    )
+                                }
+                                {
+                                    getFieldDecorator('abstract', {
+
+                                    })(
+                                        <TextArea placeholder='成果描述（100字以内）' onChange={(e) => { this.setState({ abstract: e.target.value }) }} />
+                                    )
+                                }
+                                <div className='achievementIssue-container-body-left-tag' ref={this.selectLabel}>
                                     <p>分类</p>
                                     {
                                         this.state.achievementType.map(item => {
@@ -341,7 +382,7 @@ class AchievementIssue extends Component {
                                                         <Icon type="paper-clip" />
                                                         <a href={this.state.attachment}>附件</a>
                                                     </p>
-                                                    <p onClick={this.delAttachment} >
+                                                    <p onClick={this.delAchievementAttachment} >
                                                         <Icon type="close" />
                                                     </p>
                                                 </div>
@@ -364,5 +405,5 @@ class AchievementIssue extends Component {
         );
     }
 }
-
-export default AchievementIssue;
+const AchievementIssues = Form.create()(AchievementIssue)
+export default AchievementIssues;
