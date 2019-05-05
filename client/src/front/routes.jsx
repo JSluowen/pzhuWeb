@@ -1,16 +1,35 @@
 import * as React from 'react';
-import { Layout, Home, Login, Register, Article, ArticleInfo, ArticleEdit, Setting, Collect, User, Member, Achievement, Resource, UserResource, UserAchievement, UserCollect, UserArticle, ResourceIssue, AchievementIssue } from './pages'
-import { Router, Route, hashHistory, IndexRedirect, IndexRoute } from 'react-router';
+import {
+    Layout,
+    Home,
+    Login,
+    Register,
+    Article,
+    ArticleInfo,
+    ArticleEdit,
+    Setting,
+    Collect,
+    User,
+    Member,
+    Achievement,
+    Resource,
+    UserResource,
+    UserAchievement,
+    UserCollect,
+    UserArticle,
+    ResourceIssue,
+    AchievementIssue,
+} from './pages';
+import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
-	if (sessionStorage.getItem('token')) {
-		cb();
-	} else {
-		replace('/login');
-		cb();
-	}
+    if (sessionStorage.getItem('token')) {
+        cb();
+    } else {
+        replace('/login');
+        cb();
+    }
 };
-
 
 export default (
 	<Router history={hashHistory}>

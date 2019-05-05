@@ -1,22 +1,40 @@
-import UserAchievement from "./userAchievement";
-import UserArticle from "./userArticle";
-import ArticleInfo from "./articleInfo";
-export Layout from '../layout';
-export Home from './home';
-export Login from './login';
-export Register from './register';
-export ArticleEdit from './articleEdit'
-export Article from './article';
-export Setting from './setting';
-// export Collect from './collect'
-export User from './user'
-export Member from './member'
-export Achievement from './achievement'
-export Resource from './resource'
-export UserResource from './userResource'
-export UserAchievement from './userAchievement'
-export UserArticle from './userArticle'
-export UserCollect from './userCollect'
-export ArticleInfo from './articleInfo'
-export ResourceIssue from './resourceIssue'
-export AchievementIssue from './achievementIssue'
+import UserAchievement from './userAchievement';
+import UserArticle from './userArticle';
+import ArticleInfo from './articleInfo';
+import Layout from '../layout';
+import Home from './home';
+import Login from './login';
+import Register from './register';
+import ArticleEdit from './articleEdit';
+import Article from './article';
+import Setting from './setting';
+// import Collect from './collect'
+import User from './user';
+import Member from './member';
+import Achievement from './achievement';
+import Resource from './resource';
+import UserResource from './userResource';
+import UserCollect from './userCollect';
+import ResourceIssue from './resourceIssue';
+import AchievementIssue from './achievementIssue';
+
+export {
+    UserAchievement,
+    UserArticle,
+    ArticleInfo,
+    Layout,
+    Home,
+    Login,
+    Register,
+    ArticleEdit,
+    Article,
+    Setting,
+    User,
+    Member,
+    Achievement,
+    Resource,
+    UserResource,
+    UserCollect,
+    ResourceIssue,
+    AchievementIssue,
+};
