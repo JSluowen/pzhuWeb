@@ -79,6 +79,7 @@ class Achievement extends Component {
                     if (this.state.flag) this.setAchievementTyep()
                 }, 500)
             } else {
+                console.log(res.data)
                 setTimeout(() => {
                     this.setState({
                         acType: res.data.acType,
@@ -106,7 +107,7 @@ class Achievement extends Component {
         event.classList.add('achievementActive')
         let index = event.getAttribute('index')
 
-        if (this.state.index ===  parseInt(index)) {
+        if (this.state.index === parseInt(index)) {
             return
         } else {
             this.setState({
@@ -190,21 +191,23 @@ class Achievement extends Component {
                                 {
                                     this.state.ac.map(item => {
                                         return <Col span={12} key={item.id} >
-                                            <Card
-                                                className="achievement-right-item"
-                                                hoverable={true}
-                                                loading={false}
-                                                style={{ width: '100%' }}
-                                                cover={<img alt="example" src={item.posterlink} />}
-                                                actions={[<span><Icon type="user" />{" "}{item.UserInfo.User.name}</span>, <span><Icon type="calendar" />{" "}{item.updated_at}</span>]}
-                                            >
-                                                <Meta
+                                            <a style={{display:'block'}} href={item.achievementlink||item.attachment} target='_blank'>
+                                                <Card
+                                                    className="achievement-right-item"
+                                                    hoverable={true}
+                                                    loading={false}
                                                     style={{ width: '100%' }}
-                                                    avatar={<Avatar src={item.UserInfo.avatar} />}
-                                                    title={item.title}
-                                                    description={item.abstract}
-                                                />
-                                            </Card>
+                                                    cover={<img alt="example" src={item.posterlink} />}
+                                                    actions={[<span><Icon type="user" />{" "}{item.UserInfo.User.name}</span>, <span><Icon type="calendar" />{" "}{item.updated_at}</span>]}
+                                                >
+                                                    <Meta
+                                                        style={{ width: '100%' }}
+                                                        avatar={<Avatar src={item.UserInfo.avatar} />}
+                                                        title={item.title}
+                                                        description={item.abstract}
+                                                    />
+                                                </Card>
+                                            </a>
 
                                         </Col>
                                     })

@@ -12,6 +12,7 @@ class AchievementIssue extends Controller {
                 ctx.status = 403;
             } else {
                 const { id } = ctx.request.body;
+                const userid = ctx.session.userid;
                 const table = 'AchievementType';
                 const table1 = 'Achievement';
                 const params = {
@@ -21,12 +22,24 @@ class AchievementIssue extends Controller {
                         }
                     ],
                     where: {
-                        userid: id,
+                        userid,
                         status: 2
                     }
                 };
+                const params1 = {
+                    where: {
+                        id,
+                        userid
+                    }
+                };
                 const achievementType = await ctx.service.mysql.findAll({}, table);
-                const achievement = await ctx.service.mysql.findAll(params, table1);
+                let achievement;
+                if (id === '') {
+                    achievement = await ctx.service.mysql.findAll(params, table1);
+                } else {
+                    achievement = await ctx.service.mysql.findAll(params1, table1);
+                }
+
                 if (achievement.length === 0) {
                     ctx.status = 200;
                     ctx.body = {
@@ -185,7 +198,7 @@ class AchievementIssue extends Controller {
             ctx.status = 404;
         }
     }
-    async delAttachment() {
+    async delAchievementAttachment() {
         const { ctx } = this;
         try {
             const token = ctx.header.authorization;

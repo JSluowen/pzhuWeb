@@ -159,7 +159,7 @@ export default class Article extends Component {
 															<img src={item.postlink} alt="这是封面图" />
 														</div>
 														<div className="article-content">
-															<Link to={`/articleInfo/${item.id}`} className="article-top" >
+															<Link to={`/articleInfo/${item.id}`} target='_blank' className="article-top" >
 																<div className="article-title">{item.title}</div>
 																<div className="article-summary">{item.abstract}</div>
 															</Link>
@@ -220,7 +220,9 @@ export default class Article extends Component {
 									{
 										this.state.hotArticle.map(item => {
 											return <div className="article-item" key={item.id} index={item.id} >
-												<div className="title">{item.title}</div>
+												<div className="title">
+													<Link style={{color:'gray'}} target='_blank'  to={`/articleInfo/${item.id}`}>{item.title}</Link>
+												</div>
 												<div className="action">
 													<Icon type="eye" /> {item.readnumber}
 												</div>
