@@ -48,7 +48,6 @@ class TeamInfo extends React.Component {
 		}
 	}
 }
-
 const Fullpage = (props) => (
 	<ReactFullpage
 		navigation
