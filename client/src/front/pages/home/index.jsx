@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import ReactFullpage from '@fullpage/react-fullpage';
 import './index.scss';
 
-const Fullpage = (props) => (
+const Fullpage = () => (
 	<ReactFullpage
 		navigation
 		loopBottom="true"
@@ -19,7 +19,7 @@ const Fullpage = (props) => (
 								<div
 									className="home-fullpageOne-left-bgImg"
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/05.jpg)'
 									}}></div>
 							</div>
 							<div className="home-fullpageOne-right">
@@ -31,9 +31,15 @@ const Fullpage = (props) => (
 										乐人发行，数字音乐全球发行计划 免费数字音乐发行渠道，遍布全球80多个国家，覆盖100多个优质音乐视听平台的数字音乐发行体系
 										将音乐交给我们，我们会让TA唱响全世界每一个角落
                                 </p>
+								{
+									sessionStorage.getItem('token')?
+									''
+									:
 									<Link to='/register' className='home-fullpageOne-right-container-apply'>
 										申请加入
-                                </Link>
+                                	</Link>
+								}
+									
 								</div>
 							</div>
 						</div>
@@ -59,7 +65,7 @@ const Fullpage = (props) => (
 								<div
 									className="home-fullpageTwo-left-bgImg"
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/06.jpg)'
 									}}></div>
 							</div>
 						</div>
@@ -193,11 +199,18 @@ const Fullpage = (props) => (
 						</div>
 					</div>
 					<div className="section">
-						<div className="home-fullpageFive" style={{backgroundImage:'url(http://img.pzhuweb.cn/2.jpg)'}}>
+						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
 							<div className='home-fullpageFive-container'>
 								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
 								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，即可加入</div>
-								<Link to='/register'>申请加入</Link>
+									{
+									sessionStorage.getItem('token')?
+									''
+									:
+									<Link to='/register'>
+										申请加入
+                                	</Link>
+								}
 							</div>
 						</div>
 					</div>
@@ -213,7 +226,7 @@ class Home extends Component {
 	render() {
 		return (
 			<div className="home">
-				<Fullpage state={this.state} />
+				<Fullpage />
 			</div>
 		);
 	}
