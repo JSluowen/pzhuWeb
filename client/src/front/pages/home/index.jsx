@@ -1,110 +1,221 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Avatar, Input, Button, BackTop } from 'antd';
- import ReactFullpage from '@fullpage/react-fullpage';
+import ReactFullpage from '@fullpage/react-fullpage';
 import './index.scss';
-import './override.scss';
-class TeamInfo extends React.Component {
-	render() {
-    const { data,i} = this.props;
-		if (!!(i%2 === 0)) { 
-			return (
-				<div className="section">
-					<div className="fullpage-content">
-						<div className="tempDiv">
-							<div className="img" style={{ backgroundImage: `${data.imgUrl}` }}>
-							</div>
-						</div>
-						<div className="information">
-							<h1 className="title">{data&&data.title}</h1>
-							<div>
-                <p>{(data && data.content) }</p>
-                <p>{(data && data.content) }</p>
-              </div>
-              <Button >{ data&& data.link && data.link.title }</Button>
-						</div>
-					</div>
-				</div>
-			);
-		} else {
-			return (
-				<div className="section">
-					<div className="fullpage-content">
-						<div className="information">
-							<h1 className="title">Web应用专业团队</h1>
-							<div>
-                <p>{(data && data.content) }</p>
-                <p>{(data && data.content) }</p>
-              </div>
-              <Button >{ data&& data.link && data.link.title }</Button>
-						</div>
-						<div className="tempDiv">
-							<div className="img" style={{ backgroundImage: `url(http://cdn.niuxingxing.com/2.jpg)` }}>
-							</div>
-						</div>
-					</div>
-				</div>
-			);
-		}
-	}
-}
+
 const Fullpage = (props) => (
 	<ReactFullpage
 		navigation
 		loopBottom="true"
 		loopTop="true"
 		controlArrows="true"
-		// sectionsColor={[ '#282c34', '#ff5f45', '#0798ec', '#abcdef' ]}
+		sectionsColor={["#282c34"]}
 		render={({ state, fullpageApi }) => {
-			const teamInfo = props.teamInfo;
 			return (
 				<div>
-					{teamInfo.map((v, i) => {
-						return <TeamInfo key={i} data={v} i={i} />;
-					})}
+					<div className="section">
+						<div className="home-fullpageOne">
+							<div className="home-fullpageOne-left">
+								<div
+									className="home-fullpageOne-left-bgImg"
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+									}}></div>
+							</div>
+							<div className="home-fullpageOne-right">
+								<div className='home-fullpageOne-right-container'>
+									<p className='home-fullpageOne-right-container-title'>
+										你的梦想，从这里开始
+                                </p>
+									<p className='home-fullpageOne-right-container-context'>
+										乐人发行，数字音乐全球发行计划 免费数字音乐发行渠道，遍布全球80多个国家，覆盖100多个优质音乐视听平台的数字音乐发行体系
+										将音乐交给我们，我们会让TA唱响全世界每一个角落
+                                </p>
+									<Link to='/register' className='home-fullpageOne-right-container-apply'>
+										申请加入
+                                </Link>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="section">
+						<div className="home-fullpageTwo">
+							<div className="home-fullpageTwo-right">
+								<div className='home-fullpageTwo-right-container'>
+									<p className='home-fullpageTwo-right-container-title'>
+										WEB应用专业团队
+                                </p>
+									<p className='home-fullpageTwo-right-container-context'>
+										乐人发行，数字音乐全球发行计划 免费数字音乐发行渠道，遍布全球80多个国家，覆盖100多个优质音乐视听平台的数字音乐发行体系
+										将音乐交给我们，我们会让TA唱响全世界每一个角落
+                                </p>
+									<p className='home-fullpageTwo-right-container-context'>
+										乐人发行，数字音乐全球发行计划 免费数字音乐发行渠道，遍布全球80多个国家，覆盖100多个优质音乐视听平台的数字音乐发行体系
+										将音乐交给我们，我们会让TA唱响全世界每一个角落
+                                </p>
+								</div>
+							</div>
+							<div className="home-fullpageTwo-left">
+								<div
+									className="home-fullpageTwo-left-bgImg"
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+									}}></div>
+							</div>
+						</div>
+					</div>
+					<div className="section">
+						<div className="home-fullpageThree">
+							<div className='home-fullpageThree-header'>
+								<span>我们的优势</span>
+								<span>Our Advantages</span>
+							</div>
+							<div className='home-fullpageThree-body'>
+								<div className='home-fullpageThree-body-front'>
+									<div className='home-fullpageThree-body-front-img'>
+										<img src='http://img.pzhuweb.cn/2.jpg' alt="" />
+									</div>
+									<div className='home-fullpageThree-body-front-context'>
+										<div className='home-fullpageThree-body-front-context-title'>
+											前端开发小组
+                                    </div>
+										<div className='home-fullpageThree-body-front-context-desc'>
+											通过乐人发行，您的作品将在千千音乐、网易云音乐、腾讯音乐等国内音乐平台上架，更可在全球一百多个知名音乐平台，包括 Apple Music
+          =                              中国区、Spotify、Amazon Music等一并上架，让全球乐迷欣赏到您的音乐</div>
+									</div>
+								</div>
+								<div className='home-fullpageThree-body-back'>
+									<div className='home-fullpageThree-body-back-img'>
+										<img src='http://img.pzhuweb.cn/2.jpg' alt="" />
+									</div>
+									<div className='home-fullpageThree-body-back-context'>
+										<div className='home-fullpageThree-body-back-context-title'>
+											后台研发小组
+                                    </div>
+										<div className='home-fullpageThree-body-back-context-desc'>
+											通过乐人发行，您的作品将在千千音乐、网易云音乐、腾讯音乐等国内音乐平台上架，更可在全球一百多个知名音乐平台，包括 Apple Music
+                                        中国区、Spotify、Amazon Music等一并上架，让全球乐迷欣赏到您的音乐</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="section">
+						<div className="home-fullpageFour">
+							<div className='home-fullpageFour-header'>
+								<span>我们的成就</span>
+								<span>Our Achievement</span>
+							</div>
+							<div className='home-fullpageFour-body'>
+								<div className='home-fullpageFour-body-item'
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+									}}>
+									<div
+										className='home-fullpageFour-body-item-desc'
+										onMouseLeave={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '0';
+											}
+										}}
+										onMouseEnter={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '1';
+											}
+										}}>
+										<span>题目</span>
+										<span>作者</span>
+									</div>
+								</div>
+								<div className='home-fullpageFour-body-item'
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+									}}>
+									<div
+										className='home-fullpageFour-body-item-desc'
+										onMouseLeave={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '0';
+											}
+										}}
+										onMouseEnter={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '1';
+											}
+										}}>
+										<span>题目</span>
+										<span>作者</span>
+									</div>
+								</div>
+								<div className='home-fullpageFour-body-item'
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+									}}>
+									<div
+										className='home-fullpageFour-body-item-desc'
+										onMouseLeave={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '0';
+											}
+										}}
+										onMouseEnter={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '1';
+											}
+										}}>
+										<span>题目</span>
+										<span>作者</span>
+									</div>
+								</div>
+								<div className='home-fullpageFour-body-item'
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+									}}>
+									<div
+										className='home-fullpageFour-body-item-desc'
+										onMouseLeave={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '0';
+											}
+										}}
+										onMouseEnter={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '1';
+											}
+										}}>
+										<span>题目</span>
+										<span>作者</span>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+					<div className="section">
+						<div className="home-fullpageFive" style={{backgroundImage:'url(http://img.pzhuweb.cn/2.jpg)'}}>
+							<div className='home-fullpageFive-container'>
+								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
+								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，即可加入</div>
+								<Link to='/register'>申请加入</Link>
+							</div>
+						</div>
+					</div>
 				</div>
 			);
-		}}
-	/>
+		}} />
 );
-
-export default class Home extends Component {
-	state = {
-		status: false,
-		teamInfo: [
-			{
-				imgUrl:
-					'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552618271468&di=9f907d8da9a161a73035c002f80ba32a&imgtype=0&src=http%3A%2F%2Fp4.so.qhmsg.com%2Ft01355bda5988c43034.jpg',
-				title: '我们是谁？？？',
-        content: '我们是web专业团队，热爱学习，热爱技术，我们喜欢分享。在老师的指导下，写论文做学学研究，勇于探索前沿技术。“不止代码”',
-        link:{title:'加入我们',link:'http://www.baidu.com'}
-			},
-			{
-				imgUrl:
-					'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552618271468&di=9f907d8da9a161a73035c002f80ba32a&imgtype=0&src=http%3A%2F%2Fp4.so.qhmsg.com%2Ft01355bda5988c43034.jpg',
-				title: 'team',
-				content: 'web专业应用团队'
-			},
-			{
-				imgUrl:
-					'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552618271468&di=9f907d8da9a161a73035c002f80ba32a&imgtype=0&src=http%3A%2F%2Fp4.so.qhmsg.com%2Ft01355bda5988c43034.jpg',
-				title: 'team',
-				content: 'web专业应用团队'
-			},
-			{
-				imgUrl:
-					'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552618271468&di=9f907d8da9a161a73035c002f80ba32a&imgtype=0&src=http%3A%2F%2Fp4.so.qhmsg.com%2Ft01355bda5988c43034.jpg',
-				title: 'team',
-				content: 'web专业应用团队'
-			}
-		]
-	};
-
+class Home extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {}
+	}
 	render() {
 		return (
-			<div className="container">
-				<Fullpage teamInfo={this.state.teamInfo} />
+			<div className="home">
+				<Fullpage state={this.state} />
 			</div>
 		);
 	}
 }
+export default Home;

@@ -167,6 +167,7 @@ export default class Layout extends Component {
 					</div>
 				</div>
 				<div className="content">{this.props.children}</div>
+				
 				<div className="pzhu-web-copyright">
 					<div className="copyright">
 						<div className="about-us">
