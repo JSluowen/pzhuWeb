@@ -23,7 +23,7 @@ module.exports = app => {
     })
     UserDomain.associate = function(){
         
-        app.model.UserDomain.belongsTo(app.model.User,{foreignKey:'user_id',targetKey:'id'});
+        app.model.UserDomain.belongsTo(app.model.UserInfo,{foreignKey:'user_id',targetKey:'id'});
         app.model.UserDomain.belongsTo(app.model.Domain,{foreignKey:'domain_id',targetKey:'id'});
     }
  

@@ -72,7 +72,6 @@ class apply extends Component {
 				// 删除成功。执行更新
 				message.info("通过 成功!");
 				this.applyList();
-
 			}else{
 				// 抛出错误
 				message.info("通过失败!");

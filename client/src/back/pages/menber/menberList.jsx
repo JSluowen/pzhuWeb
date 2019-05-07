@@ -1,35 +1,53 @@
 import React,  {Component }from 'react'; 
+import {Link} from 'react-router'
 import {List, Avatar, Divider, Table, Input, Button, Icon, }from 'antd'; 
 import './index.scss'; 
 import Highlighter from 'react-highlight-words'; 
+import User from '../../api/user'
+
+// 每条成员数据结构
+//let menber =  {
+	// 			id:"201610804025" - i, 
+	// 			name:"TOM" + i, 
+	// 			email:"baidu@qq.com", 
+	// 			majorClass:'2016级软件工程1班', 
+	// 			phone:'180-4566-7897', 
+	// 			desc:"一段描述信息"	
+	// 		}
 // {
-// 	id:'',
-// 	name:'',
-// 	email:'',
-// 	majorClass:'',
-// 	phone:'',
-// 	desc:'',
-// }
-//模拟数据
-const dataSource = []; 
-for (let i = 0; i < 30; i++) {
-	let menber =  {
-			id:"201610804025" - i, 
-			name:"TOM" + i, 
-			email:"baidu@qq.com", 
-			majorClass:'2016级软件工程1班', 
-			phone:'180-4566-7897', 
-			desc:"一段描述信息"	
-		}
-	dataSource.push(menber); 
-}
+
+// 表格渲染数据对象，保存数据
 
 class menberList extends Component {
 	constructor(props) {
 		super(props); 
 		this.state =  {
 			searchText:'', 
+			dataSource:[],
         }; 
+	}
+	componentDidMount(){
+		// 请求接口数据，然后根据数据结构封装格式化每项数据
+		let dataSource = []; 
+		const allListPromise = User.allList({});
+		allListPromise.then((data)=>{
+			let result = data.data.data;
+			console.log(result.length)
+			for(let i = 0;i<result.length;i++) {
+				let template = {};
+				let {phone,description}  = result[i];
+				let {id,name,email} =result[i].user ;
+				let majorClass = result[i].Major.name;
+				template.id = id;
+				template.name = name;
+				template.email = email;
+				template.phone = phone;
+				template.description = description;
+				template.majorClass = majorClass;
+				dataSource.push(template);
+			}
+		})
+		this.setState({dataSource:dataSource});
 	}
 		getColumnSearchProps = (dataIndex) => ( {
 			filterDropdown:( {
@@ -47,11 +65,11 @@ class menberList extends Component {
 				  icon = "search"
 				  size = "small"
 				  style =  { {width:90, marginRight:8 }} > 
-				  Search </Button >  < Button
+				  搜索 </Button >  < Button
 				  onClick =  {() => this.handleReset(clearFilters)}
 				  size = "small"
 				  style =  { {width:90 }} > 
-				  Reset </Button >  </div > ), 
+				  重置 </Button >  </div > ), 
 			filterIcon:filtered =>  < Icon type = "search"style =  { {color:filtered?'#1890ff':undefined }}/> , 
 			onFilter:(value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()), 
 			onFilterDropdownVisibleChange:(visible) =>  {
@@ -75,9 +93,9 @@ class menberList extends Component {
 		  handleReset = (clearFilters) =>  {
 			clearFilters(); 
 			this.setState( {searchText:''}); 
-		  }
+			}
+			
 		  
-	  
 	render() {
 		const columns = [ {
 				title:'学号', 
@@ -105,11 +123,21 @@ class menberList extends Component {
 				...this.getColumnSearchProps('phone'), 
 			},  {
 				title:'简介', 
-				dataIndex:'desc', 
-				key:'desc', 
+				dataIndex:'description', 
+				key:'description', 
 			}, 
+			{
+				title: 'Action',
+				key: 'action',
+				render: (text, record) => (
+					<span>
+						<Link  to={`/info?id=${record.id}`}>详情信息</Link>
+						<Button style={{'backgroundColor':'inherit','border':'none','color':'#1890ff'}}>发邮件</Button>
+					</span>
+				),
+			}
 		]; 
-		return ( < div className = "" >  < Table dataSource =  {dataSource}columns =  {columns}/>  </div > ); 
+		return ( < div className = "" >< Table dataSource =  {this.state.dataSource} columns =  {columns} />  </div > ); 
 	}
 }
 

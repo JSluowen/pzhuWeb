@@ -5,11 +5,11 @@ module.exports = app => {
         DATE,
         STRING
     } = app.Sequelize;
-    const UserInfo = app.model.define('user_info', {
+    const UserInfo = app.model.define('UserInfo', {
         id: {
             type: STRING(16),
             primaryKey: true,
-            references: { 
+            references: {
                 model: 'user',
                 key: 'id'
             }
@@ -17,7 +17,7 @@ module.exports = app => {
         school_id:{
             type:INTEGER(10),
             references:{    
-                model:'school',
+                model:'school', 
                 key:'id'
             }
         },
@@ -42,6 +42,10 @@ module.exports = app => {
         app.model.UserInfo.belongsTo(app.model.User,{foreignKey:'id',targetKey:'id'});
         app.model.UserInfo.belongsTo(app.model.Major,{foreignKey:'major_id',targetKey:'id'});
         app.model.UserInfo.belongsTo(app.model.School,{foreighKey:'school_id',targetKey:'id'});
+        app.model.UserInfo.hasMany(app.model.Article,{foreignKey:'user_id',targetKey:'id'});
+        app.model.UserInfo.hasMany(app.model.Achievement,{foreignKey:'user_id',targetKey:'id'});
+        app.model.UserInfo.hasMany(app.model.Favorite,{foreignKey:'user_id',targetKey:'id'});
+        app.model.UserInfo.hasMany(app.model.UserDomain,{foreignKey:'user_id',targetKey:'id'});
     }
     return UserInfo;
 }

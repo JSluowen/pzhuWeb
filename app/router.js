@@ -19,4 +19,6 @@ module.exports = app => {
   router.post('/api/back/user/apply',controller.userManage.apply);
   router.post('/api/back/user/softDeleteOne',controller.userManage.softDelete);
   router.post('/api/back/user/agreeOne',controller.userManage.agreeOne);
+  router.post('/api/back/resource/articleList',controller.backResourceManage.articleList);
+  router.post('/api/back/resource/deleteArticle',controller.backResourceManage.deleteArticle);
 }

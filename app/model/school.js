@@ -7,7 +7,7 @@ module.exports = app => {
         STRING,
         TEXT
     } = app.Sequelize;
-    const School = app.model.define('school', {
+    const School = app.model.define('School', {
         id: {
             type: INTEGER(10),
             primaryKey: true,

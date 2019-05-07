@@ -30,7 +30,7 @@ module.exports = app => {
     })
     Achievement.associate = function (){
         app.model.Achievement.belongsTo(app.model.AchievementType,{foreignKey:'type_id',targetKey:'id'});
-        app.model.Achievement.belongsTo(app.model.User,{foreignKey:'user_id',targetKey:"id"});
+        app.model.Achievement.belongsTo(app.model.UserInfo,{foreignKey:'user_id',targetKey:"id"});
     }
 
     return Achievement;

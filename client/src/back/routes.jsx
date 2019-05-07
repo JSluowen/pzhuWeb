@@ -6,7 +6,7 @@ import MenberApplay from './pages/menber/applay';
 
 import MenberList from './pages/menber/menberList';
 import Info from './pages/menber/info';
-
+import Article  from './pages/resourceManage/article'
 
 const requireAuth = (nextState, replace, cb) => {
 	if (sessionStorage.getItem('token')) {
@@ -23,6 +23,7 @@ export default (
 			<Route path ="apply" component={MenberApplay} />
 			<Route path ="MenberList" component={MenberList} />
 			<Route path ="info" component={Info} />
+			<Route path ="articles" component={Article} />
 		</Route>
 	</Router>
 );

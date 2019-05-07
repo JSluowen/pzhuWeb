@@ -34,8 +34,7 @@ module.exports = app => {
     })
     Article.associate = function (){
         app.model.Annoucement.hasOne(app.model.Favorite,{foreignKey:'article_id'});
-        
-        app.model.Article.belongsTo(app.model.User,{foreignKey:'user_id',targetKey:'id'});
+        app.model.Article.belongsTo(app.model.UserInfo,{foreignKey:'user_id',targetKey:'id'});
         app.model.Article.belongsTo(app.model.Menu,{foreignKey:'menu_id',targetKey:'id'});
         app.model.Article.belongsTo(app.model.Technology,{foreignKey:'technology_id',targetKey:'id'});
     }

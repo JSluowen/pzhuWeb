@@ -22,7 +22,7 @@ module.exports = app => {
         timestamps: false     
     })
     Favorite.associate = function (){
-        app.model.Favorite.belongsTo(app.model.User,{foreignKey:'user_id',targetKey:'id'});
+        app.model.Favorite.belongsTo(app.model.UserInfo,{foreignKey:'user_id',targetKey:'id'});
         app.model.Favorite.belongsTo(app.model.Article,{foreignKey:'article_id',targetKey:'id'})
         //app.model.Domain.hasOne(app.model.Article,{foreignKey:'menu_id',targetKey:'id'});
     }

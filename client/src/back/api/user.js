@@ -4,9 +4,9 @@ const User = {
     allList:(params)=>{
         return new Promise((resolve, reject) => {
             axios.post(apiList.all, params).then((res) => {
-                resolve(res.data)
+                resolve(res)
             }).catch(error => {
-                reject(error.data)
+                reject(error)
             })
         })
     },
@@ -15,7 +15,7 @@ const User = {
             axios.post(apiList.apply,params).then((res)=>{
                 resolve(res.data);
             }).catch((error)=>{
-                reject(error.data);
+                reject(error);
             })
         });
     },
@@ -25,7 +25,7 @@ const User = {
             axios.post(apiList.userDelete,params).then((res)=>{
                 resolve(res.data);
             }).catch((error)=>{
-                reject(error.data);
+                reject(error);
             })
         });
     },
@@ -35,7 +35,7 @@ const User = {
             axios.post(apiList.userAgree,params).then((res)=>{
                 resolve(res.data);
             }).catch((error)=>{
-                reject(error.data);
+                reject(error);
             })
         });
     },
@@ -44,7 +44,7 @@ const User = {
             axios.post(apiList.userInfo,params).then((res)=>{
                 resolve(res.data);
             }).catch((error)=>{
-                reject(error.data);
+                reject(error);
             })
         });
     }

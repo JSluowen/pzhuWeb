@@ -12,3 +12,14 @@
 	background-size: 100px;	
 	background-repeat: no-repeat;
 }
+
+.right_col{
+	float: right;
+	border: none;
+	border-bottom:none;
+	padding-right: 2em;
+	background-color:inherit;
+}
+.right_col .ant-collapse-item {
+	border-bottom:none;
+}

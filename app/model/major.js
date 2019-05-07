@@ -7,7 +7,7 @@ module.exports = app => {
         STRING,
         TEXT
     } = app.Sequelize;
-    const Major = app.model.define('major', {
+    const Major = app.model.define('Major', {
         id: {
             type: INTEGER(10),
             primaryKey: true,

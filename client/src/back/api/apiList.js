@@ -7,5 +7,7 @@ module.exports={
     login:'',
     userDelete:'/back/user/softDeleteOne',
     userAgree:"/back/user/agreeOne",
-    userInfo:'/back/user/info'
+    userInfo:'/back/user/info',
+    articleList:"/back/resource/articleList", // 资源管理界面 请求文章列表
+    deleteArticle:"/back/resource/deleteArticle", // 删除文章
 }
