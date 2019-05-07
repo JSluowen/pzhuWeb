@@ -33,6 +33,7 @@ class apply extends Component {
 	 applyList=()=>{
 		let applyPromise =  User.applyList();
 		applyPromise.then((data)=>{
+			console.log(data);
 			this.setState({apply:data.data});
 		})
 	}

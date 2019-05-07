@@ -32,9 +32,7 @@ const columns = [{
               //将隐藏的文章id 获取到，作为参数通过接口传递到后端,后端通过 status:0 来实现软删除 
               let id = record.id;
                id = 1; //测试
-
               let deleteArticle = Resource.deleteArticle({id:id});
-              
               }}><Icon type="edit" /><button>查看详情</button></span>
             <span key="delete" onClick = {()=>{console.log(record)}}><Icon type="delete" /><button>删除</button></span>
             <span key="top"><Icon type="to-top" /><button>置顶</button></span>

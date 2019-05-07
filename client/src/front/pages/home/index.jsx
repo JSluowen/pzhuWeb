@@ -14,6 +14,22 @@ const Fullpage = () => (
 			return (
 				<div>
 					<div className="section">
+						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
+							<div className='home-fullpageFive-container'>
+								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
+								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，即可加入</div>
+								{
+									sessionStorage.getItem('token') ?
+										''
+										:
+										<Link to='/register'>
+											申请加入
+                                	</Link>
+								}
+							</div>
+						</div>
+					</div>
+					{/* <div className="section">
 						<div className="home-fullpageOne">
 							<div className="home-fullpageOne-left">
 								<div
@@ -30,20 +46,21 @@ const Fullpage = () => (
 									<p className='home-fullpageOne-right-container-context'>
 										乐人发行，数字音乐全球发行计划 免费数字音乐发行渠道，遍布全球80多个国家，覆盖100多个优质音乐视听平台的数字音乐发行体系
 										将音乐交给我们，我们会让TA唱响全世界每一个角落
-                                </p>
-								{
-									sessionStorage.getItem('token')?
-									''
-									:
-									<Link to='/register' className='home-fullpageOne-right-container-apply'>
-										申请加入
+                                </p>									
+									{
+										sessionStorage.getItem('token') ?
+											''
+											:
+											<Link to='/register' className='home-fullpageOne-right-container-apply'>
+												申请加入
                                 	</Link>
-								}
-									
+									}
+
 								</div>
 							</div>
 						</div>
 					</div>
+					 */}
 					<div className="section">
 						<div className="home-fullpageTwo">
 							<div className="home-fullpageTwo-right">
@@ -52,20 +69,16 @@ const Fullpage = () => (
 										WEB应用专业团队
                                 </p>
 									<p className='home-fullpageTwo-right-container-context'>
-										乐人发行，数字音乐全球发行计划 免费数字音乐发行渠道，遍布全球80多个国家，覆盖100多个优质音乐视听平台的数字音乐发行体系
-										将音乐交给我们，我们会让TA唱响全世界每一个角落
-                                </p>
-									<p className='home-fullpageTwo-right-container-context'>
-										乐人发行，数字音乐全球发行计划 免费数字音乐发行渠道，遍布全球80多个国家，覆盖100多个优质音乐视听平台的数字音乐发行体系
-										将音乐交给我们，我们会让TA唱响全世界每一个角落
-                                </p>
+										基础知识和算法研究，WEB 前端开发，JavaEE后台开发三个方向。平时主要以小组为单位开展以任务为驱动的社团活动，另外定期或不定期开展学习研究讨论会。
+										团队还以学院教师的科研项目、教研教改项目、大学生创新创业项目等作为基础。开展一些综合性项目开发和实践锻炼。
+                                </p>							
 								</div>
 							</div>
 							<div className="home-fullpageTwo-left">
 								<div
 									className="home-fullpageTwo-left-bgImg"
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/06.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/05.jpg)'
 									}}></div>
 							</div>
 						</div>
@@ -115,7 +128,7 @@ const Fullpage = () => (
 							<div className='home-fullpageFour-body'>
 								<div className='home-fullpageFour-body-item'
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/home4-1.jpg)'
 									}}>
 									<div
 										className='home-fullpageFour-body-item-desc'
@@ -129,13 +142,13 @@ const Fullpage = () => (
 												e.target.style.opacity = '1';
 											}
 										}}>
-										<span>题目</span>
-										<span>作者</span>
+										<span>《仿写京东》</span>
+										<span>于晨镔</span>
 									</div>
 								</div>
 								<div className='home-fullpageFour-body-item'
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/home4-2.jpg)'
 									}}>
 									<div
 										className='home-fullpageFour-body-item-desc'
@@ -149,13 +162,13 @@ const Fullpage = () => (
 												e.target.style.opacity = '1';
 											}
 										}}>
-										<span>题目</span>
-										<span>作者</span>
+										<span>《在线音乐播放器》</span>
+										<span>兰全祥</span>
 									</div>
 								</div>
 								<div className='home-fullpageFour-body-item'
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/home4-3.jpg)'
 									}}>
 									<div
 										className='home-fullpageFour-body-item-desc'
@@ -169,13 +182,13 @@ const Fullpage = () => (
 												e.target.style.opacity = '1';
 											}
 										}}>
-										<span>题目</span>
-										<span>作者</span>
+										<span>《宫崎骏动漫人生》</span>
+										<span>许伟</span>
 									</div>
 								</div>
 								<div className='home-fullpageFour-body-item'
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/2.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/home4-4.jpg)'
 									}}>
 									<div
 										className='home-fullpageFour-body-item-desc'
@@ -189,31 +202,17 @@ const Fullpage = () => (
 												e.target.style.opacity = '1';
 											}
 										}}>
-										<span>题目</span>
-										<span>作者</span>
+										<span>《转角咖啡店》</span>
+										<span>罗文</span>
 									</div>
 								</div>
+							
 							</div>
 
 
 						</div>
 					</div>
-					<div className="section">
-						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
-							<div className='home-fullpageFive-container'>
-								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
-								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，即可加入</div>
-									{
-									sessionStorage.getItem('token')?
-									''
-									:
-									<Link to='/register'>
-										申请加入
-                                	</Link>
-								}
-							</div>
-						</div>
-					</div>
+					
 				</div>
 			);
 		}} />

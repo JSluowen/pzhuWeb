@@ -4,7 +4,7 @@ const User = {
     allList:(params)=>{
         return new Promise((resolve, reject) => {
             axios.post(apiList.all, params).then((res) => {
-                resolve(res)
+                resolve(res.data)
             }).catch(error => {
                 reject(error)
             })

@@ -8,21 +8,21 @@ module.exports = app => {
                 type: STRING(16),
                 primaryKey: true,
                 references: {
-                    model: 'user',
+                    model: 'User',
                     key: 'id',
                 },
             },
             school: {
                 type: INTEGER(10),
                 references: {
-                    model: 'school',
+                    model: 'School',
                     key: 'id',
                 },
             },
             major: {
                 type: INTEGER(10),
                 references: {
-                    model: 'major',
+                    model: 'Major',
                     key: 'id',
                 },
             },
@@ -46,11 +46,12 @@ module.exports = app => {
     );
 
     UserInfo.associate = function() {
-        app.model.UserInfo.belongsTo(app.model.User, { foreignKey: 'id', targetKey: 'id' });
         app.model.UserInfo.hasMany(app.model.Article, { foreignKey: 'userid', targetKey: 'id' });
         app.model.UserInfo.hasMany(app.model.Resource, { foreignKey: 'userid', targetKey: 'id' });
         app.model.UserInfo.hasMany(app.model.Achievement, { foreignKey: 'userid', targetKey: 'id' });
         app.model.UserInfo.hasMany(app.model.Favorite, { foreignKey: 'userid', targetKey: 'id' });
+
+        app.model.UserInfo.belongsTo(app.model.User, { foreignKey: 'id', targetKey: 'id' });
         app.model.UserInfo.belongsTo(app.model.School, { foreignKey: 'school', targetKey: 'id' });
         app.model.UserInfo.belongsTo(app.model.Major, { foreignKey: 'major', targetKey: 'id' });
         app.model.UserInfo.belongsTo(app.model.Domain, { foreignKey: 'domain', targetKey: 'id' });

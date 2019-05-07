@@ -13,16 +13,21 @@
 
 .article_list .action:hover {
     position:absolute;
-    background-color: rgba($color: (#fffdfd), $alpha: 1.0);
+    background-color: #fffdfd;
     max-width: 999px;
     max-height: 999px;
     cursor: pointer;
+
+}
+.article_list td{
+    position: relative;
 }
 .action {
     max-width: 2em;
     max-height: 2em;
     overflow: hidden;
     border-radius: 20% fffdfd solid;
+    position: absolute;
 }
 .action .panel{
     margin-bottom: 2em;
