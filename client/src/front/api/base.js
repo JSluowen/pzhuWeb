@@ -47,6 +47,8 @@ const base = {
     searchAchievement:'/achievement/searchAchievement',// 搜索成果
     // 获取文章界面的接口
     getArticle:'/article/getArticle',// 获取文章界面的接口
+    collectArticle:'/article/collectArticle', // 收藏文章
+    cancelCollect:"/article/cancelCollect",//取消收藏文章
     // 获取文章详情界面的解救
     getArticleInfo:'/articleInfo/getArticleInfo',// 获取文章详情界面的接口
     //资源发布界面的接口

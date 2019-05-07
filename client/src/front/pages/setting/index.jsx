@@ -78,6 +78,7 @@ class Setting extends Component {
 				PersonAPI.uploadAvatar(params).then((res) => {
 					if (res.success) {
 						message.success('头像上传成功')
+						sessionStorage.setItem('avatar',res.data.avatar);
 						this.setState({
 							src: res.data.avatar,
 							visible: false,

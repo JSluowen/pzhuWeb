@@ -41,6 +41,8 @@ module.exports = app => {
     router.post('/api/achievement/searchAchievement', controller.achievement.searchAchievement);// 搜索成果资源
     // 获取文章界面的接口
     router.post('/api/article/getArticle', controller.article.getArticle);// 获取文章资源
+    router.post('/api/article/collectArticle', controller.article.collectArticle); // 收藏文章
+    router.post('/api/article/cancelCollect', controller.article.cancelCollect); // 取消文章收藏
     // 获取文章详情界面的接口
     router.post('/api/articleInfo/getArticleInfo', controller.articleInfo.getArticleInfo); // 获取文章详情界面资源
     // 资源发布界面的接口

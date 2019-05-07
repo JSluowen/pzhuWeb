@@ -38,10 +38,25 @@ class Fun extends Service {
             return item;
         });
     }
+    // 过滤资源所对应的类别
     async filterType(data, index) {
         return data.filter(item => {
             return item.dataValues.typeid === parseInt(index);
         });
+    }
+    // 筛选用户对应的收藏文章
+    async filterCollect(favorite, article) {
+        for (const i of article) {
+            for (const j of favorite) {
+                if (parseInt(j.dataValues.articleid) === parseInt(i.dataValues.id)) {
+                    i.dataValues.isFavorite = true;
+                    break;
+                } else {
+                    i.dataValues.isFavorite = false;
+                }
+            }
+        }
+        return article;
     }
 }
 

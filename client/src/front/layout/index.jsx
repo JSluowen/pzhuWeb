@@ -20,11 +20,9 @@ export default class Layout extends Component {
 
 	getUserinfo() {
 		let id = Cookies.getCookies('id');
-		let name = Cookies.getCookies('name');
 		PersonApi.getUserinfo({ id: id }).then((res) => {
 			this.setState({
-				status: true,
-				name: name
+				status: true
 			});
 			if (res.success) {
 				this.setState({
@@ -71,6 +69,11 @@ export default class Layout extends Component {
 	//文章，资源，成果选择
 	handleMenuClick = (value) => {
 
+	}
+	getSonAvatar=(avatar)=>{
+		this.setState({
+			avatar:avatar
+		})
 	}
 	render() {
 		const menu = (
