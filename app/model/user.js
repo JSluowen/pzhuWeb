@@ -20,13 +20,12 @@ module.exports = app => {
             updated_at: DATE,
         },
         {
-            underscored: true,
-            tableName: 'user',
-        },
+            freezeTableName: true,
+            tableName: 'user'
+        }
     );
     User.associate = function() {
-        app.model.User.hasMany(app.model.Article, { foreignKey: 'userid', targetKey: 'id' });
-        app.model.User.hasMany(app.model.UserInfo, { foreignKey: 'id', targetKey: 'id' });
+        app.model.User.hasOne(app.model.UserInfo, { foreignKey: 'id ' });
     };
     return User;
 };

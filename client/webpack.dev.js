@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 const isBack = process.env.CLIENT_ENV === 'back';
 module.exports = {
     mode: 'development',
@@ -40,5 +41,7 @@ module.exports = {
         //   }
         // },
         // historyApiFallback: true
+        
     },
+
 };

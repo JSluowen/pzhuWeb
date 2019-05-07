@@ -59,4 +59,14 @@ module.exports = app => {
     router.post('/api/achievementIssue/delAchievementCover', controller.achievementIssue.delAchievementCover);// 删除资源封面图片
     router.post('/api/achievementIssue/uploadAchievementAttachment', controller.achievementIssue.uploadAchievementAttachment);// 上传资源附件
     router.post('/api/achievementIssue/delAchievementAttachment', controller.achievementIssue.delAchievementAttachment);// 删除附加
+
+    // 后台管理界面接口
+    router.post('/api/back/user/all', controller.userManage.all);// 后台请求成员列表信息
+    router.post('/api/back/user/info', controller.userManage.info);
+    router.post('/api/back/user/apply', controller.userManage.apply);
+    router.post('/api/back/user/softDeleteOne', controller.userManage.softDelete);
+    router.post('/api/back/user/agreeOne', controller.userManage.agreeOne);
+    router.post('/api/back/resource/articleList', controller.backResourceManage.articleList);
+    router.post('/api/back/resource/deleteArticle', controller.backResourceManage.deleteArticle);
 };
+

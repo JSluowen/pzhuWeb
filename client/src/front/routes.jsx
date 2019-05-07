@@ -21,6 +21,21 @@ import {
 	AchievementIssue,
 } from './pages';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
+<<<<<<< HEAD
+=======
+import Layout from './layout/index';
+import Home from './pages/home';
+import Login from './pages/login';
+import Register from './pages/register';
+import Article from './pages/article';
+import Person from './pages/person';
+import  Edit from './pages/article/articleIndex';
+
+
+
+
+
+>>>>>>> 3f199b54746d5340482ec801ffbfeeb568fca84a
 // 前端路由鉴权
 const requireAuth = (nextState, replace, cb) => {
 	if (sessionStorage.getItem('token')) {
@@ -30,6 +45,10 @@ const requireAuth = (nextState, replace, cb) => {
 		cb();
 	}
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3f199b54746d5340482ec801ffbfeeb568fca84a
 
 export default (
 	<Router history={hashHistory}>
@@ -56,6 +75,10 @@ export default (
 				<Route path='/user/article' component={UserArticle} onEnter={requireAuth} />
 			</Route>
 		</Route>
+<<<<<<< HEAD
 		<Route path='articleEdit' component={ArticleEdit} />
+=======
+		<Route path="edit" component={Edit} onEnter={requireAuth} />
+>>>>>>> 3f199b54746d5340482ec801ffbfeeb568fca84a
 	</Router>
 );

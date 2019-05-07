@@ -29,6 +29,7 @@ module.exports = app => {
     );
 
     Favorite.associate = function() {
+        app.model.Favorite.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
         app.model.Favorite.belongsTo(app.model.Article, { foreignKey: 'articleid', targetKey: 'id' });
     };
 
