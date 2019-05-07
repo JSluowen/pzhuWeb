@@ -20,6 +20,7 @@ export default class Article extends Component {
 			hotArticle: [],// 热门文章
 			loading: true,
 			isLoading: true,
+			collectTitle: ''
 		}
 	}
 	componentDidMount() {
@@ -123,28 +124,28 @@ export default class Article extends Component {
 		} else if (event.tagName == 'svg') {
 			index = event.parentNode.parentNode.getAttribute('index')
 			isFavorite = event.parentNode.parentNode.getAttribute('isfavorite')
-			event =  event.parentNode.parentNode;
+			event = event.parentNode.parentNode;
 		} else {
 			index = event.parentNode.parentNode.parentNode.getAttribute('index')
 			isFavorite = event.parentNode.parentNode.parentNode.getAttribute('isfavorite')
-			event =  event.parentNode.parentNode.parentNode;
+			event = event.parentNode.parentNode.parentNode;
 		}
 		if (isFavorite === 'true') {
-			ArticleAPI.cancelCollect({id:index}).then(res=>{
-				if(res.success){
+			ArticleAPI.cancelCollect({ id: index }).then(res => {
+				if (res.success) {
 					message.success('取消收藏');
-					event.children[0].style.color='gray'
-					event.setAttribute('isfavorite','false')
+					event.children[0].style.color = 'gray'
+					event.setAttribute('isfavorite', 'false')
 				}
 			})
 		} else {
 			ArticleAPI.collectArticle({ id: index }).then(res => {
 				if (res.success) {
 					message.success('收藏成功');
-					event.children[0].style.color='#1890ff'
-					event.setAttribute('isfavorite','true')
+					event.children[0].style.color = '#1890ff'
+					event.setAttribute('isfavorite', 'true')
 				}
-				
+
 			})
 		}
 
@@ -207,12 +208,9 @@ export default class Article extends Component {
 																	sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === '' ?
 																		''
 																		:
-																		<Tooltip placement="bottom" title={'点击收藏'}>
-
-																			<div className="person-collect" index={item.id} isfavorite={item.isFavorite.toString()} onClick={this.handelCollect}>
-																				<Icon style={item.isFavorite ? { color: '#1890ff' } : { color: 'gray' }} type="star" />
-																			</div>
-																		</Tooltip>
+																		<div className="person-collect" index={item.id} isfavorite={item.isFavorite.toString()} onClick={this.handelCollect}>
+																			<Icon style={item.isFavorite ? { color: '#1890ff' } : { color: 'gray' }} type="star" />
+																		</div>
 																}
 
 																<div className="autor">
