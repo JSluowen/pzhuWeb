@@ -1,0 +1,63 @@
+  
+.edit {
+    display:flex;
+    flex-direction:row;
+    overflow: scroll;    
+}
+.edit .editContent {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0px;
+}
+
+ 
+.ediet-function {
+    display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+    height: 50px;
+		line-height: 50px;
+		border-bottom: 0.5px solid rgb(226, 221, 221);
+}
+.ediet-function .ant-input {
+    width: 70%;
+    height: 40px;
+    line-height: 40px;
+}
+.ediet-function .ant-btn{
+    height: 40px;
+    line-height: 40px;
+}
+.no-border-btn {
+    border: none;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    scroll-behavior: unset;
+    margin-bottom: 0px;
+}
+.edit-area{
+		width: 80%;
+		margin: 0 auto; 
+		text-align: center;
+    height: 100%;
+    overflow: hidden;
+		margin-bottom: 0px;
+		
+}
+.ediet{
+    margin-bottom: 0px;
+}
+
+.hover:hover{
+	cursor: pointer;
+}
+
+.centerLayout{
+	text-align: center;
+	
+}

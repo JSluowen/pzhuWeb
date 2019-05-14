@@ -1,5 +1,5 @@
-import base from './base';
-import axios from '../../http/axios';
+
+
 const Register = {
     // 上传邮箱验证码
     uploadCode(params) {

@@ -14,6 +14,23 @@ const Fullpage = () => (
 			return (
 				<div>
 					<div className="section">
+						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
+							<div className='home-fullpageFive-container'>
+								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
+								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，即可加入</div>
+									{
+									sessionStorage.getItem('token')?
+									''
+									:
+									<Link to='/register'>
+										申请加入
+                                	</Link>
+								}
+							</div>
+						</div>
+					</div>
+				
+					{/* <div className="section">
 						<div className="home-fullpageOne">
 							<div className="home-fullpageOne-left">
 								<div
@@ -44,6 +61,7 @@ const Fullpage = () => (
 							</div>
 						</div>
 					</div>
+					 */}
 					<div className="section">
 						<div className="home-fullpageTwo">
 							<div className="home-fullpageTwo-right">
@@ -198,22 +216,7 @@ const Fullpage = () => (
 
 						</div>
 					</div>
-					<div className="section">
-						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
-							<div className='home-fullpageFive-container'>
-								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
-								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，即可加入</div>
-									{
-									sessionStorage.getItem('token')?
-									''
-									:
-									<Link to='/register'>
-										申请加入
-                                	</Link>
-								}
-							</div>
-						</div>
-					</div>
+					
 				</div>
 			);
 		}} />

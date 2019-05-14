@@ -136,7 +136,9 @@ export default class Layout extends Component {
 						{this.state.status ? (
 							<div className="nav-bar-right-userinfo">
 								<ButtonGroup style={{ marginRight: '20px' }}>
-									<Button type='primary' ghost >文章发布</Button>
+									<Button type='primary' ghost >
+										<Link to='/articleEdit'>文章发布</Link>
+									</Button>
 									<Dropdown overlay={menu}>
 										<Button type='primary' ghost icon="down" >
 										</Button>

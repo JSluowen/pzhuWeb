@@ -189,8 +189,7 @@ export default class Article extends Component {
 											{
 												this.state.article.map(item => {
 													return <div className="article-item" key={item.id}>
-														<div className="article-cover">
-															<img src={item.postlink} alt="这是封面图" />
+														<div className="article-cover" style={{backgroundImage:`url(${item.postlink})`}} >
 														</div>
 														<div className="article-content">
 															<Link to={`/articleInfo/${item.id}`} target='_blank' className="article-top" >

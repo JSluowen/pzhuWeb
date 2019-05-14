@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "create-react-app": "^2.1.1",
+    "draft-js-prism": "^1.0.6",
     "egg": "^2.14.1",
     "egg-cors": "^2.1.2",
     "egg-sequelize": "^4.2.0",
@@ -22,6 +23,7 @@
     "md5": "^2.2.1",
     "mysql2": "^1.6.5",
     "nodemailer": "^5.1.1",
+    "prismjs": "^1.16.0",
     "qiniu": "^7.2.1"
   },
   "devDependencies": {
