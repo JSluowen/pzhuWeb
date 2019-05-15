@@ -57,5 +57,6 @@ export default (
 			</Route>
 		</Route>
 		<Route path='articleEdit' component={ArticleEdit} />
+		<Route path='articleEdit/:id' component={ArticleEdit} />
 	</Router>
 );

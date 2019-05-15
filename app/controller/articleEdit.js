@@ -16,8 +16,10 @@ class ArticleEdit extends Controller {
                 const table = 'Menu';
                 const table1 = 'Technology';
                 const table2 = 'Article';
+                const table3 = 'UserInfo';
                 const menu = await ctx.service.mysql.findAll({}, table);
                 const technology = await ctx.service.mysql.findAll({}, table1);
+                const userinfo = await ctx.service.mysql.findAll({ where: { id: userid }, attributes: ['avatar'] }, table3);
                 const params = {
                     include: [
                         {
@@ -47,9 +49,9 @@ class ArticleEdit extends Controller {
                 };
                 let article;
                 if (id === '') {
-                    article = await ctx.service.mysql.findAll(params, table2);
+                    article = await ctx.service.mysql.findAll(params, table2);// 查找上次未编写完的文章
                 } else {
-                    article = await ctx.service.mysql.findAll(params2, table2);
+                    article = await ctx.service.mysql.findAll(params2, table2);// 用户编辑文章
                 }
                 if (article.length === 0) {
                     article = await ctx.service.mysql.create({ userid, status: 2 }, table2);
@@ -59,7 +61,8 @@ class ArticleEdit extends Controller {
                         data: {
                             menu,
                             technology,
-                            article
+                            article,
+                            userinfo
                         }
                     };
                 } else {
@@ -69,7 +72,8 @@ class ArticleEdit extends Controller {
                         data: {
                             menu,
                             technology,
-                            article
+                            article,
+                            userinfo
                         }
                     };
                 }

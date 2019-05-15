@@ -185,7 +185,7 @@ export default class Article extends Component {
 									this.state.article.length === 0 ?
 										<div className='article-left-null'>暂无数据</div>
 										:
-										<div>
+										<div style={{width:'100%'}} >
 											{
 												this.state.article.map(item => {
 													return <div className="article-item" key={item.id}>

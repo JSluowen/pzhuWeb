@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Input, Icon, Avatar, Button, Spin, message } from 'antd';
+import { Link } from 'react-router';
+import { Input, Icon, Avatar, Button, Spin, message, Form } from 'antd';
 import ArticleEditAPI from '../../api/articleEdit'
 // 引入七牛云
 import * as qiniu from 'qiniu-js'
@@ -38,7 +39,10 @@ class ArticleEdit extends Component {
 			postlink: '',// 封面图链接
 			context: '',// 文章给你内容
 			raw: '',// 用户编辑的文章内容格式
+			avatar: ''// 用户头像
 		}
+		this.selectType = React.createRef();
+		this.selectTechnology = React.createRef();
 	}
 
 	componentDidMount() {
@@ -105,19 +109,50 @@ class ArticleEdit extends Component {
 					menu: res.data.menu,
 					technology: res.data.technology,
 					id: res.data.article.id,
-					status: res.data.article.status
+					status: res.data.article.status,
+					avatar: res.data.userinfo[0].avatar
 				})
 			} else {
 				this.setState({
 					menu: res.data.menu,
 					technology: res.data.technology,
-					article: res.data.article,
+					article: res.data.article[0],
 					id: res.data.article[0].id,
 					postlink: res.data.article[0].postlink,
-					status: res.data.article[0].status
+					status: 2,
+					avatar: res.data.userinfo[0].avatar
+				}, () => {
+					this.initArticle()
 				})
 			}
 		})
+	}
+	// 初始化文章资源
+	initArticle = () => {
+		const article = this.state.article;
+		const { title, raw, context, keywords, technologyid, menuid } = article;
+		let { setFieldsValue } = this.props.form;
+		setFieldsValue({ "title": title })
+		this.setState({
+			editorState: BraftEditor.createEditorState(context),
+			keywords:keywords,
+			selectType:menuid,
+			selectTechnology:technologyid,
+			title:title
+
+		})
+		let selectType = this.selectType.current.children;
+        for (let item of selectType) {
+            if (parseInt(item.getAttribute('index')) === menuid) {
+                item.classList.add('tagActive');
+            }
+		}
+		let selectTechnology = this.selectTechnology.current.children;
+        for (let item of selectTechnology) {
+            if (parseInt(item.getAttribute('index')) === technologyid) {
+                item.classList.add('tagActive');
+            }
+        }
 	}
 	handShowCover = () => {
 		if (this.state.issueStatus == true) {
@@ -258,7 +293,9 @@ class ArticleEdit extends Component {
 		let str = this.state.context;
 		let text = str.replace(/<[^<>]+>/g, "");
 		const abstract = text.substring(0, 120);
-		if (this.state.selectType === '') {
+		if(this.state.title===''){
+			message.warning('请输入文章标题')
+		}else if (this.state.selectType === '') {
 			message.warning('请选择文章类别')
 		} else if (this.state.selectTechnology === '') {
 			message.warning('请选择文章的技术标签');
@@ -269,18 +306,18 @@ class ArticleEdit extends Component {
 		} else if (this.state.postlink === '' || this.state.postlink === null) {
 			message.warning('请上传文章封面图')
 		} else {
-		let params = {
-			id: this.state.id,
-			status: this.state.status,
-			title: this.state.title,
-			context: this.state.context,
-			raw:this.state.raw,
-			postlink:this.state.postlink,
-			technologyid:this.state.selectTechnology,
-			keywords:this.state.keywords,
-			menuid:this.state.selectType,
-			abstract:abstract	
-		}
+			let params = {
+				id: this.state.id,
+				status: this.state.status,
+				title: this.state.title,
+				context: this.state.context,
+				raw: this.state.raw,
+				postlink: this.state.postlink,
+				technologyid: this.state.selectTechnology,
+				keywords: this.state.keywords,
+				menuid: this.state.selectType,
+				abstract: abstract
+			}
 			ArticleEditAPI.uploadArticleInfo(params).then(res => {
 				if (res.success) {
 					message.success('发布成功')
@@ -290,6 +327,7 @@ class ArticleEdit extends Component {
 
 	}
 	render() {
+		const { getFieldDecorator } = this.props.form;
 		const excludeControls = ['fullscreen']
 		const controls = [
 			'undo', 'redo', 'separator',
@@ -375,7 +413,14 @@ class ArticleEdit extends Component {
 						</a>
 					</div>
 					<div className='articleEdit-header-title'>
-						<Input onChange={(e)=>{this.setState({title:e.target.value})}} placeholder='请输入文章标题' ></Input>
+						{
+							getFieldDecorator('title', {
+
+							})(
+								<Input onChange={(e) => { this.setState({ title: e.target.value }) }} placeholder='请输入文章标题' ></Input>
+							)
+						}
+
 					</div>
 					<div className='articleEdit-header-right'>
 						<div className='articleEdit-header-right-cover'  >
@@ -404,7 +449,7 @@ class ArticleEdit extends Component {
 							<div className='articleEdit-header-right-issue-panel' onMouseLeave={(e) => { if (e.target.tagName !== 'DIV') return; this.setState({ issueStatus: false }); }} style={this.state.issueStatus ? { display: 'block' } : { display: 'none' }}>
 								<div className='articleEdit-header-right-issue-panel-title'>发布文章</div>
 								<div className='articleEdit-header-right-issue-panel-category'>分类</div>
-								<div className='articleEdit-header-right-issue-panel-categoryList'>
+								<div className='articleEdit-header-right-issue-panel-categoryList' ref={this.selectType} >
 									{
 										this.state.menu.map(item => {
 											return <Button onClick={this.handelSelectType} key={item.id} index={item.id}>{item.name}</Button>
@@ -412,7 +457,7 @@ class ArticleEdit extends Component {
 									}
 								</div>
 								<div className='articleEdit-header-right-issue-panel-technology'>技术标签</div>
-								<div className='articleEdit-header-right-issue-panel-technologyList'>
+								<div className='articleEdit-header-right-issue-panel-technologyList' ref={this.selectTechnology}>
 									{
 										this.state.technology.map(item => {
 											return <Button onClick={this.handelSelectTeachnology} key={item.id} index={item.id}>{item.name}</Button>
@@ -421,7 +466,7 @@ class ArticleEdit extends Component {
 								</div>
 								<div className='articleEdit-header-right-issue-panel-keyWords'>关键字</div>
 								<div className='articleEdit-header-right-issue-panel-keyWordsList'>
-									<input onChange={(e) => { this.setState({ keywords: e.target.value }) }} placeholder='请添加一个关键字'></input>
+									<input value={this.state.keywords} onChange={(e) => { this.setState({ keywords: e.target.value }) }} placeholder='请添加一个关键字'></input>
 								</div>
 								<div className='articleEdit-header-right-issue-panel-issueBtn'>
 									<Button ghost onClick={this.uploadArticleInfo} >文章发布</Button>
@@ -429,9 +474,11 @@ class ArticleEdit extends Component {
 							</div>
 						</div>
 						<div className='articleEdit-header-right-avatar'>
-							<Avatar
-								size={40}
-								src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+							<Link to="user">
+								<Avatar
+									size={40}
+									src={this.state.avatar} />
+							</Link>
 						</div>
 					</div>
 				</div>
@@ -451,5 +498,5 @@ class ArticleEdit extends Component {
 		);
 	}
 }
-
-export default ArticleEdit;
+const ArticleEdits = Form.create()(ArticleEdit)
+export default ArticleEdits;

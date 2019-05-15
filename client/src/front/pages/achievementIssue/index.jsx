@@ -47,7 +47,6 @@ class AchievementIssue extends Component {
                     achievementType: res.data
                 })
             } else {
-                console.log(res.data)
                 this.setState({
                     id: res.data.achievement[0].id,
                     type:res.data.achievement[0].typeid,
