@@ -1,0 +1,25 @@
+.ant-layout-sider-children{
+    padding-top: 50px;
+}
+ .logo {
+	height: 80px;
+	margin-top: -20px;
+	margin-left:-14px; 
+	//background: rgba(209, 17, 17, 0.2);
+	// /margin: 16px;
+	background-image: url('../public/images/logo.3c28af6.png');
+	background-position: center;
+	background-size: 100px;	
+	background-repeat: no-repeat;
+}
+
+.right_col{
+	float: right;
+	border: none;
+	border-bottom:none;
+	padding-right: 2em;
+	background-color:inherit;
+}
+.right_col .ant-collapse-item {
+	border-bottom:none;
+}

@@ -1,0 +1,30 @@
+.flex_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: baseline;
+}
+.average_flex_row{
+    flex-grow: 1;
+    flex-basis: 50px;
+    flex-shrink: 1;
+}
+.span_button {
+    padding-right: 20px;
+    
+}
+.appaly_list_header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: baseline;
+    margin-left:20px;
+}
+.antd_Button_space{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.span_button:hover{
+    cursor: pointer;
+    background-color: #abcdef;
+}

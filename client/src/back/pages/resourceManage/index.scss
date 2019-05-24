@@ -1,0 +1,50 @@
+.article_list .ant-btn-group > .ant-btn:first-child:not(:last-child), .ant-btn-group > span:first-child:not(:last-child) > .ant-btn{
+    visibility: hidden;
+}
+.article_list span.ant-input-wrapper.ant-input-group {
+    width: 50%;
+    position: relative;
+    left: 50%;
+    top: 30px;
+}
+.article_list  button.ant-btn.ant-btn-danger {
+    margin: 0px 20px;
+}
+
+.article_list .action:hover {
+    position:absolute;
+    background-color: #fffdfd;
+    max-width: 999px;
+    max-height: 999px;
+    cursor: pointer;
+
+}
+.article_list td{
+    position: relative;
+}
+.action {
+    max-width: 2em;
+    max-height: 2em;
+    overflow: hidden;
+    border-radius: 20% fffdfd solid;
+    position: absolute;
+}
+.action .panel{
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+}
+.action .panel span{
+    padding: 1px 1px 1px 1px;
+    padding-top: 1em;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.action .panel span button{
+    width: 6em;
+    background-color: #fffdfd;
+    border: none;
+}
+.action .panel span button:hover{
+    background-color: #abcdef;
+}

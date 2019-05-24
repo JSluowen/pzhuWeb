@@ -158,6 +158,7 @@ export default class Layout extends Component {
 								</Link>
 								<p onClick={this.handleExit}>注销</p>
 							</div>
+						
 						) : (
 								<div className="nav-bar-right-user">
 									<div className="login">

@@ -1,8 +1,6 @@
 import React from 'react';
 import BraftEditor from 'braft-editor';
-
 import 'braft-editor/dist/index.css';
-
 // import { async } from '_rxjs@6.4.0@rxjs/internal/scheduler/async';
 //import { Button } from 'antd';
 
