@@ -52,6 +52,7 @@ class Article extends Controller {
             let favorite;
             if (userid && author) {
                 favorite = await ctx.service.mysql.findAll(params2, table2);
+                console.log(favorite);
                 article = await ctx.service.fun.filterCollect(favorite, article);
             }
             if (index !== 0) {

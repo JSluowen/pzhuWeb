@@ -35,7 +35,7 @@ class User extends Controller {
                 let userinfo = await ctx.service.mysql.findAll(params, table);
                 if (userinfo.length !== 0) {
                     userinfo = userinfo[0].dataValues;
-                    const article = await ctx.service.mysql.findAll({ where: { userid: id } }, table1);
+                    const article = await ctx.service.mysql.findAll({ where: { userid: id, status: 1 } }, table1);
                     const articleNum = article.length; // 获取发表文章的数量
                     // 获取文章被阅读量
                     let readNum = 0;

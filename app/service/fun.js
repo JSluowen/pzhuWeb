@@ -46,16 +46,23 @@ class Fun extends Service {
     }
     // 筛选用户对应的收藏文章
     async filterCollect(favorite, article) {
-        for (const i of article) {
-            for (const j of favorite) {
-                if (parseInt(j.dataValues.articleid) === parseInt(i.dataValues.id)) {
-                    i.dataValues.isFavorite = true;
-                    break;
-                } else {
-                    i.dataValues.isFavorite = false;
+        if (favorite.length !== 0) {
+            for (const i of article) {
+                for (const j of favorite) {
+                    if (parseInt(j.dataValues.articleid) === parseInt(i.dataValues.id)) {
+                        i.dataValues.isFavorite = true;
+                        break;
+                    } else {
+                        i.dataValues.isFavorite = false;
+                    }
                 }
             }
+        } else {
+            for (const i of article) {
+                i.dataValues.isFavorite = false;
+            }
         }
+
         return article;
     }
 }
