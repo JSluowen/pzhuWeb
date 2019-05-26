@@ -97,15 +97,12 @@ class Login extends Component {
 			Cookies.setCookies({ id: '' });
 		}
 	};
-
 	render() {
 		const { getFieldDecorator } = this.props.form;
-
 		return (
-			
 			<div className="login-container">
-				<div className="login-img" style={{backgroundImage:`url(http://cdn.niuxingxing.com/3.jpg)`}}>
-					
+				<div className="login-img" style={{ backgroundImage: `url(http://cdn.niuxingxing.com/3.jpg)` }}>
+
 				</div>
 				<div className="login-content">
 					<div className="login-form">
@@ -200,7 +197,5 @@ class Login extends Component {
 		);
 	}
 }
-
 const Logins = Form.create()(Login);
-
 export default Logins;

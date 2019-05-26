@@ -1,4 +1,6 @@
 import User from './user'
-export{
-    User
+import Login from './login'
+export {
+    User,
+    Login
 }

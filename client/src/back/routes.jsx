@@ -1,21 +1,22 @@
 import * as React from 'react';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 import Layout from './layout/index.jsx';
-import { User } from './pages'
+import { User, Login } from './pages'
 const requireAuth = (nextState, replace, cb) => {
 	if (sessionStorage.getItem('token')) {
 		cb();
 	} else {
-		replace('/login');
+		replace('/');
 		cb();
 	}
 };
 
 export default (
 	<Router history={hashHistory}>
-		<Route path="/" component={Layout}>
+		<Route path='/' component={Login} />
+		<Route path="/layout" component={Layout} onEnter={requireAuth} >
 			<IndexRedirect to='user' />
-			<Router path='user' component={User}  />
+			<Route path='user' component={User} />
 		</Route>
 	</Router>
 );

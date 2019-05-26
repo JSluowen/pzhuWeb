@@ -66,6 +66,7 @@ module.exports = app => {
     router.get('/api/articleEdit/getMediaItems', controller.articleEdit.getMediaItems); // 获取初始化媒体库的信息
     router.post('/api/articleEdit/removeMedia', controller.articleEdit.removeMedia); // 删除媒体库的信息
     // 后台管理员界面
+    router.post('/api/back/adminLogin', controller.backLogin.adminLogin);// 后台管理员登录
     router.get('/api/back/getUserInfo', controller.backUser.getUserInfo);// 获取管理用户的信息
 };
 
