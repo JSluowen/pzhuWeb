@@ -65,4 +65,7 @@ module.exports = app => {
     router.post('/api/articleEdit/uploadArticleResource', controller.articleEdit.uploadArticleResource);// 上传文章的资源
     router.get('/api/articleEdit/getMediaItems', controller.articleEdit.getMediaItems); // 获取初始化媒体库的信息
     router.post('/api/articleEdit/removeMedia', controller.articleEdit.removeMedia); // 删除媒体库的信息
+    // 后台管理员界面
+    router.get('/api/back/getUserInfo', controller.backUser.getUserInfo);// 获取管理用户的信息
 };
+

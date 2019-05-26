@@ -12,7 +12,6 @@ class Person extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                // const { id } = ctx.request.body;
                 const userid = ctx.session.userid;
                 const table = 'UserInfo';
                 const resdata = await ctx.service.mysql.findById(userid, table);
@@ -32,6 +31,7 @@ class Person extends Controller {
                 }
             }
         } catch (err) {
+            console.log(err);
             ctx.status = 404;
         }
     }

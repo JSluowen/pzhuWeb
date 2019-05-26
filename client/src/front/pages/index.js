@@ -8,7 +8,6 @@ import Register from './register';
 import ArticleEdit from './articleEdit';
 import Article from './article';
 import Setting from './setting';
-// import Collect from './collect'
 import User from './user';
 import Member from './member';
 import Achievement from './achievement';

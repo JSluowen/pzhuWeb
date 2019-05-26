@@ -8,21 +8,21 @@ module.exports = app => {
                 type: STRING(16),
                 primaryKey: true,
                 references: {
-                    model: 'user',
+                    model: 'User',
                     key: 'id',
                 },
             },
             school: {
                 type: INTEGER(10),
                 references: {
-                    model: 'school',
+                    model: 'School',
                     key: 'id',
                 },
             },
             major: {
                 type: INTEGER(10),
                 references: {
-                    model: 'major',
+                    model: 'Major',
                     key: 'id',
                 },
             },

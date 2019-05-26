@@ -17,7 +17,7 @@ module.exports = {
             template: path.resolve(__dirname, isBack ? './html/back.html' : './html/front.html'),
             chunks: isBack? ['back']: ['front'],
             minify: {
-                collapseWhitespace: true,
+                collapseWhitespace: true,//是否去除空空格
             },
         }),
         new CleanWebpackPlugin(['dist']),
@@ -40,8 +40,7 @@ module.exports = {
         //     }
         //   }
         // },
-        // historyApiFallback: true
-        
+        // historyApiFallback: true  
     },
 
 };
