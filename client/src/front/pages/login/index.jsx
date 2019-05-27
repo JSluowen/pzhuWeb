@@ -69,7 +69,7 @@ class Login extends Component {
 				LoginApi.login(params)
 					.then((res) => {
 						if (res.success) {
-							message.success('登录成功,1s后自动跳转');
+							message.success('登录成功');
 							let data = {
 								id: res.data.id,
 								password: res.data.password,
@@ -79,7 +79,7 @@ class Login extends Component {
 							sessionStorage.setItem('token', res.data.token);
 							setTimeout(() => {
 								this.props.router.push('/index');
-							}, 1000);
+							}, 500);
 						} else {
 							message.warning(res.message);
 						}

@@ -67,6 +67,10 @@ module.exports = app => {
     router.post('/api/articleEdit/removeMedia', controller.articleEdit.removeMedia); // 删除媒体库的信息
     // 后台管理员界面
     router.post('/api/back/adminLogin', controller.backLogin.adminLogin);// 后台管理员登录
-    router.get('/api/back/getUserInfo', controller.backUser.getUserInfo);// 获取管理用户的信息
+    router.get('/api/back/getadminInfo', controller.backUser.getadminInfo);// 获取管理员的信息
+    router.post('/api/back/getUserInfo', controller.backUser.getUserInfo);// 获取管理用户的信息
+    router.post('/api/back/userReviewPass', controller.backUser.userReviewPass);// 用户审核通过
+    router.post('/api/back/userRefuseJoin', controller.backUser.userRefuseJoin);// 拒绝用户通过
+    router.post('/api/back/deleteUser', controller.backUser.deleteUser);// 拒绝用户通过
 };
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router'
 import { Avatar, Icon, Menu, Layout, Tooltip } from 'antd';
+import { UserAPI } from '../api'
 import "./index.scss"
 const SubMenu = Menu.SubMenu;
 const { Sider } = Layout;
@@ -9,18 +10,38 @@ class Index extends Component {
 		super(props);
 		this.state = {
 			collapsed: false,// 是否收缩导航栏
+			avatar: 'http://img.pzhuweb.cn/1555671955194',//默认头像
+			name: ''
 		}
 	};
+	componentDidMount() {
+		this.getadminInfo();
+	}
+	getadminInfo = () => {
+		UserAPI.getadminInfo().then(res => {
+			if (res.success) {
+				this.setState({
+					avatar: res.data[0].avatar,
+					name: res.data[0].User.name
+				})
+			}
+		})
+	}
+	// 退出登录
+	logout = () => {
+		sessionStorage.removeItem('token');
+		this.props.router.push('/')
+	}
 	render() {
 		return (
 			<div className='back-container'>
 				<div className='back-container-layout'>
 					<div className='back-container-layout-header'>
 						<div className='back-container-layout-header-logo' />
-						<div className='back-container-layout-header-menu'>
+						<div className='back-container-layout-header-menu' onClick={this.logout} >
 							<Tooltip title='点击退出登录' placement="bottom"  >
-								<Avatar shape="square" size={40} src="http://img.pzhuweb.cn/1555671955194" />
-								<span>张三</span>
+								<Avatar shape="square" size={40} src={this.state.avatar} />
+								<span>{this.state.name}</span>
 							</Tooltip>
 						</div>
 					</div>
@@ -64,6 +85,36 @@ class Index extends Component {
 											评论列表
 										</Menu.Item>
 									</SubMenu>
+									<Menu.Item key="4">
+										<Icon type="book" />
+										<span>
+											<Link to='/resource'>资源管理</Link>
+										</span>
+									</Menu.Item>
+									<Menu.Item key="5">
+										<Icon type="folder" />
+										<span>
+											<Link to='/achievement'>成果管理</Link>
+										</span>
+									</Menu.Item>
+									<Menu.Item key="6">
+										<Icon type="tags" />
+										<span>
+											<Link to='/label'>标签管理</Link>
+										</span>
+									</Menu.Item>
+									<Menu.Item key="7">
+										<Icon type="picture" />
+										<span>
+											<Link to='/home'>首页管理</Link>
+										</span>
+									</Menu.Item>
+									<Menu.Item key="8">
+										<Icon type="mail" />
+										<span>
+											<Link to='/email'>邮件发送</Link>
+										</span>
+									</Menu.Item>
 								</Menu>
 							</Sider>
 						</div>

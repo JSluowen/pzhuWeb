@@ -7,7 +7,26 @@ import './index.scss'
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+        };
+    }
+    componentDidMount() {
+        this.getCookies();
+    }
+    getCookies = () => {
+        let admin = Cookies.getCookies('admin');
+        let adminPawword = Cookies.getCookies('adminPassword');
+        let form = this.props.form;
+        form.setFieldsValue({ id: admin });
+        form.setFieldsValue({ password: adminPawword });
+    }
+    //判断用户是否重新输入密码了
+    handleUser = (e) => {
+        if (e.target.type == 'password') {
+            Cookies.setCookies({ adminPassword: '' });
+        } else {
+            Cookies.setCookies({ admin: '' });
+        }
     }
     handleSubmit = e => {
         e.preventDefault();
@@ -16,7 +35,7 @@ class Login extends Component {
                 console.log(values)
                 const params = {
                     id: values.id,
-                    password: md5(values.password)
+                    password: Cookies.getCookies('adminPassword') && Cookies.getCookies('adminPassword') !== '' ? values.password : md5(values.password)
                 }
                 LoginAPI.adminLogin(params).then(res => {
                     if (res.success) {
@@ -25,10 +44,19 @@ class Login extends Component {
                         if (values.remember) {
                             Cookies.setCookies({
                                 admin: res.data.id,
-                                adminPawword: res.data.password,
+                                adminPassword: res.data.password,
+                                remember: values.remember
+                            })
+                        } else {
+                            Cookies.setCookies({
+                                admin: '',
+                                adminPassword: '',
                                 remember: values.remember
                             })
                         }
+                        setTimeout(() => {
+                            this.props.router.push('/back');
+                        }, 500);
                     } else {
                         message.warning(res.message)
                     }
@@ -62,6 +90,7 @@ class Login extends Component {
                                             <Input
                                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                                 placeholder="账号"
+                                                onChange={this.handleUser}
                                             />,
                                         )}
                                     </Form.Item>
@@ -73,6 +102,7 @@ class Login extends Component {
                                                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                                 type="password"
                                                 placeholder="密码"
+                                                onChange={this.handleUser}
                                             />,
                                         )}
                                     </Form.Item>

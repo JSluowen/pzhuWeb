@@ -13,8 +13,11 @@ const requireAuth = (nextState, replace, cb) => {
 
 export default (
 	<Router history={hashHistory}>
-		<Route path='/' component={Login} />
-		<Route path="/layout" component={Layout} onEnter={requireAuth} >
+		<Route path='/'  >
+			<IndexRedirect to='login' />
+			<Route path='login' component={Login} />
+		</Route>
+		<Route path="/back" component={Layout} onEnter={requireAuth} >
 			<IndexRedirect to='user' />
 			<Route path='user' component={User} />
 		</Route>
