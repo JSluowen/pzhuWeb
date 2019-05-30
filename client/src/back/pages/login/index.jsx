@@ -32,7 +32,6 @@ class Login extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values)
                 const params = {
                     id: values.id,
                     password: Cookies.getCookies('adminPassword') && Cookies.getCookies('adminPassword') !== '' ? values.password : md5(values.password)

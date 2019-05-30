@@ -5,5 +5,9 @@ const base = {
     userReviewPass: '/back/userReviewPass',//用户审核通过
     userRefuseJoin: '/back/userRefuseJoin',// 拒绝用户加入
     deleteUser: '/back/deleteUser',// 删除成员信息
+    getArticleInfo: '/back/getArticleInfo',// 获取文章信息
+    istop: '/back/istop',//文章是否置顶
+    deleteArticle:'/back/deleteArticle',// 是否确认删除该文章
+
 }
 export default base;

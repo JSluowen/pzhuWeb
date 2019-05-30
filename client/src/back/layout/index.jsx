@@ -11,7 +11,15 @@ class Index extends Component {
 		this.state = {
 			collapsed: false,// 是否收缩导航栏
 			avatar: 'http://img.pzhuweb.cn/1555671955194',//默认头像
-			name: ''
+			name: '',
+			router: [
+				'/back/user',
+				'/back/article',
+				'/back/resource',
+				'/back/achievement',
+				'/back/home',
+				'/back/email'
+			]
 		}
 	};
 	componentDidMount() {
@@ -32,6 +40,11 @@ class Index extends Component {
 		sessionStorage.removeItem('token');
 		this.props.router.push('/')
 	}
+	// 点击菜单跳转
+	selectMenu = (e) => {
+		const key = parseInt(e.key);
+		this.props.router.push(this.state.router[key]);
+	}
 	render() {
 		return (
 			<div className='back-container'>
@@ -40,7 +53,7 @@ class Index extends Component {
 						<div className='back-container-layout-header-logo' />
 						<div className='back-container-layout-header-menu' onClick={this.logout} >
 							<Tooltip title='点击退出登录' placement="bottom"  >
-								<Avatar shape="square" size={40} src={this.state.avatar} />
+								<Avatar size="large" size={40} src={this.state.avatar} />
 								<span>{this.state.name}</span>
 							</Tooltip>
 						</div>
@@ -57,62 +70,44 @@ class Index extends Component {
 									}
 								</div>
 								<Menu
-									defaultSelectedKeys={['1']}
-									defaultOpenKeys={['sub1']}
 									mode="inline"
 									theme="dark"
 									inlineCollapsed={this.state.collapsed}
 								>
-									<Menu.Item key="1">
+									<Menu.Item key='0' onClick={this.selectMenu} >
 										<Icon type="user" />
 										<span>
-											<Link to='/user'>用户管理</Link>
+											用户管理
 										</span>
 									</Menu.Item>
-									<SubMenu
-										key="sub1"
-										title={
-											<span>
-												<Icon type="read" />
-												<span><Link to='/article'>文章管理</Link></span>
-											</span>
-										}
-									>
-										<Menu.Item key="2">
-											文章列表
-										</Menu.Item>
-										<Menu.Item key="3">
-											评论列表
-										</Menu.Item>
-									</SubMenu>
-									<Menu.Item key="4">
+									<Menu.Item key="1" onClick={this.selectMenu}>
+										<Icon type="read" />
+										<span>
+											文章管理
+										</span>
+									</Menu.Item>
+									<Menu.Item key="2" onClick={this.selectMenu}>
 										<Icon type="book" />
 										<span>
-											<Link to='/resource'>资源管理</Link>
+											资源管理
 										</span>
 									</Menu.Item>
-									<Menu.Item key="5">
+									<Menu.Item key="3" onClick={this.selectMenu}>
 										<Icon type="folder" />
 										<span>
-											<Link to='/achievement'>成果管理</Link>
+											成果管理
 										</span>
 									</Menu.Item>
-									<Menu.Item key="6">
-										<Icon type="tags" />
-										<span>
-											<Link to='/label'>标签管理</Link>
-										</span>
-									</Menu.Item>
-									<Menu.Item key="7">
+									<Menu.Item key="4" onClick={this.selectMenu}>
 										<Icon type="picture" />
 										<span>
-											<Link to='/home'>首页管理</Link>
+											首页管理
 										</span>
 									</Menu.Item>
-									<Menu.Item key="8">
+									<Menu.Item key="5" onClick={this.selectMenu}>
 										<Icon type="mail" />
 										<span>
-											<Link to='/email'>邮件发送</Link>
+											邮件发送
 										</span>
 									</Menu.Item>
 								</Menu>

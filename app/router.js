@@ -72,5 +72,8 @@ module.exports = app => {
     router.post('/api/back/userReviewPass', controller.backUser.userReviewPass);// 用户审核通过
     router.post('/api/back/userRefuseJoin', controller.backUser.userRefuseJoin);// 拒绝用户通过
     router.post('/api/back/deleteUser', controller.backUser.deleteUser);// 拒绝用户通过
+    router.post('/api/back/getArticleInfo', controller.backArticle.getArticleInfo);// 获取后台文章管理信息
+    router.post('/api/back/istop', controller.backArticle.istop);// 是否置顶
+    router.post('/api/back/deleteArticle', controller.backArticle.deleteArticle);// 删除文章
 };
 
