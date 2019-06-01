@@ -64,9 +64,9 @@ class Index extends Component {
 								<div className='back-container-layout-body-aside-collapsed' onClick={() => { this.setState({ collapsed: !this.state.collapsed }) }} >
 									{
 										this.state.collapsed ?
-											<Icon type="left" />
-											:
 											<Icon type="right" />
+											:
+											<Icon type="left" />
 									}
 								</div>
 								<Menu

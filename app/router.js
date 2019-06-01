@@ -75,5 +75,8 @@ module.exports = app => {
     router.post('/api/back/getArticleInfo', controller.backArticle.getArticleInfo);// 获取后台文章管理信息
     router.post('/api/back/istop', controller.backArticle.istop);// 是否置顶
     router.post('/api/back/deleteArticle', controller.backArticle.deleteArticle);// 删除文章
+    router.post('/api/back/onSerachArticle', controller.backArticle.onSerachArticle);//搜索文章
+    router.post('/api/back/delTag', controller.backArticle.delTag);//删除技术标签
+    router.post('/api/back/addTag', controller.backArticle.addTag);// 添加技术标签
 };
 

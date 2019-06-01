@@ -27,6 +27,33 @@ const Article = {
                 reject(err.data)
             })
         })
+    },
+    onSerachArticle(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.onSerachArticle}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    delTag(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.delTag}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    addTag(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.addTag}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
     }
 
 

@@ -98,5 +98,17 @@
                 }
             }
         }
+        &-tag{
+            &-list{
+                width: 50%;
+                display: flex;
+                align-items: flex-start;
+                flex-wrap: wrap;
+                padding: 20px 0;
+                .ant-tag{
+                    margin-bottom: 10px;
+                }
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ class Article extends Controller {
                 page = parseInt(page);
                 pageSize = parseInt(pageSize);
                 const table = 'Article';
-                // const table1 = 'Technology';
+                const table1 = 'Technology';
                 const params = {
                     include: [
                         {
@@ -46,13 +46,15 @@ class Article extends Controller {
                 };
                 const articleList = await ctx.service.mysql.findAll(params, table);
                 const allArticle = await ctx.service.mysql.findAll(params1, table);
+                const tag = await ctx.service.mysql.findAll(params1, table1)
                 const total = allArticle.length;
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,
                     data: {
                         articleList,
-                        total
+                        total,
+                        tag
                     }
                 };
             }
@@ -103,6 +105,178 @@ class Article extends Controller {
                 ctx.body = {
                     success: 1
                 };
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 404;
+        }
+    }
+    async onSerachArticle() {
+        const { ctx, app } = this;
+        const { Op } = app.Sequelize;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { index, value } = ctx.request.body;
+                const table = 'Article';
+                let params;
+                if (index === '1') {
+                    params = {
+                        include: [
+                            {
+                                model: app.model.UserInfo,
+                                attributes: ['avatar'],
+                                include: [
+                                    {
+                                        model: app.model.User,
+                                        attributes: ['name'],
+
+                                    }
+                                ]
+                            }, {
+                                model: app.model.Technology
+                            }
+                        ],
+                        where: {
+                            status: 1,
+                            title: {
+                                [Op.like]: '%' + value + '%',
+                            }
+                        },
+                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
+                        order: [['updated_at', 'DESC']],
+                    }
+                } else if (index === '2') {
+                    params = {
+                        include: [
+                            {
+                                model: app.model.UserInfo,
+                                attributes: ['avatar'],
+                                include: [
+                                    {
+                                        model: app.model.User,
+                                        attributes: ['name'],
+
+                                    }
+                                ]
+                            }, {
+                                model: app.model.Technology,
+                                where: {
+                                    name: {
+                                        [Op.like]: '%' + value + '%',
+                                    }
+                                }
+                            }
+                        ],
+                        where: {
+                            status: 1
+                        },
+                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
+                        order: [['updated_at', 'DESC']],
+                    }
+                } else if (index === '3') {
+                    params = {
+                        include: [
+                            {
+                                model: app.model.UserInfo,
+                                attributes: ['avatar'],
+                                include: [
+                                    {
+                                        model: app.model.User,
+                                        attributes: ['name']
+                                    }
+                                ]
+                            }, {
+                                model: app.model.Technology,
+                            }
+                        ],
+                        where: {
+                            status: 1,
+                            keywords: {
+                                [Op.like]: '%' + value + '%',
+                            }
+                        },
+                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
+                        order: [['updated_at', 'DESC']],
+                    }
+                }
+                const article = await ctx.service.mysql.findAll(params, table);
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1,
+                    data: article
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 404;
+        }
+    }
+    async delTag() {
+        const { ctx } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { tagid } = ctx.request.body;
+                const table = 'Technology';
+                const tc = await ctx.service.mysql.findById(tagid, table);
+                await tc.update({ status: 0 });
+                ctx.status = 200;
+                ctx.body = {
+                    success: 1,
+                    data: tc
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 404;
+        }
+    }
+    async addTag() {
+        const { ctx } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { tagName } = ctx.request.body;
+                const table = "Technology";
+                const params = {
+                    where: {
+                        name: tagName
+                    }
+                }
+                const isTec = await ctx.service.mysql.findAll(params, table);
+                if (isTec.length !== 0) {
+                    //标签已存在
+                    if (isTec[0].dataValues.status == 1) {
+                        ctx.status = 200;
+                        ctx.body = {
+                            success: 0,
+                            message: '标签已存在'
+                        }
+                        //标签恢复
+                    } else if (isTec[0].dataValues.status == 0) {
+                        await isTec[0].update({ status: 1 })
+                        ctx.status = 200;
+                        ctx.body = {
+                            success: 1
+                        }
+                    }
+                } else {
+                    await ctx.service.mysql.create({name:tagName}, table);
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 1
+                    }
+                }
             }
         } catch (err) {
             console.log(err);

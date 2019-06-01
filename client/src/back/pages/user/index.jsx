@@ -31,7 +31,6 @@ class Index extends Component {
         }
         UserAPI.getUserInfo(params).then(res => {
             if (res.success) {
-                console.log(res.data.gradeGroup)
                 setTimeout(() => {
                     this.setState({
                         allUser: res.data.allUser,
@@ -40,8 +39,7 @@ class Index extends Component {
                         gradeGroup: res.data.gradeGroup,
                         total: res.data.total
                     })
-
-                }, 500)
+                }, 200)
             }
         })
     }

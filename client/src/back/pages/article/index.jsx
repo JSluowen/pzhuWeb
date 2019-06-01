@@ -9,12 +9,15 @@ class Article extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            visible: false,
+            confirmLoading: false,
             loading: true,
             pageSize: 10,//每页的条数
             total: 0,//默认的数据总数
             defaultCurrent: 1,//默认当前页
             articleList: [],//文章列表,
-            articleLabel: [],//技术标签列表
+            tag: [],//技术标签列表
+            tagName: '',
             color: ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"],
         };
     }
@@ -32,14 +35,14 @@ class Article extends Component {
         }
         ArticleAPI.getArticleInfo(params).then(res => {
             if (res.success) {
-                console.log(res.data)
                 setTimeout(() => {
                     this.setState({
                         articleList: res.data.articleList,
                         total: res.data.total,
+                        tag: res.data.tag,
                         loading: false
                     })
-                }, 500)
+                }, 200)
             }
         })
     }
@@ -86,6 +89,72 @@ class Article extends Component {
 
         });
     }
+    // 文章的搜索
+    onSerachArticle = (value, event) => {
+        const dom = event.currentTarget.parentNode.previousSibling
+        const index = dom.getAttribute('index');
+        if (value === '') {
+            if (index === '1') {
+                message.warning('请输入文章标题');
+            } else if (index === '2') {
+                message.warning('请输入技术标签');
+            } else if (index === '3') {
+                message.warning('请输入作者姓名');
+            }
+            return;
+        }
+        const params = {
+            index,
+            value
+        }
+        ArticleAPI.onSerachArticle(params).then(res => {
+            if (res.success) {
+                this.setState({
+                    articleList: res.data,
+                    total: res.data.length
+                })
+            }
+        })
+
+    }
+    // 删除技术标签
+    delTag = (e) => {
+        const dom = e.currentTarget.parentNode
+        const tagid = dom.getAttribute('tagid');
+        const index = dom.getAttribute('index');
+        const params = {
+            tagid
+        }
+        ArticleAPI.delTag(params).then(res => {
+            if (res.success) {
+                this.state.tag.splice(index, 1);
+                this.setState({
+                    tag:this.state.tag
+                })
+            }
+        })
+    }
+    //添加技术标签
+    addTag = () => {
+        this.setState({
+            confirmLoading: true
+        })
+        let params = {
+            tagName: this.state.tagName
+        }
+        ArticleAPI.addTag(params).then(res => {
+            if (res.success) {
+                this.getArticleInfo()
+                this.setState({
+                    confirmLoading: false,
+                    visible: false
+                })
+            } else {
+                message.warning(res.message);
+            }
+        })
+    }
+
     render() {
         return (
             <div className='back-article'>
@@ -98,27 +167,31 @@ class Article extends Component {
                                         <div className='back-article-container-list-search-item'>
                                             <span>文章标题：</span>
                                             <Search
+                                                index='1'
                                                 placeholder="请输入文章标题"
-                                                onSearch={value => console.log(value)}
+                                                onSearch={(value, e) => this.onSerachArticle(value, e)}
                                                 style={{ width: 200 }}
                                             />
                                         </div>
                                         <div className='back-article-container-list-search-item'>
                                             <span>技术标签：</span>
                                             <Search
+                                                index='2'
                                                 placeholder="请输入标签名"
-                                                onSearch={value => console.log(value)}
+                                                onSearch={(value, e) => this.onSerachArticle(value, e)}
                                                 style={{ width: 200 }}
                                             />
                                         </div>
                                         <div className='back-article-container-list-search-item'>
-                                            <span>作者姓名：</span>
+                                            <span>关键字</span>
                                             <Search
-                                                placeholder="请输入作者姓名"
-                                                onSearch={value => console.log(value)}
+                                                index='3'
+                                                placeholder="请输入文章关键字"
+                                                onSearch={(value, e) => this.onSerachArticle(value, e)}
                                                 style={{ width: 200 }}
                                             />
                                         </div>
+
                                     </div>
                                     <div className='back-article-container-list-header'>
                                         <div className='back-article-container-list-header-item'>
@@ -192,6 +265,29 @@ class Article extends Component {
                                 </div>
                             </TabPane>
                             <TabPane tab="标签列表" key="2">
+                                <div className='back-article-container-tag'>
+                                    <div className='back-article-container-tag-list'>
+                                        {
+                                            this.state.tag.map((item, index) => {
+                                                return <Tag index={index} tagid={item.id} key={item.id} onClose={this.delTag} closable color={this.state.color[Math.floor(Math.random() * 10)]} >
+                                                    {item.name}
+                                                </Tag>
+                                            })
+                                        }
+                                    </div>
+                                    <Button type='primary' onClick={() => { this.setState({ visible: true }) }} >添加标签</Button>
+                                    <Modal
+                                        title="添加技术标签"
+                                        okText='添加'
+                                        cancelText='取消'
+                                        visible={this.state.visible}
+                                        onOk={this.addTag}
+                                        confirmLoading={this.state.confirmLoading}
+                                        onCancel={() => this.setState({ visible: false })}
+                                    >
+                                        <Input placeholder='请输入标签名' allowClear onChange={(e) => this.setState({ tagName: e.target.value })} ></Input>
+                                    </Modal>
+                                </div>
                             </TabPane>
                         </Tabs>
                     </Spin>
