@@ -1,6 +1,6 @@
 'use strict';
 module.exports = app => {
-    const { INTEGER, STRING, DATE } = app.Sequelize;
+    const { INTEGER, STRING } = app.Sequelize;
     const Technology = app.model.define('Technology', {
         id: {
             type: INTEGER(10),
