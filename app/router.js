@@ -65,7 +65,7 @@ module.exports = app => {
     router.post('/api/articleEdit/uploadArticleResource', controller.articleEdit.uploadArticleResource);// 上传文章的资源
     router.get('/api/articleEdit/getMediaItems', controller.articleEdit.getMediaItems); // 获取初始化媒体库的信息
     router.post('/api/articleEdit/removeMedia', controller.articleEdit.removeMedia); // 删除媒体库的信息
-    // 后台管理员界面
+    // 后台管理员界面接口
     router.post('/api/back/adminLogin', controller.backLogin.adminLogin);// 后台管理员登录
     router.get('/api/back/getadminInfo', controller.backUser.getadminInfo);// 获取管理员的信息
     router.post('/api/back/getUserInfo', controller.backUser.getUserInfo);// 获取管理用户的信息
@@ -75,8 +75,18 @@ module.exports = app => {
     router.post('/api/back/getArticleInfo', controller.backArticle.getArticleInfo);// 获取后台文章管理信息
     router.post('/api/back/istop', controller.backArticle.istop);// 是否置顶
     router.post('/api/back/deleteArticle', controller.backArticle.deleteArticle);// 删除文章
-    router.post('/api/back/onSerachArticle', controller.backArticle.onSerachArticle);//搜索文章
-    router.post('/api/back/delTag', controller.backArticle.delTag);//删除技术标签
-    router.post('/api/back/addTag', controller.backArticle.addTag);// 添加技术标签
+    router.post('/api/back/onSerachArticle', controller.backArticle.onSerachArticle);// 搜索文章
+    router.post('/api/back/delArticleTag', controller.backArticle.delArticleTag);// 删除技术标签
+    router.post('/api/back/addArticleTag', controller.backArticle.addArticleTag);// 添加文章技术标签
+    router.post('/api/back/getResourceInfo', controller.backResource.getResourceInfo);
+    router.post('/api/back/delResource', controller.backResource.delResource);// 删除资源信息
+    router.post('/api/back/addResourceTag', controller.backResource.addResourceTag);// 添加资源类别
+    router.post('/api/back/delResourceTag', controller.backResource.delResourceTag);// 删除资源类别
+    router.post('/api/back/onSerachResource', controller.backResource.onSerachResource);// 搜索资源信息
+    router.post('/api/back/getAchievementInfo', controller.backAchievement.getAchievementInfo);// 获取成果信息
+    router.post('/api/back/delAchievement', controller.backAchievement.delAchievement);// 删除成果
+    router.post('/api/back/addAchievementTag', controller.backAchievement.addAchievementTag);// 添加成果类别
+    router.post('/api/back/delAchievementTag', controller.backAchievement.delAchievementTag);// 删除成果类别
+    router.post('/api/back/onSerachAchievement', controller.backAchievement.onSerachAchievement);// 搜索成果
 };
 

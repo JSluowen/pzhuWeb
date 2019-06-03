@@ -1,4 +1,4 @@
-.back-resource {
+.back-achievement {
     padding: 20px;
 
     &-container {
@@ -10,6 +10,21 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+
+            &-search {
+                width: 70%;
+                padding: 10px 0;
+                display: flex;
+                justify-content: flex-start;
+
+                &-item {
+                    flex: 1 1 auto;
+
+                    span {
+                        margin-right: 8px;
+                    }
+                }
+            }
 
             &-header,
             &-body-list {
@@ -86,21 +101,6 @@
                     line-height: 100px;
                     text-align: center;
                     font-size: 18px;
-                }
-            }
-        }
-
-        &-search {
-            width: 70%;
-            padding: 10px 0;
-            display: flex;
-            justify-content: flex-start;
-
-            &-item {
-                flex: 1 1 auto;
-
-                span {
-                    margin-right: 8px;
                 }
             }
         }

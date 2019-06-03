@@ -37,18 +37,18 @@ const Article = {
             })
         })
     },
-    delTag(params) {
+    delArticleTag(params) {
         return new Promise((resolve, reject) => {
-            axios.post(`${base.delTag}`, params).then(res => {
+            axios.post(`${base.delArticleTag}`, params).then(res => {
                 resolve(res.data)
             }).catch(err => {
                 reject(err.data)
             })
         })
     },
-    addTag(params) {
+    addArticleTag(params) {
         return new Promise((resolve, reject) => {
-            axios.post(`${base.addTag}`, params).then(res => {
+            axios.post(`${base.addArticleTag}`, params).then(res => {
                 resolve(res.data)
             }).catch(err => {
                 reject(err.data)

@@ -46,7 +46,7 @@ class Article extends Controller {
                 };
                 const articleList = await ctx.service.mysql.findAll(params, table);
                 const allArticle = await ctx.service.mysql.findAll(params1, table);
-                const tag = await ctx.service.mysql.findAll(params1, table1)
+                const tag = await ctx.service.mysql.findAll(params1, table1);
                 const total = allArticle.length;
                 ctx.status = 200;
                 ctx.body = {
@@ -148,7 +148,7 @@ class Article extends Controller {
                         },
                         attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
                         order: [['updated_at', 'DESC']],
-                    }
+                    };
                 } else if (index === '2') {
                     params = {
                         include: [
@@ -176,7 +176,7 @@ class Article extends Controller {
                         },
                         attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
                         order: [['updated_at', 'DESC']],
-                    }
+                    };
                 } else if (index === '3') {
                     params = {
                         include: [
@@ -201,21 +201,21 @@ class Article extends Controller {
                         },
                         attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
                         order: [['updated_at', 'DESC']],
-                    }
+                    };
                 }
                 const article = await ctx.service.mysql.findAll(params, table);
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,
                     data: article
-                }
+                };
             }
         } catch (err) {
             console.log(err);
             ctx.status = 404;
         }
     }
-    async delTag() {
+    async delArticleTag() {
         const { ctx } = this;
         try {
             const token = ctx.header.authorization;
@@ -231,14 +231,14 @@ class Article extends Controller {
                 ctx.body = {
                     success: 1,
                     data: tc
-                }
+                };
             }
         } catch (err) {
             console.log(err);
             ctx.status = 404;
         }
     }
-    async addTag() {
+    async addArticleTag() {
         const { ctx } = this;
         try {
             const token = ctx.header.authorization;
@@ -247,35 +247,35 @@ class Article extends Controller {
                 ctx.status = 403;
             } else {
                 const { tagName } = ctx.request.body;
-                const table = "Technology";
+                const table = 'Technology';
                 const params = {
                     where: {
                         name: tagName
                     }
-                }
+                };
                 const isTec = await ctx.service.mysql.findAll(params, table);
                 if (isTec.length !== 0) {
-                    //标签已存在
-                    if (isTec[0].dataValues.status == 1) {
+                    // 标签已存在
+                    if (isTec[0].dataValues.status === 1) {
                         ctx.status = 200;
                         ctx.body = {
                             success: 0,
                             message: '标签已存在'
-                        }
-                        //标签恢复
-                    } else if (isTec[0].dataValues.status == 0) {
-                        await isTec[0].update({ status: 1 })
+                        };
+                        // 标签恢复
+                    } else if (isTec[0].dataValues.status === 0) {
+                        await isTec[0].update({ status: 1 });
                         ctx.status = 200;
                         ctx.body = {
                             success: 1
-                        }
+                        };
                     }
                 } else {
-                    await ctx.service.mysql.create({name:tagName}, table);
+                    await ctx.service.mysql.create({ name: tagName }, table);
                     ctx.status = 200;
                     ctx.body = {
                         success: 1
-                    }
+                    };
                 }
             }
         } catch (err) {

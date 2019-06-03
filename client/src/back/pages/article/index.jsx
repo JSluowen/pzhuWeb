@@ -66,7 +66,6 @@ class Article extends Component {
     }
     // 删除文章
     deleteArticle = (e) => {
-        const idnex = e.target.getAttribute('index');
         const id = e.target.getAttribute('articleid');
         const that = this;
         confirm({
@@ -78,10 +77,7 @@ class Article extends Component {
             onOk() {
                 ArticleAPI.deleteArticle({ id }).then(res => {
                     if (res.success) {
-                        that.state.articleList.splice(idnex, 1)
-                        that.setState({
-                            articleList: that.state.articleList
-                        })
+                        that.getArticleInfo();
                     }
                 })
             },
@@ -111,21 +107,21 @@ class Article extends Component {
             if (res.success) {
                 this.setState({
                     articleList: res.data,
-                    total: res.data.length
+                    total:1
                 })
             }
         })
 
     }
     // 删除技术标签
-    delTag = (e) => {
+    delArticleTag = (e) => {
         const dom = e.currentTarget.parentNode
         const tagid = dom.getAttribute('tagid');
         const index = dom.getAttribute('index');
         const params = {
             tagid
         }
-        ArticleAPI.delTag(params).then(res => {
+        ArticleAPI.delArticleTag(params).then(res => {
             if (res.success) {
                 this.state.tag.splice(index, 1);
                 this.setState({
@@ -135,14 +131,14 @@ class Article extends Component {
         })
     }
     //添加技术标签
-    addTag = () => {
+    addArticleTag = () => {
         this.setState({
             confirmLoading: true
         })
         let params = {
             tagName: this.state.tagName
         }
-        ArticleAPI.addTag(params).then(res => {
+        ArticleAPI.addArticleTag(params).then(res => {
             if (res.success) {
                 this.getArticleInfo()
                 this.setState({
@@ -151,10 +147,12 @@ class Article extends Component {
                 })
             } else {
                 message.warning(res.message);
+                this.setState({
+                    confirmLoading: false,
+                })
             }
         })
     }
-
     render() {
         return (
             <div className='back-article'>
@@ -182,6 +180,7 @@ class Article extends Component {
                                                 style={{ width: 200 }}
                                             />
                                         </div>
+                                       
                                         <div className='back-article-container-list-search-item'>
                                             <span>关键字</span>
                                             <Search
@@ -191,7 +190,6 @@ class Article extends Component {
                                                 style={{ width: 200 }}
                                             />
                                         </div>
-
                                     </div>
                                     <div className='back-article-container-list-header'>
                                         <div className='back-article-container-list-header-item'>
@@ -269,7 +267,7 @@ class Article extends Component {
                                     <div className='back-article-container-tag-list'>
                                         {
                                             this.state.tag.map((item, index) => {
-                                                return <Tag index={index} tagid={item.id} key={item.id} onClose={this.delTag} closable color={this.state.color[Math.floor(Math.random() * 10)]} >
+                                                return <Tag index={index} tagid={item.id} key={item.id} onClose={this.delArticleTag} closable color={this.state.color[Math.floor(Math.random() * 10)]} >
                                                     {item.name}
                                                 </Tag>
                                             })
@@ -281,7 +279,7 @@ class Article extends Component {
                                         okText='添加'
                                         cancelText='取消'
                                         visible={this.state.visible}
-                                        onOk={this.addTag}
+                                        onOk={this.addArticleTag}
                                         confirmLoading={this.state.confirmLoading}
                                         onCancel={() => this.setState({ visible: false })}
                                     >

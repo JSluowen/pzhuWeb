@@ -17,8 +17,6 @@ class Index extends Component {
 				'/back/article',
 				'/back/resource',
 				'/back/achievement',
-				'/back/home',
-				'/back/email'
 			]
 		}
 	};
@@ -70,6 +68,7 @@ class Index extends Component {
 									}
 								</div>
 								<Menu
+								
 									mode="inline"
 									theme="dark"
 									inlineCollapsed={this.state.collapsed}
@@ -96,18 +95,6 @@ class Index extends Component {
 										<Icon type="folder" />
 										<span>
 											成果管理
-										</span>
-									</Menu.Item>
-									<Menu.Item key="4" onClick={this.selectMenu}>
-										<Icon type="picture" />
-										<span>
-											首页管理
-										</span>
-									</Menu.Item>
-									<Menu.Item key="5" onClick={this.selectMenu}>
-										<Icon type="mail" />
-										<span>
-											邮件发送
 										</span>
 									</Menu.Item>
 								</Menu>
