@@ -1,5 +1,0 @@
-export CollectAPI from './collect'
-export LoginAPI from './login'
-export PersonAPI from './person'
-export QiniuAPI from './qiniu' 
-export Register from './register'

@@ -27,7 +27,6 @@ class UserAchievement extends Component {
         window.addEventListener('scroll', this.handelScroll)
     }
     getUserAchievement = () => {
-
         let params = {
             index: this.state.index,
             value: this.state.searchValue,
@@ -158,8 +157,6 @@ class UserAchievement extends Component {
             }
         });
     }
-
-
     render() {
         return (
             <div className='userAchievement'>

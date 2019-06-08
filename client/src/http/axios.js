@@ -24,7 +24,7 @@ axios.interceptors.request.use(
 			config.data = qs.stringify(config.data);
 		}
 		if (sessionStorage.token) {
-			config.headers.Authorization = sessionStorage.token;
+			config.headers.Authorization = sessionStorage.token || sessionStorage.admin;
 		}
 		return config;
 	},

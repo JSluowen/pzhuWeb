@@ -13,6 +13,10 @@ module.exports = app => {
         },
         name: {
             type: STRING(16)
+        },
+        status: {
+            type: INTEGER(4),
+            defaultValue: 1,
         }
     },
     {
@@ -20,7 +24,6 @@ module.exports = app => {
         underscored: true,
         tableName: 'resource_type',
     });
-
     ResourceType.associate = function() {
         app.model.ResourceType.hasMany(app.model.Resource, { foreignKey: 'typeid', targetKey: 'id' });
     };

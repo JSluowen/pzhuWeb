@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 const isBack = process.env.CLIENT_ENV === 'back';
 module.exports = {
     mode: 'development',
@@ -16,7 +17,7 @@ module.exports = {
             template: path.resolve(__dirname, isBack ? './html/back.html' : './html/front.html'),
             chunks: isBack? ['back']: ['front'],
             minify: {
-                collapseWhitespace: true,
+                collapseWhitespace: true,//是否去除空空格
             },
         }),
         new CleanWebpackPlugin(['dist']),
@@ -39,6 +40,7 @@ module.exports = {
         //     }
         //   }
         // },
-        // historyApiFallback: true
+        // historyApiFallback: true  
     },
+
 };

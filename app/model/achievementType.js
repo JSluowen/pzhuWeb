@@ -13,6 +13,10 @@ module.exports = app => {
         },
         name: {
             type: STRING(16)
+        },
+        status: {
+            type: INTEGER(4),
+            defaultValue: 1,
         }
     },
     {

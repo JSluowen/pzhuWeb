@@ -90,7 +90,7 @@
         &-context {
           color: #bbb;
           font-size: 14px;
-          line-height: 2;
+          line-height: 2.5;
           margin-top: 20px;
         }
 
@@ -275,6 +275,7 @@
         height: 70%;
         background-size: cover;
         background-position: center;
+        background-repeat: no-repeat;
         border-radius: 10px;
 
         &-desc {

@@ -8,7 +8,6 @@ import {
 	ArticleInfo,
 	ArticleEdit,
 	Setting,
-	Collect,
 	User,
 	Member,
 	Achievement,

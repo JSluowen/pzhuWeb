@@ -1,9 +1,4 @@
-import {
-    userInfo
-} from "os";
-
 // 路由API管理
-
 const base = {
     code: '/code', // 注册邮箱验证
     registerUser: '/registeruser', // 用户注册
@@ -69,10 +64,10 @@ const base = {
     getArticleEdit: '/articleEdit/getArticleEdit', //获取文章编辑界面的初始化信息
     uploadArticleInfo: '/articleEdit/uploadArticleInfo',// 上传文章信息
     uploadArticleeCover: '/articleEdit/uploadArticleeCover', // 上传文章封面图
-    delCoverImg:'/articleEdit/delCoverImg',// 删除文章封面图
-    uploadArticleResource:'/articleEdit/uploadArticleResource',// 上传文章的资源
-    getMediaItems:'/articleEdit/getMediaItems',// 获取初始化媒体库的信息
-    removeMedia:'/articleEdit/removeMedia',// 删除媒体库资源
+    delCoverImg: '/articleEdit/delCoverImg',// 删除文章封面图
+    uploadArticleResource: '/articleEdit/uploadArticleResource',// 上传文章的资源
+    getMediaItems: '/articleEdit/getMediaItems',// 获取初始化媒体库的信息
+    removeMedia: '/articleEdit/removeMedia',// 删除媒体库资源
 
 }
 export default base;

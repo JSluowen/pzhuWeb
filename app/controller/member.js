@@ -22,6 +22,7 @@ class Member extends Controller {
                 ],
             };
             const userinfo = await ctx.service.mysql.findAll(params, table);
+            console.log(userinfo);
             const domain = await ctx.service.mysql.findAll({}, table1);
             ctx.status = 200;
             ctx.body = {

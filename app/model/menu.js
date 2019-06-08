@@ -20,7 +20,6 @@ module.exports = app => {
             tableName: 'menu',
         },
     );
-
     Menu.associate = function() {
         app.model.Menu.hasMany(app.model.Article, { foreignKey: 'menuid', targetKey: 'id' });
     };
