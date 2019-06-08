@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, message, Spin, Progress, Form } from 'antd';
+import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip } from 'antd';
 import './index.scss';
 import Cookies from '../../../http/cookies';
 import ResourceIssueAPI from '../../api/resourceIssue';
@@ -91,14 +91,22 @@ class ResourceIssue extends Component {
     }
     // 上传资源
     handelIssue = () => {
-        if (this.state.link === '') {
-            message.warning('资源链接不能为空')
-        } else if (this.state.title === '') {
+        console.log(this.state.link)
+        if ((this.state.link === '' || this.state.link === null) && (this.state.attachment === '' || this.state.attachment === null)) {
+            message.warning('请填写链接或者上传资源附件');
+        } else if (this.state.title === '' || this.state.title === null) {
             message.warning('资源标题不能为空')
-        } else if (this.state.type === '') {
+        } else if (this.state.type === '' || this.state.type === null) {
             message.warning('请选择资源类别')
+        } else if (this.state.descripttion === '' || this.state.descripttion === null) {
+            message.warning('请添加资源描述')
         }
-        else {
+        else if (this.state.descripttion.length > 120) {
+            message.warning('请将资源描述控制在120字以内')
+        }
+        else if (this.state.posterlink === '' || this.state.posterlink === null) {
+            message.warning('请上传封面图')
+        } else {
             let params = {
                 id: this.state.id,
                 userid: Cookies.getCookies('id'),
@@ -216,8 +224,8 @@ class ResourceIssue extends Component {
     uploadAttachment = (e) => {
         let file = e.target.files
         const { size, type, name } = file[0];
-        if (type !== 'application/x-zip-compressed' && type !== 'application/pdf' && type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-            message.warning('请上传文件后缀为 .docx, .zip, .pdf 的附件');
+        if (type !== 'application/x-zip-compressed') {
+            message.warning('请上传文件后缀为.zip的附件');
             return;
         }
         if (size > (5 * 1024 * 1024)) {
@@ -240,7 +248,7 @@ class ResourceIssue extends Component {
             let putExtra = {
                 fname: file[0].name,
                 params: {},
-                mimeType: ["application/x-zip-compressed", "application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
+                mimeType: ["application/x-zip-compressed"]
             }
             let observable = qiniu.upload(file[0], key, token, putExtra, config)
             let observer = {
@@ -329,7 +337,7 @@ class ResourceIssue extends Component {
                                     getFieldDecorator('description', {
 
                                     })(
-                                        <TextArea placeholder='描述（100字以内）' onChange={(e) => { this.setState({ description: e.target.value }) }} />
+                                        <TextArea placeholder='资源描述（120字以内）' onChange={(e) => { this.setState({ description: e.target.value }) }} />
                                     )
                                 }
                                 <div className='resourceIssue-container-body-left-tag' ref={this.selectLabel}>
@@ -385,11 +393,13 @@ class ResourceIssue extends Component {
                                                 <Progress style={this.state.attachmentLoading ? { display: 'block' } : { display: 'none' }} percent={this.state.progress} status="active" />
                                             </div>
                                             :
-                                            <label htmlFor="uploadFile" className="resourceIssue-container-body-right-attachment-fileLabel">
-                                                <Icon type="upload" />添加附件
+                                            <Tooltip placement="bottom" title='请上传资源压缩包'>
+                                                <label htmlFor="uploadFile" className="resourceIssue-container-body-right-attachment-fileLabel">
+                                                    <Icon type="upload" />添加资源附件
                                              </label>
+                                            </Tooltip>
                                     }
-                                    <input id='uploadFile' accept=".docx,.pdf,.zip" type="file" hidden onChange={this.uploadAttachment} />
+                                    <input id='uploadFile' accept=".zip" type="file" hidden onChange={this.uploadAttachment} />
                                 </div>
                             </div>
                         </div>

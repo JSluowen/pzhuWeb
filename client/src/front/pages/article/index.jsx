@@ -20,6 +20,7 @@ export default class Article extends Component {
 			hotArticle: [],// 热门文章
 			loading: true,
 			isLoading: true,
+			collectTitle: ''
 		}
 	}
 	componentDidMount() {
@@ -42,6 +43,7 @@ export default class Article extends Component {
 					technologyStatus: false
 				})
 			}
+			console.log(res.data.article)
 			let arry = this.state.article
 			for (let item of res.data.article) {
 				arry.push(item)
@@ -111,10 +113,42 @@ export default class Article extends Component {
 
 		}
 	}
-	// 点击访问页面
-	interview = (e) => {
-		let index = e.target.getAttribute('index');
-		console.log(index)
+	// 点击收藏或取消收藏文章
+	handelCollect = (e) => {
+		let event = e.target;
+		let index;
+		let isFavorite;
+		if (event.tagName == 'DIV') {
+			index = event.getAttribute('index');
+			isFavorite = event.getAttribute('isfavorite')
+		} else if (event.tagName == 'svg') {
+			index = event.parentNode.parentNode.getAttribute('index')
+			isFavorite = event.parentNode.parentNode.getAttribute('isfavorite')
+			event = event.parentNode.parentNode;
+		} else {
+			index = event.parentNode.parentNode.parentNode.getAttribute('index')
+			isFavorite = event.parentNode.parentNode.parentNode.getAttribute('isfavorite')
+			event = event.parentNode.parentNode.parentNode;
+		}
+		if (isFavorite === 'true') {
+			ArticleAPI.cancelCollect({ id: index }).then(res => {
+				if (res.success) {
+					message.success('取消收藏');
+					event.children[0].style.color = 'gray'
+					event.setAttribute('isfavorite', 'false')
+				}
+			})
+		} else {
+			ArticleAPI.collectArticle({ id: index }).then(res => {
+				if (res.success) {
+					message.success('收藏成功');
+					event.children[0].style.color = '#1890ff'
+					event.setAttribute('isfavorite', 'true')
+				}
+
+			})
+		}
+
 	}
 	render() {
 		return (
@@ -136,7 +170,7 @@ export default class Article extends Component {
 												>
 													<div className="shadow" />
 													<div className="title">
-														<Link to="">{item.title}</Link>
+														<Link target='_blank' to={`/articleInfo/${item.id}`}>{item.title}</Link>
 													</div>
 												</div>
 											</div>
@@ -151,12 +185,11 @@ export default class Article extends Component {
 									this.state.article.length === 0 ?
 										<div className='article-left-null'>暂无数据</div>
 										:
-										<div>
+										<div style={{ width: '100%' }} >
 											{
 												this.state.article.map(item => {
 													return <div className="article-item" key={item.id}>
-														<div className="article-cover">
-															<img src={item.postlink} alt="这是封面图" />
+														<div className="article-cover" style={{ backgroundImage: `url(${item.postlink})` }} >
 														</div>
 														<div className="article-content">
 															<Link to={`/articleInfo/${item.id}`} target='_blank' className="article-top" >
@@ -165,16 +198,18 @@ export default class Article extends Component {
 															</Link>
 
 															<div className="article-bottom">
-																<Tooltip placement="bottom" title={`阅读量${item.readnumber}`}>
-																	<div className="read-number">
-																		<Icon type="eye" />
-																	</div>
-																</Tooltip>
-																<Tooltip placement="bottom" title={'点击收藏'}>
-																	<div className="person-collect" onClick={this.handleHeart}>
-																		<Icon type="star" />
-																	</div>
-																</Tooltip>
+																<div className="read-number">
+																	阅读数 {item.readnumber}
+																</div>
+																{
+																	sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === '' ?
+																		''
+																		:
+																		<div className="person-collect" index={item.id} isfavorite={item.isFavorite.toString()} onClick={this.handelCollect}>
+																			<Icon style={item.isFavorite ? { color: '#1890ff' } : { color: 'gray' }} type="star" />
+																		</div>
+																}
+
 																<div className="autor">
 																	<div className="avatar">
 																		<img src={item.UserInfo.avatar} alt="这是用户头像" />
@@ -221,10 +256,10 @@ export default class Article extends Component {
 										this.state.hotArticle.map(item => {
 											return <div className="article-item" key={item.id} index={item.id} >
 												<div className="title">
-													<Link style={{color:'gray'}} target='_blank'  to={`/articleInfo/${item.id}`}>{item.title}</Link>
+													<Link style={{ color: 'gray' }} target='_blank' to={`/articleInfo/${item.id}`}>{item.title}</Link>
 												</div>
 												<div className="action">
-													<Icon type="eye" /> {item.readnumber}
+													阅读数 {item.readnumber}
 												</div>
 											</div>
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Avatar, message, Skeleton } from 'antd';
+import 'braft-editor/dist/output.css'
 import './index.scss';
 import { Link } from 'react-router';
 import articleInfoAPI from '../../api/articleInfo'
@@ -30,6 +31,7 @@ class ArticleInfo extends Component {
         })
 
     }
+
     getArticleInfo = () => {
         let params = {
             id: this.state.id
@@ -81,8 +83,7 @@ class ArticleInfo extends Component {
                         <div className='articleInfo-header-bgImg' style={{ backgroundImage: `url(${this.state.article.postlink})` }}></div>
                     </div>
                     <div className='articleInfo-body'>
-                        <div className='articleInfo-body-content'>
-                            {this.state.article.context}
+                        <div className='articleInfo-body-content braft-output-content' dangerouslySetInnerHTML={{__html:this.state.article.context}} >
                         </div>
                         <div className='articleInfo-body-recommend'>
                             <p>推荐阅读</p>

@@ -34,6 +34,7 @@ class UserResource extends Component {
             end: this.state.end
         }
         UserAPI.getUserResource(params).then(res => {
+            console.log(res.data)
             let arry = this.state.resource
             for (let item of res.data.resource) {
                 arry.push(item)
@@ -201,7 +202,7 @@ class UserResource extends Component {
                                                 return <div key={item.id}>
                                                     <div className='userResource-container-body-item' >
                                                         <div style={{ width: '50%' }}  >
-                                                            <span>{item.title}</span>
+                                                            <a href={item.link || item.attachment} target='_blank' >{item.title}</a>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.ResourceType.name}</Tag>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Card, Button } from 'antd'
+import { Icon, Card, Button, Skeleton } from 'antd'
 import './index.scss'
 import MemberAPI from '../../api/member'
 import ma5 from 'md5'
@@ -12,6 +12,7 @@ class Member extends Component {
             newUserinfoList: [],
             grade: [],//获取成员的年级
             teacherInfo: [],
+            loading: true
         };
     }
 
@@ -21,13 +22,17 @@ class Member extends Component {
     getMemberInfo = () => {
         MemberAPI.getMemberInfo().then(res => {
             if (res.success) {
-                this.setState({
-                    domain: this.filterDomainNum(res.domain, res.data),
-                    userInfoList: res.data,
-                    newUserInfoList: res.data,
-                    teacherInfo: this.filterTeacherInfo(res.data),
-                    grade: this.filterGrade(res.data)
-                })
+                setTimeout(() => {
+                    this.setState({
+                        domain: this.filterDomainNum(res.domain, res.data),
+                        userInfoList: res.data,
+                        newUserInfoList: res.data,
+                        teacherInfo: this.filterTeacherInfo(res.data),
+                        grade: this.filterGrade(res.data),
+                        loading: false
+                    })
+                }, 200)
+
             }
         })
     }
@@ -120,66 +125,68 @@ class Member extends Component {
                     }
                 </div>
                 <div className='member-right'>
-                    {
-                        this.state.teacherInfo.length !== 0 ?
-                            <Card
-                                title="指导教师"
-                                style={{ width: '100%' }}
-                            >
-                                {
-                                    this.state.teacherInfo.map((item, index) => {
-                                        return <div className='member-right-item' key={index}>
-
-                                            <div className='member-right-item-left'>
-                                                <div className='member-right-item-left-avatar'>
-                                                    <img src={item.avatar} alt="这是头像" />
-                                                </div>
-                                                <Button index={ma5(item.id)} type='primary'>立即查看</Button>
-                                            </div>
-                                            <div className='member-right-item-right'>
-                                                <p>{item.User.name}</p>
-                                                <p> <Icon type="phone" />{item.phone}</p>
-                                                <p> <Icon type="mail" />{item.User.email}</p>
-                                                <p> <Icon type="idcard" />{item.School.name}{'/'}{item.Major.name}</p>
-                                                <p> <Icon type="smile" />{item.description}</p>
-                                            </div>
-                                        </div>
-                                    })
-                                }
-                            </Card> : ''
-                    }
-                    {
-                        this.state.grade.map((item, index) => {
-                            return <Card
-                                title={item + "届"}
-                                style={{ width: '100%' }}
-                                key={index}
-                            >
-                                {
-                                    this.state.newUserInfoList.map((useritem, index) => {
-                                        if (item === parseInt(useritem.id.substring(0, 4)) && useritem.User.status !== 3) {
+                    <Skeleton loading={this.state.loading} active>
+                        {
+                            this.state.teacherInfo.length !== 0 ?
+                                <Card
+                                    title="指导教师"
+                                    style={{ width: '100%' }}
+                                >
+                                    {
+                                        this.state.teacherInfo.map((item, index) => {
                                             return <div className='member-right-item' key={index}>
 
                                                 <div className='member-right-item-left'>
                                                     <div className='member-right-item-left-avatar'>
-                                                        <img src={useritem.avatar} alt="这是头像" />
+                                                        <img src={item.avatar} alt="这是头像" />
                                                     </div>
-                                                    <Button index={ma5(useritem.User.id)} type='primary'>立即查看</Button>
+                                                    {/* <Button index={ma5(item.id)} type='primary'>立即查看</Button> */}
                                                 </div>
                                                 <div className='member-right-item-right'>
-                                                    <p>{useritem.User.name}</p>
-                                                    <p> <Icon type="phone" />{useritem.phone}</p>
-                                                    <p> <Icon type="mail" />{useritem.User.email}</p>
-                                                    <p> <Icon type="idcard" />{useritem.School.name}{'/'}{useritem.Major.name}</p>
-                                                    <p> <Icon type="smile" />{useritem.description}</p>
+                                                    <p>{item.User.name}</p>
+                                                    <p> <Icon type="phone" />{item.phone}</p>
+                                                    <p> <Icon type="mail" />{item.User.email}</p>
+                                                    <p> <Icon type="idcard" />{item.School.name}{'/'}{item.Major.name}</p>
+                                                    <p> <Icon type="smile" />{item.description}</p>
                                                 </div>
                                             </div>
-                                        }
-                                    })
-                                }
-                            </Card>
-                        })
-                    }
+                                        })
+                                    }
+                                </Card> : ''
+                        }
+                        {
+                            this.state.grade.map((item, index) => {
+                                return <Card
+                                    title={item + "届"}
+                                    style={{ width: '100%' }}
+                                    key={index}
+                                >
+                                    {
+                                        this.state.newUserInfoList.map((useritem, index) => {
+                                            if (item === parseInt(useritem.id.substring(0, 4)) && useritem.User.status !== 3) {
+                                                return <div className='member-right-item' key={index}>
+
+                                                    <div className='member-right-item-left'>
+                                                        <div className='member-right-item-left-avatar'>
+                                                            <img src={useritem.avatar} alt="这是头像" />
+                                                        </div>
+                                                        {/* <Button index={ma5(useritem.User.id)} type='primary'>立即查看</Button> */}
+                                                    </div>
+                                                    <div className='member-right-item-right'>
+                                                        <p>{useritem.User.name}</p>
+                                                        <p> <Icon type="phone" />{useritem.phone}</p>
+                                                        <p> <Icon type="mail" />{useritem.User.email}</p>
+                                                        <p> <Icon type="idcard" />{useritem.School.name}{'/'}{useritem.Major.name}</p>
+                                                        <p> <Icon type="smile" />{useritem.description}</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        })
+                                    }
+                                </Card>
+                            })
+                        }
+                    </Skeleton>
                 </div>
             </div>
         );

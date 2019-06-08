@@ -42,6 +42,9 @@ module.exports = {
             context: {
                 type: TEXT
             },
+            raw: {
+                type: TEXT
+            },
             readnumber: {
                 type: INTEGER(10)
             },

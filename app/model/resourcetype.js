@@ -4,7 +4,6 @@ module.exports = app => {
     const {
         INTEGER,
         STRING,
-        DATE
     } = app.Sequelize;
     const ResourceType = app.model.define('ResourceType', {
         id: {
@@ -14,11 +13,10 @@ module.exports = app => {
         },
         name: {
             type: STRING(16)
-        },
-        created_at: DATE,
-        updated_at: DATE,
+        }
     },
     {
+        timestamps: false,
         underscored: true,
         tableName: 'resource_type',
     });

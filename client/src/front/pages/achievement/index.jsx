@@ -79,7 +79,6 @@ class Achievement extends Component {
                     if (this.state.flag) this.setAchievementTyep()
                 }, 500)
             } else {
-                console.log(res.data)
                 setTimeout(() => {
                     this.setState({
                         acType: res.data.acType,
@@ -187,30 +186,39 @@ class Achievement extends Component {
                         />}
                     >
                         <Skeleton loading={this.state.loading} active>
-                            <Row gutter={16}>
+                            <Row style={{ width: '100%', margin: 0 }} gutter={16}>
                                 {
-                                    this.state.ac.map(item => {
-                                        return <Col span={12} key={item.id} >
-                                            <a style={{display:'block'}} href={item.achievementlink||item.attachment} target='_blank'>
-                                                <Card
-                                                    className="achievement-right-item"
-                                                    hoverable={true}
-                                                    loading={false}
-                                                    style={{ width: '100%' }}
-                                                    cover={<img alt="example" src={item.posterlink} />}
-                                                    actions={[<span><Icon type="user" />{" "}{item.UserInfo.User.name}</span>, <span><Icon type="calendar" />{" "}{item.updated_at}</span>]}
-                                                >
-                                                    <Meta
-                                                        style={{ width: '100%' }}
-                                                        avatar={<Avatar src={item.UserInfo.avatar} />}
-                                                        title={item.title}
-                                                        description={item.abstract}
-                                                    />
-                                                </Card>
-                                            </a>
+                                    this.state.ac.length === 0 ?
+                                        <div className='achievement-right-null'>
+                                            暂无数据
+                                        </div>
+                                        :
+                                        <div>
+                                            {
+                                                this.state.ac.map(item => {
+                                                    return <Col span={12} key={item.id} >
+                                                        <a style={{ display: 'block' }} href={item.achievementlink || item.attachment} target='_blank'>
+                                                            <Card
+                                                                className="achievement-right-item"
+                                                                hoverable={true}
+                                                                loading={false}
+                                                                style={{ width: '100%' }}
+                                                                cover={<img alt="example" src={item.posterlink} />}
+                                                                actions={[<span><Icon type="user" />{" "}{item.UserInfo.User.name}</span>, <span><Icon type="calendar" />{" "}{item.updated_at}</span>]}
+                                                            >
+                                                                <Meta
+                                                                    style={{ width: '100%' }}
+                                                                    avatar={<Avatar src={item.UserInfo.avatar} />}
+                                                                    title={item.title}
+                                                                    description={item.abstract}
+                                                                />
+                                                            </Card>
+                                                        </a>
 
-                                        </Col>
-                                    })
+                                                    </Col>
+                                                })
+                                            }
+                                        </div>
                                 }
                             </Row>
 

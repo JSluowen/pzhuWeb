@@ -3,8 +3,7 @@
 module.exports = app => {
     const {
         INTEGER,
-        STRING,
-        DATE
+        STRING
     } = app.Sequelize;
     const AchievementType = app.model.define('AchievementType', {
         id: {
@@ -14,11 +13,10 @@ module.exports = app => {
         },
         name: {
             type: STRING(16)
-        },
-        created_at: DATE,
-        updated_at: DATE,
+        }
     },
     {
+        timestamps: false,
         underscored: true,
         tableName: 'achievement_type',
     });

@@ -84,6 +84,10 @@
                                 display: inline-block;
                                 color: white;
                                 font-size: 25px;
+
+                                &:hover {
+                                    color: #1890ff;
+                                }
                             }
                         }
                     }
@@ -97,7 +101,6 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 1px solid #e5e5e5;
 
                 .article-cover {
                     width: 40%;
@@ -108,10 +111,8 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-
-                    img {
-                        width: 100%;
-                    }
+                    background-size: cover;
+                    background-position: center;
                 }
 
                 .article-content {
@@ -126,12 +127,15 @@
                         font-size: 18px;
                         margin-right: 5px;
                     }
+
                     .article-top {
                         display: block;
                         width: 100%;
                         color: gray;
+
                         &:hover {
                             cursor: pointer;
+
                             .article-title,
                             .article-summary {
                                 color: rgb(0, 133, 161);
@@ -148,7 +152,8 @@
                             font-size: 17px;
                             line-height: 1.2;
                             color: #a3a3a3;
-                            &::after{
+
+                            &::after {
                                 content: '...'
                             }
                         }
@@ -212,7 +217,9 @@
                             display: flex;
                             justify-content: center;
                             align-items: center;
+                        }
 
+                        .person-collect {
                             &:hover {
                                 cursor: pointer;
                             }
@@ -282,13 +289,11 @@
                         width: 100%;
                         height: auto;
                         padding: 0px 0px 15px;
-                        border-bottom: 1px solid #e5e5e5;
                         display: flex;
                         flex-direction: column;
                         justify-content: flex-start;
 
                         &:hover {
-                            cursor: pointer;
                             color: rgb(0, 133, 161);
                             background-color: rgb(251, 251, 251);
                         }
@@ -297,9 +302,15 @@
                             padding: 10px 0px;
                             font-size: 18px;
                             line-height: 1.2;
-                            a:hover{
-                                color: #1890ff !important;
+
+                            a {
+                                color: #333 !important;
+
+                                &:hover {
+                                    color: #1890ff !important;
+                                }
                             }
+
                         }
 
                         .action {
@@ -307,6 +318,8 @@
                             display: flex;
                             color: gray;
                             align-items: center;
+                            font-size: 14px;
+
                             .anticon {
                                 margin-right: 5px;
                             }

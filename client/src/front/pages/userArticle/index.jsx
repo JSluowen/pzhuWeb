@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
-import {Link} from 'react-router'
+import { Link } from 'react-router'
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
@@ -149,7 +149,7 @@ class UserArticle extends Component {
                             article: that.state.article
 
                         })
-                    }else{
+                    } else {
                         message.warning('删除失败')
                     }
                 })
@@ -200,8 +200,8 @@ class UserArticle extends Component {
                                             this.state.article.map(((item, index) => {
                                                 return <div key={item.id}>
                                                     <div className='userArticle-container-body-item' >
-                                                        <div style={{ width: '50%' }} >                                                
-                                                            <Link style={{color:'rgba(0, 0, 0, 0.65)'}} to={`/articleInfo/${item.id}`}>{item.title}</Link>                                                       
+                                                        <div style={{ width: '50%' }} >
+                                                            <Link  target='_blank' style={{ color: 'rgba(0, 0, 0, 0.65)' }}  to={`/articleInfo/${item.id}`}>{item.title}</Link>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.Technology.name}</Tag>
@@ -210,9 +210,9 @@ class UserArticle extends Component {
                                                             {item.updated_at}
                                                         </div>
                                                         <div className='userArticle-container-body-item-work' style={{ flex: 1 }}>
-                                                            <p index={item.id} >
+                                                            <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleEdit/${item.id}`}>
                                                                 <Icon type="edit" />
-                                                            </p>
+                                                            </Link>
                                                             <p primary={item.id} index={index} onClick={this.handelDel} >
                                                                 <Icon type="delete" />
                                                             </p>

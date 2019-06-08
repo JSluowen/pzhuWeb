@@ -12,9 +12,10 @@ class Person extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id } = ctx.request.body;
+                // const { id } = ctx.request.body;
+                const userid = ctx.session.userid;
                 const table = 'UserInfo';
-                const resdata = await ctx.service.mysql.findById(id, table);
+                const resdata = await ctx.service.mysql.findById(userid, table);
                 ctx.status = 200;
                 if (resdata) {
                     ctx.body = {

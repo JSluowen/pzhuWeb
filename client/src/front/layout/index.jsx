@@ -20,11 +20,9 @@ export default class Layout extends Component {
 
 	getUserinfo() {
 		let id = Cookies.getCookies('id');
-		let name = Cookies.getCookies('name');
 		PersonApi.getUserinfo({ id: id }).then((res) => {
 			this.setState({
-				status: true,
-				name: name
+				status: true
 			});
 			if (res.success) {
 				this.setState({
@@ -71,6 +69,11 @@ export default class Layout extends Component {
 	//文章，资源，成果选择
 	handleMenuClick = (value) => {
 
+	}
+	getSonAvatar=(avatar)=>{
+		this.setState({
+			avatar:avatar
+		})
 	}
 	render() {
 		const menu = (
@@ -119,21 +122,13 @@ export default class Layout extends Component {
 							</div>
 						</div>
 					</div>
-					<div className="nav-bar-right">
-						<Search
-							className="nav-bar-right-search"
-							placeholder="input search text"
-							onSearch={(value) => console.log(value)}
-							style={{
-								width: 200
-							}}
-						/>
-
-
+					<div className="nav-bar-right">					
 						{this.state.status ? (
 							<div className="nav-bar-right-userinfo">
 								<ButtonGroup style={{ marginRight: '20px' }}>
-									<Button type='primary' ghost >文章发布</Button>
+									<Button type='primary' ghost >
+										<Link to='/articleEdit'>文章发布</Link>
+									</Button>
 									<Dropdown overlay={menu}>
 										<Button type='primary' ghost icon="down" >
 										</Button>
@@ -167,6 +162,7 @@ export default class Layout extends Component {
 					</div>
 				</div>
 				<div className="content">{this.props.children}</div>
+				
 				<div className="pzhu-web-copyright">
 					<div className="copyright">
 						<div className="about-us">

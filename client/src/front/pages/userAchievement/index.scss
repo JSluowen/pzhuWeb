@@ -41,7 +41,7 @@
                 justify-content: flex-start;
                 align-items: center;
                 font-size: 14px;
-                
+
             }
 
             &-item {
@@ -56,6 +56,16 @@
                 &:hover {
                     background-color: rgb(250, 250, 250);
                 }
+
+                a {
+                    color: rgba($color: #000000, $alpha: .65) !important;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: #1890ff !important;
+                    }
+                }
+
                 span {
                     display: inline-block;
                     height: 50px;
@@ -63,40 +73,41 @@
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    &:hover {
-                        cursor: pointer;
-                        color: #1890ff;
-                    }
                 }
-                &-work{
+
+                &-work {
                     height: 100%;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    a:hover{
+
+                    a:hover {
                         color: #1890ff !important;
                     }
-                    p{
+
+                    p {
                         width: 40%;
                         height: 50%;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        &:hover:first-child{
+
+                        &:hover:first-child {
                             cursor: pointer;
                             color: #1890ff;
                         }
-                        &:hover:last-child{
+
+                        &:hover:last-child {
                             cursor: pointer;
                             color: red;
                         }
 
                     }
-                    
-                    
+
+
                 }
             }
-          
+
 
             &-null {
                 width: 100%;

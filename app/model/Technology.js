@@ -1,6 +1,6 @@
 'use strict';
 module.exports = app => {
-    const { INTEGER, STRING, DATE } = app.Sequelize;
+    const { INTEGER, STRING } = app.Sequelize;
     const Technology = app.model.define('Technology', {
         id: {
             type: INTEGER(10),
@@ -9,11 +9,10 @@ module.exports = app => {
         },
         name: {
             type: STRING(16),
-        },
-        created_at: DATE,
-        updated_at: DATE,
+        }
     },
     {
+        timestamps: false,
         underscored: true,
         tableName: 'technology',
     });
