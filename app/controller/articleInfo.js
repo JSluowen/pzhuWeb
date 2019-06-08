@@ -40,6 +40,8 @@ class ArticleInfo extends Controller {
                 };
                 return;
             }
+            const number = article[0].dataValues.readnumber;
+            await article[0].update({ readnumber: parseInt(number) + 1 });
             const technologyid = article[0].dataValues.technologyid;
             const params1 = {
                 where: {

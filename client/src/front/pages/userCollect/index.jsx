@@ -3,6 +3,7 @@ import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
 import Cookies from '../../../http/cookies'
+import { Link } from 'react-router'
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
@@ -24,7 +25,7 @@ class UserCollect extends Component {
 
     componentDidMount() {
         this.getUserCollect()
-        // window.addEventListener('scroll', this.handelScroll)
+        window.addEventListener('scroll', this.handelScroll)
     }
     getUserCollect = () => {
         let params = {
@@ -118,7 +119,7 @@ class UserCollect extends Component {
                 beg: this.state.end,
                 end: this.state.end + this.state.limit
             })
-            this.getUserArticle()
+            this.getUserCollect()
         }
     }
     handelDel = (e) => {
@@ -143,7 +144,7 @@ class UserCollect extends Component {
                         that.setState({
                             collect: that.state.collect
                         })
-                    }else{
+                    } else {
                         message.warning('取消收藏失败')
                     }
                 })
@@ -195,7 +196,7 @@ class UserCollect extends Component {
                                                 return <div key={item.id}>
                                                     <div className='userCollect-container-body-item' >
                                                         <div style={{ width: '50%' }}  >
-                                                            <span>{item.Article.title}</span>
+                                                            <Link target='_blank' style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleInfo/${item.Article.id}`}>{item.Article.title}</Link>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.Article.Technology.name}</Tag>

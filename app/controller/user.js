@@ -524,7 +524,7 @@ class User extends Controller {
                     include: [
                         {
                             model: app.model.Article,
-                            attributes: ['title'],
+                            attributes: ['title', 'id'],
                             include: [
                                 {
                                     model: app.model.UserInfo,
