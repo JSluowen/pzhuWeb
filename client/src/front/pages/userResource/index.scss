@@ -52,7 +52,9 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-
+                a{
+                    color:rgba($color: #000000, $alpha: .65);
+                }
                 &:hover {
                     background-color: rgb(250, 250, 250);
                 }

@@ -201,7 +201,7 @@ class UserArticle extends Component {
                                                 return <div key={item.id}>
                                                     <div className='userArticle-container-body-item' >
                                                         <div style={{ width: '50%' }} >
-                                                            <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleInfo/${item.id}`}>{item.title}</Link>
+                                                            <Link  target='_blank' style={{ color: 'rgba(0, 0, 0, 0.65)' }}  to={`/articleInfo/${item.id}`}>{item.title}</Link>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.Technology.name}</Tag>

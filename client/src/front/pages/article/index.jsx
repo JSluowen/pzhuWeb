@@ -170,7 +170,7 @@ export default class Article extends Component {
 												>
 													<div className="shadow" />
 													<div className="title">
-														<Link to="">{item.title}</Link>
+														<Link target='_blank' to={`/articleInfo/${item.id}`}>{item.title}</Link>
 													</div>
 												</div>
 											</div>
@@ -185,11 +185,11 @@ export default class Article extends Component {
 									this.state.article.length === 0 ?
 										<div className='article-left-null'>暂无数据</div>
 										:
-										<div style={{width:'100%'}} >
+										<div style={{ width: '100%' }} >
 											{
 												this.state.article.map(item => {
 													return <div className="article-item" key={item.id}>
-														<div className="article-cover" style={{backgroundImage:`url(${item.postlink})`}} >
+														<div className="article-cover" style={{ backgroundImage: `url(${item.postlink})` }} >
 														</div>
 														<div className="article-content">
 															<Link to={`/articleInfo/${item.id}`} target='_blank' className="article-top" >
@@ -198,11 +198,9 @@ export default class Article extends Component {
 															</Link>
 
 															<div className="article-bottom">
-																<Tooltip placement="bottom" title={`阅读量${item.readnumber}`}>
-																	<div className="read-number">
-																		<Icon type="eye" />
-																	</div>
-																</Tooltip>
+																<div className="read-number">
+																	阅读数 {item.readnumber}
+																</div>
 																{
 																	sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === '' ?
 																		''
@@ -261,7 +259,7 @@ export default class Article extends Component {
 													<Link style={{ color: 'gray' }} target='_blank' to={`/articleInfo/${item.id}`}>{item.title}</Link>
 												</div>
 												<div className="action">
-													<Icon type="eye" /> {item.readnumber}
+													阅读数 {item.readnumber}
 												</div>
 											</div>
 

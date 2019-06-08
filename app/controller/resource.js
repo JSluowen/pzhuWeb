@@ -24,7 +24,10 @@ class Resource extends Controller {
                         ]
                     }
                 ],
-                order: [['id', 'DESC']],
+                order: [['updated_at', 'DESC']],
+                where: {
+                    status: 1
+                }
             };
             let resourceType = await ctx.service.mysql.findAll({}, table);
             let resource = await ctx.service.mysql.findAll(params, table1);
@@ -73,11 +76,14 @@ class Resource extends Controller {
                         ]
                     }
                 ],
-                order: [['id', 'DESC']],
+                order: [['updated_at', 'DESC']],
                 where: {
                     title: {
                         [Op.like]: '%' + value + '%',
                     },
+                    where: {
+                        status: 1
+                    }
                 }
             };
             const table = 'Resource';

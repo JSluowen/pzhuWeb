@@ -48,6 +48,7 @@ module.exports = app => {
             },
             readnumber: {
                 type: INTEGER(10),
+                defaultValue: 1
             },
             status: {
                 type: INTEGER(4),

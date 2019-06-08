@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
@@ -201,7 +201,7 @@ class UserAchievement extends Component {
                                                 return <div key={item.id}>
                                                     <div className='userAchievement-container-body-item' >
                                                         <div style={{ width: '50%' }}  >
-                                                            <span>{item.title}</span>
+                                                            <a href={item.achievementlink || item.attachment} target='_blank'>{item.title}</a>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.AchievementType.name}</Tag>
@@ -212,7 +212,7 @@ class UserAchievement extends Component {
                                                         <div className='userAchievement-container-body-item-work' style={{ flex: 1 }}>
                                                             <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/achievementIssue/${item.id}`}>
                                                                 <Icon type="edit" />
-                                                            </Link>                                        
+                                                            </Link>
                                                             <p primary={item.id} index={index} onClick={this.handelDel} >
                                                                 <Icon type="delete" />
                                                             </p>

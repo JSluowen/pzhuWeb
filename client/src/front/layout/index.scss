@@ -59,6 +59,7 @@
       align-items: center;
       line-height: 40px;
       margin-right: 30px;
+
       &-search {
         margin-right: 30px;
       }
@@ -67,15 +68,18 @@
         display: flex;
         align-items: center;
         position: relative;
-        .ant-avatar{
-          &:hover{
+
+        .ant-avatar {
+          &:hover {
             cursor: pointer;
           }
         }
-        p{
+
+        p {
           color: red;
           margin-left: 20px;
-          &:hover{
+
+          &:hover {
             cursor: pointer;
           }
         }
@@ -85,6 +89,7 @@
         width: 120px;
         display: flex;
         justify-content: space-evenly;
+
         a {
           color: white;
 
@@ -96,10 +101,6 @@
       }
 
     }
-
-
-
-
   }
 
   .content {

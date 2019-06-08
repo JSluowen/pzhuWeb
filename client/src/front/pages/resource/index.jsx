@@ -124,7 +124,6 @@ class Resource extends Component {
             for (let item of res.data.resource) {
                 arry.push(item)
             }
-            console.log(res.data)
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
@@ -192,8 +191,7 @@ class Resource extends Component {
                                                     return <Col span={12} key={item.id} >
                                                         <Card
                                                             className="resource-right-item"
-                                                            hoverable={true}
-                                                        // actions={[<span><Icon type="like" />{" "}2</span>, <span><Icon type="message" />{" "}10</span>, <Icon type="star" />]}
+                                                            hoverable={true}     
                                                         >
                                                             <div className='resource-right-item-header'>
                                                                 <Avatar size={55} src={item.UserInfo.avatar} />
@@ -202,7 +200,7 @@ class Resource extends Component {
                                                                     <p> <Icon type="calendar" />{" "}{item.updated_at}</p>
                                                                 </div>
                                                                 <Button link={item.link} type='primary' ghost >
-                                                                    <a href={item.link}>点击获取</a>
+                                                                    <a href={item.link} target='_blank'>点击获取</a>
                                                                 </Button>
                                                             </div>
                                                             <div className='resource-right-item-body'>

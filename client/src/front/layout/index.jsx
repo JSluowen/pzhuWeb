@@ -122,17 +122,7 @@ export default class Layout extends Component {
 							</div>
 						</div>
 					</div>
-					<div className="nav-bar-right">
-						<Search
-							className="nav-bar-right-search"
-							placeholder="input search text"
-							onSearch={(value) => console.log(value)}
-							style={{
-								width: 200
-							}}
-						/>
-
-
+					<div className="nav-bar-right">					
 						{this.state.status ? (
 							<div className="nav-bar-right-userinfo">
 								<ButtonGroup style={{ marginRight: '20px' }}>

@@ -39,7 +39,8 @@ class ArticleEdit extends Component {
 			postlink: '',// 封面图链接
 			context: '',// 文章给你内容
 			raw: '',// 用户编辑的文章内容格式
-			avatar: ''// 用户头像
+			avatar: '',// 用户头像
+			articleLoding: false//发布文章
 		}
 		this.selectType = React.createRef();
 		this.selectTechnology = React.createRef();
@@ -67,7 +68,6 @@ class ArticleEdit extends Component {
 							loop: false, // 指定音视频是否循环播放
 							autoPlay: true, // 指定音视频是否自动播放
 							controls: true, // 指定音视频是否显示控制栏
-							poster: 'http://img.pzhuweb.cn/04.jpg', // 指定视频播放器的封面
 						}
 					} else if (type === 'mp3') {
 						return {
@@ -135,24 +135,24 @@ class ArticleEdit extends Component {
 		setFieldsValue({ "title": title })
 		this.setState({
 			editorState: BraftEditor.createEditorState(context),
-			keywords:keywords,
-			selectType:menuid,
-			selectTechnology:technologyid,
-			title:title
+			keywords: keywords,
+			selectType: menuid,
+			selectTechnology: technologyid,
+			title: title
 
 		})
 		let selectType = this.selectType.current.children;
-        for (let item of selectType) {
-            if (parseInt(item.getAttribute('index')) === menuid) {
-                item.classList.add('tagActive');
-            }
+		for (let item of selectType) {
+			if (parseInt(item.getAttribute('index')) === menuid) {
+				item.classList.add('tagActive');
+			}
 		}
 		let selectTechnology = this.selectTechnology.current.children;
-        for (let item of selectTechnology) {
-            if (parseInt(item.getAttribute('index')) === technologyid) {
-                item.classList.add('tagActive');
-            }
-        }
+		for (let item of selectTechnology) {
+			if (parseInt(item.getAttribute('index')) === technologyid) {
+				item.classList.add('tagActive');
+			}
+		}
 	}
 	handShowCover = () => {
 		if (this.state.issueStatus == true) {
@@ -293,9 +293,9 @@ class ArticleEdit extends Component {
 		let str = this.state.context;
 		let text = str.replace(/<[^<>]+>/g, "");
 		const abstract = text.substring(0, 120);
-		if(this.state.title===''){
+		if (this.state.title === '') {
 			message.warning('请输入文章标题')
-		}else if (this.state.selectType === '') {
+		} else if (this.state.selectType === '') {
 			message.warning('请选择文章类别')
 		} else if (this.state.selectTechnology === '') {
 			message.warning('请选择文章的技术标签');
@@ -306,6 +306,9 @@ class ArticleEdit extends Component {
 		} else if (this.state.postlink === '' || this.state.postlink === null) {
 			message.warning('请上传文章封面图')
 		} else {
+			this.setState({
+				articleLoding: true
+			})
 			let params = {
 				id: this.state.id,
 				status: this.state.status,
@@ -320,7 +323,12 @@ class ArticleEdit extends Component {
 			}
 			ArticleEditAPI.uploadArticleInfo(params).then(res => {
 				if (res.success) {
-					message.success('发布成功')
+					setTimeout(() => {
+						this.setState({
+							articleLoding: false
+						})
+						message.success('发布成功')
+					}, 200)
 				}
 			})
 		}
@@ -406,94 +414,96 @@ class ArticleEdit extends Component {
 		}
 		return (
 			<div className='articleEdit'>
-				<div className='articleEdit-header'>
-					<div className='articleEdit-header-logo'>
-						<a href="/">
-							<img src="http://www.pzhuweb.cn/upload/logo.ico" alt="" />
-						</a>
-					</div>
-					<div className='articleEdit-header-title'>
-						{
-							getFieldDecorator('title', {
+				<Spin tip='文章发布中...' spinning={this.state.articleLoding} >
+					<div className='articleEdit-header'>
+						<div className='articleEdit-header-logo'>
+							<a href="/">
+								<img src="http://img.pzhuweb.cn/logo.png" alt="logo" />
+							</a>
+						</div>
+						<div className='articleEdit-header-title'>
+							{
+								getFieldDecorator('title', {
 
-							})(
-								<Input onChange={(e) => { this.setState({ title: e.target.value }) }} placeholder='请输入文章标题' ></Input>
-							)
-						}
+								})(
+									<Input onChange={(e) => { this.setState({ title: e.target.value }) }} placeholder='请输入文章标题' ></Input>
+								)
+							}
 
-					</div>
-					<div className='articleEdit-header-right'>
-						<div className='articleEdit-header-right-cover'  >
-							<Icon onClick={this.handShowCover} type="picture" />
+						</div>
+						<div className='articleEdit-header-right'>
+							<div className='articleEdit-header-right-cover'  >
+								<Icon onClick={this.handShowCover} type="picture" />
 
-							<div className='articleEdit-header-right-cover-upload' style={this.state.coverStatus ? { display: 'block' } : { display: 'none' }} >
-								<Spin spinning={this.state.coverLoading}>
-									<div className='articleEdit-header-right-cover-upload-title'>添加封面大图</div>
-									{
-										this.state.postlink === '' || this.state.postlink === null ?
-											<label className='articleEdit-header-right-cover-upload-addBtn' htmlFor="uploadCover">点击此处添加图片</label>
-											:
-											<div onClick={this.delCoverImg} style={{ backgroundImage: `url(${this.state.postlink})` }} onMouseEnter={() => { this.setState({ delCoverStatus: true }) }} onMouseOut={() => { this.setState({ delCoverStatus: false }) }} className='articleEdit-header-right-cover-upload-delCover'>
-												<div style={this.state.delCoverStatus ? { opacity: 1 } : { opacity: 0 }} className='articleEdit-header-right-cover-upload-delCover-shadow'>点击删除封面图</div>
-											</div>
-									}
+								<div className='articleEdit-header-right-cover-upload' style={this.state.coverStatus ? { display: 'block' } : { display: 'none' }} >
+									<Spin spinning={this.state.coverLoading}>
+										<div className='articleEdit-header-right-cover-upload-title'>添加封面大图</div>
+										{
+											this.state.postlink === '' || this.state.postlink === null ?
+												<label className='articleEdit-header-right-cover-upload-addBtn' htmlFor="uploadCover">点击此处添加图片</label>
+												:
+												<div onClick={this.delCoverImg} style={{ backgroundImage: `url(${this.state.postlink})` }} onMouseEnter={() => { this.setState({ delCoverStatus: true }) }} onMouseOut={() => { this.setState({ delCoverStatus: false }) }} className='articleEdit-header-right-cover-upload-delCover'>
+													<div style={this.state.delCoverStatus ? { opacity: 1 } : { opacity: 0 }} className='articleEdit-header-right-cover-upload-delCover-shadow'>点击删除封面图</div>
+												</div>
+										}
 
-									<input id="uploadCover" hidden type="file" onChange={this.uploadCover} />
-								</Spin>
+										<input id="uploadCover" hidden type="file" onChange={this.uploadCover} />
+									</Spin>
+								</div>
+
 							</div>
-
-						</div>
-						<div className='articleEdit-header-right-issue' >
-							<p onClick={this.handShowIssue}><span>发布</span>
-								<Icon type="caret-down" /></p>
-							<div className='articleEdit-header-right-issue-panel' onMouseLeave={(e) => { if (e.target.tagName !== 'DIV') return; this.setState({ issueStatus: false }); }} style={this.state.issueStatus ? { display: 'block' } : { display: 'none' }}>
-								<div className='articleEdit-header-right-issue-panel-title'>发布文章</div>
-								<div className='articleEdit-header-right-issue-panel-category'>分类</div>
-								<div className='articleEdit-header-right-issue-panel-categoryList' ref={this.selectType} >
-									{
-										this.state.menu.map(item => {
-											return <Button onClick={this.handelSelectType} key={item.id} index={item.id}>{item.name}</Button>
-										})
-									}
-								</div>
-								<div className='articleEdit-header-right-issue-panel-technology'>技术标签</div>
-								<div className='articleEdit-header-right-issue-panel-technologyList' ref={this.selectTechnology}>
-									{
-										this.state.technology.map(item => {
-											return <Button onClick={this.handelSelectTeachnology} key={item.id} index={item.id}>{item.name}</Button>
-										})
-									}
-								</div>
-								<div className='articleEdit-header-right-issue-panel-keyWords'>关键字</div>
-								<div className='articleEdit-header-right-issue-panel-keyWordsList'>
-									<input value={this.state.keywords} onChange={(e) => { this.setState({ keywords: e.target.value }) }} placeholder='请添加一个关键字'></input>
-								</div>
-								<div className='articleEdit-header-right-issue-panel-issueBtn'>
-									<Button ghost onClick={this.uploadArticleInfo} >文章发布</Button>
+							<div className='articleEdit-header-right-issue' >
+								<p onClick={this.handShowIssue}><span>发布</span>
+									<Icon type="caret-down" /></p>
+								<div className='articleEdit-header-right-issue-panel' onMouseLeave={(e) => { if (e.target.tagName !== 'DIV') return; this.setState({ issueStatus: false }); }} style={this.state.issueStatus ? { display: 'block' } : { display: 'none' }}>
+									<div className='articleEdit-header-right-issue-panel-title'>发布文章</div>
+									<div className='articleEdit-header-right-issue-panel-category'>分类</div>
+									<div className='articleEdit-header-right-issue-panel-categoryList' ref={this.selectType} >
+										{
+											this.state.menu.map(item => {
+												return <Button onClick={this.handelSelectType} key={item.id} index={item.id}>{item.name}</Button>
+											})
+										}
+									</div>
+									<div className='articleEdit-header-right-issue-panel-technology'>技术标签</div>
+									<div className='articleEdit-header-right-issue-panel-technologyList' ref={this.selectTechnology}>
+										{
+											this.state.technology.map(item => {
+												return <Button onClick={this.handelSelectTeachnology} key={item.id} index={item.id}>{item.name}</Button>
+											})
+										}
+									</div>
+									<div className='articleEdit-header-right-issue-panel-keyWords'>关键字</div>
+									<div className='articleEdit-header-right-issue-panel-keyWordsList'>
+										<input value={this.state.keywords} onChange={(e) => { this.setState({ keywords: e.target.value }) }} placeholder='请添加一个关键字'></input>
+									</div>
+									<div className='articleEdit-header-right-issue-panel-issueBtn'>
+										<Button ghost onClick={this.uploadArticleInfo} >文章发布</Button>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className='articleEdit-header-right-avatar'>
-							<Link to="user">
-								<Avatar
-									size={40}
-									src={this.state.avatar} />
-							</Link>
+							<div className='articleEdit-header-right-avatar'>
+								<Link to="user">
+									<Avatar
+										size={40}
+										src={this.state.avatar} />
+								</Link>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div className='articleEdit-body'>
-					<BraftEditor
-						id='editor-with-code-highlighter'
-						controls={controls}
-						excludeControls={excludeControls}
-						value={this.state.editorState}
-						onChange={this.getArticleContext}
-						media={{ uploadFn: myUploadFn, pasteImage: false, items: this.state.mediaItems }}
-						onDelete={this.delImg}
-						hooks={hooks}
-					/>
-				</div>
+					<div className='articleEdit-body'>
+						<BraftEditor
+							id='editor-with-code-highlighter'
+							controls={controls}
+							excludeControls={excludeControls}
+							value={this.state.editorState}
+							onChange={this.getArticleContext}
+							media={{ uploadFn: myUploadFn, pasteImage: false, items: this.state.mediaItems }}
+							onDelete={this.delImg}
+							hooks={hooks}
+						/>
+					</div>
+				</Spin>
 			</div>
 		);
 	}

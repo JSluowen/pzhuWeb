@@ -22,7 +22,11 @@ class Achievement extends Controller {
                             }
                         ]
                     }
-                ]
+                ],
+                order: [['updated_at', 'DESC']],
+                where: {
+                    status: 1
+                }
             };
             let acType = await ctx.service.mysql.findAll({}, table);
             let ac = await ctx.service.mysql.findAll(params, table1);
@@ -71,11 +75,12 @@ class Achievement extends Controller {
                         ]
                     }
                 ],
-                order: [['id', 'DESC']],
+                order: [['updated_at', 'DESC']],
                 where: {
                     title: {
                         [Op.like]: '%' + value + '%',
                     },
+                    status: 1
                 }
             };
             const ac = await ctx.service.mysql.findAll(params, table);

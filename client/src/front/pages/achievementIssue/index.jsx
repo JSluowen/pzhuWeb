@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, message, Spin, Progress, Form } from 'antd';
+import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip } from 'antd';
 import './index.scss';
 import Cookies from '../../../http/cookies';
 import AchievementIssueAPI from '../../api/achievementIssue';
@@ -49,7 +49,7 @@ class AchievementIssue extends Component {
             } else {
                 this.setState({
                     id: res.data.achievement[0].id,
-                    type:res.data.achievement[0].typeid,
+                    type: res.data.achievement[0].typeid,
                     title: res.data.achievement[0].title,
                     achievementlink: res.data.achievement[0].achievementlink,
                     abstract: res.data.achievement[0].abstract,
@@ -90,12 +90,18 @@ class AchievementIssue extends Component {
     }
     // 上传资源
     handelIssue = () => {
-        if (this.state.title === '') {
+        if ((this.state.achievementlink === '' || this.state.achievementlink === null) && (this.state.attachment === '' || this.state.attachment === null)) {
+            message.warning('链接或附件二选一');
+        } else if (this.state.title === '' || this.state.title === null) {
             message.warning('成果标题不能为空')
-        } else if (this.state.type === '') {
+        } else if (this.state.type === '' || this.state.type === null) {
             message.warning('请选择成果类别')
-        } else if (this.state.abstract === '') {
+        } else if (this.state.abstract === '' || this.state.abstract === null) {
             message.warning('请对成果进行简单描述')
+        } else if (this.state.abstract.length > 120) {
+            message.warning('成果描述请控制在120字以内');
+        } else if (this.state.posterlink === '' || this.state.posterlink === null) {
+            message.warning('请上传成果的封面图')
         }
         else {
             let params = {
@@ -309,6 +315,7 @@ class AchievementIssue extends Component {
                     <Spin tip='成果发布中...' spinning={this.state.loading}>
                         <div className='achievementIssue-container-header'>
                             成果发布
+                            <small>(链接或附件二选一)</small>
                         </div>
                         <div className='achievementIssue-container-body'>
                             <div className='achievementIssue-container-body-left'>
@@ -330,7 +337,7 @@ class AchievementIssue extends Component {
                                     getFieldDecorator('abstract', {
 
                                     })(
-                                        <TextArea placeholder='成果描述（100字以内）' onChange={(e) => { this.setState({ abstract: e.target.value }) }} />
+                                        <TextArea placeholder='成果描述（120字以内）' onChange={(e) => { this.setState({ abstract: e.target.value }) }} />
                                     )
                                 }
                                 <div className='achievementIssue-container-body-left-tag' ref={this.selectLabel}>
@@ -386,9 +393,11 @@ class AchievementIssue extends Component {
                                                 <Progress style={this.state.attachmentLoading ? { display: 'block' } : { display: 'none' }} percent={this.state.progress} status="active" />
                                             </div>
                                             :
-                                            <label htmlFor="uploadFile" className="achievementIssue-container-body-right-attachment-fileLabel">
-                                                <Icon type="upload" />添加附件
-                                             </label>
+                                            <Tooltip placement="bottom" title='请上传pdf格式的文件'>
+                                                <label htmlFor="uploadFile" className="achievementIssue-container-body-right-attachment-fileLabel">
+                                                    <Icon type="upload" />添加成果附件
+                                                </label>
+                                            </Tooltip>
                                     }
                                     <input id='uploadFile' accept=".pdf" type="file" hidden onChange={this.uploadAttachment} />
                                 </div>

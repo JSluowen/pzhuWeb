@@ -93,12 +93,12 @@ class User extends Controller {
                             model: app.model.ResourceType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
+                    attributes: ['id', 'typeid', 'link', 'attachment', 'userid', 'title', 'updated_at'],
                     where: {
                         userid,
                         status: 1
                     },
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 const resourceType = await ctx.service.mysql.findAll({}, table);
                 let resource = await ctx.service.mysql.findAll(params, table1);
@@ -155,7 +155,7 @@ class User extends Controller {
                         },
                         status: 1
                     },
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 const resource = await ctx.service.mysql.findAll(params, table);
                 if (resource.length === 0) {
@@ -213,7 +213,6 @@ class User extends Controller {
             console.log(err);
         }
     }
-
     async getUserAchievement() {
         const { ctx, app } = this;
         try {
@@ -235,12 +234,12 @@ class User extends Controller {
                             model: app.model.AchievementType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
+                    attributes: ['id', 'typeid', 'achievementlink', 'attachment', 'userid', 'title', 'updated_at'],
                     where: {
                         userid: id,
                         status: 1,
                     },
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 const acType = await ctx.service.mysql.findAll({}, table);
                 let ac = await ctx.service.mysql.findAll(params, table1);
@@ -333,7 +332,7 @@ class User extends Controller {
                         },
                         status: 1
                     },
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 const ac = await ctx.service.mysql.findAll(params, table);
                 if (ac.length === 0) {
@@ -355,7 +354,6 @@ class User extends Controller {
             console.log(err);
         }
     }
-
     async getUserArticle() {
         const { ctx, app } = this;
         try {
@@ -385,7 +383,7 @@ class User extends Controller {
                         userid: id,
                         status: 1
                     },
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 const articleType = await ctx.service.mysql.findAll({}, table);
                 let article = await ctx.service.mysql.findAll(params, table1);
@@ -485,7 +483,7 @@ class User extends Controller {
                         },
                         status: 1
                     },
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 const article = await ctx.service.mysql.findAll(params, table);
                 if (article.length === 0) {
@@ -507,7 +505,6 @@ class User extends Controller {
             console.log(err);
         }
     }
-
     async getUserCollect() {
         const { ctx, app } = this;
         try {
@@ -552,7 +549,7 @@ class User extends Controller {
                         userid,
                     },
                     attributes: ['id'],
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 const menu = await ctx.service.mysql.findAll({}, table);
                 let collect = await ctx.service.mysql.findAll(params, table1);
@@ -626,7 +623,7 @@ class User extends Controller {
                     where: {
                         userid,
                     },
-                    order: [['id', 'DESC']],
+                    order: [['updated_at', 'DESC']],
                 };
                 let collect = await ctx.service.mysql.findAll(params, table);
                 collect = collect.filter(item => {
