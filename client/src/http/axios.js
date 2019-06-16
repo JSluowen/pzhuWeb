@@ -1,18 +1,14 @@
+import { message } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
-import {
-	message
-} from 'antd';
-import {
-	hashHistory
-} from 'react-router';
+import { hashHistory } from 'react-router';
 message.config({
 	top: 100,
 	duration: 2,
 	maxCount: 3
 });
-
 axios.defaults.baseURL = 'http://127.0.0.1:7001/api';
+//axios.defaults.baseURL = 'http://47.107.106.113:7001/api';
 axios.defaults.timeOut = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 //允许axio请求携带cookies

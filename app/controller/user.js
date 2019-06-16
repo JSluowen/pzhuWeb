@@ -378,12 +378,12 @@ class User extends Controller {
                             model: app.model.Technology
                         }
                     ],
-                    attributes: ['id', 'technologyid', 'title', 'updated_at'],
+                    attributes: ['id', 'technologyid', 'title', 'updated_at', 'created_at'],
                     where: {
                         userid: id,
                         status: 1
                     },
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
                 const articleType = await ctx.service.mysql.findAll({}, table);
                 let article = await ctx.service.mysql.findAll(params, table1);
@@ -475,7 +475,7 @@ class User extends Controller {
                             model: app.model.Technology
                         }
                     ],
-                    attributes: ['id', 'technologyid', 'title', 'updated_at'],
+                    attributes: ['id', 'technologyid', 'title', 'updated_at', 'created_at'],
                     where: {
                         userid,
                         title: {
@@ -483,7 +483,7 @@ class User extends Controller {
                         },
                         status: 1
                     },
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
                 const article = await ctx.service.mysql.findAll(params, table);
                 if (article.length === 0) {
@@ -549,7 +549,7 @@ class User extends Controller {
                         userid,
                     },
                     attributes: ['id'],
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
                 const menu = await ctx.service.mysql.findAll({}, table);
                 let collect = await ctx.service.mysql.findAll(params, table1);
@@ -623,7 +623,7 @@ class User extends Controller {
                     where: {
                         userid,
                     },
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
                 let collect = await ctx.service.mysql.findAll(params, table);
                 collect = collect.filter(item => {

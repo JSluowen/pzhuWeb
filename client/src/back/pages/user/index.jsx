@@ -116,19 +116,19 @@ class Index extends Component {
                 <Spin size='large' spinning={this.state.loading} >
                     <div className='back-user-header'>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#f50' type="circle" percent={this.state.gradeGroup[3]} />
+                            <Progress strokeLinecap="square" strokeColor='#f50' type="circle" percent={this.state.gradeGroup[3]||0} />
                             <p>大四成员</p>
                         </div>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#2db7f5' type="circle" percent={this.state.gradeGroup[2]} />
+                            <Progress strokeLinecap="square" strokeColor='#2db7f5' type="circle" percent={this.state.gradeGroup[2]||0} />
                             <p>大三成员</p>
                         </div>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#87d068' type="circle" percent={this.state.gradeGroup[1]} />
+                            <Progress strokeLinecap="square" strokeColor='#87d068' type="circle" percent={this.state.gradeGroup[1]||0} />
                             <p>大二成员</p>
                         </div>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#108ee9' type="circle" percent={this.state.gradeGroup[0]} />
+                            <Progress strokeLinecap="square" strokeColor='#108ee9' type="circle" percent={this.state.gradeGroup[0]||0} />
                             <p>大一成员</p>
                         </div>
                     </div>

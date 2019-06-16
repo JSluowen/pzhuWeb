@@ -29,7 +29,8 @@ class ArticleInfo extends Controller {
                     }
                 ],
                 where: {
-                    id
+                    id,
+                    status: 1
                 }
             };
             const article = await ctx.service.mysql.findAll(params, table);
@@ -51,7 +52,7 @@ class ArticleInfo extends Controller {
                     }
                 },
                 attributes: ['id', 'postlink', 'title'],
-                order: [['updated_at', 'DESC']],
+                order: [['created_at', 'DESC']],
                 limit: 3
             };
             const recommend = await ctx.service.mysql.findAll(params1, table);

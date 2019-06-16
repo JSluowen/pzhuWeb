@@ -43,7 +43,6 @@ export default class Article extends Component {
 					technologyStatus: false
 				})
 			}
-			console.log(res.data.article)
 			let arry = this.state.article
 			for (let item of res.data.article) {
 				arry.push(item)
@@ -170,7 +169,9 @@ export default class Article extends Component {
 												>
 													<div className="shadow" />
 													<div className="title">
-														<Link target='_blank' to={`/articleInfo/${item.id}`}>{item.title}</Link>
+														<Link target='_blank' to={`/articleInfo/${item.id}`}>
+															<span>{item.title}</span>
+														</Link>
 													</div>
 												</div>
 											</div>
@@ -216,7 +217,7 @@ export default class Article extends Component {
 																	</div>
 																	<ul className="name">
 																		<li>{item.UserInfo.User.name}</li>
-																		<li>{item.updated_at}</li>
+																		<li>{item.created_at}</li>
 																		<li>{item.Technology.name}</li>
 																	</ul>
 																</div>

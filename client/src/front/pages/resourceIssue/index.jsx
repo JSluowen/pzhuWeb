@@ -91,7 +91,6 @@ class ResourceIssue extends Component {
     }
     // 上传资源
     handelIssue = () => {
-        console.log(this.state.link)
         if ((this.state.link === '' || this.state.link === null) && (this.state.attachment === '' || this.state.attachment === null)) {
             message.warning('请填写链接或者上传资源附件');
         } else if (this.state.title === '' || this.state.title === null) {

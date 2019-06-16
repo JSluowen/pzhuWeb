@@ -34,8 +34,8 @@ class Article extends Controller {
                     where: {
                         status: 1
                     },
-                    attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
-                    order: [['updated_at', 'DESC']],
+                    attributes: ['id', 'title', 'keywords', 'top', 'updated_at', 'created_at'],
+                    order: [['created_at', 'DESC']],
                     limit: pageSize,
                     offset: (page - 1) * pageSize,
                 };
@@ -146,8 +146,8 @@ class Article extends Controller {
                                 [Op.like]: '%' + value + '%',
                             }
                         },
-                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
-                        order: [['updated_at', 'DESC']],
+                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at', 'created_at'],
+                        order: [['created_at', 'DESC']],
                     };
                 } else if (index === '2') {
                     params = {
@@ -174,8 +174,8 @@ class Article extends Controller {
                         where: {
                             status: 1
                         },
-                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
-                        order: [['updated_at', 'DESC']],
+                        attributes: ['id', 'title', 'keywords', 'top', 'created_at', 'DESC'],
+                        order: [['created_at', 'DESC']],
                     };
                 } else if (index === '3') {
                     params = {
@@ -199,8 +199,8 @@ class Article extends Controller {
                                 [Op.like]: '%' + value + '%',
                             }
                         },
-                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at'],
-                        order: [['updated_at', 'DESC']],
+                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at', 'created_at'],
+                        order: [['created_at', 'DESC']],
                     };
                 }
                 const article = await ctx.service.mysql.findAll(params, table);

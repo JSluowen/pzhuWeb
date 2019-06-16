@@ -26,7 +26,7 @@ class Login extends Controller {
                 };
             } else {
                 const token = await ctx.service.jwt.signToken(id);
-                ctx.session.userid = id;
+                ctx.session.adminId = id;
                 ctx.body = {
                     success: 1,
                     data: {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Input, Icon, Avatar, Button, Spin, message, Form } from 'antd';
+import Cookies from '../../../http/cookies'
 import ArticleEditAPI from '../../api/articleEdit'
 // 引入七牛云
 import * as qiniu from 'qiniu-js'
@@ -195,7 +196,7 @@ class ArticleEdit extends Component {
 
 		qiniuAPI.getToken().then(res => {
 			let token = res.data;
-			let key = 'Test' + Date.now() + `.${postfix}`;
+			let key = Cookies.getCookies('id')+ Date.now() + `.${postfix}`;
 			let config = {
 				useCdnDomain: true, //是否使用 cdn 加速域名
 				region: qiniu.region.z2 //选择上传域名 华南
@@ -234,7 +235,6 @@ class ArticleEdit extends Component {
 			status: this.state.status
 		}
 		ArticleEditAPI.uploadArticleeCover(params).then(res => {
-
 			if (res.success) {
 				this.setState({
 					id: res.data.id,
@@ -363,7 +363,7 @@ class ArticleEdit extends Component {
 			let postfix = arry[arry.length - 1]
 			qiniuAPI.getToken().then(res => {
 				let token = res.data;
-				let key = 'Test' + Date.now() + `.${postfix}`;
+				let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
 				let config = {
 					useCdnDomain: true, //是否使用 cdn 加速域名
 					region: qiniu.region.z2 //选择上传域名 华南

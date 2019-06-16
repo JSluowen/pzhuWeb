@@ -10,13 +10,22 @@ class BackUser extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const id = ctx.session.userid;
+                const id = ctx.session.adminId;
+                const isAdmin = await ctx.service.mysql.findById(id, 'User');// 检查是否是管理员账号
+                const status = parseInt(isAdmin.dataValues.status);
+                if (id === undefined || (status !== 2 && status !== 3)) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0,
+                    };
+                    return;
+                }
                 const table = 'UserInfo';
                 const params = {
                     include: [
                         {
                             model: app.model.User,
-                            attributes: ['name'],
+                            attributes: ['name']
                         }
                     ],
                     attributes: ['avatar'],
@@ -107,6 +116,7 @@ class BackUser extends Controller {
                 const reviewUser = await ctx.service.mysql.findAll(params1, table1);
                 // 根据年级分组
                 const gradeGroup = await ctx.service.backUser.gradeGroup(user);
+                console.log(gradeGroup);
                 // 分组获取成员信息
                 const allUser = await ctx.service.mysql.findAll(params, table);
                 ctx.status = 200;

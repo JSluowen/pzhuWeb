@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router'
-import { Avatar, Icon, Menu, Layout, Tooltip } from 'antd';
+import { Avatar, Icon, Menu, Layout, Tooltip, message } from 'antd';
 import { UserAPI } from '../api'
 import "./index.scss"
 const SubMenu = Menu.SubMenu;
@@ -30,6 +30,9 @@ class Index extends Component {
 					avatar: res.data[0].avatar,
 					name: res.data[0].User.name
 				})
+			} else {
+				message.warning('请重新登录');
+				this.props.router.push('/login');
 			}
 		})
 	}
@@ -68,7 +71,7 @@ class Index extends Component {
 									}
 								</div>
 								<Menu
-								
+
 									mode="inline"
 									theme="dark"
 									inlineCollapsed={this.state.collapsed}

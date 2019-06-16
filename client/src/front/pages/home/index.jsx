@@ -17,7 +17,7 @@ const Fullpage = () => (
 						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
 							<div className='home-fullpageFive-container'>
 								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
-								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，即可加入</div>
+								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，欢迎你的加入！</div>
 								{
 									sessionStorage.getItem('token') ?
 										''
@@ -66,12 +66,12 @@ const Fullpage = () => (
 							<div className="home-fullpageTwo-right">
 								<div className='home-fullpageTwo-right-container'>
 									<p className='home-fullpageTwo-right-container-title'>
-										WEB应用专业团队
+										团队介绍
                                 </p>
 									<p className='home-fullpageTwo-right-container-context'>
 										基础知识和算法研究，WEB 前端开发，JavaEE后台开发三个方向。平时主要以小组为单位开展以任务为驱动的社团活动，另外定期或不定期开展学习研究讨论会。
 										团队还以学院教师的科研项目、教研教改项目、大学生创新创业项目等作为基础。开展一些综合性项目开发和实践锻炼。
-                                </p>							
+                                </p>
 								</div>
 							</div>
 							<div className="home-fullpageTwo-left">
@@ -86,8 +86,8 @@ const Fullpage = () => (
 					<div className="section">
 						<div className="home-fullpageThree">
 							<div className='home-fullpageThree-header'>
-								<span>我们的优势</span>
-								<span>Our Advantages</span>
+								<span>研究方向</span>
+								<span>Research Interests</span>
 							</div>
 							<div className='home-fullpageThree-body'>
 								<div className='home-fullpageThree-body-front'>
@@ -96,7 +96,7 @@ const Fullpage = () => (
 									</div>
 									<div className='home-fullpageThree-body-front-context'>
 										<div className='home-fullpageThree-body-front-context-title'>
-											前端开发小组
+											前端开发技术
                                     </div>
 										<div className='home-fullpageThree-body-front-context-desc'>
 											通过乐人发行，您的作品将在千千音乐、网易云音乐、腾讯音乐等国内音乐平台上架，更可在全球一百多个知名音乐平台，包括 Apple Music
@@ -109,7 +109,7 @@ const Fullpage = () => (
 									</div>
 									<div className='home-fullpageThree-body-back-context'>
 										<div className='home-fullpageThree-body-back-context-title'>
-											后台研发小组
+											后台开发技术
                                     </div>
 										<div className='home-fullpageThree-body-back-context-desc'>
 											通过乐人发行，您的作品将在千千音乐、网易云音乐、腾讯音乐等国内音乐平台上架，更可在全球一百多个知名音乐平台，包括 Apple Music
@@ -122,7 +122,7 @@ const Fullpage = () => (
 					<div className="section">
 						<div className="home-fullpageFour">
 							<div className='home-fullpageFour-header'>
-								<span>我们的成就</span>
+								<span>我们的成果</span>
 								<span>Our Achievement</span>
 							</div>
 							<div className='home-fullpageFour-body'>
@@ -206,13 +206,13 @@ const Fullpage = () => (
 										<span>罗文</span>
 									</div>
 								</div>
-							
+
 							</div>
 
 
 						</div>
 					</div>
-					
+
 				</div>
 			);
 		}} />

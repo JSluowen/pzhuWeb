@@ -23,6 +23,7 @@ class Login extends Component {
 		});
 		let id = Cookies.getCookies('id');
 		let password = Cookies.getCookies('password');
+		console.log('我是',password);
 		let form = this.props.form;
 
 		form.setFieldsValue({ id: id });

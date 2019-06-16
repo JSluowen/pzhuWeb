@@ -35,7 +35,7 @@ class Article extends Controller {
                 where: {
                     status: 1
                 },
-                order: [['updated_at', 'DESC']],
+                order: [['created_at', 'DESC']],
             };
             const params1 = {
                 order: [['readnumber', 'DESC']],

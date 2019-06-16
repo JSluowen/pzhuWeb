@@ -207,7 +207,7 @@ class UserArticle extends Component {
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.Technology.name}</Tag>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
-                                                            {item.updated_at}
+                                                            {item.created_at}
                                                         </div>
                                                         <div className='userArticle-container-body-item-work' style={{ flex: 1 }}>
                                                             <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleEdit/${item.id}`}>

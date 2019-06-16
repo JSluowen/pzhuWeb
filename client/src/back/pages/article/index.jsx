@@ -233,7 +233,7 @@ class Article extends Component {
                                                                     {item.UserInfo.User.name}
                                                                 </div>
                                                                 <div className='back-article-container-list-body-list-item'>
-                                                                    {item.updated_at}
+                                                                    {item.created_at}
                                                                 </div>
                                                                 <div className='back-article-container-list-body-list-item'>
                                                                     <Switch articleid={item.id} onClick={this.istop} checkedChildren="是" unCheckedChildren="否" defaultChecked={item.top ? true : false} />

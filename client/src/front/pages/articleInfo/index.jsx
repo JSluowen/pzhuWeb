@@ -75,7 +75,7 @@ class ArticleInfo extends Component {
                                     {this.state.article.UserInfo.User.name}
                                 </p>
                                 <p>
-                                    {this.state.article.updated_at}
+                                    {this.state.article.created_at}
                                 </p>
                             </div>
                         </div>

@@ -15,6 +15,7 @@ export default class Layout extends Component {
 			status: false,
 			avatar: 'http://img.pzhuweb.cn/443625372.jpeg',
 			flag: true,
+			isHidden: true,
 		};
 	}
 
@@ -70,29 +71,64 @@ export default class Layout extends Component {
 	handleMenuClick = (value) => {
 
 	}
-	getSonAvatar=(avatar)=>{
+	getSonAvatar = (avatar) => {
 		this.setState({
-			avatar:avatar
+			avatar: avatar
 		})
 	}
+	//显示菜单
+	avatarShowMenu = (e) => {
+		const dom = e.currentTarget.lastChild;
+		this.setState({
+			isHidden: false
+		})
+		dom.style.display = 'block';
+		setTimeout(() => {
+			dom.style.opacity = '1';
+		}, 200)
+	}
+	//隐藏菜单
+	avatarHiddenMenu = (e) => {
+		const dom = e.currentTarget.lastChild;
+		this.setState({
+			isHidden:true
+		})
+		setTimeout(() => {
+			if (this.state.isHidden) {
+				dom.style.opacity = '0';
+				setTimeout(() => {
+					dom.style.display = 'none';
+				}, 200)
+			}
+		}, 200)
+	}
+	ShowMenu = (e) => {
+		const dom = e.currentTarget;
+		this.setState({
+			isHidden: false
+		})
+		dom.style.opacity = '1';
+		dom.style.display = 'block';
+	}
+	hiddenMenu = (e) => {
+		const dom = e.currentTarget;
+		this.setState({
+			isHidden: true
+		})
+		setTimeout(() => {
+			if (this.state.isHidden) {
+				dom.style.opacity = '0';
+				setTimeout(() => {
+					dom.style.display = 'none';
+				}, 200)
+			}
+		}, 200)
+	}
 	render() {
-		const menu = (
-			<Menu onClick={this.handleMenuClick}>
-				<Menu.Item key="1">
-					<Link to='/resourceIssue'>资源分享</Link>
-				</Menu.Item>
-				<Menu.Item key="2">
-					<Link to='/achievementIssue'>成果发布</Link>
-				</Menu.Item>
-			</Menu>
-		);
-
-
 		return (
 			<div className="container">
 				{/* 回到顶部 */}
 				<BackTop visibilityHeight={100} />
-
 				<div className="nav-bar">
 					<div className="nav-bar-left">
 						<a className="app-logo" href="/" target="_self">
@@ -122,33 +158,56 @@ export default class Layout extends Component {
 							</div>
 						</div>
 					</div>
-					<div className="nav-bar-right">					
+					<div className="nav-bar-right">
 						{this.state.status ? (
-							<div className="nav-bar-right-userinfo">
-								<ButtonGroup style={{ marginRight: '20px' }}>
-									<Button type='primary' ghost >
-										<Link to='/articleEdit'>文章发布</Link>
-									</Button>
-									<Dropdown overlay={menu}>
-										<Button type='primary' ghost icon="down" >
-										</Button>
-									</Dropdown>
-
-								</ButtonGroup>
-								<Link to='user'>
-									<Avatar
-										className="nav-bar-right-userinfo-avator"
-										size={35}
-										style={{
-											backgroundColor: '#87d068',
-										}}
-										icon="user"
-										src={this.state.avatar}
-									/>
-								</Link>
-								<p onClick={this.handleExit}>注销</p>
+							<div className="nav-bar-right-userinfo" onMouseEnter={this.avatarShowMenu} onMouseLeave={this.avatarHiddenMenu} >
+								<Avatar
+									className="nav-bar-right-userinfo-avator"
+									size={35}
+									style={{
+										backgroundColor: '#87d068',
+									}}
+									icon="user"
+									src={this.state.avatar}
+								/>
+								<div className='nav-bar-right-userinfo-menu' onMouseEnter={this.ShowMenu} onMouseLeave={this.hiddenMenu} >
+									<div className='nav-bar-right-userinfo-menu-content'>
+										<ul className='nav-bar-right-userinfo-menu-content-menu'>
+											<li>
+												<Link to='user'>
+													<Icon type="user" />
+													<span>个人主页</span>
+												</Link>
+											</li>
+											<li>
+												<Link to='/articleEdit'>
+													<Icon type="project" />
+													<span>文章发布</span>
+												</Link>
+											</li>
+											<li>
+												<Link to="/resourceIssue">
+													<Icon type="share-alt" />
+													<span>资源发布</span>
+												</Link>
+											</li>
+											<li>
+												<Link to="/achievementIssue">
+													<Icon type="book" />
+													<span>成果发布</span>
+												</Link>
+											</li>
+											<li>
+												<a href="javascript:void(0)" onClick={this.handleExit}>
+													<Icon type="logout" />
+													<span>退出登录</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
 							</div>
-						
+
 						) : (
 								<div className="nav-bar-right-user">
 									<div className="login">
@@ -163,7 +222,6 @@ export default class Layout extends Component {
 					</div>
 				</div>
 				<div className="content">{this.props.children}</div>
-				
 				<div className="pzhu-web-copyright">
 					<div className="copyright">
 						<div className="about-us">

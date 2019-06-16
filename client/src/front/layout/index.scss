@@ -1,4 +1,9 @@
 .container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   a {
     color: #fff;
     text-decoration: none;
@@ -34,9 +39,9 @@
       .app-logo {
         line-height: 40px;
         font-size: 30px;
-        color: #666;
+        color: #fff;
         padding-right: 20px;
-        border-right: 1px solid #333;
+
       }
 
       .nav-bar-menu {
@@ -83,6 +88,64 @@
             cursor: pointer;
           }
         }
+
+        &-menu {
+          top: 60px;
+          right: -20px;
+          position: absolute;
+          transition: .5s;
+          display: none;
+          opacity: 0;
+          &::before {
+            content: '';
+            position: absolute;
+            margin-top: -8px;
+            margin-left: 170px;
+            width: 1rem;
+            height: 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-bottom: none;
+            transform: rotate(45deg);
+          }
+
+          &-content {
+            width: 210px;
+            height: auto;
+            box-shadow: 0 0 10px #ddd;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+
+            &-menu {
+              li {
+                margin: 10px 0;
+
+
+                a {
+                  width: 100%;
+                  height: 40px;
+                  line-height: 40px;
+                  display: inline-block;
+                  padding: 0 16px;
+                  color: #000;
+                  &:hover {
+                    cursor: pointer;
+                    background-color: rgb(209, 233, 255);
+                    color: #1890ff;
+                  }
+
+                  .anticon {
+                    margin-right: 10px;
+                  }
+                }
+
+              }
+            }
+          }
+          
+        }
       }
 
       &-user {
@@ -105,26 +168,16 @@
 
   .content {
     width: 100%;
-    margin: 70px 0px 0px;
+    margin: 70px 0 0 0;
     position: relative;
-    min-height: 600px;
-  }
+    min-height: 700px;
 
-  // .ant-back-top {
-  //   &-content {
-  //     background-color: inherit;
-  //     .ant-back-top-icon {
-  //       background-image: url("../images/backTop.png");
-  //       background-repeat: no-repeat;
-  //       background-position: -10px 0;
-  //       background-size: 450px 276px;
-  //     }
-  //   } 
-  // }
+  }
 
   .pzhu-web-copyright {
     background-color: #373d41;
     padding: 20px 0;
+    flex: 1 1 auto;
 
     .copyright {
       color: #73777a;

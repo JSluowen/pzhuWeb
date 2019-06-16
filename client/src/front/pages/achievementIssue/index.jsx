@@ -245,7 +245,7 @@ class AchievementIssue extends Component {
             let putExtra = {
                 fname: file[0].name,
                 params: {},
-                mimeType: ["application/x-zip-compressed", "application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
+                mimeType: [ "application/pdf"]
             }
             let observable = qiniu.upload(file[0], key, token, putExtra, config)
             let observer = {
