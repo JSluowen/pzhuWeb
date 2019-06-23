@@ -26,7 +26,10 @@ class User extends Controller {
                         },
                         {
                             model: app.model.Domain,
-                        },
+                        }, {
+                            model: app.model.User,
+                            attributes: ['name']
+                        }
                     ],
                     where: {
                         id,

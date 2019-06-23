@@ -10,7 +10,7 @@ module.exports = app => {
     router.post('/api/changepassword', controller.login.changePassword); // 修改密码
     router.get('/api/qiniutoken', controller.qiniu.getToken); // 获取七牛云证书秘钥
     // 用户编辑个人信息接口
-    router.post('/api/person/userinfo', controller.person.getUserinfo); // 获取用户信息
+    router.get('/api/person/userinfo', controller.person.getUserinfo); // 获取用户信息
     router.post('/api/person/uploadavatar', controller.person.uploadAvatar); // 上传头像信息
     router.post('/api/person/uploaduserinfo', controller.person.uploadUserInfo); // 上传用户编辑信息
     router.get('/api/person/getInitMessage', controller.person.getInitMessage); // 获取初始信息：学院专业，研究方向
@@ -65,6 +65,16 @@ module.exports = app => {
     router.post('/api/articleEdit/uploadArticleResource', controller.articleEdit.uploadArticleResource);// 上传文章的资源
     router.get('/api/articleEdit/getMediaItems', controller.articleEdit.getMediaItems); // 获取初始化媒体库的信息
     router.post('/api/articleEdit/removeMedia', controller.articleEdit.removeMedia); // 删除媒体库的信息
+    // 游客访问用户个人界面
+    router.post('/api/tourist/getTouristInfo', controller.tourist.getTouristInfo);// 游客访问用户个人信息
+    router.post('/api/tourist/getTouristArticle', controller.tourist.getTouristArticle);// 游客访问获取用户发布的文章信息
+    router.post('/api/tourist/searchTouristArticle', controller.tourist.searchTouristArticle);// 游客搜索用户的文章
+    router.post('/api/tourist/getTouristAchievement', controller.tourist.getTouristAchievement);// 游客获取用户的成果
+    router.post('/api/tourist/searchTouristAchievement', controller.tourist.searchTouristAchievement);// 游客搜索用户的文章
+    router.post('/api/tourist/getTouristResource', controller.tourist.getTouristResource);// 游客访问用户的资源信息
+    router.post('/api/tourist/searchTouristResource', controller.tourist.searchTouristResource);// 游客搜索用户资源信息
+    router.post('/api/tourist/getTouristCollect', controller.tourist.getTouristCollect);// 游客获取用户的个人收藏
+    router.post('/api/tourist/searchTouristCollect', controller.tourist.searchTouristCollect);// 游客搜索用户的个人收藏列表
     // 后台管理员界面接口
     router.post('/api/back/adminLogin', controller.backLogin.adminLogin);// 后台管理员登录
     router.get('/api/back/getadminInfo', controller.backUser.getadminInfo);// 获取管理员的信息

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
+import TouristAPI from '../../api/tourist'
 import { Link } from 'react-router'
 const Option = Select.Option;
 const Search = Input.Search;
@@ -10,6 +11,7 @@ class UserArticle extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: props.params.userid,
             limit: 10,// 获取的数据量
             beg: 0,//截取后台数据开始的位置
             end: 10,//后台数据结束的位置
@@ -18,21 +20,45 @@ class UserArticle extends Component {
             articleType: [],
             article: [],
             color: ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"],
-            isLoading: true //是否滚动监听
+            isLoading: true,//是否滚动监听
+            isTourist: true,//默认游客访问界面
         };
+    }
+    static getDerivedStateFromProps(props, state) {
+        if (props.params.userid !== state.id) {
+            return {
+                id: props.params.userid,
+                article: []
+            }
+        }
+        return null;
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.id !== prevState.id) {
+            if (this.state.id === '' || this.state.id === undefined) {
+                this.getUserArticle()
+            } else {
+                this.getTouristArticle()
+            }
+        }
     }
 
     componentDidMount() {
-        this.getUserArticle()
+        if (this.state.id === '' || this.state.id === undefined) {
+            this.getUserArticle()
+        } else {
+            this.getTouristArticle()
+        }
         window.addEventListener('scroll', this.handelScroll)
     }
-    getUserArticle = () => {
+    getTouristArticle = () => {
         let params = {
             index: this.state.index,
             beg: this.state.beg,
-            end: this.state.end
+            end: this.state.end,
+            id: this.state.id
         }
-        UserAPI.getUserArticle(params).then(res => {
+        TouristAPI.getTouristArticle(params).then(res => {
             let arry = this.state.article
             for (let item of res.data.article) {
                 arry.push(item)
@@ -56,8 +82,41 @@ class UserArticle extends Component {
                     })
                 }, 500)
             }
+        })
+    }
 
-
+    getUserArticle = () => {
+        let params = {
+            index: this.state.index,
+            beg: this.state.beg,
+            end: this.state.end
+        }
+        UserAPI.getUserArticle(params).then(res => {
+            let arry = this.state.article
+            for (let item of res.data.article) {
+                arry.push(item)
+            }
+            if (res.success) {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        articleType: res.data.articleType,
+                        article: arry,
+                        isLoading: true,
+                        isTourist: false
+                    })
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        articleType: res.data.articleType,
+                        article: arry,
+                        isLoading: false,
+                        isTourist: false
+                    })
+                }, 500)
+            }
         })
     }
     //搜索资源
@@ -71,17 +130,33 @@ class UserArticle extends Component {
         })
         let params = {
             value: value,
+            id: this.state.id
         }
-        UserAPI.searchUserArticle(params).then(res => {
-            if (!res.success) message.warning('为搜索到您想要的资源')
-            setTimeout(() => {
-                this.setState({
-                    loading: false,
-                    article: res.data
-                })
-            }, 500)
-        })
+        if (this.state.isTourist) {
+            TouristAPI.searchTouristArticle(params).then(res => {
+                if (!res.success) message.warning('为搜索到您想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        article: res.data
+                    })
+                }, 500)
+            })
+        } else {
+            UserAPI.searchUserArticle(params).then(res => {
+                if (!res.success) message.warning('为搜索到您想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        article: res.data
+                    })
+                }, 500)
+            })
+        }
+
+
     }
+
     // 筛选资源
     handleChange = (value) => {
         this.setState({
@@ -91,7 +166,12 @@ class UserArticle extends Component {
             end: this.state.limit,
             article: []
         }, () => {
-            this.getUserArticle()
+            if (this.state.isTourist) {
+                this.getTouristArticle();
+            } else {
+                this.getUserArticle()
+            }
+
         })
 
     }
@@ -106,7 +186,7 @@ class UserArticle extends Component {
         // 距离页面底部的高度
         const height = scrollHeight - scrollTop - clientHeight;
         if (height <= 50) {
-            this.handelLoading()
+            this.handelLoading();
         }
     }
     handelLoading = (e) => {
@@ -116,7 +196,12 @@ class UserArticle extends Component {
                 beg: this.state.end,
                 end: this.state.end + this.state.limit
             })
-            this.getUserArticle()
+            if (this.state.isTourist) {
+                this.getTouristArticle()
+            } else {
+                this.getUserArticle()
+            }
+
         }
     }
     handelDel = (e) => {
@@ -201,7 +286,7 @@ class UserArticle extends Component {
                                                 return <div key={item.id}>
                                                     <div className='userArticle-container-body-item' >
                                                         <div style={{ width: '50%' }} >
-                                                            <Link  target='_blank' style={{ color: 'rgba(0, 0, 0, 0.65)' }}  to={`/articleInfo/${item.id}`}>{item.title}</Link>
+                                                            <Link target='_blank' style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleInfo/${item.id}`}>{item.title}</Link>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.Technology.name}</Tag>
@@ -209,14 +294,21 @@ class UserArticle extends Component {
                                                         <div style={{ width: '20%' }}>
                                                             {item.created_at}
                                                         </div>
-                                                        <div className='userArticle-container-body-item-work' style={{ flex: 1 }}>
-                                                            <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleEdit/${item.id}`}>
-                                                                <Icon type="edit" />
-                                                            </Link>
-                                                            <p primary={item.id} index={index} onClick={this.handelDel} >
-                                                                <Icon type="delete" />
-                                                            </p>
-                                                        </div>
+                                                        {
+                                                            this.state.isTourist ?
+                                                                ""
+                                                                :
+                                                                <div className='userArticle-container-body-item-work' style={{ flex: 1 }}>
+                                                                    <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleEdit/${item.id}`}>
+                                                                        <Icon type="edit" />
+                                                                    </Link>
+                                                                    <p primary={item.id} index={index} onClick={this.handelDel} >
+                                                                        <Icon type="delete" />
+                                                                    </p>
+                                                                </div>
+                                                        }
+
+
                                                     </div>
 
                                                 </div>

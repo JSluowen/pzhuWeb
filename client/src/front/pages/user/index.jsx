@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Icon } from 'antd';
+import { Button, Icon, message } from 'antd';
 import { Link } from 'react-router';
 import './index.scss'
 import UserAPI from '../../api/user'
-import Cookies from '../../../http/cookies'
+import TouristAPI from '../../api/tourist'
 class User extends Component {
     constructor(props) {
         super(props)
@@ -12,11 +12,54 @@ class User extends Component {
             school: '',
             major: '',
             domain: '',
+            name: '',
+            id: props.params.userid,
+            isTourist: true,//默认是游客访问用户界面
         }
     }
+    static getDerivedStateFromProps(props, state) {
 
-    componentWillMount() {
-        this.getUserInfo()
+        if (props.params.userid !== state.id) {
+            return {
+                id: props.params.userid
+            }
+        }
+        return null;
+    }
+    componentDidUpdate(prevProps, prevState) {
+
+        if (this.state.id !== prevState.id) {
+            if (this.state.id === '' || this.state.id === undefined) {
+                this.getUserInfo()
+            } else {
+                this.getTouirst();
+            }
+        }
+    }
+    componentDidMount() {
+        if (this.state.id === '' || this.state.id === undefined) {
+            this.getUserInfo()
+        } else {
+            this.getTouirst();
+        }
+    }
+    //游客访问获取信息
+    getTouirst = () => {
+        TouristAPI.getTouristInfo({ id: this.state.id }).then(res => {
+            if (res.success) {
+                this.setState({
+                    userinfo: res.data,
+                    school: res.data.School.name,
+                    major: res.data.Major.name,
+                    domain: res.data.Domain.name,
+                    name: res.data.User.name,
+
+                })
+            } else {
+                message.warning('请求的用户信息不存在!');
+                this.props.router.push('/member');
+            }
+        })
     }
     getUserInfo = () => {
         UserAPI.getUserInfo({}).then(res => {
@@ -26,7 +69,12 @@ class User extends Component {
                     school: res.data.School.name,
                     major: res.data.Major.name,
                     domain: res.data.Domain.name,
+                    name: res.data.User.name,
+                    isTourist: false,
+
                 })
+            } else {
+                this.props.router.push('/setting')
             }
         })
     }
@@ -42,7 +90,7 @@ class User extends Component {
                         </div>
                         <div className='user-left-header-info'>
                             <div className='user-left-header-info-name'>
-                                {Cookies.getCookies('name')}
+                                {this.state.name}
                             </div>
                             <div className='user-left-header-info-mes'>
                                 <Icon type="phone" />{this.state.userinfo.phone || '联系方式'}
@@ -55,27 +103,47 @@ class User extends Component {
                             </div>
                         </div>
                         <div className='user-left-header-edit'>
-                            <Link to='setting' ><Button type='primary' ghost>编辑个人资料</Button></Link>
+                            {
+                                this.state.isTourist ?
+                                    " "
+                                    :
+                                    <Link to='setting' ><Button type='primary' ghost>编辑个人资料</Button></Link>
+                            }
                         </div>
                     </div>
                     <div className='user-left-body'>
-                        <div className='user-left-body-navbar'>
-                            {/* <div className='user-left-body-navbar-item'>
-                                <Link activeClassName='userActive'>动态</Link>
-                            </div> */}
-                            <div className='user-left-body-navbar-item'>
-                                <Link activeClassName='userActive' to='/user/article' >文章</Link>
-                            </div>
-                            <div className='user-left-body-navbar-item'>
-                                <Link activeClassName='userActive' to='/user/achievement' >成果</Link>
-                            </div>
-                            <div className='user-left-body-navbar-item'>
-                                <Link activeClassName='userActive' to='/user/resource' >资源</Link>
-                            </div>
-                            <div className='user-left-body-navbar-item'>
-                                <Link activeClassName='userActive' to='/user/collect'>收藏</Link>
-                            </div>
-                        </div>
+                        {
+                            this.state.isTourist ?
+                                <div className='user-left-body-navbar'>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to={`/tourist/${this.state.id}/article`}>文章</Link>
+                                    </div>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to={`/tourist/${this.state.id}/achievement`}>成果</Link>
+                                    </div>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to={`/tourist/${this.state.id}/resource`}>资源</Link>
+                                    </div>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to={`/tourist/${this.state.id}/collect`}>收藏</Link>
+                                    </div>
+                                </div>
+                                :
+                                <div className='user-left-body-navbar'>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to='/user/article' >文章</Link>
+                                    </div>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to='/user/achievement' >成果</Link>
+                                    </div>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to='/user/resource' >资源</Link>
+                                    </div>
+                                    <div className='user-left-body-navbar-item'>
+                                        <Link activeClassName='userActive' to='/user/collect'>收藏</Link>
+                                    </div>
+                                </div>
+                        }
                         <div className='user-left-body-container'>
                             {this.props.children}
                         </div>

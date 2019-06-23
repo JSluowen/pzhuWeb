@@ -70,7 +70,7 @@ class Register extends Component {
 	validateToNextPassword = (rule, value, callback) => {
 		const form = this.props.form;
 		if (value && this.state.confirmDirty) {
-			form.validateFields([ 'confirm' ], { force: true });
+			form.validateFields(['confirm'], { force: true });
 		}
 		callback();
 	};
@@ -80,7 +80,7 @@ class Register extends Component {
 		if (!value || value.indexOf('@') >= 0) {
 			autoCompleteResult = [];
 		} else {
-			autoCompleteResult = [ '@gmail.com', '@163.com', '@qq.com', '@aliyun.com' ].map(
+			autoCompleteResult = ['@gmail.com', '@163.com', '@qq.com', '@aliyun.com'].map(
 				(domain) => `${value}${domain}`
 			);
 		}
@@ -92,7 +92,7 @@ class Register extends Component {
 		const form = this.props.form;
 		let email = form.getFieldValue('email');
 		if (email === undefined) {
-			form.validateFields([ 'email' ], { force: true });
+			form.validateFields(['email'], { force: true });
 			return;
 		}
 		this.setState({
@@ -123,6 +123,7 @@ class Register extends Component {
 				}
 			})
 			.catch((err) => {
+				console.log(err);
 				clearInterval(clearnTime);
 				this.setState({
 					sendEmail: '重新发送',
@@ -229,7 +230,7 @@ class Register extends Component {
 									</Form.Item>
 									<Form.Item label="邮箱">
 										{getFieldDecorator('email', {
-											rules: [ { required: true, message: '请输入邮箱' } ]
+											rules: [{ required: true, message: '请输入邮箱' }]
 										})(
 											<AutoComplete
 												dataSource={EmailOptions}
@@ -259,7 +260,7 @@ class Register extends Component {
 													{this.state.sendEmail}
 												</Button>
 											</Col>
-											
+
 										</Row>
 									</Form.Item>
 
@@ -274,7 +275,7 @@ class Register extends Component {
 					</div>
 				</div>
 			</div>
-		
+
 		);
 	}
 }

@@ -68,6 +68,16 @@ const base = {
     uploadArticleResource: '/articleEdit/uploadArticleResource',// 上传文章的资源
     getMediaItems: '/articleEdit/getMediaItems',// 获取初始化媒体库的信息
     removeMedia: '/articleEdit/removeMedia',// 删除媒体库资源
+    //游客访问用户信息
+    getTouristInfo: '/tourist/getTouristInfo',//游客访问获取用户信息
+    getTouristArticle: '/tourist/getTouristArticle',// 获取文章信息
+    searchTouristArticle: '/tourist/searchTouristArticle',// 游客搜索用户文章
+    getTouristAchievement: '/tourist/getTouristAchievement',//游客访问用户的成果信息
+    searchTouristAchievement: "/tourist/searchTouristAchievement",// 游客搜索用户的成果信息
+    getTouristResource: '/tourist/getTouristResource',//游客访问用户的资源信息
+    searchTouristResource: '/tourist/searchTouristResource',// 游客搜索用户的资源信息
+    getTouristCollect: '/tourist/getTouristCollect',//游客获取用户的个人收藏信息
+    searchTouristCollect: '/tourist/searchTouristCollect',//游客获取用户个人收藏信息
 
 }
 export default base;

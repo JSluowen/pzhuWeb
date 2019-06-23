@@ -3,9 +3,9 @@ import axios from '../../http/axios';
 
 const Person = {
     // 获取用户基本信息
-    getUserinfo(params) {
+    getUserinfo() {
         return new Promise((resolve, reject) => {
-            axios.post(`${base.userInfo}`, params).then((res) => {
+            axios.get(`${base.userInfo}`).then((res) => {
                 resolve(res.data)
             }).catch(err => {
                 reject(err.data)
@@ -44,7 +44,7 @@ const Person = {
     },
     getInitInfo(params) {
         return new Promise((resolve, reject) => {
-            axios.post(`${base.getInitInfo}`,params).then(res => {
+            axios.post(`${base.getInitInfo}`, params).then(res => {
                 resolve(res.data)
             }).catch(err => {
                 reject(err.data)

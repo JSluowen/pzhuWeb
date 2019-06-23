@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
-import Cookies from '../../../http/cookies'
+import TouristAPI from '../../api/tourist'
 import { Link } from 'react-router'
 const Option = Select.Option;
 const Search = Input.Search;
@@ -11,6 +11,7 @@ class UserCollect extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: props.params.userid,
             limit: 10,// 获取的数据量
             beg: 0,//截取后台数据开始的位置
             end: 10,//后台数据结束的位置
@@ -19,21 +20,27 @@ class UserCollect extends Component {
             menu: [],
             collect: [],
             color: ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"],
-            isLoading: true //是否滚动监听
+            isLoading: true, //是否滚动监听
+            isTourist: true,//是否是游客访问
         };
     }
 
     componentDidMount() {
-        this.getUserCollect()
+        if (this.state.id === '' || this.state.id === undefined) {
+            this.getUserCollect()
+        } else {
+            this.getTouristCollect()
+        }
         window.addEventListener('scroll', this.handelScroll)
     }
-    getUserCollect = () => {
+    getTouristCollect = () => {
         let params = {
             index: this.state.index,
             beg: this.state.beg,
-            end: this.state.end
+            end: this.state.end,
+            id: this.state.id
         }
-        UserAPI.getUserCollect(params).then(res => {
+        TouristAPI.getTouristCollect(params).then(res => {
             let arry = this.state.collect
             for (let item of res.data.collect) {
                 arry.push(item)
@@ -57,8 +64,40 @@ class UserCollect extends Component {
                     })
                 }, 500)
             }
-
-
+        })
+    }
+    getUserCollect = () => {
+        let params = {
+            index: this.state.index,
+            beg: this.state.beg,
+            end: this.state.end
+        }
+        UserAPI.getUserCollect(params).then(res => {
+            let arry = this.state.collect
+            for (let item of res.data.collect) {
+                arry.push(item)
+            }
+            if (res.success) {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        menu: res.data.menu,
+                        collect: arry,
+                        isLoading: true,
+                        isTourist: false,
+                    })
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        menu: res.data.menu,
+                        collect: arry,
+                        isLoading: false,
+                        isTourist: false,
+                    })
+                }, 500)
+            }
         })
     }
     // 筛选资源
@@ -70,7 +109,12 @@ class UserCollect extends Component {
             end: this.state.limit,
             collect: []
         }, () => {
-            this.getUserCollect()
+            if (this.state.isTourist) {
+                this.getTouristCollect();
+            } else {
+                this.getUserCollect();
+            }
+
         })
 
     }
@@ -84,19 +128,31 @@ class UserCollect extends Component {
             loading: true
         })
         let params = {
-            id: Cookies.getCookies('id'),
+            id: this.state.id,
             value: value,
         }
-        UserAPI.searchUserCollect(params).then(res => {
-            if (!res.success) message.warning('为搜索到您想要的资源')
-            console.log(res.data)
-            setTimeout(() => {
-                this.setState({
-                    loading: false,
-                    collect: res.data
-                })
-            }, 500)
-        })
+        if (this.state.isTourist) {
+            TouristAPI.searchTouristCollect(params).then(res => {
+                if (!res.success) message.warning('未搜索到你想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        collect: res.data
+                    })
+                }, 500)
+            })
+        } else {
+            UserAPI.searchUserCollect(params).then(res => {
+                if (!res.success) message.warning('未搜索到你想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        collect: res.data
+                    })
+                }, 500)
+            })
+        }
+
     }
     // 监听滚动条
     handelScroll = (e) => {
@@ -204,9 +260,15 @@ class UserCollect extends Component {
                                                         <div style={{ width: '20%' }}>
                                                             {item.Article.UserInfo.User.name}
                                                         </div>
-                                                        <div onClick={this.handelDel} primary={item.id} index={index} className='userCollect-container-body-item-work' style={{ flex: 1 }}>
-                                                            取消收藏
-                                                        </div>
+                                                        {
+                                                            this.state.isTourist ?
+                                                                ""
+                                                                :
+                                                                <div onClick={this.handelDel} primary={item.id} index={index} className='userCollect-container-body-item-work' style={{ flex: 1 }}>
+                                                                    取消收藏
+                                                                 </div>
+                                                        }
+
                                                     </div>
 
                                                 </div>

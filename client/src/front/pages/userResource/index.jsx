@@ -3,6 +3,7 @@ import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import { Link } from 'react-router';
 import './index.scss'
 import UserAPI from '../../api/user'
+import TouristAPI from '../../api/tourist'
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
@@ -10,6 +11,7 @@ class UserResource extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: props.params.userid,
             limit: 10,// 获取的数据量0
             beg: 0,//截取后台数据开始的位置
             end: 10,//后台数据结束的位置
@@ -18,22 +20,28 @@ class UserResource extends Component {
             resourceType: [],
             resource: [],
             color: ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"],
-            isLoading: true //是否滚动监听
+            isLoading: true,//是否滚动监听
+            isTourist: true,//是否游客访问
         };
     }
 
     componentDidMount() {
-        this.getUserResource()
+        if (this.state.id === '' || this.state.id === undefined) {
+            this.getUserResource()
+        } else {
+            this.getTouristResource()
+        }
         window.addEventListener('scroll', this.handelScroll)
     }
-    getUserResource = () => {
+    getTouristResource = () => {
         let params = {
             index: this.state.index,
             value: this.state.searchValue,
             beg: this.state.beg,
-            end: this.state.end
+            end: this.state.end,
+            id: this.state.id
         }
-        UserAPI.getUserResource(params).then(res => {
+        TouristAPI.getTouristResource(params).then(res => {
             console.log(res.data)
             let arry = this.state.resource
             for (let item of res.data.resource) {
@@ -58,8 +66,41 @@ class UserResource extends Component {
                     })
                 }, 500)
             }
-
-
+        })
+    }
+    getUserResource = () => {
+        let params = {
+            index: this.state.index,
+            value: this.state.searchValue,
+            beg: this.state.beg,
+            end: this.state.end
+        }
+        UserAPI.getUserResource(params).then(res => {
+            let arry = this.state.resource
+            for (let item of res.data.resource) {
+                arry.push(item)
+            }
+            if (res.success) {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        resourceType: res.data.resourceType,
+                        resource: arry,
+                        isLoading: true,
+                        isTourist: false,
+                    })
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        resourceType: res.data.resourceType,
+                        resource: arry,
+                        isLoading: false,
+                        isTourist: false
+                    })
+                }, 500)
+            }
         })
     }
     //搜索资源
@@ -73,16 +114,30 @@ class UserResource extends Component {
         })
         let params = {
             value: value,
+            id: this.state.id
         }
-        UserAPI.searchUserResource(params).then(res => {
-            if (!res.success) message.warning('为搜索到您想要的资源')
-            setTimeout(() => {
-                this.setState({
-                    loading: false,
-                    resource: res.data
-                })
-            }, 500)
-        })
+        if (this.state.isTourist) {
+            TouristAPI.searchTouristResource(params).then(res => {
+                if (!res.success) message.warning('未搜索到你想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        resource: res.data
+                    })
+                }, 500)
+            })
+        } else {
+            UserAPI.searchUserResource(params).then(res => {
+                if (!res.success) message.warning('未搜索到你想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        resource: res.data
+                    })
+                }, 500)
+            })
+        }
+
     }
     // 筛选资源
     handleChange = (value) => {
@@ -93,7 +148,11 @@ class UserResource extends Component {
             end: this.state.limit,
             resource: []
         }, () => {
-            this.getUserResource()
+            if (this.state.isTourist) {
+                this.getTouristResource()
+            } else {
+                this.getUserResource()
+            }
         })
 
     }
@@ -210,14 +269,20 @@ class UserResource extends Component {
                                                         <div style={{ width: '20%' }}>
                                                             {item.updated_at}
                                                         </div>
-                                                        <div className='userResource-container-body-item-work' style={{ flex: 1 }}>
-                                                            <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/resourceIssue/${item.id}`}>
-                                                                <Icon type="edit" />
-                                                            </Link>
-                                                            <p primary={item.id} index={index} onClick={this.handelDel} >
-                                                                <Icon type="delete" />
-                                                            </p>
-                                                        </div>
+                                                        {
+                                                            this.state.isTourist ?
+                                                                ""
+                                                                :
+                                                                <div className='userResource-container-body-item-work' style={{ flex: 1 }}>
+                                                                    <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/resourceIssue/${item.id}`}>
+                                                                        <Icon type="edit" />
+                                                                    </Link>
+                                                                    <p primary={item.id} index={index} onClick={this.handelDel} >
+                                                                        <Icon type="delete" />
+                                                                    </p>
+                                                                </div>
+                                                        }
+
                                                     </div>
 
                                                 </div>

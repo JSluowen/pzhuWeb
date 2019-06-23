@@ -146,6 +146,7 @@ class AchievementIssue extends Component {
         this.setState({
             coverLoading: true
         })
+
         qiniuAPI.getToken().then(res => {
             let token = res.data;
             let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
@@ -182,8 +183,6 @@ class AchievementIssue extends Component {
             observable.subscribe(observer)
             // subscription.unsubscribe(); //取消上传
         })
-
-
     }
     //上传封面图数据到数据库
     uploadAchievementCover = (data) => {

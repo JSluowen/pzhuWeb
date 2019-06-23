@@ -71,10 +71,8 @@
             padding: 20px;
             display: flex;
             transition: .5s;
-
             &:hover {
-                cursor: pointer;
-                border: 1px dashed #1890ff;
+                box-shadow: 0 0 10px #ddd;
             }
 
             &-left {

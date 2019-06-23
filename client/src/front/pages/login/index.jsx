@@ -23,7 +23,6 @@ class Login extends Component {
 		});
 		let id = Cookies.getCookies('id');
 		let password = Cookies.getCookies('password');
-		console.log('我是',password);
 		let form = this.props.form;
 
 		form.setFieldsValue({ id: id });
@@ -79,7 +78,7 @@ class Login extends Component {
 							Cookies.setCookies(data);
 							sessionStorage.setItem('token', res.data.token);
 							setTimeout(() => {
-								this.props.router.push('/index');
+								this.props.router.push('/user');
 							}, 500);
 						} else {
 							message.warning(res.message);

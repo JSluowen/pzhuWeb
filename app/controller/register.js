@@ -5,6 +5,7 @@ class Register extends Controller {
     async uploadCode() {
         const { ctx } = this;
         const email = ctx.request.body.email;
+        console.log(email);
         let code = '';
         for (let i = 0; i < 6; i++) {
             code += Math.floor(Math.random() * 10);

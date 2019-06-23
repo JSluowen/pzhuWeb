@@ -1,38 +1,31 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Avatar, Input, BackTop, Modal, Menu, Icon, Dropdown, message, Button } from 'antd';
-import Cookies from '../../http/cookies';
+import { Avatar, BackTop, Modal, Icon, message } from 'antd';
 import PersonApi from '../api/person';
 import './index.scss';
-
-const Search = Input.Search;
 const confirm = Modal.confirm;
-const ButtonGroup = Button.Group;
 export default class Layout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			status: false,
+			status: false,//是否登录
 			avatar: 'http://img.pzhuweb.cn/443625372.jpeg',
 			flag: true,
 			isHidden: true,
 		};
 	}
-
-	getUserinfo() {
-		let id = Cookies.getCookies('id');
-		PersonApi.getUserinfo({ id: id }).then((res) => {
-			this.setState({
+	static getDerivedStateFromProps(props, state) {
+		if (sessionStorage.getItem('token')) {
+			return {
 				status: true
-			});
-			if (res.success) {
-				this.setState({
-					avatar: res.data.avatar
-				});
-			} else {
-				message.warning(res.message);
 			}
-		});
+		}
+		return null;
+	}
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.status !== this.state.status) {
+			this.getUserinfo();
+		}
 	}
 
 	componentDidMount() {
@@ -40,12 +33,15 @@ export default class Layout extends Component {
 			this.getUserinfo();
 		}
 	}
-	componentWillReceiveProps(props) {
-		if (props.location.pathname == '/index') {
-			if (sessionStorage.getItem('token')) {
-				this.getUserinfo();
+	getUserinfo() {
+		PersonApi.getUserinfo().then((res) => {
+			if (res.success) {
+				this.setState({
+					avatar: res.data.avatar,
+					status: true
+				});
 			}
-		}
+		});
 	}
 	//退出登录
 	handleExit = () => {
@@ -67,10 +63,6 @@ export default class Layout extends Component {
 			}
 		});
 	};
-	//文章，资源，成果选择
-	handleMenuClick = (value) => {
-
-	}
 	getSonAvatar = (avatar) => {
 		this.setState({
 			avatar: avatar
@@ -91,7 +83,7 @@ export default class Layout extends Component {
 	avatarHiddenMenu = (e) => {
 		const dom = e.currentTarget.lastChild;
 		this.setState({
-			isHidden:true
+			isHidden: true
 		})
 		setTimeout(() => {
 			if (this.state.isHidden) {

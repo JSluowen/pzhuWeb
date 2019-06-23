@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss'
 import UserAPI from '../../api/user'
+import TouristAPI from '../../api/tourist'
 import { Link } from 'react-router';
 const Option = Select.Option;
 const Search = Input.Search;
@@ -10,6 +11,7 @@ class UserAchievement extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: props.params.userid,
             limit: 10,// 获取的数据量
             beg: 0,//截取后台数据开始的位置
             end: 10,//后台数据结束的位置
@@ -18,22 +20,27 @@ class UserAchievement extends Component {
             acType: [],
             ac: [],
             color: ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"],
-            isLoading: true //是否滚动监听
+            isLoading: true,//是否滚动监听
+            isTourist: true,//是否游客访问
         };
     }
-
     componentDidMount() {
-        this.getUserAchievement()
+        if (this.state.id === '' || this.state.id === undefined) {
+            this.getUserAchievement()
+        } else {
+            this.getTouristAchievement()
+        }
         window.addEventListener('scroll', this.handelScroll)
     }
-    getUserAchievement = () => {
+    getTouristAchievement = () => {
         let params = {
             index: this.state.index,
             value: this.state.searchValue,
             beg: this.state.beg,
-            end: this.state.end
+            end: this.state.end,
+            id: this.state.id
         }
-        UserAPI.getUserAchievement(params).then(res => {
+        TouristAPI.getTouristAchievement(params).then(res => {
             let arry = this.state.ac
             for (let item of res.data.ac) {
                 arry.push(item)
@@ -61,6 +68,43 @@ class UserAchievement extends Component {
 
         })
     }
+    getUserAchievement = () => {
+        let params = {
+            index: this.state.index,
+            value: this.state.searchValue,
+            beg: this.state.beg,
+            end: this.state.end
+        }
+        UserAPI.getUserAchievement(params).then(res => {
+            let arry = this.state.ac
+            for (let item of res.data.ac) {
+                arry.push(item)
+            }
+            if (res.success) {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        acType: res.data.acType,
+                        ac: arry,
+                        isLoading: true,
+                        isTourist: false
+                    })
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        acType: res.data.acType,
+                        ac: arry,
+                        isLoading: false,
+                        isTourist: false
+                    })
+                }, 500)
+            }
+
+
+        })
+    }
     //搜索资源
     onSearch = (value) => {
         if (value === '') {
@@ -72,17 +116,31 @@ class UserAchievement extends Component {
         })
         let params = {
             value: value,
+            id: this.state.id
         }
-        UserAPI.searchUserAchievement(params).then(res => {
-            if (!res.success) message.warning('为搜索到您想要的资源')
-            setTimeout(() => {
-                this.setState({
-                    loading: false,
-                    ac: res.data
-                })
-            }, 500)
-        })
+        if (this.state.isTourist) {
+            TouristAPI.searchTouristAchievement(params).then(res => {
+                if (!res.success) message.warning('未搜索到你想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        ac: res.data
+                    })
+                }, 500)
+            })
+        } else {
+            UserAPI.searchUserAchievement(params).then(res => {
+                if (!res.success) message.warning('未搜索到你想要的资源')
+                setTimeout(() => {
+                    this.setState({
+                        loading: false,
+                        ac: res.data
+                    })
+                }, 500)
+            })
+        }
     }
+
     // 筛选资源
     handleChange = (value) => {
         this.setState({
@@ -90,9 +148,15 @@ class UserAchievement extends Component {
             loading: true,
             beg: 0,
             end: this.state.limit,
-            ac: []
+            ac: [],
+            id: this.state.id
         }, () => {
-            this.getUserAchievement()
+            if (this.state.isTourist) {
+                this.getTouristAchievement();
+            } else {
+                this.getUserAchievement();
+            }
+
         })
 
     }
@@ -115,9 +179,14 @@ class UserAchievement extends Component {
             this.setState({
                 isLoading: false,
                 beg: this.state.end,
-                end: this.state.end + this.state.limit
+                end: this.state.end + this.state.limit,
             })
-            this.getUserAchievement()
+            if (this.state.isTourist) {
+                this.getTouristAchievement();
+            } else {
+                this.getUserAchievement();
+            }
+
         }
     }
     handelDel = (e) => {
@@ -206,14 +275,20 @@ class UserAchievement extends Component {
                                                         <div style={{ width: '20%' }}>
                                                             {item.updated_at}
                                                         </div>
-                                                        <div className='userAchievement-container-body-item-work' style={{ flex: 1 }}>
-                                                            <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/achievementIssue/${item.id}`}>
-                                                                <Icon type="edit" />
-                                                            </Link>
-                                                            <p primary={item.id} index={index} onClick={this.handelDel} >
-                                                                <Icon type="delete" />
-                                                            </p>
-                                                        </div>
+                                                        {
+                                                            this.state.isTourist ?
+                                                                ""
+                                                                :
+                                                                <div className='userAchievement-container-body-item-work' style={{ flex: 1 }}>
+                                                                    <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/achievementIssue/${item.id}`}>
+                                                                        <Icon type="edit" />
+                                                                    </Link>
+                                                                    <p primary={item.id} index={index} onClick={this.handelDel} >
+                                                                        <Icon type="delete" />
+                                                                    </p>
+                                                                </div>
+                                                        }
+
                                                     </div>
 
                                                 </div>

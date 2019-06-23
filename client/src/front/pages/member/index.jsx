@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Icon, Card, Button, Skeleton } from 'antd'
+import { Link } from 'react-router';
 import './index.scss'
 import MemberAPI from '../../api/member'
 import ma5 from 'md5'
@@ -140,7 +141,9 @@ class Member extends Component {
                                                     <div className='member-right-item-left-avatar'>
                                                         <img src={item.avatar} alt="这是头像" />
                                                     </div>
-                                                    {/* <Button index={ma5(item.id)} type='primary'>立即查看</Button> */}
+                                                    <Button index={ma5(item.id)} type='primary'>
+                                                        <Link to={`/tourist/${item.id}`} >点击查看</Link>
+                                                    </Button>
                                                 </div>
                                                 <div className='member-right-item-right'>
                                                     <p>{item.User.name}</p>
@@ -170,7 +173,9 @@ class Member extends Component {
                                                         <div className='member-right-item-left-avatar'>
                                                             <img src={useritem.avatar} alt="这是头像" />
                                                         </div>
-                                                        {/* <Button index={ma5(useritem.User.id)} type='primary'>立即查看</Button> */}
+                                                        <Button index={ma5(useritem.User.id)} type='primary'>
+                                                            <Link to={`/tourist/${useritem.id}`} >点击查看</Link>
+                                                        </Button>
                                                     </div>
                                                     <div className='member-right-item-right'>
                                                         <p>{useritem.User.name}</p>
