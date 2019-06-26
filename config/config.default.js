@@ -20,10 +20,10 @@ module.exports = appInfo => {
 
     // 邮件信息配置
     config.nodemailer = {
-        user: 'register@hiclay.top',
-        pass: 'luowen19980520LW',
-        from: 'register@hiclay.top',
-        replyTo: '1291962779@qq.com'
+        user: 'email@pzhuweb.cn',
+        pass: 'PzhuWeb1231',
+        from: 'email@pzhuweb.cn',
+        replyTo: '497620334@qq.com'
     };
 
     // 七牛云秘钥

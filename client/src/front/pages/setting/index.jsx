@@ -19,6 +19,8 @@ class Setting extends Component {
 			loading: false,
 			schoolMajor: [],
 			domain: [],
+			initSchoolMajor:[],
+			initDomain:[],
 
 		};
 	}
@@ -42,7 +44,9 @@ class Setting extends Component {
 				setFieldsValue({ "phone": res.data.phone })
 				setFieldsValue({ "description": res.data.description })
 				this.setState({
-					src: res.data.avatar||this.state.src	
+					src: res.data.avatar || this.state.src,
+					initSchoolMajor:[res.data.School.id,res.data.Major.id],
+					initDomain:[res.data.Domain.id]
 				})
 
 			} else {
@@ -54,6 +58,7 @@ class Setting extends Component {
 	getInitMessage = () => {
 		PersonAPI.getInitMessage().then((res) => {
 			if (res.success) {
+				console.log(res.data)
 				this.setState({
 					schoolMajor: res.data.schoolmajor,
 					domain: res.data.domain
@@ -78,7 +83,7 @@ class Setting extends Component {
 				PersonAPI.uploadAvatar(params).then((res) => {
 					if (res.success) {
 						message.success('头像上传成功')
-						sessionStorage.setItem('avatar',res.data.avatar);
+						sessionStorage.setItem('avatar', res.data.avatar);
 						this.setState({
 							src: res.data.avatar,
 							visible: false,
@@ -96,32 +101,14 @@ class Setting extends Component {
 		e.preventDefault()
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				console.log(values)
 				values.id = Cookies.getCookies('id');
 				PersonAPI.uploadUserInfo(values).then((res) => {
 					if (res.success) {
 						message.success('保存成功');
-
 					}
 				})
 			}
 		})
-	}
-	//取消用户信息修改
-	cancelSave=(e)=>{
-		let that = this
-		confirm({
-			title: '修改未保存',
-			content: '修改的信息尚未保存，是否保存后离开？',
-			okText: '保存',
-			cancelText: '取消',
-			onOk() {
-				that.handelSave(e)
-			},
-			onCancel() {
-				that.props.router.push('/index')
-			},
-		  })
 	}
 	render() {
 		const { getFieldDecorator } = this.props.form
@@ -140,19 +127,19 @@ class Setting extends Component {
 												message: '请输入联系方式'
 											}
 										]
-									})(<Input placeholder="请输入联系方式"  />)}
+									})(<Input placeholder="请输入联系方式" />)}
 								</Form.Item>
 								<Form.Item label="学院专业">
 									{getFieldDecorator('schoolMajor', {
-									
+										initialValue:this.state.initSchoolMajor,
 										rules: [
 											{
 												type: 'array',
 												required: true,
 												message: '请选择学院专业'
-											}
-											
-										]
+											},
+										],
+
 									})(
 										<Cascader
 											placeholder="请选择学院专业"
@@ -163,7 +150,7 @@ class Setting extends Component {
 								</Form.Item>
 								<Form.Item label="研究方向">
 									{getFieldDecorator('domain', {
-									
+										initialValue:this.state.initDomain,
 										rules: [
 											{
 												type: 'array',

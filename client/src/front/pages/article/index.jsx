@@ -212,9 +212,9 @@ export default class Article extends Component {
 																}
 
 																<div className="autor">
-																	<div className="avatar">
+																	<Link to={`/tourist/${item.id}`} className='avatar' >
 																		<img src={item.UserInfo.avatar} alt="这是用户头像" />
-																	</div>
+																	</Link>
 																	<ul className="name">
 																		<li>{item.UserInfo.User.name}</li>
 																		<li>{item.created_at}</li>

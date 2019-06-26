@@ -16,18 +16,24 @@ const Fullpage = () => (
 					<div className="section">
 						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
 							<div className='home-fullpageFive-container'>
-								<div className='home-fullpageFive-container-title'>你的梦想，从这里开始</div>
-								<div className='home-fullpageFive-container-tips'>WEB应用专业团队，欢迎你的加入！</div>
-								{
-									sessionStorage.getItem('token') ?
-										''
-										:
-										<Link to='/register'>
-											申请加入
+								<div className='home-fullpageFive-container-top'>
+									<div className='home-fullpageFive-container-top-title'>你的梦想，从这里开始</div>
+									<div className='home-fullpageFive-container-top-tips'>WEB应用专业团队，欢迎你的加入！</div>
+									{
+										sessionStorage.getItem('token') ?
+											''
+											:
+											<Link to='/register'>
+												申请加入
                                 	</Link>
-								}
+									}
+								</div>
+								<div className='home-fullpageFive-container-footer'>
+									CopyRight©2017 PZHU-WEB 蜀ICP备17013737号
+								</div>
 							</div>
 						</div>
+
 					</div>
 					{/* <div className="section">
 						<div className="home-fullpageOne">

@@ -124,7 +124,7 @@ export default class Layout extends Component {
 				<div className="nav-bar">
 					<div className="nav-bar-left">
 						<a className="app-logo" href="/" target="_self">
-							Web应用专业团队
+
 						</a>
 						<div className="nav-bar-menu">
 
@@ -218,20 +218,12 @@ export default class Layout extends Component {
 					<div className="copyright">
 						<div className="about-us">
 							<Link to="/">关于我们</Link>
-							<Link to="/">联系我们</Link>
-							<Link to="/">加入我们</Link>
+							<Link to="/register">加入我们</Link>
 						</div>
 						<div className="link-wrap">
-							<a href="">论坛</a>
-							<a href="">论坛</a>
-							<a href="">论坛</a>
-							<a href="">论坛</a>
-							<a href="">二手市场</a>
-							<a href="">二手市场</a>
-							<a href="">二手市场</a>
-							<a href="">二手市场</a>
-							<a href="">二手市场</a>
-							<a href="">二手市场</a>
+							<a href="">攀枝花学院</a>
+							<a href="http://218.6.132.18/meol/jpk/course/layout/lesson/index.jsp?courseId=42728">前端在线学习</a>
+							<a href="http://218.6.132.18/meol/jpk/course/layout/lesson/index.jsp?courseId=42657">后台在线学习</a>
 						</div>
 						<p className="web-auth">地址：攀枝花市东区机场路10号</p>
 						<p className="web-auth">联系方式：lanquanxiang@gmail.com</p>
