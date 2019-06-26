@@ -58,7 +58,6 @@ class Setting extends Component {
 	getInitMessage = () => {
 		PersonAPI.getInitMessage().then((res) => {
 			if (res.success) {
-				console.log(res.data)
 				this.setState({
 					schoolMajor: res.data.schoolmajor,
 					domain: res.data.domain
@@ -82,8 +81,7 @@ class Setting extends Component {
 				}
 				PersonAPI.uploadAvatar(params).then((res) => {
 					if (res.success) {
-						message.success('头像上传成功')
-						sessionStorage.setItem('avatar', res.data.avatar);
+						message.success('头像上传成功');
 						this.setState({
 							src: res.data.avatar,
 							visible: false,

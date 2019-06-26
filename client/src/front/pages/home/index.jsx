@@ -14,7 +14,7 @@ const Fullpage = () => (
 			return (
 				<div>
 					<div className="section">
-						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/04.jpg' }}>
+						<div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/10.png)' }}>
 							<div className='home-fullpageFive-container'>
 								<div className='home-fullpageFive-container-top'>
 									<div className='home-fullpageFive-container-top-title'>你的梦想，从这里开始</div>
@@ -84,7 +84,7 @@ const Fullpage = () => (
 								<div
 									className="home-fullpageTwo-left-bgImg"
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/05.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/02.jpg)'
 									}}></div>
 							</div>
 						</div>
@@ -98,28 +98,32 @@ const Fullpage = () => (
 							<div className='home-fullpageThree-body'>
 								<div className='home-fullpageThree-body-front'>
 									<div className='home-fullpageThree-body-front-img'>
-										<img src='http://img.pzhuweb.cn/2.jpg' alt="" />
+										<img src='http://img.pzhuweb.cn/08.jpg' alt="" />
 									</div>
 									<div className='home-fullpageThree-body-front-context'>
 										<div className='home-fullpageThree-body-front-context-title'>
 											前端开发技术
                                     </div>
 										<div className='home-fullpageThree-body-front-context-desc'>
-											通过乐人发行，您的作品将在千千音乐、网易云音乐、腾讯音乐等国内音乐平台上架，更可在全球一百多个知名音乐平台，包括 Apple Music
-          =                              中国区、Spotify、Amazon Music等一并上架，让全球乐迷欣赏到您的音乐</div>
+											掌握HTML，CSS，JavaScript三大基础知识，
+											学习Node.js搭建后台服务，学习框架Vue或者React，以及它们的全家桶，
+											能够进行单页面应用开发。最后学会webpack打包协议，能够独立构建项目。
+										</div>
 									</div>
 								</div>
 								<div className='home-fullpageThree-body-back'>
 									<div className='home-fullpageThree-body-back-img'>
-										<img src='http://img.pzhuweb.cn/2.jpg' alt="" />
+										<img src='http://img.pzhuweb.cn/07.jpg' alt="" />
 									</div>
 									<div className='home-fullpageThree-body-back-context'>
 										<div className='home-fullpageThree-body-back-context-title'>
 											后台开发技术
                                     </div>
 										<div className='home-fullpageThree-body-back-context-desc'>
-											通过乐人发行，您的作品将在千千音乐、网易云音乐、腾讯音乐等国内音乐平台上架，更可在全球一百多个知名音乐平台，包括 Apple Music
-                                        中国区、Spotify、Amazon Music等一并上架，让全球乐迷欣赏到您的音乐</div>
+											掌握Java的基本知识，学习mysql数据库，能够通过Java提供的API访问数据库，并对数据库进行操作,
+											学习JSP、Servlet，能够通过JSP和Servlet完成一个简单的小demo,
+											学习基本框架：Spring、Mybatis、Hibernate、SpringMVC等。
+										</div>
 									</div>
 								</div>
 							</div>
@@ -134,7 +138,7 @@ const Fullpage = () => (
 							<div className='home-fullpageFour-body'>
 								<div className='home-fullpageFour-body-item'
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/home4-1.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/home1.png)'
 									}}>
 									<div
 										className='home-fullpageFour-body-item-desc'
@@ -148,53 +152,13 @@ const Fullpage = () => (
 												e.target.style.opacity = '1';
 											}
 										}}>
-										<span>《仿写京东》</span>
-										<span>于晨镔</span>
+										<span>《音乐播放器》</span>
+										<span>任云宏</span>
 									</div>
 								</div>
 								<div className='home-fullpageFour-body-item'
 									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/home4-2.jpg)'
-									}}>
-									<div
-										className='home-fullpageFour-body-item-desc'
-										onMouseLeave={(e) => {
-											if (e.target.tagName == 'DIV') {
-												e.target.style.opacity = '0';
-											}
-										}}
-										onMouseEnter={(e) => {
-											if (e.target.tagName == 'DIV') {
-												e.target.style.opacity = '1';
-											}
-										}}>
-										<span>《在线音乐播放器》</span>
-										<span>兰全祥</span>
-									</div>
-								</div>
-								<div className='home-fullpageFour-body-item'
-									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/home4-3.jpg)'
-									}}>
-									<div
-										className='home-fullpageFour-body-item-desc'
-										onMouseLeave={(e) => {
-											if (e.target.tagName == 'DIV') {
-												e.target.style.opacity = '0';
-											}
-										}}
-										onMouseEnter={(e) => {
-											if (e.target.tagName == 'DIV') {
-												e.target.style.opacity = '1';
-											}
-										}}>
-										<span>《宫崎骏动漫人生》</span>
-										<span>许伟</span>
-									</div>
-								</div>
-								<div className='home-fullpageFour-body-item'
-									style={{
-										backgroundImage: 'url(http://img.pzhuweb.cn/home4-4.jpg)'
+										backgroundImage: 'url(http://img.pzhuweb.cn/home2.png)'
 									}}>
 									<div
 										className='home-fullpageFour-body-item-desc'
@@ -210,6 +174,46 @@ const Fullpage = () => (
 										}}>
 										<span>《转角咖啡店》</span>
 										<span>罗文</span>
+									</div>
+								</div>
+								<div className='home-fullpageFour-body-item'
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/home3.png)'
+									}}>
+									<div
+										className='home-fullpageFour-body-item-desc'
+										onMouseLeave={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '0';
+											}
+										}}
+										onMouseEnter={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '1';
+											}
+										}}>
+										<span>《自由世界》</span>
+										<span>姚添译</span>
+									</div>
+								</div>
+								<div className='home-fullpageFour-body-item'
+									style={{
+										backgroundImage: 'url(http://img.pzhuweb.cn/home4.png)'
+									}}>
+									<div
+										className='home-fullpageFour-body-item-desc'
+										onMouseLeave={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '0';
+											}
+										}}
+										onMouseEnter={(e) => {
+											if (e.target.tagName == 'DIV') {
+												e.target.style.opacity = '1';
+											}
+										}}>
+										<span>《小红帽》</span>
+										<span>寇国钊</span>
 									</div>
 								</div>
 

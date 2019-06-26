@@ -38,11 +38,14 @@ class Article extends Controller {
                 order: [['created_at', 'DESC']],
             };
             const params1 = {
+                where: {
+                    status: 1
+                },
                 order: [['readnumber', 'DESC']],
             };
             const params2 = {
                 where: {
-                    userid
+                    userid,
                 }
             };
 

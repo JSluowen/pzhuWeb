@@ -13,7 +13,7 @@ class ResourceIssue extends Component {
             id: '',//文章Id
             title: '',
             link: '',
-            descripttion: '',
+            description: '',
             type: '',
             status: 1,// 默认1数据添加状态，2数据更新状态,
             resource: {},
@@ -26,7 +26,7 @@ class ResourceIssue extends Component {
             delCoverStatus: false,// 是否删除封面图的状态
             attachment: '',// 附件的cdn地址
             attachmentStatus: false,//是否有附件
-            attachmentLoading: false,//上传附件的进度
+            attachmentLoading: false,//上传附件的进度,
         };
         this.selectLabel = React.createRef();
     }
@@ -97,10 +97,10 @@ class ResourceIssue extends Component {
             message.warning('资源标题不能为空')
         } else if (this.state.type === '' || this.state.type === null) {
             message.warning('请选择资源类别')
-        } else if (this.state.descripttion === '' || this.state.descripttion === null) {
+        } else if (this.state.description === '' || this.state.description === null) {
             message.warning('请添加资源描述')
         }
-        else if (this.state.descripttion.length > 120) {
+        else if (this.state.description.length > 120) {
             message.warning('请将资源描述控制在120字以内')
         }
         else if (this.state.posterlink === '' || this.state.posterlink === null) {
@@ -336,7 +336,7 @@ class ResourceIssue extends Component {
                                     getFieldDecorator('description', {
 
                                     })(
-                                        <TextArea placeholder='资源描述（120字以内）' onChange={(e) => { this.setState({ description: e.target.value }) }} />
+                                        <TextArea placeholder='资源描述（120字以内）' onChange={(e) => { this.setState({description:e.target.value}) }} />
                                     )
                                 }
                                 <div className='resourceIssue-container-body-left-tag' ref={this.selectLabel}>
