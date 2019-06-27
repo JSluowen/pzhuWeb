@@ -28,10 +28,17 @@ class Achievement extends Controller {
                     status: 1
                 }
             };
-            let acType = await ctx.service.mysql.findAll({}, table);
+            const params1 = {
+                where: {
+                    status: 1
+                }
+            };
+            let acType = await ctx.service.mysql.findAll(params1, table);
             let ac = await ctx.service.mysql.findAll(params, table1);
             acType = await ctx.service.fun.filterTypeNum(acType, ac);
-            ac = await ctx.service.fun.filterType(ac, index);
+            if (index !== 0) {
+                ac = await ctx.service.fun.filterType(ac, index);// 过滤资源所对应的类别
+            }
             if (parseInt(ac.length) >= end) {
                 ac = ac.slice(beg, end);
                 ctx.body = {

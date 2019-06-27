@@ -61,15 +61,17 @@ class Member extends Component {
     }
     //过滤刷选成员的年级类别
     filterGrade = (data) => {
+        console.log(data)
         let val = data.map(item => {
-            if (item.User !== 3) {
+            if (item.User.status !== 3) {
                 return parseInt(item.id.substring(0, 4))
             }
         })
+       
         val = val.sort((a, b) => { return b - a })
         let temp = []
         for (let i = 0; i < val.length; i++) {
-            if (temp.indexOf(val[i]) == -1) {
+            if (temp.indexOf(val[i]) == -1&&val[i]!==undefined) {
                 temp.push(val[i]);
             }
         }

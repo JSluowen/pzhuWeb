@@ -221,7 +221,7 @@ export default class Layout extends Component {
 							<Link to="/register">加入我们</Link>
 						</div>
 						<div className="link-wrap">
-							<a href="">攀枝花学院</a>
+							<a href="http://old.pzhuweb.cn">WEB应用专业团队官网V1.0</a>
 							<a href="http://218.6.132.18/meol/jpk/course/layout/lesson/index.jsp?courseId=42728">前端在线学习</a>
 							<a href="http://218.6.132.18/meol/jpk/course/layout/lesson/index.jsp?courseId=42657">后台在线学习</a>
 						</div>

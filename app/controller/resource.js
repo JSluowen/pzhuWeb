@@ -9,6 +9,7 @@ class Resource extends Controller {
             let { beg, end, index } = ctx.request.body;
             beg = parseInt(beg);
             end = parseInt(end);
+            index = parseInt(index);
             const table = 'ResourceType';
             const table1 = 'Resource';
             const params = {
@@ -29,10 +30,17 @@ class Resource extends Controller {
                     status: 1
                 }
             };
-            let resourceType = await ctx.service.mysql.findAll({}, table);
+            const params1 = {
+                where: {
+                    status: 1
+                }
+            };
+            let resourceType = await ctx.service.mysql.findAll(params1, table);
             let resource = await ctx.service.mysql.findAll(params, table1);
             resourceType = await ctx.service.fun.filterTypeNum(resourceType, resource);// 过滤类别所对应的数目
-            resource = await ctx.service.fun.filterType(resource, index);// 过滤资源所对应的类别
+            if (index !== 0) {
+                resource = await ctx.service.fun.filterType(resource, index);// 过滤资源所对应的类别
+            }
             ctx.status = 200;
             if (parseInt(resource.length) >= end) {
                 resource = resource.slice(beg, end);

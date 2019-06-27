@@ -16,7 +16,8 @@ class Achievement extends Component {
             acType: [], // 成果类别
             ac: [], // 成果资源
             flag: true,
-            index: 1
+            index: 0,
+            total: 0,//获取总的资源数目
         };
         this.achievementTypeRef = React.createRef();
     }
@@ -64,7 +65,8 @@ class Achievement extends Component {
             index: this.state.index
         }
         AchievementAPI.getAachievement(params).then(res => {
-            let arry = this.state.ac
+            let arry = this.state.ac;
+            console.log(res.data.ac);
             for (let item of res.data.ac) {
                 arry.push(item)
             }
@@ -76,7 +78,12 @@ class Achievement extends Component {
                         ac: arry,
                         isLoading: true
                     })
-                    if (this.state.flag) this.setAchievementTyep()
+                    if (this.state.flag) {
+                        this.setAchievementTyep();
+                        this.setState({
+                            total: arry.length
+                        })
+                    }
                 }, 500)
             } else {
                 setTimeout(() => {
@@ -86,7 +93,12 @@ class Achievement extends Component {
                         loading: false,
                         isLoading: false
                     })
-                    if (this.state.flag) this.setAchievementTyep()
+                    if (this.state.flag) {
+                        this.setAchievementTyep();
+                        this.setState({
+                            total: arry.length
+                        })
+                    }
                 }, 500)
             }
         })
@@ -160,6 +172,10 @@ class Achievement extends Component {
                 <div className='achievement-left' ref={this.achievementTypeRef}>
                     <div className='achievement-left-header'>
                         成果分类
+                    </div>
+                    <div className='achievement-left-item' index="0" key="0" onClick={this.filterAchievement} >
+                        <p>全部</p>
+                        <p>{this.state.total}</p>
                     </div>
                     {
                         this.state.acType.map(item => {

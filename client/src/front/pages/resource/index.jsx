@@ -14,10 +14,11 @@ class Resource extends Component {
             end: 10,//后台数据结束的位置
             resourceType: [],
             resource: [],
-            index: 1,//默认查询选项第一个,
+            index: 0,//默认查询选项第一个,
             flag: true,
             loading: true,
-            isLoading: true
+            isLoading: true,
+            total: 0,//总共有多少资源
         };
         this.reourceTypeRef = React.createRef();
 
@@ -26,15 +27,6 @@ class Resource extends Component {
     componentDidMount() {
         this.getResource()
         window.addEventListener('scroll', this.handelScroll)
-    }
-    // 设置初始化的资源分类
-    setResourceTyep = () => {
-        let e = this.reourceTypeRef.current;
-        e = e.childNodes;
-        e[1].classList.add('resourceActive')
-        this.setState({
-            flag: false
-        })
     }
     //监听滚动条
     handelScroll = (e) => {
@@ -76,7 +68,7 @@ class Resource extends Component {
         let index = event.getAttribute('index')
 
         if (this.state.index === parseInt(index)) {
-            return
+            return;
         } else {
             this.setState({
                 index: parseInt(index),
@@ -132,7 +124,12 @@ class Resource extends Component {
                         loading: false,
                         isLoading: true
                     })
-                    if (this.state.flag) this.setResourceTyep()
+                    if (this.state.flag) {
+                        this.setResourceTyep()
+                        this.setState({
+                            total: arry.length
+                        })
+                    }
                 }, 500)
             } else {
                 setTimeout(() => {
@@ -142,9 +139,23 @@ class Resource extends Component {
                         loading: false,
                         isLoading: false
                     })
-                    if (this.state.flag) this.setResourceTyep()
+                    if (this.state.flag) {
+                        this.setResourceTyep()
+                        this.setState({
+                            total: arry.length
+                        })
+                    }
                 }, 500)
             }
+        })
+    }
+    // 设置初始化的资源分类
+    setResourceTyep = () => {
+        let e = this.reourceTypeRef.current;
+        e = e.childNodes;
+        e[1].classList.add('resourceActive')
+        this.setState({
+            flag: false
         })
     }
     render() {
@@ -153,6 +164,10 @@ class Resource extends Component {
                 <div className='resource-left' ref={this.reourceTypeRef} >
                     <div className='resource-left-header'  >
                         资源分类
+                    </div>
+                    <div className='resource-left-item' onClick={this.filterResource} index='0' key='0' >
+                        <p>全部</p>
+                        <p>{this.state.total}</p>
                     </div>
                     {
                         this.state.resourceType.map(item => {
@@ -191,7 +206,7 @@ class Resource extends Component {
                                                     return <Col span={12} key={item.id} >
                                                         <Card
                                                             className="resource-right-item"
-                                                            hoverable={true}     
+                                                            hoverable={true}
                                                         >
                                                             <div className='resource-right-item-header'>
                                                                 <Avatar size={55} src={item.UserInfo.avatar} />
