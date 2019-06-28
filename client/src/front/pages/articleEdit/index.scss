@@ -1,0 +1,252 @@
+.articleEdit {
+    width: 100%;
+    height: 100%;
+    min-width: 1400px;
+
+    &-header {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        padding: 10px 120px;
+
+        &-logo {
+            width: 75px;
+            height: 50px;
+
+            a {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+
+                img {
+                    width: 100%;
+                }
+            }
+        }
+
+        &-title {
+            width: 65%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+
+            input {
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+
+        &-right {
+            flex: 1;
+            width: 50px;
+            display: flex;
+            margin-left: 30px;
+            justify-content: space-between;
+
+            &-cover {
+                width: 30%;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                font-size: 30px;
+                position: relative;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                &-upload {
+                    display: none;
+                    position: absolute;
+                    width: 290px;
+                    min-height: 180px;
+                    border: 1px solid #ddd;
+                    margin-top: 15%;
+                    margin-left: -153px;
+                    left: 50%;
+                    padding: 1rem;
+                    z-index: 10;
+                    background-color: #fff;
+
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        margin-top: -1.6rem;
+                        width: 1rem;
+                        height: 1rem;
+                        background: #fff;
+                        border: 1px solid #ddd;
+                        border-right: none;
+                        border-bottom: none;
+                        transform: rotate(45deg);
+                    }
+
+                    &-title {
+                        font-size: 1.2rem;
+                        font-weight: 700;
+                        color: hsla(218, 9%, 51%, .8);
+                    }
+
+                    &-addBtn {
+                        display: inline-block;
+                        width: 14rem;
+                        height: 6rem;
+                        font-size: 18px;
+                        text-align: center;
+                        line-height: 6rem;
+                        color: rgba(51, 51, 51, .4);
+                        background-color: hsla(0, 0%, 87%, .6);
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+
+                    &-delCover {
+                        width: 100%;
+                        height: 145px;
+                        font-size: 16px;
+                        background-size: cover;
+                        background-position: center;
+                        position: relative;
+
+                        &-shadow {
+                            color: #ddd;
+                            width: 100%;
+                            height: 100%;
+                            line-height: 145px;
+                            background-color: rgba($color: #000000, $alpha: .3);
+                        }
+                    }
+                }
+
+            }
+
+            &-issue {
+                width: 30%;
+                height: 50px;
+                line-height: 50px;
+                font-size: 20px;
+                text-align: center;
+                color: #1890ff;
+                position: relative;
+
+                span {
+                    margin-right: 5px;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                &-panel {
+                    position: absolute;
+                    width: 336px;
+                    min-height: 346px;
+                    margin-left: -245px;
+                    margin-top: 15%;
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    z-index: 10;
+                    padding: 1rem;
+
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        width: 1rem;
+                        height: 1rem;
+                        border: 1px solid #ddd;
+                        background-color: #fff;
+                        border-right: none;
+                        border-bottom: none;
+                        transform: rotate(45deg);
+                        margin-top: -1.6rem;
+                        margin-left: 5.6rem;
+                    }
+
+                    &-title {
+                        width: 100%;
+                        font-size: 1.56rem;
+                        font-weight: 700;
+                        color: hsla(218, 9%, 51%, .8);
+                    }
+
+                    &-category,
+                    &-technology,
+                    &-keyWords,
+                    &-data {
+                        min-height: 40px;
+                        line-height: 40px;
+                        text-align: left;
+                        color: hsla(218, 9%, 51%, .8);
+                        font-size: 20px;
+
+                    }
+
+                    &-categoryList,
+                    &-technologyList,
+                    &-dataSelect {
+                        min-height: 40px;
+                        line-height: 40px;
+                        text-align: left;
+
+                        button {
+                            margin-right: 5px;
+                            min-width: 4rem;
+                            height: 2rem;
+                        }
+
+                    }
+
+                    &-keyWordsList {
+                        input {
+                            width: 100%;
+                            height: 35px;
+                            padding: 5px 0px;
+                            font-size: 14px;
+                            outline: none;
+                            border: none;
+                            border-bottom: 1px solid #ddd;
+                            border-radius: 0;
+                            color: black;
+                        }
+                    }
+
+                    &-issueBtn {
+                        margin-top: 10px;
+
+                        button {
+                            border: 1px solid #1890ff;
+                            color: #1890ff;
+                        }
+                    }
+
+                }
+            }
+
+            &-avatar {
+                width: 30%;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+    }
+
+    &-body {
+        width: 100%;
+        padding-top: 20px;
+        min-height: 600px;
+        display: flex;
+        justify-content: center;
+
+        .bf-container {
+            width: 80%;
+            border: 1px solid #e5e5e5;
+        }
+    }
+}

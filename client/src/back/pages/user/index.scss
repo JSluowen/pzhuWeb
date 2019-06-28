@@ -1,0 +1,133 @@
+.back-user {
+    padding: 20px;
+
+    &-header {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 30px 0;
+        background-color: #fff;
+        border-radius: 6px;
+        margin-bottom: 20px;
+
+        &-item {
+            flex: 1 1 auto;
+            text-align: center;
+
+            p {
+                margin-top: 10px;
+            }
+        }
+    }
+
+    &-body {
+        background-color: #fff;
+        padding: 0 20px 20px;
+        border-radius: 6px;
+        &-userinfo,
+        &-review {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+            &-header,
+            &-body-list {
+                display: flex;
+                background-color: rgb(235, 236, 240);
+                padding: 10px;
+                border-bottom: 1px solid rgb(235, 236, 240);
+
+                &-item {
+                    &:nth-of-type(1) {
+                        width: 14%;
+                    }
+
+                    &:nth-of-type(2) {
+                        width: 12%;
+                    }
+
+                    &:nth-of-type(3) {
+                        width: 16%;
+                    }
+
+                    &:nth-of-type(4) {
+                        width: 14%;
+                    }
+
+                    &:nth-of-type(5) {
+                        width: 12%;
+                    }
+
+                    &:nth-of-type(6) {
+                        width: 14%;
+                    }
+
+                }
+            }
+
+            &-body {
+                &-list {
+                    background-color: #fff;
+                    display: flex;
+
+                    &:hover {
+                        background-color: rgb(247, 248, 250)
+                    }
+
+                    &-item {
+                        height: 40px;
+                        line-height: 40px;
+
+                        button,
+                        span {
+                            margin-right: 5px;
+                        }
+
+                    }
+                }
+                &-nullData{
+                    height: 100px;
+                    line-height: 100px;
+                    text-align: center;
+                    font-size: 18px;
+                }
+            }
+
+            &-pagination {
+                width: 100%;
+                margin: 20px 0px;
+                display: flex;
+                justify-content: flex-end;
+
+                a {
+                    color: rgba(0, 0, 0, 0.45) !important;
+                }
+            }
+        }
+
+        &-review {
+
+            &-header-item,
+            &-body-list-item {
+                &:nth-of-type(1) {
+                    width: 18%;
+                }
+
+                &:nth-of-type(2) {
+                    width: 14%;
+                }
+
+                &:nth-of-type(3) {
+                    width: 22%;
+                }
+
+                &:nth-of-type(4) {
+                    width: 18%;
+                }
+
+                &:nth-of-type(5) {
+                    width: 24%;
+                }
+            }
+        }
+    }
+}

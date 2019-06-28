@@ -1,0 +1,96 @@
+.personinfo {
+	width: 100%;
+	min-width: 1400px;
+	min-height: 600px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&-container {
+		width: 60%;
+		height: 100%;
+		padding: 25px 0px;
+
+		&-pageheader {
+			width: 100%;
+			height: 45px;
+			font-size: 23px;
+			font-family: '宋体';
+			line-height: 45px;
+			border-bottom: 1px solid gray;
+		}
+
+		&-context {
+			width: 100%;
+			height: auto;
+			display: flex;
+
+			&-left {
+				width: 60%;
+				padding: 30px 0px;
+
+				.ant-form-item {
+					width: 100%;
+					min-height: 80px;
+					display: flex;
+					align-items: flex-start;
+					justify-content: center;
+					margin: 0px;
+
+					.ant-btn {
+						margin-left: 20px;
+					}
+
+					.ant-form-item-control-wrapper {
+						width: 80%;
+
+						textarea {
+							line-height: 20px;
+						}
+					}
+				}
+			}
+
+			&-right {
+				width: 40%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 30px 0px;
+
+				&-avatar {
+					width: 170px;
+					height: 175px;
+					box-shadow: 0 0 2px 2px #fff;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					overflow: hidden;
+					border-radius: 5px;
+
+					img {
+						height: 100%;
+					}
+				}
+				.ant-btn{
+					margin-top: 20px;
+				}
+				// &-uploadBtn{
+				// 	display: inline-block;
+				// 	border: 1px solid gray;
+				// 	width: 85px;
+				// 	height: 35px;
+				// 	text-align: center;
+				// 	line-height: 35px;
+				// 	margin-top: 10px;
+				// 	border-radius: 5px;
+				// 	&:hover{
+				// 		cursor: pointer;
+				// 		color: #40a9ff;
+				// 		border-color: #40a9ff;
+				// 	}
+				// }
+			}
+		}
+	}
+}

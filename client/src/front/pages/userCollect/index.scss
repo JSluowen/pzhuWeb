@@ -1,0 +1,108 @@
+.userCollect {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+
+    &-container {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #e5e5e5;
+        margin: 20px 0;
+
+        &-header {
+            width: 100%;
+            height: 100%;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+
+            &-left {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+        }
+
+        &-body {
+            width: 100%;
+            min-height: 100px;
+
+            &-top {
+                width: 100%;
+                min-height: 50px;
+                border-bottom: 1px solid #e5e5e5;
+                background-color: rgb(250, 250, 250);
+                padding: 0 15px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                font-size: 14px;
+
+            }
+
+            &-item {
+                width: 100%;
+                height: 50px;
+                border-bottom: 1px solid #e5e5e5;
+                padding: 0 15px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                a {
+                    width: 100%;
+                    display: inline-block;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    padding-right: 10px;
+                    &:hover {
+                        color: #1890ff !important;
+                    }
+
+                }
+                &:hover {
+                    background-color: rgb(250, 250, 250);
+                }
+
+                span {
+                    display: inline-block;
+                    height: 50px;
+                    line-height: 50px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: #1890ff;
+                    }
+                }
+
+                &-work {
+                    height: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    &:hover {
+                        color: #1890ff;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            &-null {
+                width: 100%;
+                height: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #8c8c8c;
+            }
+        }
+    }
+}

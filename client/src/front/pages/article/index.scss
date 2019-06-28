@@ -1,12 +1,20 @@
+.articleActive {
+    border: 1px solid #1890ff !important;
+    color: #1890ff !important;
+}
+
 .article-container {
-    width: 100%;
-    height: 100%;
+    width: 1400px;
+    height: auto;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom:40px; 
+    padding-bottom: 40px;
+
     .ant-row {
         width: 80%;
+
         .article-left {
             width: 100%;
             height: 100%;
@@ -14,6 +22,14 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+
+            &-null {
+                width: 100%;
+                height: 100px;
+                text-align: center;
+                line-height: 100px;
+                font-size: 18px;
+            }
 
             .carousel {
                 width: 100%;
@@ -67,8 +83,17 @@
 
                             a {
                                 display: inline-block;
+                                width: 100%;
                                 color: white;
                                 font-size: 25px;
+                                span{
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                }
+                                &:hover {
+                                    color: #1890ff;
+                                }
                             }
                         }
                     }
@@ -82,7 +107,6 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 1px solid #e5e5e5;
 
                 .article-cover {
                     width: 40%;
@@ -93,10 +117,8 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-
-                    img {
-                        height: 100%;
-                    }
+                    background-size: cover;
+                    background-position: center;
                 }
 
                 .article-content {
@@ -108,13 +130,14 @@
                     justify-content: space-between;
 
                     .anticon {
-                        font-size: 25px;
+                        font-size: 18px;
                         margin-right: 5px;
                     }
 
                     .article-top {
+                        display: block;
                         width: 100%;
-                        height: 70px;
+                        color: gray;
 
                         &:hover {
                             cursor: pointer;
@@ -133,9 +156,12 @@
 
                         .article-summary {
                             font-size: 17px;
-                            line-height: 1.8;
-                            min-height: 124px;
+                            line-height: 1.2;
                             color: #a3a3a3;
+
+                            &::after {
+                                content: '...'
+                            }
                         }
                     }
 
@@ -146,7 +172,7 @@
                         justify-content: flex-start;
                         align-items: center;
                         color: gray;
-                        font-size: 18px;
+                        font-size: 14px;
 
                         div {
                             margin-left: 15px;
@@ -159,17 +185,28 @@
                             height: 100%;
 
                             .name {
-                                margin-left: 5px;
-                                font-size: 18px;
-                                color: grey;
+                                width: 90%;
+                                margin-left: 10px;
+                                display: flex;
+
+                                li {
+                                    font-size: 16px;
+
+                                    &:not(:last-child):after {
+                                        content: ".";
+                                        color: grey;
+                                        margin: 0 0.4em;
+                                    }
+                                }
+
                             }
 
                             .avatar {
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
-                                width: 30px;
-                                height: 30px;
+                                width: 25px;
+                                height: 25px;
 
                                 img {
                                     width: 100%;
@@ -186,13 +223,16 @@
                             display: flex;
                             justify-content: center;
                             align-items: center;
+                        }
 
+                        .person-collect {
                             &:hover {
                                 cursor: pointer;
                             }
                         }
-                        .isHeart{
-                            color:red;
+
+                        .isHeart {
+                            color: red;
                         }
 
                         .date {
@@ -205,22 +245,6 @@
 
                 }
             }
-
-            .article-pagination {
-                width: 80%;
-                display: flex;
-                justify-content: space-between;
-                margin-top: 20px;
-
-                .ant-btn-primary {
-                    &:hover {
-                        cursor: pointer;
-                        color: white;
-                        background-color: #1890ff !important;
-                    }
-                }
-            }
-
         }
 
         .article-right {
@@ -237,8 +261,8 @@
                     flex-wrap: wrap;
 
                     button {
-                        margin-left: 10px;
-                        margin-bottom: 10px;
+                        margin-left: 5px;
+                        margin-bottom: 5px;
                     }
 
                     .ant-btn {
@@ -271,13 +295,12 @@
                         width: 100%;
                         height: auto;
                         padding: 0px 0px 15px;
-                        border-bottom: 1px solid #e5e5e5;
                         display: flex;
                         flex-direction: column;
                         justify-content: flex-start;
 
                         &:hover {
-                            cursor: pointer;
+                            color: rgb(0, 133, 161);
                             background-color: rgb(251, 251, 251);
                         }
 
@@ -285,16 +308,26 @@
                             padding: 10px 0px;
                             font-size: 18px;
                             line-height: 1.2;
+
+                            a {
+                                color: #333 !important;
+
+                                &:hover {
+                                    color: #1890ff !important;
+                                }
+                            }
+
                         }
 
                         .action {
                             width: 45%;
                             display: flex;
-                            justify-content: space-around;
                             color: gray;
+                            align-items: center;
+                            font-size: 14px;
 
                             .anticon {
-                                font-size: 18px;
+                                margin-right: 5px;
                             }
                         }
 
