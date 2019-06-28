@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Input, Icon, Avatar, Button, Spin, message, Form } from 'antd';
+import { Input, Icon, Avatar, Button, Spin, message, Form, DatePicker } from 'antd';
 import Cookies from '../../../http/cookies'
 import ArticleEditAPI from '../../api/articleEdit'
 // 引入七牛云
@@ -14,6 +14,7 @@ import 'braft-editor/dist/index.css'
 // 代码高亮显示
 import 'braft-extensions/dist/code-highlighter.css'
 import './index.scss'
+
 BraftEditor.use(CodeHighlighter({
 	includeEditors: ['editor-with-code-highlighter'],
 }))
@@ -22,7 +23,7 @@ class ArticleEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			id: '',// 文章的Id
+			id: null,// 文章的Id
 			status: 1,// 默认1数据添加状态，2数据更新状态,
 			coverStatus: false,
 			issueStatus: false,
@@ -30,18 +31,20 @@ class ArticleEdit extends Component {
 			coverLoading: false,// 上传状态
 			menu: [],//分类
 			technology: [],// 技术标签
-			article: '',//文章资源
+			article: null,//文章资源
 			delCoverStatus: false,//删除显示
 			mediaItems: [],// 获取媒体库初始化内容
-			selectType: '',//文章类别
-			selectTechnology: '',// 技术标签
-			title: '',// 文章标题
-			keywords: '',// 文章关键字
-			postlink: '',// 封面图链接
-			context: '',// 文章给你内容
-			raw: '',// 用户编辑的文章内容格式
-			avatar: '',// 用户头像
-			articleLoding: false//发布文章
+			selectType: null,//文章类别
+			selectTechnology: null,// 技术标签
+			title: null,// 文章标题
+			keywords: null,// 文章关键字
+			date: null,// 文章发布日期
+			postlink: null,// 封面图链接
+			context: null,// 文章给你内容
+			raw: null,// 用户编辑的文章内容格式
+			avatar: null,// 用户头像
+			articleLoding: false,//发布文章
+
 		}
 		this.selectType = React.createRef();
 		this.selectTechnology = React.createRef();
@@ -49,7 +52,7 @@ class ArticleEdit extends Component {
 
 	componentDidMount() {
 		this.setState({
-			id: this.props.params.id || ''
+			id: this.props.params.id || null
 		}, () => {
 			this.getArticleEdit()
 		})
@@ -198,8 +201,8 @@ class ArticleEdit extends Component {
 
 		qiniuAPI.getToken().then(res => {
 			let token = res.data;
-			// let key = "test" + Date.now() + `.${postfix}`;
-			let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
+			let key = "test" + Date.now() + `.${postfix}`;
+			// let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
 			let config = {
 				useCdnDomain: true, //是否使用 cdn 加速域名
 				region: qiniu.region.z2 //选择上传域名 华南
@@ -258,7 +261,7 @@ class ArticleEdit extends Component {
 		ArticleEditAPI.delCoverImg(params).then(res => {
 			if (res.success) {
 				this.setState({
-					postlink: ''
+					postlink: null
 				})
 			}
 		})
@@ -291,22 +294,31 @@ class ArticleEdit extends Component {
 			selectTechnology: e.target.getAttribute('index')
 		})
 	}
+	//文章发布日期
+	onChangeDate = (date, dateString) => {
+		this.setState({
+			date: dateString
+		})
+	}
 	// 发布文章信息
 	uploadArticleInfo = () => {
 		let str = this.state.context;
 		let text = str.replace(/<[^<>]+>/g, "");
 		const abstract = text.substring(0, 120);
-		if (this.state.title === '') {
+		console.log(this.state.title)
+		if (this.state.title === null) {
 			message.warning('请输入文章标题')
-		} else if (this.state.selectType === '') {
+		} else if (this.state.selectType === null) {
 			message.warning('请选择文章类别')
-		} else if (this.state.selectTechnology === '') {
+		} else if (this.state.selectTechnology === null) {
 			message.warning('请选择文章的技术标签');
-		} else if (this.state.keywords === '') {
+		} else if (this.state.keywords === null) {
 			message.warning('请输入文章关键字')
+		} else if (this.state.date === null) {
+			message.warning('请选择文章发布日期')
 		} else if (this.state.context === '<p></p>') {
 			message.warning('请编写文章内容')
-		} else if (this.state.postlink === '' || this.state.postlink === null) {
+		} else if (this.state.postlink === null || this.state.postlink === null) {
 			message.warning('请上传文章封面图')
 		} else {
 			this.setState({
@@ -387,7 +399,6 @@ class ArticleEdit extends Component {
 						})
 					},
 					complete(res) {
-						console.log(res)
 						let params = {
 							id: that.state.id,
 							key: res.key
@@ -442,7 +453,7 @@ class ArticleEdit extends Component {
 									<Spin spinning={this.state.coverLoading}>
 										<div className='articleEdit-header-right-cover-upload-title'>添加封面大图</div>
 										{
-											this.state.postlink === '' || this.state.postlink === null ?
+											this.state.postlink === null || this.state.postlink === null ?
 												<label className='articleEdit-header-right-cover-upload-addBtn' htmlFor="uploadCover">点击此处添加图片</label>
 												:
 												<div onClick={this.delCoverImg} style={{ backgroundImage: `url(${this.state.postlink})` }} onMouseEnter={() => { this.setState({ delCoverStatus: true }) }} onMouseOut={() => { this.setState({ delCoverStatus: false }) }} className='articleEdit-header-right-cover-upload-delCover'>
@@ -476,9 +487,13 @@ class ArticleEdit extends Component {
 											})
 										}
 									</div>
+									<div className='articleEdit-header-right-issue-panel-data'>发布日期</div>
+									<div className='articleEdit-header-right-issue-panel-dataSelect'>
+										<DatePicker onChange={this.onChangeDate} />
+									</div>
 									<div className='articleEdit-header-right-issue-panel-keyWords'>关键字</div>
 									<div className='articleEdit-header-right-issue-panel-keyWordsList'>
-										<input value={this.state.keywords} onChange={(e) => { this.setState({ keywords: e.target.value }) }} placeholder='请添加一个关键字'></input>
+										<input defaultValue={this.state.keywords} onChange={(e) => { this.setState({ keywords: e.target.value }) }} placeholder='请添加一个关键字'></input>
 									</div>
 									<div className='articleEdit-header-right-issue-panel-issueBtn'>
 										<Button ghost onClick={this.uploadArticleInfo} >文章发布</Button>
