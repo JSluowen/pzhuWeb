@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip } from 'antd';
+import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip, DatePicker } from 'antd';
 import './index.scss';
 import Cookies from '../../../http/cookies';
 import AchievementIssueAPI from '../../api/achievementIssue';
@@ -10,22 +10,23 @@ class AchievementIssue extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',//成果Id
-            title: '',
-            achievementlink: '',
-            abstract: '',
-            type: '',
+            id: null,//成果Id
+            title: null,
+            achievementlink: null,
+            abstract: null,
+            type: null,
             status: 1,// 默认1数据添加状态，2数据更新状态,
             achievementType: [],
             loading: false,
             progress: 0,
             coverLoading: false,// 封面图上传进度
             delCoverLoading: false,// 删除封面图
-            posterlink: '',// 封面图的cdn地址
+            posterlink: null,// 封面图的cdn地址
             delCoverStatus: false,// 是否删除封面图的状态
-            attachment: '',// 附件的cdn地址
+            attachment: null,// 附件的cdn地址
             attachmentStatus: false,//是否有附件
             attachmentLoading: false,//上传附件的进度
+            date: null,//成果发布日期
         };
         this.selectLabel = React.createRef();
     }
@@ -90,18 +91,20 @@ class AchievementIssue extends Component {
     }
     // 上传资源
     handelIssue = () => {
-        if ((this.state.achievementlink === '' || this.state.achievementlink === null) && (this.state.attachment === '' || this.state.attachment === null)) {
+        if ((this.state.achievementlink === null) && (this.state.attachment === null)) {
             message.warning('链接或附件二选一');
-        } else if (this.state.title === '' || this.state.title === null) {
-            message.warning('成果标题不能为空')
-        } else if (this.state.type === '' || this.state.type === null) {
-            message.warning('请选择成果类别')
-        } else if (this.state.abstract === '' || this.state.abstract === null) {
+        } else if (this.state.title === null) {
+            message.warning('成果标题不能为空');
+        } else if (this.state.abstract === null) {
             message.warning('请对成果进行简单描述')
+        } else if (this.state.type === null) {
+            message.warning('请选择成果类别');
         } else if (this.state.abstract.length > 120) {
             message.warning('成果描述请控制在120字以内');
-        } else if (this.state.posterlink === '' || this.state.posterlink === null) {
-            message.warning('请上传成果的封面图')
+        } else if (this.state.date === null) {
+            message.warning('请选择成果日期');
+        } else if (this.state.posterlink === null) {
+            message.warning('请上传成果的封面图');
         }
         else {
             let params = {
@@ -111,7 +114,8 @@ class AchievementIssue extends Component {
                 achievementlink: this.state.achievementlink,
                 type: this.state.type,
                 abstract: this.state.abstract,
-                status: this.state.status
+                status: this.state.status,
+                date: this.state.date,
             }
             this.setState({
                 loading: true
@@ -150,6 +154,7 @@ class AchievementIssue extends Component {
         qiniuAPI.getToken().then(res => {
             let token = res.data;
             let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
+            // let key = "test" + Date.now() + `.${postfix}`
             let config = {
                 useCdnDomain: true, //是否使用 cdn 加速域名
                 region: qiniu.region.z2 //选择上传域名 华南
@@ -244,7 +249,7 @@ class AchievementIssue extends Component {
             let putExtra = {
                 fname: file[0].name,
                 params: {},
-                mimeType: [ "application/pdf"]
+                mimeType: ["application/pdf"]
             }
             let observable = qiniu.upload(file[0], key, token, putExtra, config)
             let observer = {
@@ -303,9 +308,12 @@ class AchievementIssue extends Component {
             }
         })
     }
-
-
-
+    // 成果发布日期
+    onChangeDate = (date, dateString) => {
+        this.setState({
+            date: dateString
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -346,6 +354,10 @@ class AchievementIssue extends Component {
                                             return <Button key={item.id} onClick={this.handelSelect} index={item.id} >{item.name}</Button>
                                         })
                                     }
+                                </div>
+                                <div className='achievementIssue-container-body-left-date'>
+                                    <p>日期</p>
+                                    <DatePicker onChange={this.onChangeDate} />
                                 </div>
                                 <Button style={{ width: '100%', margin: '20px 0' }} onClick={this.handelIssue} type='primary'>发布</Button>
                             </div>

@@ -43,12 +43,12 @@ module.exports = app => {
         },
         status: {
             type: BOOLEAN(4),
-            defaultValue: 0
+            defaultValue: 1
         },
         created_at: DATE,
-        updated_at: DATE,
     },
     {
+        timestamps: false,
         underscored: true,
         tableName: 'achievement',
     }

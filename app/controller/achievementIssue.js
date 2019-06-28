@@ -76,8 +76,9 @@ class AchievementIssue extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                let { id, userid, title, achievementlink, abstract, type, status } = ctx.request.body;
+                let { id, userid, title, achievementlink, abstract, type, status, date } = ctx.request.body;
                 id = parseInt(id);
+                const created_at = new Date(date);
                 const table = 'Achievement';
                 const params = {
                     userid,
@@ -85,7 +86,8 @@ class AchievementIssue extends Controller {
                     achievementlink,
                     typeid: parseInt(type),
                     abstract,
-                    status: 1
+                    status: 1,
+                    created_at,
                 };
                 if (parseInt(status) === 1) {
                     await ctx.service.mysql.create(params, table);
@@ -97,8 +99,6 @@ class AchievementIssue extends Controller {
                 ctx.body = {
                     success: 1,
                 };
-
-
             }
         } catch (err) {
             console.log(err);

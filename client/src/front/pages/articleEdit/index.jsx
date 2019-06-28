@@ -201,8 +201,8 @@ class ArticleEdit extends Component {
 
 		qiniuAPI.getToken().then(res => {
 			let token = res.data;
-			let key = "test" + Date.now() + `.${postfix}`;
-			// let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
+			// let key = "test" + Date.now() + `.${postfix}`;
+			let key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
 			let config = {
 				useCdnDomain: true, //是否使用 cdn 加速域名
 				region: qiniu.region.z2 //选择上传域名 华南

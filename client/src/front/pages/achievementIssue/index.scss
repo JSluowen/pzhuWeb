@@ -12,7 +12,7 @@
     min-height: 600px;
 
     &-container {
-        width: 85%;
+        width: 1200px;
         height: 100%;
 
         &-header {
@@ -24,7 +24,7 @@
 
             small {
                 font-size: 20px;
-                color:gray;
+                color: gray;
             }
         }
 
@@ -57,13 +57,31 @@
                     align-items: center;
 
                     p {
-                        font-size: 20px;
+                        font-size: 18px;
                     }
 
                     button {
                         margin-left: 20px;
                     }
 
+                }
+
+                &-date {
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+
+                    p {
+                        font-size: 18px;
+                    }
+
+                    input {
+                        width: 125px;
+                        height: 32px;
+                        font-size: 14px;
+                        margin-bottom: 0px;
+                        margin-left: 20px;
+                    }
                 }
             }
 

@@ -74,8 +74,9 @@ class ResourceIssue extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                let { id, userid, title, link, description, type, status } = ctx.request.body;
+                let { id, userid, title, link, description, type, status, date } = ctx.request.body;
                 id = parseInt(id);
+                const created_at = new Date(date);
                 const table = 'Resource';
                 const params = {
                     userid,
@@ -83,7 +84,8 @@ class ResourceIssue extends Controller {
                     link,
                     typeid: parseInt(type),
                     description,
-                    status: 1
+                    status: 1,
+                    created_at
                 };
                 if (parseInt(status) === 1) {
                     await ctx.service.mysql.create(params, table);
@@ -95,8 +97,6 @@ class ResourceIssue extends Controller {
                 ctx.body = {
                     success: 1,
                 };
-
-
             }
         } catch (err) {
             console.log(err);
