@@ -96,14 +96,19 @@ class User extends Controller {
                             model: app.model.ResourceType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'link', 'attachment', 'userid', 'title', 'updated_at'],
+                    attributes: ['id', 'typeid', 'link', 'attachment', 'userid', 'title', 'created_at'],
                     where: {
                         userid,
                         status: 1
                     },
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
-                const resourceType = await ctx.service.mysql.findAll({}, table);
+                const params1 = {
+                    where: {
+                        status: 1
+                    }
+                };
+                const resourceType = await ctx.service.mysql.findAll(params1, table);
                 let resource = await ctx.service.mysql.findAll(params, table1);
                 ctx.status = 200;
                 if (index !== 0) resource = await ctx.service.fun.filterType(resource, index); // 过滤资源所对应的类别
@@ -150,7 +155,7 @@ class User extends Controller {
                             model: app.model.ResourceType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
+                    attributes: ['id', 'typeid', 'userid', 'title', 'created_at'],
                     where: {
                         userid: id,
                         title: {
@@ -158,7 +163,7 @@ class User extends Controller {
                         },
                         status: 1
                     },
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
                 const resource = await ctx.service.mysql.findAll(params, table);
                 if (resource.length === 0) {
@@ -237,14 +242,19 @@ class User extends Controller {
                             model: app.model.AchievementType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'achievementlink', 'attachment', 'userid', 'title', 'updated_at'],
+                    attributes: ['id', 'typeid', 'achievementlink', 'attachment', 'userid', 'title', 'created_at'],
                     where: {
                         userid: id,
                         status: 1,
                     },
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
-                const acType = await ctx.service.mysql.findAll({}, table);
+                const params1 = {
+                    where: {
+                        status: 1
+                    }
+                };
+                const acType = await ctx.service.mysql.findAll(params1, table);
                 let ac = await ctx.service.mysql.findAll(params, table1);
                 ctx.status = 200;
                 if (index !== 0) ac = await ctx.service.fun.filterType(ac, index); // 过滤资源所对应的类别
@@ -327,7 +337,7 @@ class User extends Controller {
                             model: app.model.AchievementType
                         }
                     ],
-                    attributes: ['id', 'typeid', 'userid', 'title', 'updated_at'],
+                    attributes: ['id', 'typeid', 'userid', 'title', 'created_at'],
                     where: {
                         userid,
                         title: {
@@ -335,7 +345,7 @@ class User extends Controller {
                         },
                         status: 1
                     },
-                    order: [['updated_at', 'DESC']],
+                    order: [['created_at', 'DESC']],
                 };
                 const ac = await ctx.service.mysql.findAll(params, table);
                 if (ac.length === 0) {
@@ -381,7 +391,7 @@ class User extends Controller {
                             model: app.model.Technology
                         }
                     ],
-                    attributes: ['id', 'technologyid', 'title', 'updated_at', 'created_at'],
+                    attributes: ['id', 'technologyid', 'title', 'created_at', 'created_at'],
                     where: {
                         userid: id,
                         status: 1
@@ -478,7 +488,7 @@ class User extends Controller {
                             model: app.model.Technology
                         }
                     ],
-                    attributes: ['id', 'technologyid', 'title', 'updated_at', 'created_at'],
+                    attributes: ['id', 'technologyid', 'title', 'created_at', 'created_at'],
                     where: {
                         userid,
                         title: {

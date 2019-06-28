@@ -32,7 +32,12 @@ class ResourceIssue extends Controller {
                         userid
                     }
                 };
-                const resourceType = await ctx.service.mysql.findAll({}, table);
+                const params2 = {
+                    where: {
+                        status: 1
+                    }
+                };
+                const resourceType = await ctx.service.mysql.findAll(params2, table);
                 let resource;
                 if (id === '') {
                     resource = await ctx.service.mysql.findAll(params, table1);

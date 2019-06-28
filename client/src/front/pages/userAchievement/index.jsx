@@ -254,7 +254,7 @@ class UserAchievement extends Component {
                         <div className='userAchievement-container-body-top'>
                             <p style={{ width: '50%' }}>成果名称</p>
                             <p style={{ width: '20%' }}>成果类别</p>
-                            <p style={{ width: '20%' }}>更新时间</p>
+                            <p style={{ width: '20%' }}>发布时间</p>
                         </div>
                         <Skeleton loading={this.state.loading} active >
                             {
@@ -273,7 +273,7 @@ class UserAchievement extends Component {
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.AchievementType.name}</Tag>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
-                                                            {item.updated_at}
+                                                            {item.created_at}
                                                         </div>
                                                         {
                                                             this.state.isTourist ?

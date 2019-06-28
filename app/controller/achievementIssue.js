@@ -32,7 +32,12 @@ class AchievementIssue extends Controller {
                         userid
                     }
                 };
-                const achievementType = await ctx.service.mysql.findAll({}, table);
+                const params2 = {
+                    where: {
+                        status: 1
+                    }
+                };
+                const achievementType = await ctx.service.mysql.findAll(params2, table);
                 let achievement;
                 if (id === '') {
                     achievement = await ctx.service.mysql.findAll(params, table1);

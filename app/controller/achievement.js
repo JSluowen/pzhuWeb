@@ -23,7 +23,7 @@ class Achievement extends Controller {
                         ]
                     }
                 ],
-                order: [['updated_at', 'DESC']],
+                order: [['created_at', 'DESC']],
                 where: {
                     status: 1
                 }
@@ -82,7 +82,7 @@ class Achievement extends Controller {
                         ]
                     }
                 ],
-                order: [['updated_at', 'DESC']],
+                order: [['created_at', 'DESC']],
                 where: {
                     title: {
                         [Op.like]: '%' + value + '%',

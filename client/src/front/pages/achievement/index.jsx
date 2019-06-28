@@ -66,7 +66,6 @@ class Achievement extends Component {
         }
         AchievementAPI.getAachievement(params).then(res => {
             let arry = this.state.ac;
-            console.log(res.data.ac);
             for (let item of res.data.ac) {
                 arry.push(item)
             }
@@ -220,7 +219,7 @@ class Achievement extends Component {
                                                                 loading={false}
                                                                 style={{ width: '100%' }}
                                                                 cover={<img alt="example" src={item.posterlink} />}
-                                                                actions={[<span><Icon type="user" />{" "}{item.UserInfo.User.name}</span>, <span><Icon type="calendar" />{" "}{item.updated_at}</span>]}
+                                                                actions={[<span><Icon type="user" />{" "}{item.UserInfo.User.name}</span>, <span><Icon type="calendar" />{" "}{item.created_at}</span>]}
                                                             >
                                                                 <Meta
                                                                     style={{ width: '100%' }}
