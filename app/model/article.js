@@ -60,6 +60,7 @@ module.exports = app => {
             updated_at: DATE,
         },
         {
+            timestamps: false,
             underscored: true,
             tableName: 'article',
         }

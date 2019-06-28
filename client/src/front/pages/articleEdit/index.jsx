@@ -305,7 +305,6 @@ class ArticleEdit extends Component {
 		let str = this.state.context;
 		let text = str.replace(/<[^<>]+>/g, "");
 		const abstract = text.substring(0, 120);
-		console.log(this.state.title)
 		if (this.state.title === null) {
 			message.warning('请输入文章标题')
 		} else if (this.state.selectType === null) {
@@ -334,7 +333,8 @@ class ArticleEdit extends Component {
 				technologyid: this.state.selectTechnology,
 				keywords: this.state.keywords,
 				menuid: this.state.selectType,
-				abstract: abstract
+				abstract: abstract,
+				date:this.state.date
 			}
 			ArticleEditAPI.uploadArticleInfo(params).then(res => {
 				if (res.success) {
@@ -342,7 +342,8 @@ class ArticleEdit extends Component {
 						this.setState({
 							articleLoding: false
 						})
-						message.success('发布成功')
+						message.success('发布成功');
+						this.props.router.push(`/articleInfo/${this.state.id}`);
 					}, 200)
 				}
 			})

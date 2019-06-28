@@ -126,7 +126,8 @@ class ArticleEdit extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id, title, status, abstract, context, raw, postlink, technologyid, keywords, menuid } = ctx.request.body;
+                const { id, title, status, abstract, context, raw, postlink, technologyid, keywords, menuid, date } = ctx.request.body;
+                const created_at = new Date(date);
                 const userid = ctx.session.userid;
                 const table = 'Article';
                 const params = {
@@ -146,7 +147,8 @@ class ArticleEdit extends Controller {
                     technologyid,
                     menuid,
                     keywords,
-                    abstract
+                    abstract,
+                    created_at
                 };
                 let article;
                 if (parseInt(status) === 1) {
