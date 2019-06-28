@@ -59,6 +59,12 @@
 
                 a {
                     color: rgba($color: #000000, $alpha: .65) !important;
+                    width: 100%;
+                    display: inline-block;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    padding-right: 10px;
 
                     &:hover {
                         cursor: pointer;

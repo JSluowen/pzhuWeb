@@ -53,6 +53,12 @@
                 justify-content: flex-start;
                 align-items: center;
                 a {
+                    width: 100%;
+                    display: inline-block;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    padding-right: 10px;
                     &:hover {
                         color: #1890ff !important;
                     }

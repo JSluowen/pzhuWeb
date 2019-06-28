@@ -13,7 +13,8 @@ class Member extends Component {
             newUserinfoList: [],
             grade: [],//获取成员的年级
             teacherInfo: [],
-            loading: true
+            loading: true,
+            total:0,//总人数
         };
     }
 
@@ -30,7 +31,8 @@ class Member extends Component {
                         newUserInfoList: res.data,
                         teacherInfo: this.filterTeacherInfo(res.data),
                         grade: this.filterGrade(res.data),
-                        loading: false
+                        loading: false,
+                        total:res.data.length,
                     })
                 }, 200)
 
@@ -42,7 +44,7 @@ class Member extends Component {
         return domain.map(item => {
             let num = 0;
             for (let i of data) {
-                if (item.id === i.domain && i.User.status !== 3) {
+                if (item.id === i.domain) {
                     num++
                 }
             }
@@ -61,7 +63,6 @@ class Member extends Component {
     }
     //过滤刷选成员的年级类别
     filterGrade = (data) => {
-        console.log(data)
         let val = data.map(item => {
             if (item.User.status !== 3) {
                 return parseInt(item.id.substring(0, 4))
@@ -114,8 +115,9 @@ class Member extends Component {
                     <div className='member-left-header'>
                         成员分类
                     </div>
-                    <div className='member-left-item' index='0' onClick={this.filterUser} >
+                    <div className='member-left-item memberActive' index='0' onClick={this.filterUser} >
                         <p index='0'>全部</p>
+                        <p>{this.state.total}</p>
                     </div>
                     {
                         this.state.domain.map(item => {
