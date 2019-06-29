@@ -5,6 +5,8 @@ import Cookies from '../../../http/cookies';
 import AchievementIssueAPI from '../../api/achievementIssue';
 import * as qiniu from 'qiniu-js'
 import qiniuAPI from '../../api/qiniu'
+import moment from 'moment';
+const dateFormat = 'YYYY-MM-DD';
 const { TextArea } = Input;
 class AchievementIssue extends Component {
     constructor(props) {
@@ -26,7 +28,7 @@ class AchievementIssue extends Component {
             attachment: null,// 附件的cdn地址
             attachmentStatus: false,//是否有附件
             attachmentLoading: false,//上传附件的进度
-            date: null,//成果发布日期
+            date: new Date(),//成果发布日期
         };
         this.selectLabel = React.createRef();
     }
@@ -57,7 +59,8 @@ class AchievementIssue extends Component {
                     achievementType: res.data.achievementType,
                     posterlink: res.data.achievement[0].posterlink,
                     attachment: res.data.achievement[0].attachment,
-                    status: 2
+                    status: 2,
+                    date:res.data.achievement[0].created_at||new Date()
                 }, () => {
                     this.initResource(res.data.achievement[0].typeid)
                 })
@@ -126,7 +129,8 @@ class AchievementIssue extends Component {
                         this.setState({
                             loading: false,
                         })
-                        message.success('成果发布成功')
+                        message.success('成果发布成功');
+                        this.props.router.push('/achievement');
                     }, 500)
                 }
             })
@@ -357,7 +361,7 @@ class AchievementIssue extends Component {
                                 </div>
                                 <div className='achievementIssue-container-body-left-date'>
                                     <p>日期</p>
-                                    <DatePicker onChange={this.onChangeDate} />
+                                    <DatePicker value={moment(this.state.date,dateFormat)} onChange={this.onChangeDate} />
                                 </div>
                                 <Button style={{ width: '100%', margin: '20px 0' }} onClick={this.handelIssue} type='primary'>发布</Button>
                             </div>

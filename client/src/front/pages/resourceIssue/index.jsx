@@ -5,6 +5,8 @@ import Cookies from '../../../http/cookies';
 import ResourceIssueAPI from '../../api/resourceIssue';
 import * as qiniu from 'qiniu-js'
 import qiniuAPI from '../../api/qiniu'
+import moment from 'moment';
+const dateFormat = 'YYYY-MM-DD';
 const { TextArea } = Input;
 class ResourceIssue extends Component {
     constructor(props) {
@@ -27,7 +29,7 @@ class ResourceIssue extends Component {
             attachment: null,// 附件的cdn地址
             attachmentStatus: false,//是否有附件
             attachmentLoading: false,//上传附件的进度,
-            date: null,//资源分享日期
+            date: new Date(),//资源发布日期
         };
         this.selectLabel = React.createRef();
     }
@@ -58,11 +60,12 @@ class ResourceIssue extends Component {
                     resourceType: res.data.resourceType,
                     posterlink: res.data.resource[0].posterlink,
                     attachment: res.data.resource[0].attachment,
-                    status: 2
+                    description:res.data.resource[0].description,
+                    status: 2,
+                    date:res.data.resource[0].created_at||new Date()
                 }, () => {
                     this.initResource(res.data.resource[0].typeid)
                 })
-
             }
         })
     }
@@ -92,6 +95,7 @@ class ResourceIssue extends Component {
     }
     // 上传资源
     handelIssue = () => {
+        console.log(this.state.description)
         if ((this.state.link === null) && (this.state.attachment === null)) {
             message.warning('请填写链接或者上传资源附件');
         } else if (this.state.title === null) {
@@ -127,7 +131,8 @@ class ResourceIssue extends Component {
                         this.setState({
                             loading: false,
                         })
-                        message.success('资源分享成功')
+                        message.success('资源分享成功');
+                        this.props.router.push('/resource');
                     }, 500)
                 }
             })
@@ -356,7 +361,7 @@ class ResourceIssue extends Component {
                                 </div>
                                 <div className='resourceIssue-container-body-left-date'>
                                     <p>日期</p>
-                                    <DatePicker onChange={this.onChange} />
+                                    <DatePicker value={moment(this.state.date,dateFormat)} onChange={this.onChange} />
                                 </div>
                                 <Button style={{ width: '100%', margin: '20px 0' }} onClick={this.handelIssue} type='primary'>发布</Button>
                             </div>

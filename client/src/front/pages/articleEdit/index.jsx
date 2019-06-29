@@ -14,7 +14,8 @@ import 'braft-editor/dist/index.css'
 // 代码高亮显示
 import 'braft-extensions/dist/code-highlighter.css'
 import './index.scss'
-
+import moment from 'moment';
+const dateFormat = 'YYYY-MM-DD';
 BraftEditor.use(CodeHighlighter({
 	includeEditors: ['editor-with-code-highlighter'],
 }))
@@ -38,7 +39,7 @@ class ArticleEdit extends Component {
 			selectTechnology: null,// 技术标签
 			title: null,// 文章标题
 			keywords: null,// 文章关键字
-			date: null,// 文章发布日期
+			date: new Date(),// 文章发布日期
 			postlink: null,// 封面图链接
 			context: null,// 文章给你内容
 			raw: null,// 用户编辑的文章内容格式
@@ -124,7 +125,8 @@ class ArticleEdit extends Component {
 					id: res.data.article[0].id,
 					postlink: res.data.article[0].postlink,
 					status: 2,
-					avatar: res.data.userinfo[0].avatar
+					avatar: res.data.userinfo[0].avatar,
+					date:res.data.article[0].created_at||new Date()
 				}, () => {
 					this.initArticle()
 				})
@@ -334,7 +336,7 @@ class ArticleEdit extends Component {
 				keywords: this.state.keywords,
 				menuid: this.state.selectType,
 				abstract: abstract,
-				date:this.state.date
+				date: this.state.date
 			}
 			ArticleEditAPI.uploadArticleInfo(params).then(res => {
 				if (res.success) {
@@ -490,7 +492,7 @@ class ArticleEdit extends Component {
 									</div>
 									<div className='articleEdit-header-right-issue-panel-data'>发布日期</div>
 									<div className='articleEdit-header-right-issue-panel-dataSelect'>
-										<DatePicker onChange={this.onChangeDate} />
+										<DatePicker value={moment(this.state.date,dateFormat)} onChange={this.onChangeDate} />
 									</div>
 									<div className='articleEdit-header-right-issue-panel-keyWords'>关键字</div>
 									<div className='articleEdit-header-right-issue-panel-keyWordsList'>
