@@ -211,7 +211,7 @@ class Achievement extends Component {
                                         <div>
                                             {
                                                 this.state.ac.map(item => {
-                                                    return <Col span={12} key={item.id} >
+                                                    return <Col span={24} key={item.id} >
                                                         <a style={{ display: 'block' }} href={item.achievementlink || item.attachment} target='_blank'>
                                                             <Card
                                                                 className="achievement-right-item"
@@ -229,7 +229,6 @@ class Achievement extends Component {
                                                                 />
                                                             </Card>
                                                         </a>
-
                                                     </Col>
                                                 })
                                             }

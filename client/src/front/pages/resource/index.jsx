@@ -201,7 +201,7 @@ class Resource extends Component {
                                         <div>
                                             {
                                                 this.state.resource.map(item => {
-                                                    return <Col span={12} key={item.id} >
+                                                    return <Col span={24} key={item.id} >
                                                         <Card
                                                             className="resource-right-item"
                                                             hoverable={true}
