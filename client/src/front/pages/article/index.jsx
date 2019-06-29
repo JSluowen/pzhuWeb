@@ -155,6 +155,18 @@ export default class Article extends Component {
 				<Row>
 					<Col span={18}>
 						<div className="article-left">
+							{/* <div className='article-left-header'>
+								<ul className='article-left-header-navbar'>
+									<li>
+										<a>推荐</a>
+									</li>
+									<li><a>前端</a></li>
+									<li><a href="">后台</a></li>
+									<li><a href="">新闻</a></li>
+									<li><a href="">阅读</a></li>
+								</ul>
+							</div>
+							 */}
 							<div className="carousel">
 								<Carousel autoplay>
 									{
@@ -236,9 +248,8 @@ export default class Article extends Component {
 					<Col span={6}>
 						<div className="article-right">
 							{/* 文章标签 */}
-
 							<div className="label">
-								<Divider orientation="left">标签管理</Divider>
+								<Divider orientation="left">标签云</Divider>
 								<div className="label-container">
 									<Button index='0' ghost className="articleActive" onClick={this.filterArticleType} >推荐</Button>
 									{

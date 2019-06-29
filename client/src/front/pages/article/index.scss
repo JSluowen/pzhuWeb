@@ -4,7 +4,7 @@
 }
 
 .article-container {
-    width: 1400px;
+    width: 100%;
     height: auto;
     margin: 0 auto;
     display: flex;
@@ -12,8 +12,10 @@
     align-items: center;
     padding-bottom: 40px;
 
+
+
     .ant-row {
-        width: 80%;
+        width: 1200px;
 
         .article-left {
             width: 100%;
@@ -22,6 +24,35 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+
+            &-header {
+                width: 100%;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 8px;
+                &-navbar {
+                    width: 1150px;
+                    display: flex;
+                    font-size: 20px;
+                    li{
+                        padding: 0 1.2rem;
+                        border-right:1px solid hsla(0,0%,59.2%,.2); 
+                        a{
+                            color: gray !important;
+                            &:hover{
+                                color: #1890ff !important;
+                                cursor: pointer;
+                            }
+                        }
+                        &:last-child{
+                            border-right:0; 
+                        }
+                    }
+          
+                }
+            }
 
             &-null {
                 width: 100%;
@@ -57,7 +88,7 @@
                 .carousel-item {
                     position: absolute;
                     height: 300px;
-
+                    overflow: hidden;
                     .carousel-container {
                         width: 100%;
                         height: 100%;
@@ -86,11 +117,13 @@
                                 width: 100%;
                                 color: white;
                                 font-size: 25px;
-                                span{
+
+                                span {
                                     display: flex;
                                     justify-content: center;
                                     align-items: center;
                                 }
+
                                 &:hover {
                                     color: #1890ff;
                                 }
@@ -107,12 +140,12 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
+                overflow: hidden;
+                border-radius: 20px;
                 .article-cover {
                     width: 40%;
                     height: 200px;
-                    overflow: hidden;
-                    border-radius: 20px;
+                   
                     border: 1px solid #e5e5e5;
                     display: flex;
                     align-items: center;
@@ -250,7 +283,7 @@
         .article-right {
             width: 100%;
             height: auto;
-            padding: 0px 20px;
+            padding: 20px;
 
             .label {
                 .label-container {

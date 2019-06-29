@@ -31,18 +31,7 @@ class CropperImg extends Component {
 		reader.readAsDataURL(files[0]);
 	};
 
-	//base64转换成Blob对象
-	dataURLtoBlob = (dataurl) => {
-		var arr = dataurl.split(','),
-			mime = arr[0].match(/:(.*?);/)[1],
-			bstr = atob(arr[1]),
-			n = bstr.length,
-			u8arr = new Uint8Array(n);
-		while (n--) {
-			u8arr[n] = bstr.charCodeAt(n);
-		}
-		return new Blob([ u8arr ], { type: mime });
-	};
+
 
 	//获取剪切过后的图片
 	cropImage = () => {
@@ -50,9 +39,7 @@ class CropperImg extends Component {
 			return;
 		}
 		let dataurl = this.cropper.getCroppedCanvas().toDataURL();
-		let dataBlob = this.dataURLtoBlob(dataurl);
-
-		this.props.uploadImg(dataBlob);//向父组件传值
+		this.props.uploadImg(dataurl);//向父组件传值
 
 	};
 

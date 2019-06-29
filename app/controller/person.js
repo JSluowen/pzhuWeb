@@ -83,7 +83,8 @@ class Person extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { avatar, id } = ctx.request.body;
+                const { avatar } = ctx.request.body;
+                const id = ctx.session.userid;
                 const table = 'UserInfo';
                 const params = {
                     attributes: ['avatar'],
@@ -153,32 +154,37 @@ class Person extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id, phone, domain, schoolMajor, description } = ctx.request.body;
+                const { phone, domain, schoolMajor, description, avatar } = ctx.request.body;
+                const id = ctx.session.userid;
                 const table = 'UserInfo';
+                const cdn = await ctx.service.qiniu.getCDN(avatar); // 获去cdn链接
                 const isUserinfo = await ctx.service.mysql.findById(id, table);
                 if (isUserinfo) {
-                    await isUserinfo.update({
+                    const params = {
                         phone,
                         school: schoolMajor[0],
                         major: schoolMajor[1],
                         domain: domain[0],
                         description,
-                    });
+                        avatar: cdn,
+                    };
+                    console.log(isUserinfo);
+                    await isUserinfo.update(params);
                     ctx.status = 200;
                     ctx.body = {
                         success: 1,
                     };
                 } else {
-                    await ctx.service.mysql.create(
-                        {
-                            id,
-                            phone,
-                            school: schoolMajor[0],
-                            major: schoolMajor[1],
-                            description,
-                        },
-                        table,
-                    );
+                    const params1 = {
+                        id,
+                        phone,
+                        school: schoolMajor[0],
+                        major: schoolMajor[1],
+                        description,
+                        avatar: cdn,
+                        domain: domain[0]
+                    };
+                    await ctx.service.mysql.create(params1, table);
                     ctx.status = 200;
                     ctx.body = {
                         success: 1,
@@ -198,7 +204,7 @@ class Person extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { id } = ctx.request.body;
+                const id = ctx.session.userid;
                 const table = 'UserInfo';
                 const params = {
                     include: [
