@@ -18,7 +18,7 @@ class ArticleEdit extends Controller {
                 const table2 = 'Article';
                 const table3 = 'UserInfo';
                 const menu = await ctx.service.mysql.findAll({}, table);
-                const technology = await ctx.service.mysql.findAll({}, table1);
+                const technology = await ctx.service.mysql.findAll({ where: { status: 1 } }, table1);
                 const userinfo = await ctx.service.mysql.findAll({ where: { id: userid }, attributes: ['avatar'] }, table3);
                 const params = {
                     include: [
@@ -128,6 +128,7 @@ class ArticleEdit extends Controller {
             } else {
                 const { id, title, status, abstract, context, raw, postlink, technologyid, keywords, menuid, date } = ctx.request.body;
                 const created_at = new Date(date);
+
                 const userid = ctx.session.userid;
                 const table = 'Article';
                 const params = {

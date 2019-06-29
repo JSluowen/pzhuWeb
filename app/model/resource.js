@@ -45,9 +45,9 @@ module.exports = app => {
             defaultValue: 1
         },
         created_at: DATE,
-        updated_at: DATE,
     },
     {
+        timestamps: false,
         underscored: true,
         tableName: 'resource',
     }

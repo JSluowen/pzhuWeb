@@ -102,7 +102,8 @@ class Setting extends Component {
 				values.id = Cookies.getCookies('id');
 				PersonAPI.uploadUserInfo(values).then((res) => {
 					if (res.success) {
-						message.success('保存成功');
+						message.success('信息保存成功');
+						this.props.router.push('/user')
 					}
 				})
 			}

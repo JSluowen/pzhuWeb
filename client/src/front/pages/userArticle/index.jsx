@@ -273,7 +273,7 @@ class UserArticle extends Component {
                         <div className='userArticle-container-body-top'>
                             <p style={{ width: '50%' }}>文章名称</p>
                             <p style={{ width: '20%' }}>技术标签</p>
-                            <p style={{ width: '20%' }}>更新时间</p>
+                            <p style={{ width: '20%' }}>发布时间</p>
                         </div>
                         <Skeleton loading={this.state.loading} active >
                             {

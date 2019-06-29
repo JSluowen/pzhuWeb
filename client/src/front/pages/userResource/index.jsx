@@ -42,7 +42,6 @@ class UserResource extends Component {
             id: this.state.id
         }
         TouristAPI.getTouristResource(params).then(res => {
-            console.log(res.data)
             let arry = this.state.resource
             for (let item of res.data.resource) {
                 arry.push(item)
@@ -80,6 +79,7 @@ class UserResource extends Component {
             for (let item of res.data.resource) {
                 arry.push(item)
             }
+            console.log(res.data)
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
@@ -248,7 +248,7 @@ class UserResource extends Component {
                         <div className='userResource-container-body-top'>
                             <p style={{ width: '50%' }}>资源名称</p>
                             <p style={{ width: '20%' }}>资源类别</p>
-                            <p style={{ width: '20%' }}>更新时间</p>
+                            <p style={{ width: '20%' }}>发布时间</p>
                         </div>
                         <Skeleton loading={this.state.loading} active >
                             {
@@ -267,7 +267,7 @@ class UserResource extends Component {
                                                             <Tag color={this.state.color[Math.floor(Math.random() * 10)]}>{item.ResourceType.name}</Tag>
                                                         </div>
                                                         <div style={{ width: '20%' }}>
-                                                            {item.updated_at}
+                                                            {item.created_at}
                                                         </div>
                                                         {
                                                             this.state.isTourist ?

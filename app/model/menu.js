@@ -1,6 +1,6 @@
 'use strict';
 module.exports = app => {
-    const { INTEGER, STRING, DATE } = app.Sequelize;
+    const { INTEGER, STRING } = app.Sequelize;
     const Menu = app.model.define(
         'Menu',
         {
@@ -12,10 +12,13 @@ module.exports = app => {
             name: {
                 type: STRING(16),
             },
-            created_at: DATE,
-            updated_at: DATE,
+            status: {
+                type: INTEGER(1),
+                defaultValue: 1,
+            }
         },
         {
+            timestamps: false,
             underscored: true,
             tableName: 'menu',
         },

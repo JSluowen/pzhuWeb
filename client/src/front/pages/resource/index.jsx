@@ -3,8 +3,6 @@ import { Button, Card, Input, Icon, Avatar, Row, Col, Skeleton, message } from '
 import './index.scss'
 import ResourceAPI from '../../api/resource'
 const Search = Input.Search;
-const { Meta } = Card;
-
 class Resource extends Component {
     constructor(props) {
         super(props);
@@ -212,7 +210,7 @@ class Resource extends Component {
                                                                 <Avatar size={55} src={item.UserInfo.avatar} />
                                                                 <div className='resource-right-item-header-info'>
                                                                     <p style={{ fontWeight: '600', fontSize: '17px' }}>{item.UserInfo.User.name}</p>
-                                                                    <p> <Icon type="calendar" />{" "}{item.updated_at}</p>
+                                                                    <p> <Icon type="calendar" />{" "}{item.created_at}</p>
                                                                 </div>
                                                                 <Button link={item.link} type='primary' ghost >
                                                                     <a href={item.link} target='_blank'>点击获取</a>
