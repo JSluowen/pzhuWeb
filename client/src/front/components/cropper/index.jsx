@@ -8,7 +8,6 @@ class CropperImg extends Component {
 		super(props);
 		this.state = {
 			src: props.src
-
 		};
 	}
 	// 获取本地文件的图片

@@ -50,10 +50,10 @@
         min-height: 600px;
         padding: 20px 0px;
 
-        // .ant-card-body {
-        //     display: flex;
-        //     flex-wrap: wrap;
-        // }
+        .ant-card-body {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
         &-null {
             width: 100%;

@@ -32,25 +32,30 @@
                 justify-content: center;
                 align-items: center;
                 margin-bottom: 8px;
+
                 &-navbar {
                     width: 1150px;
                     display: flex;
                     font-size: 20px;
-                    li{
+
+                    li {
                         padding: 0 1.2rem;
-                        border-right:1px solid hsla(0,0%,59.2%,.2); 
-                        a{
+                        border-right: 1px solid hsla(0, 0%, 59.2%, .2);
+
+                        a {
                             color: gray !important;
-                            &:hover{
+
+                            &:hover {
                                 color: #1890ff !important;
                                 cursor: pointer;
                             }
                         }
-                        &:last-child{
-                            border-right:0; 
+
+                        &:last-child {
+                            border-right: 0;
                         }
                     }
-          
+
                 }
             }
 
@@ -73,8 +78,8 @@
                     height: 300px;
                     line-height: 300px;
                     background-color: #0085A1;
-                    overflow: hidden;
-                    border-radius: 10px;
+                    // overflow: hidden;
+                    // border-radius: 10px;
 
                     &:hover {
                         cursor: pointer;
@@ -89,6 +94,7 @@
                     position: absolute;
                     height: 300px;
                     overflow: hidden;
+
                     .carousel-container {
                         width: 100%;
                         height: 100%;
@@ -140,12 +146,12 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                overflow: hidden;
-                border-radius: 20px;
+
                 .article-cover {
                     width: 40%;
                     height: 200px;
-                   
+                    overflow: hidden;
+                    border-radius: 5px;
                     border: 1px solid #e5e5e5;
                     display: flex;
                     align-items: center;
@@ -157,7 +163,7 @@
                 .article-content {
                     width: 60%;
                     height: 100%;
-                    padding: 0px 0px 0px 10px;
+                    padding: 5px 0px 0px 10px;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
@@ -182,14 +188,17 @@
                         }
 
                         .article-title {
-                            font-size: 26px;
+                            font-size: 18px;
                             margin-bottom: 10px;
                             line-height: 1.2;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
                         }
 
                         .article-summary {
                             font-size: 17px;
-                            line-height: 1.2;
+                            line-height: 1.5;
                             color: #a3a3a3;
 
                             &::after {

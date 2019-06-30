@@ -17,7 +17,6 @@ class Achievement extends Component {
             ac: [], // 成果资源
             flag: true,
             index: 0,
-            total: 0,//获取总的资源数目
         };
         this.achievementTypeRef = React.createRef();
     }
@@ -79,9 +78,6 @@ class Achievement extends Component {
                     })
                     if (this.state.flag) {
                         this.setAchievementTyep();
-                        this.setState({
-                            total: arry.length
-                        })
                     }
                 }, 500)
             } else {
@@ -94,9 +90,6 @@ class Achievement extends Component {
                     })
                     if (this.state.flag) {
                         this.setAchievementTyep();
-                        this.setState({
-                            total: arry.length
-                        })
                     }
                 }, 500)
             }
@@ -174,7 +167,6 @@ class Achievement extends Component {
                     </div>
                     <div className='achievement-left-item' index="0" key="0" onClick={this.filterAchievement} >
                         <p>全部</p>
-                        <p>{this.state.total}</p>
                     </div>
                     {
                         this.state.acType.map(item => {

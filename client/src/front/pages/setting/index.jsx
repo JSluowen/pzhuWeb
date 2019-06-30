@@ -14,7 +14,7 @@ class Setting extends Component {
 			defaultSchoolMajor: [],
 			defaultDomain: [],
 			visible: false,
-			src: 'http://img.pzhuweb.cn/1561597695797',
+			src: 'http://img.pzhuweb.cn/avatar',
 			loading: false,
 			schoolMajor: [],
 			domain: [],
@@ -92,34 +92,46 @@ class Setting extends Component {
 		e.preventDefault()
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				// this.setState({
-				// 	loading: true
-				// })
+				this.setState({
+					loading: true
+				})
+				// 判断图片资源是本地的,还是第三方资源链接
 				var strRegex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/|www\.)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
-				var re=new RegExp(strRegex);
+				var re = new RegExp(strRegex);
 				if (!re.test(this.state.src)) {
-					alert("这网址不是以http://https://开头，或者不是网址！");
+					let dataBlob = this.dataURLtoBlob(this.state.src);
+					qiniu(dataBlob)
+						.then((res) => {
+							values.avatar = res.key;
+							values.status = 1;
+							PersonAPI.uploadUserInfo(values).then((res) => {
+								if (res.success) {
+									this.setState({
+										loading: false
+									})
+									message.success('信息保存成功');
+									this.props.router.push('/user');
+								}
+							})
+						})
+						.catch((err) => {
+							console.log(err)
+						})
 				}
 				else {
-					alert("输入成功");
+					values.avatar = this.state.src;
+					values.status = 0;
+					PersonAPI.uploadUserInfo(values).then((res) => {
+						if (res.success) {
+							this.setState({
+								loading: false
+							})
+							message.success('信息保存成功');
+							this.props.router.push('/user');
+						}
+					})
 				}
-				let dataBlob = this.dataURLtoBlob(this.state.src);
-				// qiniu(dataBlob)
-				// 	.then((res) => {
-				// 		values.avatar = res.key;
-				// 		PersonAPI.uploadUserInfo(values).then((res) => {
-				// 			if (res.success) {
-				// 				this.setState({
-				// 					loading: false
-				// 				})
-				// 				message.success('信息保存成功');
-				// 				this.props.router.push('/user');
-				// 			}
-				// 		})
-				// 	})
-				// 	.catch((err) => {
-				// 		console.log(err)
-				// 	})
+
 
 			}
 		})

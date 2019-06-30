@@ -154,10 +154,15 @@ class Person extends Controller {
             if (!author) {
                 ctx.status = 403;
             } else {
-                const { phone, domain, schoolMajor, description, avatar } = ctx.request.body;
+                const { phone, domain, schoolMajor, description, avatar, status } = ctx.request.body;
                 const id = ctx.session.userid;
                 const table = 'UserInfo';
-                const cdn = await ctx.service.qiniu.getCDN(avatar); // 获去cdn链接
+                let cdn;
+                if (parseInt(status) === 1) {
+                    cdn = await ctx.service.qiniu.getCDN(avatar); // 获去cdn链接
+                } else {
+                    cdn = avatar;
+                }
                 const isUserinfo = await ctx.service.mysql.findById(id, table);
                 if (isUserinfo) {
                     const params = {
@@ -168,7 +173,16 @@ class Person extends Controller {
                         description,
                         avatar: cdn,
                     };
-                    console.log(isUserinfo);
+                    const url = isUserinfo.dataValues.avatar;
+                    const arr = url.split('/');
+                    const key = arr[3];
+                    try {
+                        if (key !== 'avatar') {
+                            await ctx.service.qiniu.deleteFile('webimg', key);
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
                     await isUserinfo.update(params);
                     ctx.status = 200;
                     ctx.body = {
