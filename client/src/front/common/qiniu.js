@@ -5,7 +5,8 @@ function qiniuUpload(file) {
     return new Promise((resolve, reject) => {
         qiniuAPI.getToken().then(res => {
             let token = res.data
-            let key = Date.now();
+            // let key = Date.now();
+            let key = 'test'+Date.now();
             let config = {
                 useCdnDomain: true, //是否使用 cdn 加速域名
                 region: qiniu.region.z2 //选择上传域名 华南

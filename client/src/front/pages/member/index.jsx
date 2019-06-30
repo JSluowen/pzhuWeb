@@ -14,7 +14,6 @@ class Member extends Component {
             grade: [],//获取成员的年级
             teacherInfo: [],
             loading: true,
-            total:0,//总人数
         };
     }
 
@@ -32,7 +31,6 @@ class Member extends Component {
                         teacherInfo: this.filterTeacherInfo(res.data),
                         grade: this.filterGrade(res.data),
                         loading: false,
-                        total:res.data.length,
                     })
                 }, 200)
 
@@ -117,7 +115,6 @@ class Member extends Component {
                     </div>
                     <div className='member-left-item memberActive' index='0' onClick={this.filterUser} >
                         <p index='0'>全部</p>
-                        <p>{this.state.total}</p>
                     </div>
                     {
                         this.state.domain.map(item => {

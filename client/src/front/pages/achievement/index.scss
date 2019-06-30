@@ -87,5 +87,18 @@
                 width: 100%;
             }
         }
+
+        .ant-row {
+            -moz-column-count: 2;
+            /* Firefox */
+            -webkit-column-count: 2;
+            /* Safari 和 Chrome */
+            column-count: 2;
+        }
+        .ant-col {
+            -moz-page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
+        }
     }
 }

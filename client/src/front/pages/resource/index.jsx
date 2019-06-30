@@ -16,7 +16,6 @@ class Resource extends Component {
             flag: true,
             loading: true,
             isLoading: true,
-            total: 0,//总共有多少资源
         };
         this.reourceTypeRef = React.createRef();
 
@@ -124,9 +123,6 @@ class Resource extends Component {
                     })
                     if (this.state.flag) {
                         this.setResourceTyep()
-                        this.setState({
-                            total: arry.length
-                        })
                     }
                 }, 500)
             } else {
@@ -139,9 +135,6 @@ class Resource extends Component {
                     })
                     if (this.state.flag) {
                         this.setResourceTyep()
-                        this.setState({
-                            total: arry.length
-                        })
                     }
                 }, 500)
             }
@@ -165,7 +158,6 @@ class Resource extends Component {
                     </div>
                     <div className='resource-left-item' onClick={this.filterResource} index='0' key='0' >
                         <p>全部</p>
-                        <p>{this.state.total}</p>
                     </div>
                     {
                         this.state.resourceType.map(item => {
@@ -201,7 +193,7 @@ class Resource extends Component {
                                         <div>
                                             {
                                                 this.state.resource.map(item => {
-                                                    return <Col span={12} key={item.id} >
+                                                    return <Col span={24} key={item.id} >
                                                         <Card
                                                             className="resource-right-item"
                                                             hoverable={true}

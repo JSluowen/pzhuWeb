@@ -50,11 +50,6 @@
         min-height: 600px;
         padding: 20px 0px;
 
-        .ant-card-body {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
         &-null {
             width: 100%;
             height: 100px;
@@ -113,8 +108,17 @@
                 }
             }
         }
-
-
-
+        .ant-row {
+            -moz-column-count: 2;
+            /* Firefox */
+            -webkit-column-count: 2;
+            /* Safari 和 Chrome */
+            column-count: 2;
+        }
+        .ant-col {
+            -moz-page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
+        }
     }
 }
