@@ -177,7 +177,7 @@ class Person extends Controller {
                     const arr = url.split('/');
                     const key = arr[3];
                     try {
-                        if (key !== 'avatar') {
+                        if (key !== 'avatar' && url !== cdn) {
                             await ctx.service.qiniu.deleteFile('webimg', key);
                         }
                     } catch (err) {
