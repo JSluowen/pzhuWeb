@@ -88,17 +88,12 @@
             }
         }
 
-        .ant-row {
-            -moz-column-count: 2;
-            /* Firefox */
-            -webkit-column-count: 2;
-            /* Safari 和 Chrome */
-            column-count: 2;
-        }
-        .ant-col {
-            -moz-page-break-inside: avoid;
-            -webkit-column-break-inside: avoid;
-            break-inside: avoid;
+        .ant-card-meta-description {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 62px;
         }
     }
 }

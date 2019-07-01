@@ -85,12 +85,22 @@
                 padding-left: 55px;
                 padding-top: 5px;
 
-                p {
-                    font-size: 15px;
-                    white-space: pre-wrap;
+                p:first-child {
+                    font-size: 16px !important;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                     word-break: break-word;
+                    overflow: hidden;
                     color: #17181a;
-                    line-height: 1.6;
+                    line-height: 1.4;
+                }
+
+                p:nth-of-type(2) {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    height: 62px;
                 }
 
                 &-cover {
@@ -106,19 +116,18 @@
                         width: 100%;
                     }
                 }
+
+
             }
         }
-        .ant-row {
-            -moz-column-count: 2;
-            /* Firefox */
-            -webkit-column-count: 2;
-            /* Safari 和 Chrome */
-            column-count: 2;
+    }
+
+    .ant-col {
+        height: 340px;
+        margin-bottom: 20px;   
+        .resource-right-item{
+            height: 100%;
         }
-        .ant-col {
-            -moz-page-break-inside: avoid;
-            -webkit-column-break-inside: avoid;
-            break-inside: avoid;
-        }
+        
     }
 }

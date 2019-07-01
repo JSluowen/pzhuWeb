@@ -51,8 +51,8 @@ class User extends Controller {
                         });
                     }
                     const favoriteNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table2);
-                    const achievementNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table3);
-                    const resourceNum = await ctx.service.mysql.findAll({ where: { userid: id } }, table4);
+                    const achievementNum = await ctx.service.mysql.findAll({ where: { userid: id, status: 1 } }, table3);
+                    const resourceNum = await ctx.service.mysql.findAll({ where: { userid: id, status: 1 } }, table4);
                     userinfo.readNum = readNum;
                     userinfo.articleNum = articleNum;
                     userinfo.favoriteNum = favoriteNum.length;

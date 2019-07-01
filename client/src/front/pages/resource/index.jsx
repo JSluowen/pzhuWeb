@@ -35,7 +35,7 @@ class Resource extends Component {
         const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
         // 距离页面底部的高度
         const height = scrollHeight - scrollTop - clientHeight;
-        if (height <= 10) {
+        if (height <= 200) {
             this.handelLoading()
         }
     }
@@ -183,7 +183,7 @@ class Resource extends Component {
                         />}
                     >
                         <Skeleton loading={this.state.loading} active>
-                            <Row style={{ width: '100%', margin: 0 }} gutter={16}>
+                            <Row style={{ width: '100%', margin: 0 }}  gutter={16}>
                                 {
                                     this.state.resource.length === 0 ?
                                         <div className='resource-right-null'>
@@ -193,7 +193,7 @@ class Resource extends Component {
                                         <div>
                                             {
                                                 this.state.resource.map(item => {
-                                                    return <Col span={24} key={item.id} >
+                                                    return <Col span={12} key={item.id} >
                                                         <Card
                                                             className="resource-right-item"
                                                             hoverable={true}

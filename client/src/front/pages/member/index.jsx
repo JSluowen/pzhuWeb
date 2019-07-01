@@ -29,8 +29,9 @@ class Member extends Component {
                         userInfoList: res.data,
                         newUserInfoList: res.data,
                         teacherInfo: this.filterTeacherInfo(res.data),
-                        grade: this.filterGrade(res.data),
                         loading: false,
+                    }, () => {
+                        this.filterGrade(res.data);
                     })
                 }, 200)
 
@@ -63,18 +64,20 @@ class Member extends Component {
     filterGrade = (data) => {
         let val = data.map(item => {
             if (item.User.status !== 3) {
-                return parseInt(item.id.substring(0, 4))
+                return parseInt(item.id.substring(0, 4)) + 4
             }
         })
-       
+
         val = val.sort((a, b) => { return b - a })
         let temp = []
         for (let i = 0; i < val.length; i++) {
-            if (temp.indexOf(val[i]) == -1&&val[i]!==undefined) {
+            if (temp.indexOf(val[i]) == -1 && val[i] !== undefined) {
                 temp.push(val[i]);
             }
         }
-        return temp
+        this.setState({
+            grade: temp
+        })
     }
     //过滤刷选成员研究方向
     filterUser = (e) => {
@@ -94,6 +97,7 @@ class Member extends Component {
         let index = event.getAttribute('index')
 
         if (parseInt(index) === 0) {
+            this.filterGrade(this.state.userInfoList);
             this.setState({
                 newUserInfoList: this.state.userInfoList
             })
@@ -102,9 +106,11 @@ class Member extends Component {
         let user = this.state.userInfoList.filter(item => {
             return item.domain === parseInt(index) && item.User.status !== 3
         })
+        this.filterGrade(user);
         this.setState({
             newUserInfoList: user
         })
+      
     }
     render() {
         return (
@@ -167,9 +173,8 @@ class Member extends Component {
                                 >
                                     {
                                         this.state.newUserInfoList.map((useritem, index) => {
-                                            if (item === parseInt(useritem.id.substring(0, 4)) && useritem.User.status !== 3) {
+                                            if (item === parseInt(useritem.id.substring(0, 4)) + 4 && useritem.User.status !== 3) {
                                                 return <div className='member-right-item' key={index}>
-
                                                     <div className='member-right-item-left'>
                                                         <div className='member-right-item-left-avatar'>
                                                             <img src={useritem.avatar} alt="这是头像" />

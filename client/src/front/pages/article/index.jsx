@@ -9,9 +9,9 @@ export default class Article extends Component {
 		super(props)
 		this.state = {
 			active: false,
-			limit: 12,// 获取的数据量
+			limit: 10,// 获取的数据量
 			beg: 0,//截取后台数据开始的位置
-			end: 12,//后台数据结束的位置
+			end: 10,//后台数据结束的位置
 			index: 0,//根据标签刷选资源
 			article: [],//文章资源
 			technology: [],// 技术标签
@@ -96,7 +96,7 @@ export default class Article extends Component {
 		const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
 		// 距离页面底部的高度
 		const height = scrollHeight - scrollTop - clientHeight;
-		if (height <= 10) {
+		if (height <= 200) {
 			this.handelLoading()
 		}
 	}
@@ -168,7 +168,7 @@ export default class Article extends Component {
 							</div>
 							 */}
 							<div className="carousel">
-								<Carousel autoplay>
+								<Carousel autoplay effect="fade">
 									{
 										this.state.slideshow.map(item => {
 											return <div className="carousel-item" key={item.id}>
