@@ -5,6 +5,7 @@ const Controller = require('egg').Controller;
 class Member extends Controller {
     async getMemberInfo() {
         const { ctx, app } = this;
+        const { Op } = app.Sequelize;
         try {
             const table = 'UserInfo';
             const table1 = 'Domain';
@@ -12,6 +13,11 @@ class Member extends Controller {
                 include: [
                     {
                         model: app.model.User,
+                        where: {
+                            status: {
+                                [Op.gt]: 0
+                            }
+                        }
                     },
                     {
                         model: app.model.School,
