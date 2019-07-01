@@ -126,7 +126,7 @@ class ArticleEdit extends Component {
 					postlink: res.data.article[0].postlink,
 					status: 2,
 					avatar: res.data.userinfo[0].avatar,
-					date:res.data.article[0].created_at||new Date()
+					date: res.data.article[0].created_at || new Date()
 				}, () => {
 					this.initArticle()
 				})
@@ -359,7 +359,7 @@ class ArticleEdit extends Component {
 			'undo', 'redo', 'separator',
 			'font-size', 'line-height', 'letter-spacing', 'separator',
 			'text-color', 'bold', 'italic', 'underline', 'strike-through', 'separator',
-			'superscript', 'subscript', 'remove-styles', 'emoji', 'separator', 'text-indent', 'text-align', 'separator',
+			'superscript', 'subscript', 'remove-styles', 'separator', 'text-indent', 'text-align', 'separator',
 			'headings', 'list-ul', 'list-ol', 'blockquote', 'code', 'separator',
 			'hr', 'separator',
 			'clear', 'separator',
@@ -492,7 +492,7 @@ class ArticleEdit extends Component {
 									</div>
 									<div className='articleEdit-header-right-issue-panel-data'>发布日期</div>
 									<div className='articleEdit-header-right-issue-panel-dataSelect'>
-										<DatePicker value={moment(this.state.date||new Date(),dateFormat)} onChange={this.onChangeDate} />
+										<DatePicker value={moment(this.state.date || new Date(), dateFormat)} onChange={this.onChangeDate} />
 									</div>
 									<div className='articleEdit-header-right-issue-panel-keyWords'>关键字</div>
 									<div className='articleEdit-header-right-issue-panel-keyWordsList'>
