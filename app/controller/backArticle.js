@@ -74,7 +74,7 @@ class Article extends Controller {
                 const { checked, id } = ctx.request.body;
                 const table = 'Article';
                 const article = await ctx.service.mysql.findById(id, table);
-                if (checked) {
+                if (checked === 'true') {
                     await article.update({ top: 1 });
                 } else {
                     await article.update({ top: 0 });

@@ -1,0 +1,48 @@
+.back-user-body-add {
+        width: 1180px;
+        margin: 0;
+        display: flex;
+        justify-content: flex-start;
+
+        &-left {
+            width: 50%;
+            padding-right: 20px;
+            .ant-form-item{
+                display: flex;
+            }
+            .ant-form-item-label{
+                width: 20%;
+            }
+            .ant-form-item-control-wrapper{
+                width: 70%;
+            }
+            .btn{
+                padding-left:30px;
+            }
+        }
+        &-right {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-right: 20px;
+
+            &-avatar {
+                width: 170px;
+                height: 175px;
+                box-shadow: 0 0 2px 2px #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                border-radius: 5px;
+
+                img {
+                    height: 100%;
+                }
+            }
+            .ant-btn{
+                margin-top: 20px;
+            }
+        }
+}

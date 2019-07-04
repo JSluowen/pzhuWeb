@@ -23,6 +23,7 @@
         background-color: #fff;
         padding: 0 20px 20px;
         border-radius: 6px;
+
         &-userinfo,
         &-review {
             display: flex;
@@ -84,7 +85,8 @@
 
                     }
                 }
-                &-nullData{
+
+                &-nullData {
                     height: 100px;
                     line-height: 100px;
                     text-align: center;
@@ -128,6 +130,6 @@
                     width: 24%;
                 }
             }
-        }
+        }  
     }
 }

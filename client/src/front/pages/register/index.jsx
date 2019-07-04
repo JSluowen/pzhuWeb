@@ -24,7 +24,6 @@ class Register extends Component {
 	// 提交表单
 	handleSubmit = (e) => {
 		e.preventDefault();
-
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 				values['password'] = md5(values.password);
@@ -44,17 +43,37 @@ class Register extends Component {
 			}
 		});
 	};
-	// 密码验证
-	validatorPassword = (rule, value, callback) => {
-		let patt = /(?=.*\d)(?=.*[a-zA-Z])^.{6,10}$/;
-		console.log(patt.test(value));
-		if (patt.test(value) || !value) {
+
+	//验证姓名
+	validatorName = (rule, value, callback) => {
+		if (!value || (value.length > 0 && value.length < 10)) {
 			callback();
 		} else {
-			callback('密码需要在6-10位之间并包含字母和数字');
+			callback('姓名控制在10个汉字以内');
+		}
+	}
+	// 验证账号
+	validatorId = (rule, value, callback) => {
+		let treg = /^[1-9]\d*$|^0$/;
+		if (!value || (treg.test(value) == true && value.length === 12)) {
+			callback();
+		} else {
+			callback('请输入12位学号');
+		}
+	}
+	// 密码验证
+	validatorPassword = (rule, value, callback) => {
+		const form = this.props.form;
+		let patt = /(?=.*\d)(?=.*[a-zA-Z])^.{6,20}$/;
+		if (patt.test(value) || !value) {
+			if (value && this.state.confirmDirty) {
+				form.validateFields(['confirm'], { force: true });
+			}
+			callback();
+		} else {
+			callback('密码需要在6-20位之间并包含字母和数字');
 		}
 	};
-
 	handleConfirmBlur = (e) => {
 		const value = e.target.value;
 		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -67,13 +86,14 @@ class Register extends Component {
 			callback();
 		}
 	};
-	validateToNextPassword = (rule, value, callback) => {
-		const form = this.props.form;
-		if (value && this.state.confirmDirty) {
-			form.validateFields(['confirm'], { force: true });
+	//验证姓名
+	validatorName = (rule, value, callback) => {
+		if (value.length > 0 && value.length < 10) {
+			callback();
+		} else {
+			callback('请将姓名控制在10个汉字以内');
 		}
-		callback();
-	};
+	}
 	// 邮箱提示格式
 	handleEmailChange = (value) => {
 		let autoCompleteResult;
@@ -171,9 +191,12 @@ class Register extends Component {
 													required: true,
 													message: '请输入学号',
 													whitespace: true
+												},
+												{
+													validator: this.validatorId
 												}
 											]
-										})(<Input placeholder="请输入学号" />)}
+										})(<Input placeholder="请输入12位学号" />)}
 									</Form.Item>
 									<Form.Item
 										label={
@@ -191,6 +214,9 @@ class Register extends Component {
 													required: true,
 													message: '请输入姓名',
 													whitespace: true
+												},
+												{
+													validator: this.validatorName
 												}
 											]
 										})(<Input placeholder="请输入姓名" />)}

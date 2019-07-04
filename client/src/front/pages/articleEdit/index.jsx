@@ -14,11 +14,33 @@ import 'braft-editor/dist/index.css'
 // 代码高亮显示
 import 'braft-extensions/dist/code-highlighter.css'
 import './index.scss'
+//引入MakeDown语法
+import Markdown from 'braft-extensions/dist/markdown'
 import moment from 'moment';
 const dateFormat = 'YYYY-MM-DD';
-BraftEditor.use(CodeHighlighter({
+let options = {
 	includeEditors: ['editor-with-code-highlighter'],
-}))
+	syntaxs: [
+		{
+			name: 'JavaScript',
+			syntax: 'javascript'
+		}, {
+			name: 'HTML',
+			syntax: 'html'
+		}, {
+			name: 'CSS',
+			syntax: 'css'
+		}, {
+			name: 'Java',
+			syntax: 'java',
+		}, {
+			name: 'PHP',
+			syntax: 'php'
+		}
+	]
+}
+BraftEditor.use(CodeHighlighter(options));
+BraftEditor.use(Markdown(options))
 
 class ArticleEdit extends Component {
 	constructor(props) {
@@ -142,7 +164,7 @@ class ArticleEdit extends Component {
 		let { setFieldsValue } = this.props.form;
 		setFieldsValue({ "title": title })
 		this.setState({
-			editorState: BraftEditor.createEditorState(context),
+			editorState: BraftEditor.createEditorState(raw),
 			keywords: keywords,
 			selectType: menuid,
 			selectTechnology: technologyid,

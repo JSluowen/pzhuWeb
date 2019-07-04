@@ -5,8 +5,6 @@ import qiniu from '../../common/qiniu'
 import Cookies from '../../../http/cookies'
 import PersonAPI from '../../api/person'
 import './index.scss'
-
-
 class Setting extends Component {
 	constructor(props) {
 		super(props)
@@ -35,6 +33,24 @@ class Setting extends Component {
 	componentWillMount() {
 		this.getInitMessage();
 	}
+
+	// 联系方式验证
+	validatorPhone = (rule, value, callback) => {
+		let treg = /^[1-9]\d*$|^0$/;
+		if (!value || (treg.test(value) == true && value.length === 11)) {
+			callback();
+		} else {
+			callback('请输入11位的手机号');
+		}
+	}
+	//个人简介验证
+	validatorDescription = (rule, value, callback) => {
+		if (!value || value.length < 20) {
+			callback();
+		} else {
+			callback('个人简介控制在20字以内');
+		}
+	}
 	// 初始化获取
 	getInitInfo = () => {
 		PersonAPI.getInitInfo({}).then(res => {
@@ -47,7 +63,6 @@ class Setting extends Component {
 					initSchoolMajor: [res.data.School.id, res.data.Major.id],
 					initDomain: [res.data.Domain.id]
 				})
-
 			} else {
 				message.warning('请立即完善个人信息')
 			}
@@ -96,8 +111,8 @@ class Setting extends Component {
 					loading: true
 				})
 				// 判断图片资源是本地的,还是第三方资源链接
-				var strRegex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/|www\.)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
-				var re = new RegExp(strRegex);
+				let strRegex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/|www\.)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+				let re = new RegExp(strRegex);
 				if (!re.test(this.state.src)) {
 					let dataBlob = this.dataURLtoBlob(this.state.src);
 					qiniu(dataBlob)
@@ -152,9 +167,12 @@ class Setting extends Component {
 												{
 													required: true,
 													message: '请输入联系方式'
+												},
+												{
+													validator: this.validatorPhone
 												}
 											]
-										})(<Input placeholder="请输入联系方式" />)}
+										})(<Input placeholder="请输入11位手机号" />)}
 									</Form.Item>
 									<Form.Item label="学院专业">
 										{getFieldDecorator('schoolMajor', {
@@ -194,15 +212,18 @@ class Setting extends Component {
 										)}
 									</Form.Item>
 
-									<Form.Item label="个人介绍." style={{ minHeight: 120 }}>
+									<Form.Item label="个人简介" style={{ maxHeight: 120 }}>
 										{getFieldDecorator('description', {
 											rules: [
 												{
 													required: true,
-													message: '请简单描述下自己'
+													message: '请输入个人简介'
+												},
+												{
+													validator: this.validatorDescription
 												}
 											]
-										})(<textarea cols="50" rows="4" placeholder="请简单描述下自己" />)}
+										})(<textarea cols="50" rows="3" placeholder="个人简介（20字以内）" />)}
 									</Form.Item>
 									<Form.Item style={{ alignItems: 'center' }}>
 										<Button type="primary" onClick={this.handelSave}>
@@ -223,7 +244,6 @@ class Setting extends Component {
 									修改头像
 							</Button>
 							</div>
-
 							<Modal title="上传头像" visible={this.state.visible} onCancel={this.handleCancel} footer={null}>
 								<Cropper src={this.state.src} uploadImg={this.uploadAvatar} />
 							</Modal>

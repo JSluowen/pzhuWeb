@@ -74,7 +74,7 @@ class Index extends Component {
 
 									mode="inline"
 									theme="dark"
-									inlineCollapsed={this.state.collapsed}
+								
 								>
 									<Menu.Item key='0' onClick={this.selectMenu} >
 										<Icon type="user" />
