@@ -164,7 +164,7 @@ class ArticleEdit extends Component {
 		let { setFieldsValue } = this.props.form;
 		setFieldsValue({ "title": title })
 		this.setState({
-			editorState: BraftEditor.createEditorState(context),
+			editorState: BraftEditor.createEditorState(raw),
 			keywords: keywords,
 			selectType: menuid,
 			selectTechnology: technologyid,

@@ -75,24 +75,30 @@ module.exports = app => {
     router.post('/api/tourist/searchTouristResource', controller.tourist.searchTouristResource);// 游客搜索用户资源信息
     router.post('/api/tourist/getTouristCollect', controller.tourist.getTouristCollect);// 游客获取用户的个人收藏
     router.post('/api/tourist/searchTouristCollect', controller.tourist.searchTouristCollect);// 游客搜索用户的个人收藏列表
-    // 后台管理员界面接口
+    // 后台用户管理模块接口
     router.post('/api/back/adminLogin', controller.backLogin.adminLogin);// 后台管理员登录
     router.get('/api/back/getadminInfo', controller.backUser.getadminInfo);// 获取管理员的信息
     router.post('/api/back/getUserInfo', controller.backUser.getUserInfo);// 获取管理用户的信息
     router.post('/api/back/userReviewPass', controller.backUser.userReviewPass);// 用户审核通过
     router.post('/api/back/userRefuseJoin', controller.backUser.userRefuseJoin);// 拒绝用户通过
     router.post('/api/back/deleteUser', controller.backUser.deleteUser);// 拒绝用户通过
+    router.post('/api/back/getAddUserInfo', controller.backUser.getAddUserInfo);// 获取修改和添加用户的信息
+    router.post('/api/back/updateUserInfo', controller.backUser.updateUserInfo);// 更新用户的信息
+    router.post('/api/back/addUserInfo', controller.backUser.addUserInfo);// 添加用户信息
+    // 后台管里文章管理接口
     router.post('/api/back/getArticleInfo', controller.backArticle.getArticleInfo);// 获取后台文章管理信息
     router.post('/api/back/istop', controller.backArticle.istop);// 是否置顶
     router.post('/api/back/deleteArticle', controller.backArticle.deleteArticle);// 删除文章
     router.post('/api/back/onSerachArticle', controller.backArticle.onSerachArticle);// 搜索文章
-    router.post('/api/back/delArticleTag', controller.backArticle.delArticleTag);// 删除技术标签
+    router.post('/api/back/delArticleTag', controller.backArticle.delArticleTag);// 删除文章技术标签
     router.post('/api/back/addArticleTag', controller.backArticle.addArticleTag);// 添加文章技术标签
+    // 后台资源管理接口
     router.post('/api/back/getResourceInfo', controller.backResource.getResourceInfo);
     router.post('/api/back/delResource', controller.backResource.delResource);// 删除资源信息
     router.post('/api/back/addResourceTag', controller.backResource.addResourceTag);// 添加资源类别
     router.post('/api/back/delResourceTag', controller.backResource.delResourceTag);// 删除资源类别
     router.post('/api/back/onSerachResource', controller.backResource.onSerachResource);// 搜索资源信息
+    // 后台管理文章模块的接口
     router.post('/api/back/getAchievementInfo', controller.backAchievement.getAchievementInfo);// 获取成果信息
     router.post('/api/back/delAchievement', controller.backAchievement.delAchievement);// 删除成果
     router.post('/api/back/addAchievementTag', controller.backAchievement.addAchievementTag);// 添加成果类别

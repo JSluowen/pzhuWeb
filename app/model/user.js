@@ -10,7 +10,7 @@ module.exports = app => {
                 primaryKey: true,
             },
             password: STRING(32),
-            name: STRING(16),
+            name: STRING(32),
             email: STRING(32),
             status: {
                 type: INTEGER(4),

@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
-import { Progress, Tabs, Avatar, Button, Modal, Pagination, Spin } from 'antd';
+import {
+    Progress, Tabs, Avatar, Button, Modal, Pagination, Spin,
+} from 'antd';
+import AddUserInfo from './adduserinfo';
+import UpdateUserInfo from './updateuserinfo'; 
 import { UserAPI } from '../../api';
 import './index.scss';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
-class Index extends Component {
+
+class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: undefined,//用户id
             loading: true,//加载
             pageSize: 10,//每页的条数
             total: 0,//默认的数据总数
             defaultCurrent: 1,//默认当前页
             allUser: [],
             reviewUser: [],
-            gradeGroup: []
+            gradeGroup: [],
+            activeKey: '1',// 默认第一页
         };
     }
     componentDidMount() {
@@ -58,9 +65,7 @@ class Index extends Component {
         const index = e.target.getAttribute('index');
         UserAPI.userReviewPass({ id: userid }).then(res => {
             if (res.success) {
-                this.setState({
-                    reviewUser: this.state.reviewUser.splice(0, index)
-                })
+                this.getUserInfo();
             }
         })
     }
@@ -110,30 +115,52 @@ class Index extends Component {
 
         });
     }
+    // 标签页切换
+    activeKey = (key) => {
+        this.setState({
+            activeKey: key
+        })
+        this.getUserInfo();
+    }
+    onChangeActiveKey = (activeKey) => {
+        this.setState({
+            activeKey: activeKey,
+            id: undefined,
+        })
+    }
+    updateUserInfo = (e) => {
+        let id = e.currentTarget.getAttribute('userid');
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0;
+        this.setState({
+            activeKey: '4',
+            id: id,
+        })
+    }
     render() {
         return (
             <div className='back-user'>
-                <Spin size='large' spinning={this.state.loading} >
+                <Spin tip="数据加载中" size='large' spinning={this.state.loading} >
                     <div className='back-user-header'>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#f50' type="circle" percent={this.state.gradeGroup[3]||0} />
-                            <p>大四成员</p>
+                            <Progress strokeLinecap="square" strokeColor='#f50' type="circle" percent={this.state.gradeGroup[0] || 0} />
+                            <p>前端</p>
                         </div>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#2db7f5' type="circle" percent={this.state.gradeGroup[2]||0} />
-                            <p>大三成员</p>
+                            <Progress strokeLinecap="square" strokeColor='#2db7f5' type="circle" percent={this.state.gradeGroup[1] || 0} />
+                            <p>后台</p>
                         </div>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#87d068' type="circle" percent={this.state.gradeGroup[1]||0} />
-                            <p>大二成员</p>
+                            <Progress strokeLinecap="square" strokeColor='#87d068' type="circle" percent={this.state.gradeGroup[2] || 0} />
+                            <p>算法</p>
                         </div>
                         <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#108ee9' type="circle" percent={this.state.gradeGroup[0]||0} />
-                            <p>大一成员</p>
+                            <Progress strokeLinecap="square" strokeColor='#108ee9' type="circle" percent={this.state.gradeGroup[3] || 0} />
+                            <p>全栈</p>
                         </div>
                     </div>
                     <div className='back-user-body'>
-                        <Tabs defaultActiveKey="1">
+                        <Tabs activeKey={this.state.activeKey} onChange={this.onChangeActiveKey} >
                             <TabPane tab="全部" key="1">
                                 <div className='back-user-body-userinfo'>
                                     <div className='back-user-body-userinfo-header'>
@@ -186,6 +213,7 @@ class Index extends Component {
                                                                     {item.created_at}
                                                                 </div>
                                                                 <div className='back-user-body-userinfo-body-list-item'>
+                                                                    <Button index={index} userid={item.id} onClick={this.updateUserInfo} type='primary'>修改成员</Button>
                                                                     <Button index={index} userid={item.id} onClick={this.deleteUser} type='danger'>踢出成员</Button>
                                                                 </div>
                                                             </div>
@@ -211,7 +239,7 @@ class Index extends Component {
                                     </div>
                                 </div>
                             </TabPane>
-                            <TabPane tab="审核中" key="2">
+                            <TabPane tab="审核成员" key="2">
                                 <div className='back-user-body-review-header'>
                                     <div className='back-user-body-review-header-item'>
                                         学号
@@ -264,12 +292,18 @@ class Index extends Component {
 
                                 </div>
                             </TabPane>
+                            <TabPane tab='添加成员' key='3'>
+                                <AddUserInfo activeKey={this.activeKey} />
+                            </TabPane>
+                            <TabPane tab='修改成员'  disabled key='4' >
+                                <UpdateUserInfo id={this.state.id} activeKey={this.activeKey} />
+                            </TabPane>
                         </Tabs>
                     </div>
                 </Spin>
-            </div>
+            </div >
         );
     }
 }
 
-export default Index;
+export default User;

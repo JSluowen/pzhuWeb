@@ -45,7 +45,33 @@ const User = {
                 reject(err.data)
             })
         })
+    },
+    getAddUserInfo(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.getAddUserInfo}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    updateUserInfo(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.updateUserInfo}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
+    },
+    addUserInfo(params) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${base.addUserInfo}`, params).then(res => {
+                resolve(res.data)
+            }).catch(err => {
+                reject(err.data)
+            })
+        })
     }
-
 }
 export default User

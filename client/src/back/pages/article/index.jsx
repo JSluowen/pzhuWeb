@@ -107,7 +107,7 @@ class Article extends Component {
             if (res.success) {
                 this.setState({
                     articleList: res.data,
-                    total:1
+                    total: 1
                 })
             }
         })
@@ -125,7 +125,7 @@ class Article extends Component {
             if (res.success) {
                 this.state.tag.splice(index, 1);
                 this.setState({
-                    tag:this.state.tag
+                    tag: this.state.tag
                 })
             }
         })
@@ -180,7 +180,7 @@ class Article extends Component {
                                                 style={{ width: 200 }}
                                             />
                                         </div>
-                                       
+
                                         <div className='back-article-container-list-search-item'>
                                             <span>关键字</span>
                                             <Search
@@ -207,7 +207,9 @@ class Article extends Component {
                                         <div className='back-article-container-list-header-item'>
                                             发布时间
                                         </div>
-                                        <div className='back-article-container-list-header-item'>置顶</div>
+                                        <div className='back-article-container-list-header-item'>
+                                            轮播
+                                        </div>
                                         <div className='back-article-container-list-header-item'>
                                             操作
                                         </div>
