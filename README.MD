@@ -1,5 +1,5 @@
 ## 一、项目介绍
-
+宏哥来了！！！！
 `pzhu-web` 仓库是包含web和server端代码，主要技术栈使用[egg](https://eggjs.org/)框架做 web 后台服务，数据库使用 `mysql`，使用 `sequelize` 做封装；前台使用 [antd](https://ant.design/docs/react/getting-started-cn) 组件库，`react-router` 做路由，`webpack` 打包；发布使用 `docker` 容器提供环境。
 
 ## 二、项目结构
