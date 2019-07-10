@@ -8,9 +8,9 @@ class Achievement extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            limit: 10,// 获取的数据量
+            limit: 6,// 获取的数据量
             beg: 0,
-            end: 10,
+            end: 6,
             loading: true,
             isLoading: true,
             acType: [], // 成果类别
@@ -33,7 +33,7 @@ class Achievement extends Component {
         const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
         // 距离页面底部的高度
         const height = scrollHeight - scrollTop - clientHeight;
-        if (height <= 200) {
+        if (height <= 300) {
             this.handelLoading()
         }
     }

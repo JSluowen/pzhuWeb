@@ -13,7 +13,7 @@ class Achievement extends Component {
             visible: false,
             confirmLoading: false,
             loading: false,
-            pageSize: 10,//每页的条数
+            pageSize: 8,//每页的条数
             total: 0,//默认的数据总数
             defaultCurrent: 1,//默认当前页
             achievementList: [],//文章列表,
@@ -155,7 +155,7 @@ class Achievement extends Component {
         return (
             <div className='back-achievement'>
                 <div className='back-achievement-container'>
-                    <Spin size='large' spinning={this.state.loading} >
+                    <Spin  tip="数据加载中" size='large' spinning={this.state.loading} >
                         <Tabs defaultActiveKey="1"  >
                             <TabPane tab="成果列表" key="1">
                                 <div className='back-achievement-container-list'>
@@ -294,7 +294,6 @@ class Achievement extends Component {
                             </TabPane>
                         </Tabs>
                     </Spin>
-
                 </div>
             </div>
         );
