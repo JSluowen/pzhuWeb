@@ -67,6 +67,25 @@
                 font-size: 18px;
             }
 
+            &-loadingmore { 
+                width: 100%;
+                height: 80px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                &-divider{
+                    height: 100%;
+                    width: 40%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                   .ant-divider-inner-text{
+                    color: #ddd;
+                   }
+                }
+            }
+
             .carousel {
                 width: 100%;
                 height: auto;
@@ -92,7 +111,7 @@
 
                 .carousel-item {
                     position: absolute;
-                    height:350px;
+                    height: 350px;
                     overflow: hidden;
 
                     .carousel-container {
@@ -287,6 +306,7 @@
 
                 }
             }
+
         }
 
         .article-right {

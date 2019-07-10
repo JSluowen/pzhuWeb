@@ -7,9 +7,9 @@ class Resource extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            limit: 10,// 获取的数据量
+            limit: 6,// 获取的数据量
             beg: 0,//截取后台数据开始的位置
-            end: 10,//后台数据结束的位置
+            end: 6,//后台数据结束的位置
             resourceType: [],
             resource: [],
             index: 0,//默认查询选项第一个,
@@ -35,7 +35,7 @@ class Resource extends Component {
         const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
         // 距离页面底部的高度
         const height = scrollHeight - scrollTop - clientHeight;
-        if (height <= 200) {
+        if (height <= 300) {
             this.handelLoading()
         }
     }
@@ -232,12 +232,10 @@ class Resource extends Component {
 
                                                         </Card>
                                                     </Col>
-
                                                 })
                                             }
                                         </div>
                                 }
-
                             </Row>
                         </Skeleton>
                     </Card>
