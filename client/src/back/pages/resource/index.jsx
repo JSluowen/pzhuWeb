@@ -13,7 +13,7 @@ class Resource extends Component {
             visible: false,
             confirmLoading: false,
             loading: false,
-            pageSize: 10,//每页的条数
+            pageSize: 8,//每页的条数
             total: 0,//默认的数据总数
             defaultCurrent: 1,//默认当前页
             resourceList: [],//文章列表,
@@ -155,7 +155,7 @@ class Resource extends Component {
         return (
             <div className='back-resource'>
                 <div className='back-resource-container'>
-                    <Spin size='large' spinning={this.state.loading} >
+                    <Spin size='large' tip="数据加载中" spinning={this.state.loading} >
                         <Tabs defaultActiveKey="1"  >
                             <TabPane tab="资源列表" key="1">
                                 <div className='back-resource-container-list'>

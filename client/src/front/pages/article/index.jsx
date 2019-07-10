@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel, Skeleton } from 'antd';
 import { Link } from 'react-router';
 import './index.scss';
-import cn from 'classnames';
 import ArticleAPI from '../../api/article';
 export default class Article extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			active: false,
-			limit: 10,// 获取的数据量
+			limit: 5,// 获取的数据量
 			beg: 0,//截取后台数据开始的位置
-			end: 10,//后台数据结束的位置
+			end: 5,//后台数据结束的位置
 			index: 0,//根据标签刷选资源
 			article: [],//文章资源
 			technology: [],// 技术标签
@@ -19,8 +18,9 @@ export default class Article extends Component {
 			slideshow: [],// 轮播图
 			hotArticle: [],// 热门文章
 			loading: true,
-			isLoading: true,
-			collectTitle: ''
+			collectTitle: '',
+			loadingMore: false,// 加载更多
+			isLoading: true,//是否继续加载
 		}
 	}
 	componentDidMount() {
@@ -53,16 +53,18 @@ export default class Article extends Component {
 						article: arry,
 						loading: false,
 						isLoading: true,
+						loadingMore: false,
 					})
-				}, 500)
+				}, 200)
 			} else {
 				setTimeout(() => {
 					this.setState({
 						article: arry,
 						loading: false,
-						isLoading: false
+						isLoading: false,
+						loadingMore: false,
 					})
-				}, 500)
+				}, 200)
 			}
 		})
 	}
@@ -85,32 +87,14 @@ export default class Article extends Component {
 		})
 
 	}
-
-	//监听滚动条
-	handelScroll = () => {
-		// 滚动的高度
-		const scrollTop = (event.srcElement ? event.srcElement.documentElement.scrollTop : false) || window.pageYOffset || (event.srcElement ? event.srcElement.body.scrollTop : 0);
-		// 视窗高度
-		const clientHeight = (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
-		// 页面高度
-		const scrollHeight = (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
-		// 距离页面底部的高度
-		const height = scrollHeight - scrollTop - clientHeight;
-		if (height <= 200) {
-			this.handelLoading()
-		}
-	}
 	handelLoading = () => {
-		if (this.state.isLoading) {
-			this.setState({
-				isLoading: false,
-				beg: this.state.end,
-				end: this.state.end + this.state.limit
-			}, () => {
-				this.getArticle()
-			})
-
-		}
+		this.setState({
+			loadingMore: true,
+			beg: this.state.end,
+			end: this.state.end + this.state.limit
+		}, () => {
+			this.getArticle()
+		})
 	}
 	// 点击收藏或取消收藏文章
 	handelCollect = (e) => {
@@ -238,11 +222,23 @@ export default class Article extends Component {
 													</div>
 												})
 											}
-
 										</div>
 								}
 
+								<div className='article-left-loadingmore'>
+									{
+										this.state.isLoading ?
+											<Button shape="round" onClick={this.handelLoading} size='large' ghost type='primary' loading={this.state.loadingMore}>加载更多</Button>
+											:
+											<div className='article-left-loadingmore-divider'>
+												<Divider>我也是有底线的</Divider>
+											</div>
+
+									}
+
+								</div>
 							</Skeleton>
+
 						</div>
 					</Col>
 					<Col span={6}>

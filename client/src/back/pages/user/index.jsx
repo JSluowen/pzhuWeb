@@ -3,7 +3,7 @@ import {
     Progress, Tabs, Avatar, Button, Modal, Pagination, Spin,
 } from 'antd';
 import AddUserInfo from './adduserinfo';
-import UpdateUserInfo from './updateuserinfo'; 
+import UpdateUserInfo from './updateuserinfo';
 import { UserAPI } from '../../api';
 import './index.scss';
 const TabPane = Tabs.TabPane;
@@ -15,7 +15,7 @@ class User extends Component {
         this.state = {
             id: undefined,//用户id
             loading: true,//加载
-            pageSize: 10,//每页的条数
+            pageSize: 8,//每页的条数
             total: 0,//默认的数据总数
             defaultCurrent: 1,//默认当前页
             allUser: [],
@@ -140,25 +140,25 @@ class User extends Component {
     render() {
         return (
             <div className='back-user'>
-                <Spin tip="数据加载中" size='large' spinning={this.state.loading} >
-                    <div className='back-user-header'>
-                        <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#f50' type="circle" percent={this.state.gradeGroup[0] || 0} />
-                            <p>前端</p>
-                        </div>
-                        <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#2db7f5' type="circle" percent={this.state.gradeGroup[1] || 0} />
-                            <p>后台</p>
-                        </div>
-                        <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#87d068' type="circle" percent={this.state.gradeGroup[2] || 0} />
-                            <p>算法</p>
-                        </div>
-                        <div className='back-user-header-item'>
-                            <Progress strokeLinecap="square" strokeColor='#108ee9' type="circle" percent={this.state.gradeGroup[3] || 0} />
-                            <p>全栈</p>
-                        </div>
+                <div className='back-user-header'>
+                    <div className='back-user-header-item'>
+                        <Progress strokeLinecap="square" strokeColor='#f50' type="circle" percent={this.state.gradeGroup[0] || 0} />
+                        <p>前端</p>
                     </div>
+                    <div className='back-user-header-item'>
+                        <Progress strokeLinecap="square" strokeColor='#2db7f5' type="circle" percent={this.state.gradeGroup[1] || 0} />
+                        <p>后台</p>
+                    </div>
+                    <div className='back-user-header-item'>
+                        <Progress strokeLinecap="square" strokeColor='#87d068' type="circle" percent={this.state.gradeGroup[2] || 0} />
+                        <p>算法</p>
+                    </div>
+                    <div className='back-user-header-item'>
+                        <Progress strokeLinecap="square" strokeColor='#108ee9' type="circle" percent={this.state.gradeGroup[3] || 0} />
+                        <p>全栈</p>
+                    </div>
+                </div>
+                <Spin tip="数据加载中" size='large' spinning={this.state.loading} >
                     <div className='back-user-body'>
                         <Tabs activeKey={this.state.activeKey} onChange={this.onChangeActiveKey} >
                             <TabPane tab="全部" key="1">
@@ -295,7 +295,7 @@ class User extends Component {
                             <TabPane tab='添加成员' key='3'>
                                 <AddUserInfo activeKey={this.activeKey} />
                             </TabPane>
-                            <TabPane tab='修改成员'  disabled key='4' >
+                            <TabPane tab='修改成员' disabled key='4' >
                                 <UpdateUserInfo id={this.state.id} activeKey={this.activeKey} />
                             </TabPane>
                         </Tabs>
