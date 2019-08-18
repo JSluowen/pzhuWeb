@@ -193,17 +193,6 @@ class UpdateUserInfo extends Component {
 
                     <div className='back-user-body-add-left'>
                         <Form onSubmit={this.handleSubmit}>
-                            {/* <Form.Item label="学号">
-                                {getFieldDecorator('id', {
-                                    rules: [
-                                        {
-                                            required: true,
-                                            message: '请输入学号',
-                                            whitespace: true
-                                        }
-                                    ]
-                                })(<Input disabled={this.state.flag} placeholder="请输入学号" />)}
-                            </Form.Item> */}
                             <Form.Item
                                 label={
                                     <span>
@@ -227,16 +216,6 @@ class UpdateUserInfo extends Component {
                                     ]
                                 })(<Input placeholder="请输入姓名" />)}
                             </Form.Item>
-                            {/* <Form.Item label="密码">
-                                {getFieldDecorator('password', {
-                                    rules: [
-                                        {
-                                            required: true,
-                                            message: '请输入密码'
-                                        }
-                                    ]
-                                })(<Input type="password" placeholder="请输入密码" />)}
-                            </Form.Item> */}
                             <Form.Item label="邮箱">
                                 {getFieldDecorator('email', {
                                     rules: [{ required: true, message: '请输入邮箱' }]

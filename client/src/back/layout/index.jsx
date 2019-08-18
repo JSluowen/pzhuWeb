@@ -10,8 +10,8 @@ class Index extends Component {
 		super(props);
 		this.state = {
 			collapsed: false,// 是否收缩导航栏
-			avatar: 'http://img.pzhuweb.cn/1555671955194',//默认头像
-			name: '',
+			avatar: 'http://img.pzhuweb.cn/logo.ico',//默认头像
+			name: 'admin',
 			router: [
 				'/back/user',
 				'/back/article',
@@ -26,10 +26,13 @@ class Index extends Component {
 	getadminInfo = () => {
 		UserAPI.getadminInfo().then(res => {
 			if (res.success) {
-				this.setState({
-					avatar: res.data[0].avatar,
-					name: res.data[0].User.name
-				})
+				if(res.data.length!==0){
+					this.setState({
+						avatar: res.data[0].avatar,
+						name: res.data[0].User.name
+					})
+				}
+			
 			} else {
 				message.warning('请重新登录');
 				this.props.router.push('/login');
@@ -54,7 +57,7 @@ class Index extends Component {
 						<div className='back-container-layout-header-logo' />
 						<div className='back-container-layout-header-menu' onClick={this.logout} >
 							<Tooltip title='点击退出登录' placement="bottom"  >
-								<Avatar size="large" size={40} src={this.state.avatar} />
+								<Avatar size="large" icon="user" size={40} src={this.state.avatar} />
 								<span>{this.state.name}</span>
 							</Tooltip>
 						</div>
@@ -74,7 +77,7 @@ class Index extends Component {
 
 									mode="inline"
 									theme="dark"
-								
+
 								>
 									<Menu.Item key='0' onClick={this.selectMenu} >
 										<Icon type="user" />

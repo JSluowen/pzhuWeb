@@ -213,7 +213,7 @@ class User extends Component {
                                                                     {item.created_at}
                                                                 </div>
                                                                 <div className='back-user-body-userinfo-body-list-item'>
-                                                                    <Button index={index} userid={item.id} onClick={this.updateUserInfo} type='primary'>修改成员</Button>
+                                                                    <Button index={index} userid={item.id} onClick={this.updateUserInfo} ghost type='primary'>修改成员</Button>
                                                                     <Button index={index} userid={item.id} onClick={this.deleteUser} type='danger'>踢出成员</Button>
                                                                 </div>
                                                             </div>

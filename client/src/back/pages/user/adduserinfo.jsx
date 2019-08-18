@@ -342,6 +342,7 @@ class AddUserInfo extends Component {
 							    </Button>
                             </Form.Item>
                         </Form>
+                   
                     </div>
                     <div className='back-user-body-add-right'>
                         <div className="back-user-body-add-right-avatar">
