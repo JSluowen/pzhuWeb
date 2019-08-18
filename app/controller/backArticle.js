@@ -149,59 +149,6 @@ class Article extends Controller {
                         attributes: ['id', 'title', 'keywords', 'top', 'updated_at', 'created_at'],
                         order: [['created_at', 'DESC']],
                     };
-                } else if (index === '2') {
-                    params = {
-                        include: [
-                            {
-                                model: app.model.UserInfo,
-                                attributes: ['avatar'],
-                                include: [
-                                    {
-                                        model: app.model.User,
-                                        attributes: ['name'],
-
-                                    }
-                                ]
-                            }, {
-                                model: app.model.Technology,
-                                where: {
-                                    name: {
-                                        [Op.like]: '%' + value + '%',
-                                    }
-                                }
-                            }
-                        ],
-                        where: {
-                            status: 1
-                        },
-                        attributes: ['id', 'title', 'keywords', 'top', 'created_at', 'DESC'],
-                        order: [['created_at', 'DESC']],
-                    };
-                } else if (index === '3') {
-                    params = {
-                        include: [
-                            {
-                                model: app.model.UserInfo,
-                                attributes: ['avatar'],
-                                include: [
-                                    {
-                                        model: app.model.User,
-                                        attributes: ['name']
-                                    }
-                                ]
-                            }, {
-                                model: app.model.Technology,
-                            }
-                        ],
-                        where: {
-                            status: 1,
-                            keywords: {
-                                [Op.like]: '%' + value + '%',
-                            }
-                        },
-                        attributes: ['id', 'title', 'keywords', 'top', 'updated_at', 'created_at'],
-                        order: [['created_at', 'DESC']],
-                    };
                 }
                 const article = await ctx.service.mysql.findAll(params, table);
                 ctx.status = 200;

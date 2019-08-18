@@ -18,6 +18,7 @@ class Achievement extends Controller {
                 const table = 'Achievement';
                 const table1 = 'AchievementType';
                 let params;
+                let params1;
                 if (tagId === 0) {
                     params = {
                         include: [
@@ -41,6 +42,11 @@ class Achievement extends Controller {
                         order: [['updated_at', 'DESC']],
                         limit: pageSize,
                         offset: (page - 1) * pageSize,
+                    };
+                    params1 = {
+                        where: {
+                            status: 1
+                        }
                     };
                 } else {
                     params = {
@@ -67,8 +73,14 @@ class Achievement extends Controller {
                         limit: pageSize,
                         offset: (page - 1) * pageSize,
                     };
+                    params1 = {
+                        where: {
+                            status: 1,
+                            typeid: tagId
+                        }
+                    };
                 }
-                const params1 = {
+                const params2 = {
                     where: {
                         status: 1
                     }
@@ -76,7 +88,7 @@ class Achievement extends Controller {
                 const achievement = await ctx.service.mysql.findAll(params, table);
                 const allAchievement = await ctx.service.mysql.findAll(params1, table);
                 const total = allAchievement.length;
-                const tag = await ctx.service.mysql.findAll(params1, table1);
+                const tag = await ctx.service.mysql.findAll(params2, table1);
                 ctx.status = 200;
                 ctx.body = {
                     success: 1,
