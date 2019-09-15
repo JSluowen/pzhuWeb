@@ -213,8 +213,8 @@ class User extends Component {
                                                                     {item.created_at}
                                                                 </div>
                                                                 <div className='back-user-body-userinfo-body-list-item'>
-                                                                    <Button index={index} userid={item.id} onClick={this.updateUserInfo} ghost type='primary'>修改成员</Button>
-                                                                    <Button index={index} userid={item.id} onClick={this.deleteUser} type='danger'>踢出成员</Button>
+                                                                    <Button index={index} userid={item.id} onClick={this.updateUserInfo} ghost type='primary'>修改</Button>
+                                                                    <Button index={index} userid={item.id} onClick={this.deleteUser} type='danger'>删除</Button>
                                                                 </div>
                                                             </div>
 
@@ -277,8 +277,8 @@ class User extends Component {
                                                                 {item.created_at}
                                                             </div>
                                                             <div className='back-user-body-review-body-list-item'>
-                                                                <Button index={index} userid={item.id} onClick={this.userReviewPass} type='primary'>审核通过</Button>
-                                                                <Button index={index} userid={item.id} onClick={this.userRefuseJoin} type='danger'>拒绝加入</Button>
+                                                                <Button index={index} userid={item.id} onClick={this.userReviewPass} type='primary'>通过</Button>
+                                                                <Button index={index} userid={item.id} onClick={this.userRefuseJoin} type='danger'>拒绝</Button>
                                                             </div>
                                                         </div>
                                                     })
