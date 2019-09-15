@@ -189,7 +189,7 @@ class User extends Component {
                                     <div className='back-user-body-userinfo-body'>
                                         {
                                             this.state.allUser.length !== 0 ?
-                                                <div>
+                                                <div> 
                                                     {
                                                         this.state.allUser.map((item, index) => {
                                                             return <div key={item.id} className='back-user-body-userinfo-body-list'>

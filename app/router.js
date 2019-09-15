@@ -92,6 +92,7 @@ module.exports = app => {
     router.post('/api/back/onSerachArticle', controller.backArticle.onSerachArticle);// 搜索文章
     router.post('/api/back/delArticleTag', controller.backArticle.delArticleTag);// 删除文章技术标签
     router.post('/api/back/addArticleTag', controller.backArticle.addArticleTag);// 添加文章技术标签
+    router.post('/api/back/getArticleEdit', controller.backArticle.getArticleEdit);// 编辑文章信息
     // 后台资源管理接口
     router.post('/api/back/getResourceInfo', controller.backResource.getResourceInfo);
     router.post('/api/back/delResource', controller.backResource.delResource);// 删除资源信息
@@ -104,5 +105,9 @@ module.exports = app => {
     router.post('/api/back/addAchievementTag', controller.backAchievement.addAchievementTag);// 添加成果类别
     router.post('/api/back/delAchievementTag', controller.backAchievement.delAchievementTag);// 删除成果类别
     router.post('/api/back/onSerachAchievement', controller.backAchievement.onSerachAchievement);// 搜索成果
+    // 后台文章编辑器的接口
+    router.get('/api/back/getMediaItems', controller.backBraft.getMediaItems);// 获取编辑器媒体的初始内容
+    router.post('/api/back/removeMedia', controller.backBraft.removeMedia); // 删除编辑器媒体内容
+    router.post('/api/back/uploadMedia', controller.backBraft.uploadMedia); // 添加编辑器媒体内容
 };
 

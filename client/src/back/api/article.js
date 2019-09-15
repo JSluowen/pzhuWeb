@@ -54,8 +54,17 @@ const Article = {
                 reject(err.data)
             })
         })
+    },
+    getArticleEdit(params) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${base.getArticleEdit}`, params).then(res => {
+          resolve(res.data)
+        }).catch(err => {
+          reject(err.data)
+        })
+  
+      })
     }
-
 
 }
 

@@ -17,7 +17,7 @@ class ArticleEdit extends Controller {
                 const table1 = 'Technology';
                 const table2 = 'Article';
                 const table3 = 'UserInfo';
-                const menu = await ctx.service.mysql.findAll({}, table);
+                const menu = await ctx.service.mysql.findAll({ where: { status: 1 } }, table);
                 const technology = await ctx.service.mysql.findAll({ where: { status: 1 } }, table1);
                 const userinfo = await ctx.service.mysql.findAll({ where: { id: userid }, attributes: ['avatar'] }, table3);
                 const params = {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 import Layout from './layout/index.jsx';
-import { User, Login, Article, Reasource, Achievement, ReviseArticle } from './pages'
+import { User, Login, Article, Reasource, Achievement, articleEdit } from './pages'
 const requireAuth = (nextState, replace, cb) => {
 	if (sessionStorage.getItem('token')) {
 		cb();
@@ -23,7 +23,7 @@ export default (
 			<Route path='article' component={Article} />
 			<Route path='resource' component={Reasource} />
 			<Route path='achievement' component={Achievement} />
-			<Route path='reviseArticle/:id' component={ReviseArticle} />
+			<Route path='articleEdit/:id' component={articleEdit} />
 		</Route>
 	</Router>
 );

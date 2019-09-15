@@ -230,5 +230,47 @@ class Article extends Controller {
             ctx.status = 404;
         }
     }
+    async getArticleEdit() {
+        const { ctx } = this;
+        try {
+            const token = ctx.header.authorization;
+            const author = await ctx.service.jwt.verifyToken(token);
+            if (!author) {
+                ctx.status = 403;
+            } else {
+                const { id } = ctx.request.body;
+                const table = 'Menu';
+                const table1 = 'Technology';
+                const table2 = 'Article';
+                const menu = await ctx.service.mysql.findAll({ where: { status: 1 } }, table);
+                const technology = await ctx.service.mysql.findAll({ where: { status: 1 } }, table1);
+                const params = {
+                    where: {
+                        id
+                    }
+                };
+                const article = await ctx.service.mysql.findAll(params, table2);// 用户编辑文章
+                if (article.length !== 0) {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 1,
+                        data: {
+                            menu,
+                            technology,
+                            article,
+                        }
+                    };
+                } else {
+                    ctx.status = 200;
+                    ctx.body = {
+                        success: 0
+                    };
+                }
+            }
+        } catch (err) {
+            ctx.status = 404;
+            console.log(err);
+        }
+    }
 }
 module.exports = Article;

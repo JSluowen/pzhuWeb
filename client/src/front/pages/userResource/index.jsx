@@ -79,7 +79,6 @@ class UserResource extends Component {
             for (let item of res.data.resource) {
                 arry.push(item)
             }
-            console.log(res.data)
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
