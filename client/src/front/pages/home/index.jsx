@@ -23,9 +23,9 @@ const Fullpage = () => (
 										sessionStorage.getItem('token') ?
 											''
 											:
-											<Link to='/register'>
-												申请加入
-                                	</Link>
+											<a href='http://www.pzhuweb.cn/#/articleInfo/109'>
+												团队介绍
+                                	</a>
 									}
 								</div>
 								<div className='home-fullpageFive-container-footer'>
