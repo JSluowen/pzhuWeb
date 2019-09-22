@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --env development --config ./webpack.common.js",
-    "back": "CLIENT_ENV=back webpack-dev-server --open --env development --config ./webpack.common.js",
+    "start": " cross-env CLIENT_ENV=front webpack-dev-server --open --env development --config ./webpack.common.js",
+    "back": "cross-env CLIENT_ENV=back webpack-dev-server --open --env development --config ./webpack.common.js",
     "build": "webpack --env production --config ./webpack.common.js"
   },
   "keywords": [],
@@ -22,6 +22,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^1.0.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^2.0.0",
