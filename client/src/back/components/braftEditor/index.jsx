@@ -139,8 +139,8 @@ class Editor extends Component {
       let postfix = arry[arry.length - 1]
       QiuniuAPI.getToken().then(res => {
         let token = res.data;
-        // let key = Cookies.getCookies('admin') + Date.now() + `.${postfix}`;
-        let key = 'test' + Date.now() + `.${postfix}`;
+        let key = Cookies.getCookies('admin') + Date.now() + `.${postfix}`;
+        // let key = 'test' + Date.now() + `.${postfix}`;
         let config = {
           useCdnDomain: true, //是否使用 cdn 加速域名
           region: qiniu.region.z2 //选择上传域名 华南
