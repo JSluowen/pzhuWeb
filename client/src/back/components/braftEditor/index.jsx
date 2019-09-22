@@ -101,6 +101,9 @@ class Editor extends Component {
 		BraftAPI.removeMedia(params)
   }
   getBraftContext=(editorState)=>{
+    this.setState({
+      editorState: editorState,
+    })
     const data = {
       context: editorState.toHTML(),
 			raw: editorState.toRAW()

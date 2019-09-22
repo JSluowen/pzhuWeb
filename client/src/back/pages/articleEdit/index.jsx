@@ -27,6 +27,7 @@ class ArticleEdit extends Component {
       file: '',//图片上传源文件格式
       loading: false,// 文章修改中
       filePostfix: '',// 上传文件图片的后缀名
+      isUploadCover: false,// 是否上传了本地封面图
     };
   }
   componentDidMount() {
@@ -124,6 +125,7 @@ class ArticleEdit extends Component {
         postlink: this.result,
         file: file[0],
         filePostfix: postfix,
+        isUploadCover: true
       })
     }
   }
@@ -146,8 +148,8 @@ class ArticleEdit extends Component {
     return new Promise((resolve, reject) => {
       qiniuAPI.getToken().then(res => {
         let token = res.data;
-        // let key = this.state.userid + Date.now() + `.${postfix}`;
-        let key = "test123" + Date.now() + `.${postfix}`
+        let key = this.state.userid + Date.now() + `.${postfix}`;
+        // let key = "test123" + Date.now() + `.${postfix}`
         let config = {
           useCdnDomain: true, //是否使用 cdn 加速域名
           region: qiniu.region.z2 //选择上传域名 华南
@@ -183,25 +185,76 @@ class ArticleEdit extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, fileValue) => {
       if (!err) {
-        this.uploadCoverToQiniu().then(res => {
+        let str = this.state.context;
+        let text = str.replace(/<[^<>]+>/g, "");
+        const abstract = text.substring(0, 120);
+        this.setState({
+          loading:true
+        })
+        if (this.state.isUploadCover) {
+          this.uploadCoverToQiniu().then(res => {
+            const values = {
+              ...fileValue,
+              'created_at': fileValue['created_at'].format('YYYY-MM-DD'),
+              context: this.state.context,
+              raw: this.state.raw,
+              key: res.key,
+              id: this.state.id,
+              abstract,
+              userid: this.state.userid,
+              isUpdateCover: true // 标志是否修改了封面图
+            }
+            // 编辑后的文章资源可以发布后台
+            ArticleAPI.uploadBackArticle(values).then(res => {
+              if(res.success){
+                message.success('文章修改成功')
+                this.setState({
+                  loading: false
+                })
+                this.props.router.push('/back/article')
+              }
+            }).catch(err=>{
+              console.log(err)
+              this.setState({
+                loading: false
+              })
+            })
+          }).catch(err => {
+            console.log(err)
+            message.warning('封面图上传失败');
+            this.setState({
+              loading: false
+            })
+          })
+        } else {
           const values = {
             ...fileValue,
             'created_at': fileValue['created_at'].format('YYYY-MM-DD'),
             context: this.state.context,
             raw: this.state.raw,
-            key: res.key,
-            id:this.state.id,
-            userid:this.state.userid
+            key: this.state.postlink,
+            id: this.state.id,
+            abstract,
+            userid: this.state.userid,
+            isUpdateCover: false,
+            technologyid:fileValue.technologyid[0],
+            menuid:fileValue.menuid[0]
           }
-          // 编辑后的文章资源可以发布后台
-          console.log(values)
-        }).catch(err => {
-          console.log(err)
-          message.warning('修改失败');
-          this.setState({
-            loading: false
+          ArticleAPI.uploadBackArticle(values).then(res => {
+            if(res.success){
+              message.success('文章修改成功')
+              this.setState({
+                loading: false
+              })
+              this.props.router.push('/back/article')
+            }
+          }).catch(err=>{
+            console.log(err)
+            this.setState({
+              loading: false
+            })
           })
-        })
+        }
       }
     });
   }
@@ -296,7 +349,7 @@ class ArticleEdit extends Component {
                     })(<DatePicker />)}
                   </Form.Item>
                   <Form.Item >
-                    <Button style={{ marginLeft: 35 }} type="primary" htmlType="submit">
+                    <Button style={{ marginLeft: 80 }} type="primary" htmlType="submit">
                       确认修改
                   </Button>
                   </Form.Item>

@@ -29,9 +29,10 @@ const base = {
   addAchievementTag: '/back/addAchievementTag',//添加成果类别
   delAchievementTag: '/back/delAchievementTag',//添加成果信息
   onSerachAchievement: '/back/onSerachAchievement',//搜索成果
-  // 文章编辑七的接口
+  // 后台文章编辑的接口
   getMediaItems:'/back/getMediaItems', // 获取编辑器媒体库的初始内容
   removeMedia:'/back/removeMedia',// 删除编辑媒体库的文件
   uploadMedia:'/back/uploadMedia',// 上传媒体资源
+  uploadBackArticle:'/back/uploadBackArticle',// 上传后台文章编辑内容
 }
 export default base;
