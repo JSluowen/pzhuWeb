@@ -38,6 +38,7 @@ class Resource extends Component {
             tgaId: this.state.tagId
         }
         ResourceAPI.getResourceInfo(params).then(res => {
+
             if (res.success) {
                 setTimeout(() => {
                     this.setState({
@@ -170,7 +171,7 @@ class Resource extends Component {
                                             />
                                         </div>
                                         <div className='back-article-container-list-search-item'>
-                                            <span>类别类别：</span>
+                                            <span>资源类别：</span>
                                             <Select defaultValue="全部资源" style={{ width: 150 }} onChange={this.handleChange} loading={this.state.loading}>
                                                 <Option value="0">全部资源</Option>
                                                 {

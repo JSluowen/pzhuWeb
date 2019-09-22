@@ -89,6 +89,12 @@
             width: 50%;
             height: auto;
             margin: 50px 0;
+            a{
+                color: #1890ff !important;
+                &:hover{
+                    border-bottom: 1px solid #1890ff;
+                }
+            }
         }
 
         &-recommend {

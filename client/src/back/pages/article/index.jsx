@@ -153,6 +153,11 @@ class Article extends Component {
             }
         })
     }
+    // 修改文章
+    articleEdit = (e) => {
+        const id = e.currentTarget.getAttribute('articleId');
+        this.props.router.push(`/back/articleEdit/${id}`);
+    }
     render() {
         return (
             <div className='back-article'>
@@ -167,25 +172,6 @@ class Article extends Component {
                                             <Search
                                                 index='1'
                                                 placeholder="请输入文章标题"
-                                                onSearch={(value, e) => this.onSerachArticle(value, e)}
-                                                style={{ width: 200 }}
-                                            />
-                                        </div>
-                                        <div className='back-article-container-list-search-item'>
-                                            <span>技术标签：</span>
-                                            <Search
-                                                index='2'
-                                                placeholder="请输入标签名"
-                                                onSearch={(value, e) => this.onSerachArticle(value, e)}
-                                                style={{ width: 200 }}
-                                            />
-                                        </div>
-
-                                        <div className='back-article-container-list-search-item'>
-                                            <span>关键字</span>
-                                            <Search
-                                                index='3'
-                                                placeholder="请输入文章关键字"
                                                 onSearch={(value, e) => this.onSerachArticle(value, e)}
                                                 style={{ width: 200 }}
                                             />
@@ -241,6 +227,7 @@ class Article extends Component {
                                                                     <Switch articleid={item.id} onClick={this.istop} checkedChildren="是" unCheckedChildren="否" defaultChecked={item.top ? true : false} />
                                                                 </div>
                                                                 <div className='back-article-container-list-body-list-item'>
+                                                                    <Button onClick={this.articleEdit} idnex={index} articleid={item.id} ghost type="primary">修改</Button>
                                                                     <Button onClick={this.deleteArticle} idnex={index} articleid={item.id} type="danger">删除</Button>
                                                                 </div>
                                                             </div>
