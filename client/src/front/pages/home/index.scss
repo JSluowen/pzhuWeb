@@ -347,20 +347,13 @@
           display: inline-block;
           width: 150px;
           height: 45px;
-          // background-color: #1890ff;
           border-radius: 5px;
           margin-top: 40px;
           line-height: 45px;
           font-size: 18px;
-          border: 1px solid #1890ff;
-          color: #1890ff !important;
+          background-color: #1890ff;
+          color: #fff !important;
           transition: all 1s;
-
-          &:hover {
-            background-color: #1890ff;
-            color: #fff !important;
-            
-          }
         }
       }
 
