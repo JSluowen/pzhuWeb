@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": " cross-env CLIENT_ENV=front webpack-dev-server --open --env development --config ./webpack.common.js",
+    "start": "webpack-dev-server --open --env development --config ./webpack.common.js",
     "back": "cross-env CLIENT_ENV=back webpack-dev-server --open --env development --config ./webpack.common.js",
     "build": "webpack --env production --config ./webpack.common.js"
   },
@@ -39,6 +39,7 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.13",
     "@types/lodash": "^4.14.117",
     "@types/prop-types": "15.5.5",
     "@types/react": "16.4.14",
@@ -47,15 +48,23 @@
     "@types/react-router": "3.0.8",
     "antd": "^3.11.2",
     "axios": "^0.18.0",
+    "braft-editor": "^2.3.7",
+    "braft-extensions": "^0.0.18",
     "classnames": "^2.2.6",
+    "draft-js-prism": "^1.0.6",
     "echarts-for-react": "1.4.4",
     "lodash": "^4.17.10",
     "md5": "^2.2.1",
+    "prismjs": "^1.16.0",
     "prop-types": "^15.6.2",
+    "qiniu-js": "^2.5.4",
     "react": "^16.6.3",
+    "react-cropper": "^1.2.0",
     "react-dom": "^16.6.3",
+    "react-highlight-words": "^0.16.0",
     "react-redux": "^5.0.7",
     "react-router": "^3.2.1",
+    "react-router-dom": "^5.0.0",
     "react-router-redux": "4.0.8",
     "redux": "3.5.2",
     "redux-thunk": "2.1.0"

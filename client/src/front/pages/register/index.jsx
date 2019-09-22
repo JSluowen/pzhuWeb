@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
 import { Form, Button, Input, Steps, Tooltip, Icon, Row, Col, AutoComplete, message } from 'antd';
 import RegisterApi from '../../api/register';
 import './index.scss';
@@ -25,7 +24,6 @@ class Register extends Component {
 	// 提交表单
 	handleSubmit = (e) => {
 		e.preventDefault();
-
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 				values['password'] = md5(values.password);
@@ -33,10 +31,10 @@ class Register extends Component {
 				RegisterApi.registerUser(values)
 					.then((res) => {
 						if (res.success) {
-							message.success(`${res.message},3秒后自动跳转登录界面`);
+							message.success(`${res.message},1秒后自动跳转登录界面`);
 							setTimeout(() => {
-								hashHistory.push('/login');
-							}, 3000);
+								this.props.router.push('/login');
+							}, 1000);
 						}
 					})
 					.catch((error) => {
@@ -45,7 +43,37 @@ class Register extends Component {
 			}
 		});
 	};
+
+	//验证姓名
+	validatorName = (rule, value, callback) => {
+		if (!value || (value.length > 0 && value.length < 10)) {
+			callback();
+		} else {
+			callback('姓名控制在10个汉字以内');
+		}
+	}
+	// 验证账号
+	validatorId = (rule, value, callback) => {
+		let treg = /^[1-9]\d*$|^0$/;
+		if (!value || (treg.test(value) == true && value.length === 12)) {
+			callback();
+		} else {
+			callback('请输入12位学号');
+		}
+	}
 	// 密码验证
+	validatorPassword = (rule, value, callback) => {
+		const form = this.props.form;
+		let patt = /(?=.*\d)(?=.*[a-zA-Z])^.{6,20}$/;
+		if (patt.test(value) || !value) {
+			if (value && this.state.confirmDirty) {
+				form.validateFields(['confirm'], { force: true });
+			}
+			callback();
+		} else {
+			callback('密码需要在6-20位之间并包含字母和数字');
+		}
+	};
 	handleConfirmBlur = (e) => {
 		const value = e.target.value;
 		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -58,20 +86,21 @@ class Register extends Component {
 			callback();
 		}
 	};
-	validateToNextPassword = (rule, value, callback) => {
-		const form = this.props.form;
-		if (value && this.state.confirmDirty) {
-			form.validateFields([ 'confirm' ], { force: true });
+	//验证姓名
+	validatorName = (rule, value, callback) => {
+		if (value.length > 0 && value.length < 10) {
+			callback();
+		} else {
+			callback('请将姓名控制在10个汉字以内');
 		}
-		callback();
-	};
+	}
 	// 邮箱提示格式
-	handleWebsiteChange = (value) => {
+	handleEmailChange = (value) => {
 		let autoCompleteResult;
 		if (!value || value.indexOf('@') >= 0) {
 			autoCompleteResult = [];
 		} else {
-			autoCompleteResult = [ '@gmail.com', '@163.com', '@qq.com', '@aliyun.com' ].map(
+			autoCompleteResult = ['@gmail.com', '@163.com', '@qq.com', '@aliyun.com'].map(
 				(domain) => `${value}${domain}`
 			);
 		}
@@ -83,7 +112,7 @@ class Register extends Component {
 		const form = this.props.form;
 		let email = form.getFieldValue('email');
 		if (email === undefined) {
-			form.validateFields([ 'email' ], { force: true });
+			form.validateFields(['email'], { force: true });
 			return;
 		}
 		this.setState({
@@ -114,6 +143,7 @@ class Register extends Component {
 				}
 			})
 			.catch((err) => {
+				console.log(err);
 				clearInterval(clearnTime);
 				this.setState({
 					sendEmail: '重新发送',
@@ -133,8 +163,8 @@ class Register extends Component {
 		];
 		const { getFieldDecorator } = this.props.form;
 		// 邮箱自动补全
-		const websiteOptions = this.state.autoCompleteResult.map((website) => (
-			<AutoCompleteOption key={website}>{website}</AutoCompleteOption>
+		const EmailOptions = this.state.autoCompleteResult.map((Email) => (
+			<AutoCompleteOption key={Email}>{Email}</AutoCompleteOption>
 		));
 		return (
 			<div className="register-container">
@@ -154,19 +184,6 @@ class Register extends Component {
 						<div className="register-content">
 							<div className="register-form-content">
 								<Form layout="inline" onSubmit={this.handleSubmit}>
-									<Form.Item label="邮箱">
-										{getFieldDecorator('email', {
-											rules: [ { required: true, message: '请输入邮箱' } ]
-										})(
-											<AutoComplete
-												dataSource={websiteOptions}
-												onChange={this.handleWebsiteChange}
-												placeholder="请输入邮箱"
-											>
-												<Input />
-											</AutoComplete>
-										)}
-									</Form.Item>
 									<Form.Item label="学号">
 										{getFieldDecorator('schoolId', {
 											rules: [
@@ -176,10 +193,10 @@ class Register extends Component {
 													whitespace: true
 												},
 												{
-													validator: this.validateSchoolId
+													validator: this.validatorId
 												}
 											]
-										})(<Input placeholder="请输入学号" />)}
+										})(<Input placeholder="请输入12位学号" />)}
 									</Form.Item>
 									<Form.Item
 										label={
@@ -197,6 +214,9 @@ class Register extends Component {
 													required: true,
 													message: '请输入姓名',
 													whitespace: true
+												},
+												{
+													validator: this.validatorName
 												}
 											]
 										})(<Input placeholder="请输入姓名" />)}
@@ -208,11 +228,13 @@ class Register extends Component {
 												{
 													required: true,
 													message: '请输入密码'
+												},
+												{
+													validator: this.validatorPassword
 												}
 											]
 										})(<Input type="password" placeholder="请输入密码" />)}
 									</Form.Item>
-
 									<Form.Item label="确认密码">
 										{getFieldDecorator('confirm', {
 											rules: [
@@ -232,9 +254,22 @@ class Register extends Component {
 											/>
 										)}
 									</Form.Item>
-
+									<Form.Item label="邮箱">
+										{getFieldDecorator('email', {
+											rules: [{ required: true, message: '请输入邮箱' }]
+										})(
+											<AutoComplete
+												dataSource={EmailOptions}
+												onChange={this.handleEmailChange}
+												placeholder="请输入邮箱"
+											>
+												<Input />
+											</AutoComplete>
+										)}
+									</Form.Item>
 									<Form.Item label="邮箱验证" extra="我们必须确保邮箱是你本人的且是正确的">
 										<Row gutter={8}>
+
 											<Col span={16}>
 												{getFieldDecorator('code', {
 													rules: [
@@ -251,6 +286,7 @@ class Register extends Component {
 													{this.state.sendEmail}
 												</Button>
 											</Col>
+
 										</Row>
 									</Form.Item>
 
@@ -265,6 +301,7 @@ class Register extends Component {
 					</div>
 				</div>
 			</div>
+
 		);
 	}
 }
