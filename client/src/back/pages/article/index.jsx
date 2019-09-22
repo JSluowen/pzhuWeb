@@ -154,9 +154,9 @@ class Article extends Component {
         })
     }
     // 修改文章
-    reviseArticle = (e) => {
+    articleEdit = (e) => {
         const id = e.currentTarget.getAttribute('articleId');
-        this.props.router.push(`/back/reviseArticle/${id}`);
+        this.props.router.push(`/back/articleEdit/${id}`);
     }
     render() {
         return (
@@ -227,7 +227,7 @@ class Article extends Component {
                                                                     <Switch articleid={item.id} onClick={this.istop} checkedChildren="是" unCheckedChildren="否" defaultChecked={item.top ? true : false} />
                                                                 </div>
                                                                 <div className='back-article-container-list-body-list-item'>
-                                                                    <Button onClick={this.reviseArticle} idnex={index} articleid={item.id} ghost type="primary">修改</Button>
+                                                                    <Button onClick={this.articleEdit} idnex={index} articleid={item.id} ghost type="primary">修改</Button>
                                                                     <Button onClick={this.deleteArticle} idnex={index} articleid={item.id} type="danger">删除</Button>
                                                                 </div>
                                                             </div>

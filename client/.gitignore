@@ -3,3 +3,4 @@ yarn.lock
 run/
 package-lock.json
 node_modules/
+dist

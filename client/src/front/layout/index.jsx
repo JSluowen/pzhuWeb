@@ -190,7 +190,7 @@ export default class Layout extends Component {
 												</Link>
 											</li>
 											<li>
-												<a href="javascript:void(0)" onClick={this.handleExit}>
+												<a onClick={this.handleExit}>
 													<Icon type="logout" />
 													<span>退出登录</span>
 												</a>
