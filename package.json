@@ -1,6 +1,6 @@
 {
   "name": "pzhu-web",
-  "version": "1.0.0",
+  "version": "2.3.0",
   "description": "a website for pzhu-web",
   "main": "index.js",
   "scripts": {
