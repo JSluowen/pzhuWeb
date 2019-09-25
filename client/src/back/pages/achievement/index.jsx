@@ -229,7 +229,7 @@ class Achievement extends Component {
                                                                     {item.UserInfo.User.name}
                                                                 </div>
                                                                 <div className='back-achievement-container-list-body-list-item'>
-                                                                    {item.updated_at}
+                                                                    {item.created_at}
                                                                 </div>
                                                                 <div className='back-achievement-container-list-body-list-item'>
                                                                     {

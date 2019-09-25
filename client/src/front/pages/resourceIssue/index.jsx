@@ -60,9 +60,9 @@ class ResourceIssue extends Component {
                     resourceType: res.data.resourceType,
                     posterlink: res.data.resource[0].posterlink,
                     attachment: res.data.resource[0].attachment,
-                    description:res.data.resource[0].description,
+                    description: res.data.resource[0].description,
                     status: 2,
-                    date:res.data.resource[0].created_at||new Date()
+                    date: res.data.resource[0].created_at || new Date()
                 }, () => {
                     this.initResource(res.data.resource[0].typeid)
                 })
@@ -353,15 +353,17 @@ class ResourceIssue extends Component {
                                 }
                                 <div className='resourceIssue-container-body-left-tag' ref={this.selectLabel}>
                                     <p>分类</p>
-                                    {
-                                        this.state.resourceType.map(item => {
-                                            return <Button key={item.id} onClick={this.handelSelect} index={item.id} >{item.name}</Button>
-                                        })
-                                    }
+                                    <div className='resourceIssue-container-body-left-tag-btn'>
+                                        {
+                                            this.state.resourceType.map(item => {
+                                                return <Button key={item.id} onClick={this.handelSelect} index={item.id} >{item.name}</Button>
+                                            })
+                                        }
+                                    </div>
                                 </div>
                                 <div className='resourceIssue-container-body-left-date'>
                                     <p>日期</p>
-                                    <DatePicker value={moment(this.state.date,dateFormat)} onChange={this.onChange} />
+                                    <DatePicker value={moment(this.state.date, dateFormat)} onChange={this.onChange} />
                                 </div>
                                 <Button style={{ width: '100%', margin: '20px 0' }} onClick={this.handelIssue} type='primary'>发布</Button>
                             </div>

@@ -60,7 +60,7 @@ class AchievementIssue extends Component {
                     posterlink: res.data.achievement[0].posterlink,
                     attachment: res.data.achievement[0].attachment,
                     status: 2,
-                    date:res.data.achievement[0].created_at||new Date()
+                    date: res.data.achievement[0].created_at || new Date()
                 }, () => {
                     this.initResource(res.data.achievement[0].typeid)
                 })
@@ -353,15 +353,17 @@ class AchievementIssue extends Component {
                                 }
                                 <div className='achievementIssue-container-body-left-tag' ref={this.selectLabel}>
                                     <p>分类</p>
-                                    {
-                                        this.state.achievementType.map(item => {
-                                            return <Button key={item.id} onClick={this.handelSelect} index={item.id} >{item.name}</Button>
-                                        })
-                                    }
+                                    <div className='achievementIssue-container-body-left-tag-btn'>
+                                        {
+                                            this.state.achievementType.map(item => {
+                                                return <Button key={item.id} onClick={this.handelSelect} index={item.id} >{item.name}</Button>
+                                            })
+                                        }
+                                    </div>
                                 </div>
                                 <div className='achievementIssue-container-body-left-date'>
                                     <p>日期</p>
-                                    <DatePicker value={moment(this.state.date,dateFormat)} onChange={this.onChangeDate} />
+                                    <DatePicker value={moment(this.state.date, dateFormat)} onChange={this.onChangeDate} />
                                 </div>
                                 <Button style={{ width: '100%', margin: '20px 0' }} onClick={this.handelIssue} type='primary'>发布</Button>
                             </div>

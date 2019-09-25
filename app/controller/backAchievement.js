@@ -38,8 +38,8 @@ class Achievement extends Controller {
             where: {
               status: 1
             },
-            attributes: ['id', 'title', 'achievementlink', 'attachment', 'updated_at'],
-            order: [['updated_at', 'DESC']],
+            attributes: ['id', 'title', 'achievementlink', 'attachment', 'created_at'],
+            order: [['created_at', 'DESC']],
             limit: pageSize,
             offset: (page - 1) * pageSize,
           };
@@ -68,8 +68,8 @@ class Achievement extends Controller {
               status: 1,
               typeid: tagId
             },
-            attributes: ['id', 'title', 'achievementlink', 'attachment', 'updated_at'],
-            order: [['updated_at', 'DESC']],
+            attributes: ['id', 'title', 'achievementlink', 'attachment', 'created_at'],
+            order: [['created_at', 'DESC']],
             limit: pageSize,
             offset: (page - 1) * pageSize,
           };
@@ -226,8 +226,8 @@ class Achievement extends Controller {
               [Op.like]: '%' + value + '%',
             }
           },
-          attributes: ['id', 'title', 'achievementlink', 'attachment', 'updated_at'],
-          order: [['updated_at', 'DESC']],
+          attributes: ['id', 'title', 'achievementlink', 'attachment', 'created_at'],
+          order: [['created_at', 'DESC']],
         };
         const achievement = await ctx.service.mysql.findAll(params, table);
         ctx.status = 200;
