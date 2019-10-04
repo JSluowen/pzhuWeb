@@ -68,7 +68,7 @@ class Member extends Component {
             }
         })
 
-        val = val.sort((a, b) => { return b - a })
+        val = val.sort((a, b) => { return a - b})
         let temp = []
         for (let i = 0; i < val.length; i++) {
             if (temp.indexOf(val[i]) == -1 && val[i] !== undefined) {
