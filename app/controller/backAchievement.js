@@ -38,7 +38,7 @@ class Achievement extends Controller {
             where: {
               status: 1
             },
-            attributes: ['id', 'title', 'achievementlink', 'attachment', 'created_at'],
+            attributes: ['id', 'title', 'achievementlink', 'show', 'attachment', 'created_at'],
             order: [['created_at', 'DESC']],
             limit: pageSize,
             offset: (page - 1) * pageSize,
@@ -68,7 +68,7 @@ class Achievement extends Controller {
               status: 1,
               typeid: tagId
             },
-            attributes: ['id', 'title', 'achievementlink', 'attachment', 'created_at'],
+            attributes: ['id', 'title', 'achievementlink', 'show', 'attachment', 'created_at'],
             order: [['created_at', 'DESC']],
             limit: pageSize,
             offset: (page - 1) * pageSize,
@@ -234,6 +234,32 @@ class Achievement extends Controller {
         ctx.body = {
           success: 1,
           data: achievement
+        };
+      }
+    } catch (err) {
+      console.log(err);
+      ctx.status = 404;
+    }
+  }
+  async isShow() {
+    const { ctx, app } = this;
+    try {
+      const token = ctx.header.authorization;
+      const author = await ctx.service.jwt.verifyToken(token);
+      if (!author) {
+        ctx.status = 403;
+      } else {
+        const { id, checked } = ctx.request.body;
+        const table = 'Achievement';
+        const ach = await ctx.service.mysql.findById(id, table);
+        if (checked === 'true') {
+          await ach.update({ show: 1 });
+        } else {
+          await ach.update({ show: 0 });
+        }
+        ctx.status = 200;
+        ctx.body = {
+          success: 1
         };
       }
     } catch (err) {
