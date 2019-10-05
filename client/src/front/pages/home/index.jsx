@@ -64,9 +64,6 @@ class Home extends Component {
                   </div>
                 </div>
                 <div className="section">
-                  <PageFour {...fourePageInfo} />
-                </div>
-                <div className="section">
                   <div className="home-fullpageTwo">
                     <div className="home-fullpageTwo-right">
                       <div className='home-fullpageTwo-right-container'>
@@ -97,7 +94,7 @@ class Home extends Component {
                     <div className='home-fullpageThree-body'>
                       <div className='home-fullpageThree-body-front'>
                         <div className='home-fullpageThree-body-front-img'>
-                          <img src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1570202090626&di=e50311d783cb69b4b92c0472ed5054a3&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F5ab5c9ea15ce36d3bfbc51f332f33a87e850b1bd.jpg' alt="" />
+                          <img src='http://img.pzhuweb.cn/pagefoutr1.jpeg' alt="" />
                         </div>
                         <div className='home-fullpageThree-body-front-context'>
                           <div className='home-fullpageThree-body-front-context-title'>
@@ -112,7 +109,7 @@ class Home extends Component {
                       </div>
                       <div className='home-fullpageThree-body-back'>
                         <div className='home-fullpageThree-body-back-img'>
-                          <img src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1570202218916&di=870db32a67e60804f3c15ac3c55706fc&imgtype=0&src=http%3A%2F%2Fwww.itcast.cn%2Ffiles%2Fimage%2F201609%2F20160921144503384.jpg' alt="" />
+                          <img src='http://img.pzhuweb.cn/fourpage2.jpeg' alt="" />
                         </div>
                         <div className='home-fullpageThree-body-back-context'>
                           <div className='home-fullpageThree-body-back-context-title'>
@@ -127,6 +124,9 @@ class Home extends Component {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="section">
+                  <PageFour {...fourePageInfo} />
                 </div>
               </div>
             );
