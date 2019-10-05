@@ -1,7 +1,9 @@
 'use strict';
 module.exports = app => {
   const { router, controller } = app;
-  // const verify = app.middleware.verify({   token: 'webJWT' }); //登录权限验证中间件
+  // 首页接口
+  router.get('/api/home/getHomeInfo', controller.home.getHomeInfo);// 获取首页信息
+  // 登陆接口
   router.post('/api/code', controller.register.uploadCode); // 上传邮箱验证码
   router.post('/api/registeruser', controller.register.registerUser); // 注册用户信息
   router.post('/api/login', controller.login.login); // 用户登录
@@ -65,7 +67,7 @@ module.exports = app => {
   router.post('/api/articleEdit/uploadArticleResource', controller.articleEdit.uploadArticleResource);// 上传文章的资源
   router.get('/api/articleEdit/getMediaItems', controller.articleEdit.getMediaItems); // 获取初始化媒体库的信息
   router.post('/api/articleEdit/removeMedia', controller.articleEdit.removeMedia); // 删除媒体库的信息
-  // 游客访问用户个人界面
+  // 游客访问用户个人界面接口
   router.post('/api/tourist/getTouristInfo', controller.tourist.getTouristInfo);// 游客访问用户个人信息
   router.post('/api/tourist/getTouristArticle', controller.tourist.getTouristArticle);// 游客访问获取用户发布的文章信息
   router.post('/api/tourist/searchTouristArticle', controller.tourist.searchTouristArticle);// 游客搜索用户的文章
@@ -75,7 +77,7 @@ module.exports = app => {
   router.post('/api/tourist/searchTouristResource', controller.tourist.searchTouristResource);// 游客搜索用户资源信息
   router.post('/api/tourist/getTouristCollect', controller.tourist.getTouristCollect);// 游客获取用户的个人收藏
   router.post('/api/tourist/searchTouristCollect', controller.tourist.searchTouristCollect);// 游客搜索用户的个人收藏列表
-  // 后台用户管理模块接口
+  // 后台用户管理接口
   router.post('/api/back/adminLogin', controller.backLogin.adminLogin);// 后台管理员登录
   router.get('/api/back/getadminInfo', controller.backUser.getadminInfo);// 获取管理员的信息
   router.post('/api/back/getUserInfo', controller.backUser.getUserInfo);// 获取管理用户的信息
@@ -85,7 +87,7 @@ module.exports = app => {
   router.post('/api/back/getAddUserInfo', controller.backUser.getAddUserInfo);// 获取修改和添加用户的信息
   router.post('/api/back/updateUserInfo', controller.backUser.updateUserInfo);// 更新用户的信息
   router.post('/api/back/addUserInfo', controller.backUser.addUserInfo);// 添加用户信息
-  // 后台管里文章管理接口
+  // 后台文章管理接口
   router.post('/api/back/getArticleInfo', controller.backArticle.getArticleInfo);// 获取后台文章管理信息
   router.post('/api/back/istop', controller.backArticle.istop);// 是否置顶
   router.post('/api/back/deleteArticle', controller.backArticle.deleteArticle);// 删除文章
@@ -99,13 +101,14 @@ module.exports = app => {
   router.post('/api/back/addResourceTag', controller.backResource.addResourceTag);// 添加资源类别
   router.post('/api/back/delResourceTag', controller.backResource.delResourceTag);// 删除资源类别
   router.post('/api/back/onSerachResource', controller.backResource.onSerachResource);// 搜索资源信息
-  // 后台管理文章模块的接口
+  // 后台成果管理接口
   router.post('/api/back/getAchievementInfo', controller.backAchievement.getAchievementInfo);// 获取成果信息
   router.post('/api/back/delAchievement', controller.backAchievement.delAchievement);// 删除成果
   router.post('/api/back/addAchievementTag', controller.backAchievement.addAchievementTag);// 添加成果类别
   router.post('/api/back/delAchievementTag', controller.backAchievement.delAchievementTag);// 删除成果类别
   router.post('/api/back/onSerachAchievement', controller.backAchievement.onSerachAchievement);// 搜索成果
-  // 后台文章编辑器的接口
+  router.post('/api/back/isShow', controller.backAchievement.isShow);// 是否展示成果
+  // 后台文章编辑接口
   router.get('/api/back/getMediaItems', controller.backBraft.getMediaItems);// 获取编辑器媒体的初始内容
   router.post('/api/back/removeMedia', controller.backBraft.removeMedia); // 删除编辑器媒体内容
   router.post('/api/back/uploadMedia', controller.backBraft.uploadMedia); // 添加编辑器媒体内容

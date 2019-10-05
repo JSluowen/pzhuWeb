@@ -45,6 +45,15 @@ const Achievement = {
                 rejected(err.data)
             })
         })
+    },
+    isShow(params){
+      return new Promise((resolve, rejected) => {
+        axios.post(`${base.isShow}`, params).then(res => {
+            resolve(res.data)
+        }).catch(err => {
+            rejected(err.data)
+        })
+    })
     }
 }
 

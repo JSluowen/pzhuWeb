@@ -78,6 +78,8 @@ const base = {
     searchTouristResource: '/tourist/searchTouristResource',// 游客搜索用户的资源信息
     getTouristCollect: '/tourist/getTouristCollect',//游客获取用户的个人收藏信息
     searchTouristCollect: '/tourist/searchTouristCollect',//游客获取用户个人收藏信息
+    // 首页信息获取接口
+    getHomeInfo:'/home/getHomeInfo',//获取首页的信息
 
 }
 export default base;

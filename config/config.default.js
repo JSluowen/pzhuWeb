@@ -39,7 +39,7 @@ module.exports = appInfo => {
     port: '3306',
     host: '127.0.0.1',
     username: 'root',
-    password: '123456',
+    password: '123456lw',
   };
   // token鉴权秘钥
   config.token = 'webJWT';
