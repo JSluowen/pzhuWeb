@@ -113,5 +113,7 @@ module.exports = app => {
   router.post('/api/back/removeMedia', controller.backBraft.removeMedia); // 删除编辑器媒体内容
   router.post('/api/back/uploadMedia', controller.backBraft.uploadMedia); // 添加编辑器媒体内容
   router.post('/api/back/uploadBackArticle', controller.backBraft.uploadBackArticle);// 上传编辑后的文章内容
+  // 2048游戏接口
+  router.get('/api/2048/initTop', controller.game_2048.initTop);// 初始化游戏接口
 };
 
