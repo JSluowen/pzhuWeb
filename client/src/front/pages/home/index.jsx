@@ -3,8 +3,6 @@ import ReactFullpage from '@fullpage/react-fullpage';
 import PageFour from './page-four'
 import './index.scss';
 import HomeAPI from '../../api/home'
-import { title } from '_change-case@3.1.0@change-case';
-
 class Home extends Component {
   constructor(props) {
     super(props)
