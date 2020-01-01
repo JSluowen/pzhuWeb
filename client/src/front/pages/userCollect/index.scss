@@ -68,19 +68,19 @@
                     background-color: rgb(250, 250, 250);
                 }
 
-                span {
-                    display: inline-block;
-                    height: 50px;
-                    line-height: 50px;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
+                // span {
+                //     display: inline-block;
+                //     height: 50px;
+                //     line-height: 50px;
+                //     overflow: hidden;
+                //     white-space: nowrap;
+                //     text-overflow: ellipsis;
 
-                    &:hover {
-                        cursor: pointer;
-                        color: #1890ff;
-                    }
-                }
+                //     &:hover {
+                //         cursor: pointer;
+                //         color: #1890ff;
+                //     }
+                // }
 
                 &-work {
                     height: 100%;
