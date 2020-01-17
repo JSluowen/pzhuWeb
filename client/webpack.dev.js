@@ -24,22 +24,22 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
     ],
-    // devServer: {
-    //     contentBase: path.join(__dirname, 'dist'),
-    //     port: 80,
-    //     hot: true,
-    //     compress: true,
-    //     proxy: {
-    //       "/api": {
-    //         target: "https://47.107.106.113:7001",
-    //         changeOrigin: true,
-    //         // logLevel: "debug",
-    //         // headers: {
-    //         //   Cookie: ""
-    //         // }
-    //       }
-    //     },
-    //     historyApiFallback: true  
-    // },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        port: 80,
+        hot: true,
+        compress: true,
+        proxy: {
+        //   "/api": {
+        //     target: "https://47.107.106.113:7001",
+        //     changeOrigin: true,
+        //     logLevel: "debug",
+        //     headers: {
+        //       Cookie: ""
+        //     }
+        //   }
+        },
+        historyApiFallback: true  
+    },
 
 };
