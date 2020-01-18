@@ -109,9 +109,9 @@ class AddUserInfo extends Component {
   dataURLtoBlob = dataurl => {
     const arr = dataurl.split(','),
       mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+      bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
     // eslint-disable-next-line no-const-assign
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
