@@ -18,26 +18,26 @@ class Achievement extends Controller {
             include: [
               {
                 model: app.model.User,
-                attributes: ['name']
-              }
-            ]
-          }
+                attributes: ['name'],
+              },
+            ],
+          },
         ],
         order: [['created_at', 'DESC']],
         where: {
-          status: 1
-        }
+          status: 1,
+        },
       };
       const params1 = {
         where: {
-          status: 1
-        }
+          status: 1,
+        },
       };
       let acType = await ctx.service.mysql.findAll(params1, table);
       let ac = await ctx.service.mysql.findAll(params, table1);
       acType = await ctx.service.fun.filterTypeNum(acType, ac);
       if (index !== 0) {
-        ac = await ctx.service.fun.filterType(ac, index);// 过滤资源所对应的类别
+        ac = await ctx.service.fun.filterType(ac, index); // 过滤资源所对应的类别
       }
       if (parseInt(ac.length) >= end) {
         ac = ac.slice(beg, end);
@@ -45,8 +45,8 @@ class Achievement extends Controller {
           success: 1,
           data: {
             acType,
-            ac
-          }
+            ac,
+          },
         };
       } else {
         ac = ac.slice(beg);
@@ -54,8 +54,8 @@ class Achievement extends Controller {
           success: 0,
           data: {
             acType,
-            ac
-          }
+            ac,
+          },
         };
       }
     } catch (err) {
@@ -77,33 +77,31 @@ class Achievement extends Controller {
             include: [
               {
                 model: app.model.User,
-                attributes: ['name']
-              }
-            ]
-          }
+                attributes: ['name'],
+              },
+            ],
+          },
         ],
         order: [['created_at', 'DESC']],
         where: {
           title: {
             [Op.like]: '%' + value + '%',
           },
-          status: 1
-        }
+          status: 1,
+        },
       };
       const ac = await ctx.service.mysql.findAll(params, table);
       ctx.status = 200;
       if (ac.length !== 0) {
         ctx.body = {
           success: 1,
-          data: ac
+          data: ac,
         };
       } else {
         ctx.body = {
-          success: 0
+          success: 0,
         };
       }
-
-
     } catch (err) {
       console.log(err);
       ctx.status = 404;
