@@ -2,21 +2,32 @@ const path = require('path');
 const chalk = require('chalk');
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpackSimpleProgressPlugin from 'webpack-simple-progress-plugin'
+import webpackSimpleProgressPlugin from 'webpack-simple-progress-plugin';
 
 export type configType = [string, any];
-const i0:IO={
-  name:"1234"
-}
+
 function caseEnv(config: configType) {
   return process.env.NODE_ENV === 'development' ? config[0] : config[1];
 }
 
+function entryFunc(env: Boolean, isBack: Boolean) {
+  if (isDev) {
+    return {
+      main: path.resolve(__dirname, isBack ? '../src/back/main.js' : '../src/front/main.js'),
+    };
+  } else {
+    return {
+      front: path.resolve(__dirname, '../src/front/main.js'),
+      back: path.resolve(__dirname, '../src/back/main.js'),
+    };
+  }
+}
+
+const isBack = process.env.CLIENT_ENV === 'back';
+const isDev = process.env.NODE_ENV ==="development";
+
 const commonConfig: webpack.Configuration = {
-  entry: {
-    front: path.resolve(__dirname, '../src/front/main.js'),
-    back: path.resolve(__dirname, '../src/back/main.js'),
-  },
+  entry: entryFunc(isDev,isBack),
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },

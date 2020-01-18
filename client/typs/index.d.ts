@@ -1,5 +1,1 @@
-declare module 'webpack-simple-progress-plugin';
-
-interface IO {
-  name: string;
-}
+declare module 'webpack-simple-progress-plugin' ;

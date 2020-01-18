@@ -21,7 +21,6 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, isBack ? '../html/back.html' : '../html/front.html'),
-      chunks: isBack ? ['back'] : ['front'],
       minify: {
         collapseWhitespace: true, //是否去除空空格
       },
@@ -32,7 +31,7 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    port: isBack?8001:8080,
+    port: isBack ? 8001 : 8080,
     hot: true,
     compress: true,
     proxy: {
