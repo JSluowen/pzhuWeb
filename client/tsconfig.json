@@ -5,11 +5,20 @@
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
-    "allowJs": true,
+    "allowJs": false,
     "baseUrl": ".",
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types","./typs"]
+    "typeRoots": ["./node_modules/@types", "./typs"]
   },
-  "include": ["src/**/*","build/*","typs/*"],
-  "exclude": ["node_modules", "**/*.spec.ts", "dist"]
+  "include": ["src/**/*", "build/*", "typs/*"],
+  "exclude": ["node_modules", "**/*.spec.ts", "dist"],
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-member-accessibility": ["error"]
+      }
+    }
+  ]
 }

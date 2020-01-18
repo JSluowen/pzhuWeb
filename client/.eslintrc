@@ -1,0 +1,33 @@
+{
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    // disable the rule for all files
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "no-unused-vars": "off",
+    "array-callback-return": "off"
+  },
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-member-accessibility": ["error"],
+        "no-unused-vars": ["error"],
+        "array-callback-return": ["error"]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {
+       
+      }
+    }
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  }
+}
