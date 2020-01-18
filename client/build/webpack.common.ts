@@ -1,5 +1,5 @@
-const path = require('path');
-const chalk = require('chalk');
+import path from 'path';
+import chalk from 'chalk';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpackSimpleProgressPlugin from 'webpack-simple-progress-plugin';
@@ -41,6 +41,7 @@ const commonConfig: webpack.Configuration = {
           {
             loader: 'postcss-loader',
             options: {
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
               plugins: () => [require('autoprefixer')],
             },
           },
@@ -73,7 +74,7 @@ const commonConfig: webpack.Configuration = {
       },
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/, //排除掉nod_modules,优化打包速度
+        exclude: /node_modules/, // 排除掉nod_modules,优化打包速度
         use: ['babel-loader'],
       },
       {
@@ -84,6 +85,7 @@ const commonConfig: webpack.Configuration = {
     ],
   },
   plugins: [
+    // eslint-disable-next-line new-cap
     new webpackSimpleProgressPlugin({
       messageTemplate: [':bar', chalk.green(':percent'), ':msg'].join(' '),
       progressOptions: {

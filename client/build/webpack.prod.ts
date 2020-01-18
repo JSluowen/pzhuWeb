@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 import common from './webpack.common';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import webpack from 'webpack';
@@ -17,7 +17,7 @@ const prodConfig: webpack.Configuration = webpackMerge(common, {
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE: "'production'",
+        NODE_ENV: "'production'",
       },
     }),
     new MiniCssExtractPlugin({
@@ -39,7 +39,7 @@ const prodConfig: webpack.Configuration = webpackMerge(common, {
       },
     }),
     new HtmlWebpackPlugin({
-      hash: true, //向html 引入的src链接后增加hash值，取消缓存
+      hash: true, // 向html 引入的src链接后增加hash值，取消缓存
       filename: 'back.html',
       template: path.resolve(__dirname, '../html/back.html'),
       chunks: ['back'],

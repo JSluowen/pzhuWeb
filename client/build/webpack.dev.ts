@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -22,7 +22,7 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, isBack ? '../html/back.html' : '../html/front.html'),
       minify: {
-        collapseWhitespace: true, //是否去除空空格
+        collapseWhitespace: true, // 是否去除空空格
       },
     }),
     new CleanWebpackPlugin(),
