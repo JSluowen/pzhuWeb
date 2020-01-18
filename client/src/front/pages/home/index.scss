@@ -28,13 +28,12 @@
         height: 100vh;
         align-content: center;
         background-position: center;
-        background-size: cover;
 
         @keyframes scale {
           0% {
             -webkit-transform: scale(1);
             transform: scale(1);
-            opacity: .5;
+            opacity: 0.5;
           }
 
           50% {
@@ -46,27 +45,27 @@
           100% {
             -webkit-transform: scale(1);
             transform: scale(1);
-            opacity: .5;
+            opacity: 0.5;
           }
         }
 
         animation: scale 5s linear 0s infinite;
         animation-name: scale;
-        -webkit-animation-name:scale;
+        -webkit-animation-name: scale;
         animation-duration: 5s;
-        -webkit-animation-duration:5s;
-        animation-timing-function:linear;
-        -webkit-animation-timing-function:linear;
-        animation-delay:0s;
-        -webkit-animation-delay:0s;
+        -webkit-animation-duration: 5s;
+        animation-timing-function: linear;
+        -webkit-animation-timing-function: linear;
+        animation-delay: 0s;
+        -webkit-animation-delay: 0s;
         animation-iteration-count: infinite;
-        -webkit-animation-iteration-count:infinite;
+        -webkit-animation-iteration-count: infinite;
         animation-direction: normal;
-        -webkit-animation-direction:normal;
+        -webkit-animation-direction: normal;
         animation-fill-mode: none;
-        -webkit-animation-fill-mode:none;
+        -webkit-animation-fill-mode: none;
         animation-play-state: running;
-        -webkit-animation-play-state:running;
+        -webkit-animation-play-state: running;
       }
     }
 
@@ -104,7 +103,7 @@
           border-radius: 5px;
           background-color: #1890ff;
           color: white !important;
-          transition: .5s;
+          transition: 0.5s;
           margin-top: 80px;
           font-size: 20px;
         }
@@ -151,7 +150,7 @@
         margin-right: 20px;
         overflow: hidden;
         border-radius: 5px;
-        box-shadow: 0 0 5px #bbb; 
+        box-shadow: 0 0 5px #bbb;
         &-img {
           width: 55%;
           height: 100%;
@@ -167,7 +166,6 @@
 
           img {
             height: 100%;
-
           }
         }
 
@@ -197,7 +195,7 @@
         height: 75%;
         overflow: hidden;
         border-radius: 5px;
-        box-shadow: 0 0 5px #bbb; 
+        box-shadow: 0 0 5px #bbb;
         &-img {
           width: 100%;
           height: 60%;
@@ -219,7 +217,7 @@
         &-context {
           flex: 1;
           height: 40%;
-          padding:30px;
+          padding: 30px;
 
           &-title {
             width: 100%;
@@ -275,7 +273,7 @@
       #certify {
         position: relative;
         width: 1200px;
-        margin: 0 auto
+        margin: 0 auto;
       }
 
       #certify .swiper-container {
@@ -293,7 +291,7 @@
         display: block;
         height: 310px;
         overflow: hidden;
-        img{
+        img {
           width: 100%;
           min-height: 100%;
         }
@@ -347,7 +345,7 @@
         background: url('./img//wm_button_icon.png') no-repeat;
         background-position: 0 0;
         background-size: 100%;
-        outline:none;
+        outline: none;
         &::after {
           content: '';
         }
@@ -355,7 +353,7 @@
 
       #certify .swiper-button-prev:hover {
         background-position: 0 -46px;
-        background-size: 100%
+        background-size: 100%;
       }
 
       #certify .swiper-button-next {
@@ -365,7 +363,7 @@
         background: url('./img/wm_button_icon.png') no-repeat;
         background-position: 0 -93px;
         background-size: 100%;
-        outline:none;
+        outline: none;
         &::after {
           content: '';
         }
@@ -373,7 +371,7 @@
 
       #certify .swiper-button-next:hover {
         background-position: 0 -139px;
-        background-size: 100%
+        background-size: 100%;
       }
     }
   }
@@ -391,7 +389,7 @@
       width: 100%;
       height: 100%;
       text-align: center;
-      background-color: rgba(0, 0, 0, .2);
+      background-color: rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -442,6 +440,5 @@
         margin-bottom: 80px;
       }
     }
-
   }
 }
