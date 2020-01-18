@@ -4,24 +4,24 @@ import 'swiper/css/swiper.min.css';
 
 class PageFour extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      title:props.title,
-      desc:props.desc,
-      content:[]
-    }
+      title: props.title,
+      desc: props.desc,
+      content: [],
+    };
   }
-  static getDerivedStateFromProps(props, state){
-    if(props.content.length!==0){
+  static getDerivedStateFromProps(props, state) {
+    if (props.content.length !== 0) {
       return {
-        content:props.content
-      }
+        content: props.content,
+      };
     }
-    return null
+    return null;
   }
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.content.length!==0){
-      this.beginShow()
+    if (this.state.content.length !== 0) {
+      this.beginShow();
     }
   }
   beginShow() {
@@ -40,17 +40,17 @@ class PageFour extends Component {
         el: '.swiper-pagination',
       },
       on: {
-        progress: function (progress) {
+        progress(progress) {
           for (let i = 0; i < this.slides.length; i++) {
-            let slide = this.slides.eq(i);
-            let slideProgress = this.slides[i].progress;
+            const slide = this.slides.eq(i);
+            const slideProgress = this.slides[i].progress;
             let modify = 1;
             if (Math.abs(slideProgress) > 1) {
               modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
             }
-            let translate = slideProgress * modify * 260 + 'px';
-            let scale = 1 - Math.abs(slideProgress) / 5;
-            let zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
+            const translate = slideProgress * modify * 260 + 'px';
+            const scale = 1 - Math.abs(slideProgress) / 5;
+            const zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
             slide.transform('translateX(' + translate + ') scale(' + scale + ')');
             slide.css('zIndex', zIndex);
             slide.css('opacity', 1);
@@ -59,36 +59,34 @@ class PageFour extends Component {
             }
           }
         },
-        setTransition: function (transition) {
+        setTransition(transition) {
           for (let i = 0; i < this.slides.length; i++) {
-            let slide = this.slides.eq(i)
+            const slide = this.slides.eq(i);
             slide.transition(transition);
           }
-
-        }
-      }
-    })
-    window.onresize = function () {
+        },
+      },
+    });
+    window.onresize = function() {
       swiper.update();
-    }
+    };
   }
   render() {
-    const { title, desc, content } = this.props
+    const { title, desc, content } = this.props;
     return (
       <div className="home-fullpageFour">
-        <div className='home-fullpageFour-header'>
+        <div className="home-fullpageFour-header">
           <span>{title}</span>
           <span>{desc}</span>
         </div>
-        <div className='home-fullpageFour-body'>
+        <div className="home-fullpageFour-body">
           <div id="certify">
             <div className="swiper-container">
               <div className="swiper-wrapper">
-                {
-                  content && content.length !== 0 ?
-                    content.map(item => (
+                {content && content.length !== 0
+                  ? content.map(item => (
                       <div className="swiper-slide" key={item.id}>
-                        <div className='img'>
+                        <div className="img">
                           <img src={item.posterlink} />
                         </div>
                         <a href={item.achievementlink || item.attachment}>
@@ -97,8 +95,7 @@ class PageFour extends Component {
                         </a>
                       </div>
                     ))
-                    : ''
-                }
+                  : ''}
               </div>
             </div>
             <div className="swiper-pagination"></div>
@@ -107,8 +104,8 @@ class PageFour extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default PageFour
+export default PageFour;

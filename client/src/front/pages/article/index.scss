@@ -249,7 +249,7 @@
                 li {
                   font-size: 16px;
 
-                  &:not(:last-child):after {
+                  &:not(:last-child)::after {
                     content: '.';
                     color: grey;
                     margin: 0 0.4em;
@@ -349,7 +349,7 @@
           .article-item {
             width: 100%;
             height: auto;
-            padding: 0px 0px 15px;
+            padding: 0 0 15px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -360,7 +360,7 @@
             }
 
             .title {
-              padding: 10px 0px;
+              padding: 10px 0;
               font-size: 18px;
               line-height: 1.2;
 

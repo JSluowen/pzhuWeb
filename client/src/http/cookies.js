@@ -1,10 +1,10 @@
 const Cookies = {
   setCookies(data) {
     const { entries } = Object;
-    let expdate = new Date();
+    const expdate = new Date();
     expdate.setTime(expdate.getTime() + 72 * 60 * 60 * 1000);
 
-    for (let [key, values] of entries(data)) {
+    for (const [key, values] of entries(data)) {
       document.cookie = `${key}=${values};expires=${expdate.toGMTString()};path='/'`;
     }
   },

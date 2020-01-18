@@ -1,121 +1,120 @@
 .back-container {
-    width: 100%;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url(https://img.alicdn.com/tfs/TB1_YvwXTtYBeNjy1XdXXXXyVXa-1680-370.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #2e323f;
+
+  &-layout {
     min-height: 100vh;
-    background-image: url(https://img.alicdn.com/tfs/TB1_YvwXTtYBeNjy1XdXXXXyVXa-1680-370.png);
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #2e323f;
+    padding: 0 20px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
 
-    &-layout {
-        min-height: 100vh;
-        padding: 0 20px;
-        background: transparent;
-        display: flex;
-        flex-direction: column;
+    &-header {
+      width: 100%;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
 
-        &-header {
-            width: 100%;
-            padding: 10px 0px;
-            display: flex;
-            justify-content: space-between;
+      &-logo {
+        height: 60px;
+        width: 100px;
+        background-image: url(http://img.pzhuweb.cn/logo.png);
+        background-size: 100%;
+        background-repeat: no-repeat;
+      }
 
-            &-logo {
-                height: 60px;
-                width: 100px;
-                background-image: url(http://img.pzhuweb.cn/logo.png);
-                background-size: 100%;
-                background-repeat: no-repeat;
-            }
+      &-menu {
+        height: 60px;
+        line-height: 60px;
+        color: #fff;
 
-            &-menu {
-                height: 60px;
-                line-height: 60px;
-                color: #fff;
-
-                span {
-                    margin: 0 5px 0 10px;
-                }
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
+        span {
+          margin: 0 5px 0 10px;
         }
 
-        &-body {
-            margin: 20px 0 0;
-            width: 100%;
-            flex: 1 1 auto;
-            display: flex;
-            justify-content: space-between;
-
-            a {
-                color: #fff !important;
-            }
-
-            .anticon {
-                font-size: 14px;
-            }
-
-            .ant-layout-sider {
-                background: transparent;
-            }
-
-            .ant-layout-sider-children {
-                background-color: transparent;
-            }
-
-            .ant-menu-dark,
-            .ant-menu-dark .ant-menu-sub {
-                background: transparent;
-            }
-
-            .ant-menu-dark .ant-menu-inline.ant-menu-sub {
-                box-shadow: none;
-            }
-
-            &-aside-collapsed {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 20px;
-                color: #fff;
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-
-            &-main {
-                flex: 1 1 auto;
-                padding: 0 0 0 20px;
-                width: 80vw;
-                &-container {
-                    border-radius: 5px;
-                    background-color: rgb(242, 242, 242);
-                }
-
-            }
+        &:hover {
+          cursor: pointer;
         }
-
-        &-footer {
-            width: 100%;
-            color: #666;
-            line-height: 1.5;
-            margin: 20px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-
-            p:first-child {
-                font-size: 20px;
-                font-weight: bold;
-            }
-
-            p:last-child {
-                font-size: 12px;
-            }
-        }
+      }
     }
+
+    &-body {
+      margin: 20px 0 0;
+      width: 100%;
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: space-between;
+
+      a {
+        color: #fff !important;
+      }
+
+      .anticon {
+        font-size: 14px;
+      }
+
+      .ant-layout-sider {
+        background: transparent;
+      }
+
+      .ant-layout-sider-children {
+        background-color: transparent;
+      }
+
+      .ant-menu-dark,
+      .ant-menu-dark .ant-menu-sub {
+        background: transparent;
+      }
+
+      .ant-menu-dark .ant-menu-inline.ant-menu-sub {
+        box-shadow: none;
+      }
+
+      &-aside-collapsed {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #fff;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &-main {
+        flex: 1 1 auto;
+        padding: 0 0 0 20px;
+        width: 80vw;
+        &-container {
+          border-radius: 5px;
+          background-color: rgb(242, 242, 242);
+        }
+      }
+    }
+
+    &-footer {
+      width: 100%;
+      color: #666;
+      line-height: 1.5;
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+
+      p:first-child {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      p:last-child {
+        font-size: 12px;
+      }
+    }
+  }
 }
