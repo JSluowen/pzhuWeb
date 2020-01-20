@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpackSimpleProgressPlugin from 'webpack-simple-progress-plugin';
+import tsImportPluginFactory from 'ts-import-plugin';
 
 export type configType = [string, any];
 
@@ -13,23 +14,26 @@ function caseEnv(config: configType) {
 function entryFunc(env: Boolean, isBack: Boolean) {
   if (isDev) {
     return {
-      main: path.resolve(__dirname, isBack ? '../src/back/main.js' : '../src/front/main.js'),
+      main: path.resolve(__dirname, isBack ? '../src/back/main.tsx' : '../src/front/main.tsx'),
     };
   } else {
     return {
-      front: path.resolve(__dirname, '../src/front/main.js'),
-      back: path.resolve(__dirname, '../src/back/main.js'),
+      front: path.resolve(__dirname, '../src/front/main.tsx'),
+      back: path.resolve(__dirname, '../src/back/main.tsx'),
     };
   }
 }
 
 const isBack = process.env.CLIENT_ENV === 'back';
-const isDev = process.env.NODE_ENV ==="development";
+const isDev = process.env.NODE_ENV === 'development';
 
 const commonConfig: webpack.Configuration = {
-  entry: entryFunc(isDev,isBack),
+  entry: entryFunc(isDev, isBack),
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
+    alias: {
+      src: path.resolve(__dirname, '../src/'),
+    },
   },
   module: {
     rules: [
@@ -73,14 +77,33 @@ const commonConfig: webpack.Configuration = {
         ],
       },
       {
-        test: /\.jsx?$/,
+        test: /\.(jsx)?$/,
         exclude: /node_modules/, // 排除掉nod_modules,优化打包速度
-        use: ['babel-loader'],
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
+        test: /\.(ts|tsx)$/,
+        loader: 'ts-loader',
         exclude: /node_modules/,
+        options: {
+          transpileOnly: true,
+          getCustomTransformers: () => ({
+            before: [
+              tsImportPluginFactory({
+                libraryName: 'antd',
+                libraryDirectory: 'es',
+                style: 'css',
+              }),
+            ],
+          }),
+          compilerOptions: {
+            module: 'es2015',
+          },
+        },
       },
     ],
   },

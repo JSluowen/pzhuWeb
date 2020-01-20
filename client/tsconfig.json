@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "./dis",
+    "outDir": "./dis/",
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
     "allowJs": false,
     "baseUrl": ".",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types", "./typs"]
   },
+  "lib": ["dom", "es2015", "es2016.array.include"],
   "include": ["src/**/*", "build/*", "typs/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "dist"],
   "overrides": [

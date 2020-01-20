@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: red;
 
   a {
     color: #fff;
@@ -33,6 +34,7 @@
     color: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     z-index: 1000;
+    box-sizing: border-box;
 
     &-left {
       display: flex;
