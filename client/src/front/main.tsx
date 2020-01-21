@@ -3,16 +3,12 @@ import { BrowserRouter as Router, Route, BrowserRouter, Redirect } from 'react-r
 import ReactDOM from 'react-dom';
 import Layout from 'src/front/layout';
 import 'front/reset.scss';
-import { state, context } from 'src/front/context';
-
 const Main: FC = memo(() => {
   return (
-    <context.Provider value={state}>
-      <BrowserRouter>
-        <Route path="/" component={Layout} />
-        <Redirect to="/home" />
-      </BrowserRouter>
-    </context.Provider>
+    <BrowserRouter>
+      <Route path="/" component={Layout} />
+      <Redirect to="/home" />
+    </BrowserRouter>
   );
 });
 

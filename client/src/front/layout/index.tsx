@@ -49,7 +49,7 @@ const Layout: FC<RouteComponentProps> = () => {
       component: Home,
     },
     {
-      path: '/Member',
+      path: '/member',
       component: Member,
     },
   ];

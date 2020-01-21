@@ -6,6 +6,7 @@ interface IContext {
 
 interface IRes {
   success: number;
-  data: [] | Object;
+  data?: Object;
   message?: string;
+  domain?: Array<{}>;
 }
