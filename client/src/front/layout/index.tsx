@@ -1,23 +1,24 @@
 import React, { useState, useEffect, ReactNode, FC, useContext, Context } from 'react';
 import {
-  BrowserRouter as Route,
+  Route,
   Link,
   NavLink,
   NavLinkProps,
   RouteProps,
   LinkProps,
   Switch,
-  Router,
+  RouteComponentProps,
 } from 'react-router-dom';
-import { Avatar, BackTop, Button, Modal, Icon, message } from 'antd';
+import { Avatar, BackTop } from 'antd';
 import './index.scss';
-import { context } from 'src/front/context';
+import { context } from 'front/context';
+import { Home, Member } from 'front/pages';
 export interface INavProps extends NavLinkProps {
   to: string;
   name: string;
 }
 
-const Layout: FC = ({ children }) => {
+const Layout: FC<RouteComponentProps> = () => {
   // 菜单列表
   const Menus: Array<INavProps> = [
     {
@@ -39,6 +40,17 @@ const Layout: FC = ({ children }) => {
       to: '/member',
       activeClassName: 'active',
       name: '成员展示',
+    },
+  ];
+  //路由列表
+  const Routes: Array<RouteProps> = [
+    {
+      path: '/home',
+      component: Home,
+    },
+    {
+      path: '/Member',
+      component: Member,
     },
   ];
   const state: IContext = useContext(context);
@@ -83,7 +95,13 @@ const Layout: FC = ({ children }) => {
           </div>
         </div>
       </div>
-      <div className="content">{children}</div>
+      <div className="content">
+        <Switch>
+          {Routes.map((item, index) => (
+            <Route key={index} {...item} />
+          ))}
+        </Switch>
+      </div>
       <div className="pzhu-web-copyright">
         <div className="copyright">
           <div className="about-us">

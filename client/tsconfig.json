@@ -10,7 +10,12 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types", "./typs"]
+    "typeRoots": ["./node_modules/@types", "./typs"],
+    "paths": {
+      "src/*": ["./src/*"],
+      "front/*": ["./src/front/*"],
+      "back/*": ["./src/back/*"],
+    }
   },
   "lib": ["dom", "es2015", "es2016.array.include"],
   "include": ["src/**/*", "build/*", "typs/*"],
