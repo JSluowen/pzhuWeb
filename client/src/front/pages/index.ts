@@ -15,8 +15,10 @@ import UserResource from 'front/pages/userResource';
 import UserCollect from 'front/pages/userCollect';
 import ResourceIssue from 'front/pages/resourceIssue';
 import AchievementIssue from 'front/pages/achievementIssue';
+import Navbar from 'front/pages/navbar';
 
 export {
+  Navbar,
   UserAchievement,
   UserArticle,
   ArticleInfo,

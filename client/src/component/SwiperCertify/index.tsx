@@ -14,7 +14,7 @@ const SwiperCertity: FC<IProps> = ({ props }) => {
       slidesPerView: 'auto',
       centeredSlides: true,
       loop: true,
-      loopedSlides: 5,
+      loopedSlides: 4,
       autoplay: true,
       navigation: {
         nextEl: '.swiper-button-next',

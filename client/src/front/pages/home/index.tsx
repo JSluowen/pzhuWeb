@@ -2,6 +2,8 @@ import React, { useState, useEffect, FC } from 'react';
 import ReactFullpage from '@fullpage/react-fullpage';
 import SwiperCertify from 'src/component/SwiperCertify';
 import HomeAPI from 'front/api/home';
+import Navbar from 'front/pages/navbar';
+import { ImgProLoad } from 'src/component';
 import './index.scss';
 
 const Home: FC = () => {
@@ -14,6 +16,28 @@ const Home: FC = () => {
       }
     });
   }, []);
+  // 图片渐进式加载
+  // useEffect(() => {
+  //  const fullPage = document.querySelector('.home-fullpageFive')
+  //  const small = document.querySelector('.img-small')
+  //  const img = new Image();
+  //  img.src = small.src
+  //  img.onload = function(){
+  //    small.classList.add('loaded');
+  //  }
+
+  //  const largeImg = new Image();
+  //  largeImg.src = fullPage.dataset.src
+  //  largeImg.onload = function(){
+  //     largeImg.classList.add('loaded');
+  //  }
+  //  fullPage.appendChild(largeImg)
+  // }, []);
+  const imgs = {
+    small: 'http://img.pzhuweb.cn/101.png',
+    large: 'http://img.pzhuweb.cn/10.png',
+  };
+
   return (
     <div className="home">
       <ReactFullpage
@@ -26,19 +50,28 @@ const Home: FC = () => {
           return (
             <div>
               <div className="section">
-                <div className="home-fullpageFive" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/10.png)' }}>
-                  <div className="home-fullpageFive-container">
-                    <div className="home-fullpageFive-container-top">
-                      <div className="home-fullpageFive-container-top-title">你的梦想，从这里开始</div>
-                      <div className="home-fullpageFive-container-top-tips">WEB应用专业团队，欢迎你的加入！</div>
-                      {sessionStorage.getItem('token') ? (
-                        ''
-                      ) : (
-                        <a href="http://www.pzhuweb.cn/#/articleInfo/109">团队介绍</a>
-                      )}
+                <div
+                  className="home-fullpageFive"
+                  style={{ backgroundColor: '#f6f6f6' }}
+                  data-src="http://img.pzhuweb.cn/10.png"
+                >
+                  <ImgProLoad {...imgs}>
+                    <div className="home-fullpageFive-container">
+                      <Navbar />
+                      <div className="home-fullpageFive-container-top">
+                        <div className="home-fullpageFive-container-top-title">你的梦想，从这里开始</div>
+                        <div className="home-fullpageFive-container-top-tips">WEB应用专业团队，欢迎你的加入！</div>
+                        {sessionStorage.getItem('token') ? (
+                          ''
+                        ) : (
+                          <a href="http://www.pzhuweb.cn/#/articleInfo/109">团队介绍</a>
+                        )}
+                      </div>
+                      <div className="home-fullpageFive-container-footer">
+                        CopyRight©2017 PZHU-WEB 蜀ICP备17013737号
+                      </div>
                     </div>
-                    <div className="home-fullpageFive-container-footer">CopyRight©2017 PZHU-WEB 蜀ICP备17013737号</div>
-                  </div>
+                  </ImgProLoad>
                 </div>
               </div>
               <div className="section">

@@ -12,36 +12,9 @@ import {
 import { Avatar, BackTop } from 'antd';
 import './index.scss';
 import { context } from 'front/context';
-import { Home, Member } from 'front/pages';
-export interface INavProps extends NavLinkProps {
-  to: string;
-  name: string;
-}
+import { Home, Member, Navbar } from 'front/pages';
 
 const Layout: FC<RouteComponentProps> = () => {
-  // 菜单列表
-  const Menus: Array<INavProps> = [
-    {
-      to: '/article',
-      activeClassName: 'active',
-      name: '团队动态',
-    },
-    {
-      to: '/resource',
-      activeClassName: 'active',
-      name: '资源分享',
-    },
-    {
-      to: '/achievement',
-      activeClassName: 'active',
-      name: '成果分享',
-    },
-    {
-      to: '/member',
-      activeClassName: 'active',
-      name: '成员展示',
-    },
-  ];
   //路由列表
   const Routes: Array<RouteProps> = [
     {
@@ -59,7 +32,8 @@ const Layout: FC<RouteComponentProps> = () => {
     <div className="container">
       {/* 回到顶部 */}
       <BackTop visibilityHeight={100} />
-      <div className="nav-bar">
+      {/* <Navbar/> */}
+      {/* <div className="nav-bar">
         <div className="nav-bar-left">
           <a className="app-logo" href="/" target="_self"></a>
           <div className="nav-bar-menu">
@@ -94,7 +68,7 @@ const Layout: FC<RouteComponentProps> = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="content">
         <Switch>
           {Routes.map((item, index) => (
