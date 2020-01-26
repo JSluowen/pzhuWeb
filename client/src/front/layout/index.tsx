@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom';
 import { Avatar, BackTop } from 'antd';
 import './index.scss';
-import { Home, Member, Navbar, Footer } from 'front/pages';
+import { Home, Member, Navbar, Footer, Achievement } from 'front/pages';
 
 const Layout: FC<RouteComponentProps> = ({ location }) => {
   //路由列表
@@ -23,6 +23,10 @@ const Layout: FC<RouteComponentProps> = ({ location }) => {
     {
       path: '/member',
       component: Member,
+    },
+    {
+      path: '/achievement',
+      component: Achievement,
     },
   ];
   const navStyles: CSSProperties = {

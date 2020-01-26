@@ -9,7 +9,7 @@ import Article from 'front/pages/article';
 import Setting from 'front/pages/setting';
 import User from 'front/pages/user';
 import Member from 'front/pages/member';
-import Achievement from 'front/pages/achievement';
+import Achievement from 'src/front/pages/achievement/index';
 import Resource from 'front/pages/resource';
 import UserResource from 'front/pages/userResource';
 import UserCollect from 'front/pages/userCollect';
