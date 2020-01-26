@@ -319,11 +319,18 @@
         color: #fff;
         font-size: 13px;
         margin-bottom: 10px;
+        .safe-icon {
+          width: 20px;
+          opacity: 1;
+          margin-left: 10px;
+          vertical-align: bottom;
+          position: relative;
+        }
       }
     }
     .nav-bar {
       background-color: transparent;
-      box-shadow: transparent;
+      box-shadow: 0 0 0 transparent;
       &-left {
         .nav-bar-menu {
           a {
@@ -343,6 +350,13 @@
       }
       &-right {
         color: #fff;
+        a {
+          color: #fff;
+          &:hover {
+            cursor: pointer;
+            color: #40a9ff;
+          }
+        }
       }
     }
   }

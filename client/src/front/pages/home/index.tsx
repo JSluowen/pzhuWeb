@@ -16,23 +16,6 @@ const Home: FC = () => {
       }
     });
   }, []);
-  // 图片渐进式加载
-  // useEffect(() => {
-  //  const fullPage = document.querySelector('.home-fullpageFive')
-  //  const small = document.querySelector('.img-small')
-  //  const img = new Image();
-  //  img.src = small.src
-  //  img.onload = function(){
-  //    small.classList.add('loaded');
-  //  }
-
-  //  const largeImg = new Image();
-  //  largeImg.src = fullPage.dataset.src
-  //  largeImg.onload = function(){
-  //     largeImg.classList.add('loaded');
-  //  }
-  //  fullPage.appendChild(largeImg)
-  // }, []);
   const imgs = {
     small: 'http://img.pzhuweb.cn/101.png',
     large: 'http://img.pzhuweb.cn/10.png',
@@ -68,7 +51,14 @@ const Home: FC = () => {
                         )}
                       </div>
                       <div className="home-fullpageFive-container-footer">
-                        CopyRight©2017 PZHU-WEB 蜀ICP备17013737号
+                        <p className="web-auth">
+                          © 2017-2019 pzhuweb.cn 版权所有
+                          <img
+                            className="safe-icon"
+                            src="https://img.alicdn.com/tfs/TB1..50QpXXXXX7XpXXXXXXXXXX-40-40.png"
+                          />
+                          ICP认证：蜀17013737
+                        </p>
                       </div>
                     </div>
                   </ImgProLoad>

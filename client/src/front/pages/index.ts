@@ -16,6 +16,7 @@ import UserCollect from 'front/pages/userCollect';
 import ResourceIssue from 'front/pages/resourceIssue';
 import AchievementIssue from 'front/pages/achievementIssue';
 import Navbar from 'front/pages/navbar';
+import Footer from 'front/pages/footer';
 
 export {
   Navbar,
@@ -36,4 +37,5 @@ export {
   UserCollect,
   ResourceIssue,
   AchievementIssue,
+  Footer,
 };

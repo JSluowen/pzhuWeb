@@ -1,12 +1,8 @@
 declare module 'webpack-simple-progress-plugin';
 
-interface IContext {
-  avatar?: string;
-}
-
 interface IRes {
   success: number;
-  data?: Object;
+  data?: [];
   message?: string;
   domain?: Array<{}>;
 }

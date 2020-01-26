@@ -7,7 +7,6 @@
     "jsx": "react",
     "allowJs": false,
     "baseUrl": ".",
-    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types", "./typs"],

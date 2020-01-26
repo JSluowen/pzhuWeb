@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC, CSSProperties } from 'react';
 import { Router, Route, Link, NavLink, NavLinkProps } from 'react-router-dom';
 import { Avatar, BackTop } from 'antd';
 import './index.scss';
@@ -7,7 +7,7 @@ export interface INavProps extends NavLinkProps {
   to: string;
   name: string;
 }
-const Navbar: FC = () => {
+const Navbar: FC<CSSProperties> = styles => {
   // 菜单列表
   const Menus: Array<INavProps> = [
     {
@@ -32,7 +32,7 @@ const Navbar: FC = () => {
     },
   ];
   return (
-    <div className="nav-bar">
+    <div className="nav-bar" style={styles}>
       <div className="nav-bar-left">
         <div className="nav-bar-left-log">
           <a className="app-logo" href="/" target="_self"></a>
