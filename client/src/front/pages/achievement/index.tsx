@@ -60,7 +60,6 @@ const Achievement: FC = () => {
     setBeg(0);
     setEnd(limit);
     setAc([]);
-    getAchievement();
   };
   // 获取成果资源
   const getAchievement = () => {
@@ -85,11 +84,12 @@ const Achievement: FC = () => {
           }
         }, 500);
       } else {
+        console.log('res :', res);
         setTimeout(() => {
           setLoading(false);
+          setIsLoading(false);
           setAcType(res.data.acType);
           setAc(arry);
-          setIsLoading(false);
           if (flag) {
             setAchievementTyep();
           }
@@ -97,15 +97,47 @@ const Achievement: FC = () => {
       }
     });
   };
+  const handelScroll = () => {
+    // 滚动的高度
+    const scrollTop =
+      (event.srcElement ? event.srcElement.documentElement.scrollTop : false) ||
+      window.pageYOffset ||
+      (event.srcElement ? event.srcElement.body.scrollTop : 0);
+    // 视窗高度
+    const clientHeight =
+      (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
+    // 页面高度
+    const scrollHeight =
+      (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
+    // 距离页面底部的高度
+    const height = scrollHeight - scrollTop - clientHeight;
+    if (height <= 300) {
+      handelLoading();
+    }
+  };
+  const handelLoading = () => {
+    if (isLoading) {
+      setIsLoading(false);
+      setBeg(prev => {
+        return prev + limit;
+      });
+      setEnd(prev => {
+        return prev + limit;
+      });
+    }
+  };
   // 获取页面初始化数据
   useEffect(() => {
     getAchievement();
-  }, []);
+  }, [ac, end, getAchievement]);
 
+  useEffect(() => {
+    window.addEventListener('scroll', handelScroll);
+  }, [handelScroll]);
   return (
     <div className="achievement">
       <div className="achievement-left" ref={achievementTypeRef}>
-        <div className="achievement-left-header">成果分类</div>
+        <div className="achievement-left-header">成果分类{JSON.stringify(isLoading)}</div>
         <div className="achievement-left-item" data-index="0" key="0" onClick={filterAchievement}>
           <p>全部</p>
         </div>
