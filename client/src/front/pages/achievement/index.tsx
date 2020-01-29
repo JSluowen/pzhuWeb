@@ -1,11 +1,9 @@
-import React, { useState, useEffect, FC, useRef } from 'react';
-import { Router, Route, Link } from 'react-router-dom';
+import React, { useState, useEffect, FC, useRef, useCallback } from 'react';
 import { Icon, Card, Button, Avatar, Row, Col, Input, Skeleton, message } from 'antd';
 import AchievementAPI from 'front/api/achievement';
 const { Meta } = Card;
 const Search = Input.Search;
 import './index.scss';
-
 export type TAc = {
   id: number;
   achievementlink: string;
@@ -18,16 +16,22 @@ export type TAc = {
 };
 export type TAcType = { id: number; name: string; index: number };
 
+export type TState = {
+  beg: number;
+  end: number;
+  isScroll: boolean;
+  ac: Array<TAc>;
+};
+
 const Achievement: FC = () => {
-  const [limit, setLimit] = useState<number>(6); // 获取的数据量
-  const [beg, setBeg] = useState<number>(0);
-  const [end, setEnd] = useState<number>(6);
+  const [limit, setLimit] = useState<number>(12); // 获取的数据量
+  const [state, setState] = useState<TState>({ beg: 0, end: 6, isScroll: false, ac: [] });
   const [index, setIndex] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [acType, setAcType] = useState<Array<TAcType>>([]); //成果类别
-  const [ac, setAc] = useState<Array<TAc>>([]); // 成果资源
   const [flag, setFlag] = useState<boolean>(true);
+
+  const isLoading = useRef(true);
 
   const achievementTypeRef = useRef(null);
   // 设置初始化的资源分类
@@ -39,6 +43,8 @@ const Achievement: FC = () => {
   };
   // 筛选成果类别
   const filterAchievement = e => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     let event;
     if (e.target.tagName === 'DIV') {
       event = e.target;
@@ -54,42 +60,47 @@ const Achievement: FC = () => {
     if (index === parseInt(index)) {
       return;
     }
+
     setIndex(index);
     setFlag(false);
+    setState(prev => {
+      return { ...prev, beg: 0, end: limit, ac: [], isScroll: false, isLoading: true };
+    });
     setLoading(true);
-    setBeg(0);
-    setEnd(limit);
-    setAc([]);
   };
   // 获取成果资源
   const getAchievement = () => {
     const params = {
-      beg: beg,
-      end: end,
+      beg: state.beg,
+      end: state.end,
       index: index,
     };
     AchievementAPI.getAachievement(params).then(res => {
-      let arry: Array<TAc> = ac;
+      let arry: Array<TAc> = state.ac;
       for (const item of res.data.ac) {
         arry.push(item);
       }
       if (res.success) {
         setTimeout(() => {
-          setLoading(false);
           setAcType(res.data.acType);
-          setAc(arry);
-          setIsLoading(true);
+          setState(prev => {
+            return { ...prev, isScroll: false, ac: arry };
+          });
+          setLoading(false);
+          isLoading.current = true;
           if (flag) {
             setAchievementTyep();
           }
         }, 500);
       } else {
-        console.log('res :', res);
         setTimeout(() => {
-          setLoading(false);
-          setIsLoading(false);
           setAcType(res.data.acType);
-          setAc(arry);
+          setLoading(false);
+          setState(prev => {
+            return { ...prev, isLoading: false, isScroll: false, ac: arry };
+          });
+          isLoading.current = false;
+          // setAc(arry);
           if (flag) {
             setAchievementTyep();
           }
@@ -111,40 +122,62 @@ const Achievement: FC = () => {
       (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
     // 距离页面底部的高度
     const height = scrollHeight - scrollTop - clientHeight;
-    if (height <= 300) {
+    if (height <= 400) {
       handelLoading();
     }
   };
   const handelLoading = () => {
-    if (isLoading) {
-      setIsLoading(false);
-      setBeg(prev => {
-        return prev + limit;
-      });
-      setEnd(prev => {
-        return prev + limit;
+    if (isLoading.current) {
+      isLoading.current = false;
+      setState(prev => {
+        return { ...prev, isScroll: true, beg: prev.end, end: prev.end + limit };
       });
     }
   };
-  // 获取页面初始化数据
+
+  // 获取页面初始化数据和条件筛选数据
   useEffect(() => {
-    getAchievement();
-  }, [ac, end, getAchievement]);
+    if (loading) getAchievement();
+  }, [loading]);
+
+  //滚动条加载数据
+  useEffect(() => {
+    if (state.isScroll) {
+      getAchievement();
+    }
+  }, [state]);
 
   useEffect(() => {
     window.addEventListener('scroll', handelScroll);
-  }, [handelScroll]);
+    return () => {
+      window.removeEventListener('scroll', handelScroll);
+    };
+  }, []);
   return (
     <div className="achievement">
       <div className="achievement-left" ref={achievementTypeRef}>
-        <div className="achievement-left-header">成果分类{JSON.stringify(isLoading)}</div>
-        <div className="achievement-left-item" data-index="0" key="0" onClick={filterAchievement}>
+        <div className="achievement-left-header">成果分类</div>
+        <div
+          className="achievement-left-item"
+          data-index="0"
+          key="0"
+          onClick={e => {
+            !loading && filterAchievement(e);
+          }}
+        >
           <p>全部</p>
         </div>
         {acType &&
           acType.map(item => {
             return (
-              <div className="achievement-left-item" data-index={item.id} key={item.id} onClick={filterAchievement}>
+              <div
+                className="achievement-left-item"
+                data-index={item.id}
+                key={item.id}
+                onClick={e => {
+                  !loading && filterAchievement(e);
+                }}
+              >
                 <p> {item.name}</p>
                 <p>{item.index}</p>
               </div>
@@ -166,12 +199,12 @@ const Achievement: FC = () => {
         >
           <Skeleton loading={loading} active>
             <Row style={{ width: '100%', margin: 0 }} gutter={16}>
-              {ac.length === 0 ? (
+              {state.ac.length === 0 ? (
                 <div className="achievement-right-null">暂无数据</div>
               ) : (
                 <div>
-                  {ac &&
-                    ac.map(item => {
+                  {state.ac &&
+                    state.ac.map(item => {
                       return (
                         <Col span={12} key={item.id}>
                           <a

@@ -43,7 +43,7 @@ const Layout: FC<RouteComponentProps> = ({ location }) => {
       <div className="content">
         <Switch>
           {Routes.map((item, index) => (
-            <Route exact key={index} {...item} />
+            <Route key={index} {...item} />
           ))}
         </Switch>
       </div>

@@ -1,19 +1,14 @@
 {
   "root": true, // 停止在父级目录寻找
-  "plugins": ["react-hooks"],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2016
   },
   "parser": "babel-eslint",
   "rules": {
-    // disable the rule for all files
-    // "@typescript-eslint/explicit-member-accessibility": "off",
     "no-unused-vars": "off",
     "no-undef": "off",
-    "array-callback-return": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "array-callback-return": "off"
   },
   "overrides": [
     {

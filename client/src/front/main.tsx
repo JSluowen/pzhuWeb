@@ -7,7 +7,7 @@ const Main: FC = memo(() => {
   return (
     <BrowserRouter>
       <Route path="/" component={Layout} />
-      <Redirect to="/achievement" />
+      <Redirect to="/home" />
     </BrowserRouter>
   );
 });
