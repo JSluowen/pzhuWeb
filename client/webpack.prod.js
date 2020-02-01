@@ -19,7 +19,7 @@ module.exports = {
     // }),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'front.html',
       template: './html/front.html',
       chunks: ['front'],
       minify: {
@@ -27,7 +27,7 @@ module.exports = {
       },
     }),
     new HtmlWebpackPlugin({
-      filename: 'admin.html',
+      filename: 'back.html',
       template: './html/back.html',
       chunks: ['back'],
       minify: {
