@@ -37,9 +37,9 @@ module.exports = appInfo => {
     dialect: 'mysql',
     database: 'pzhuweb',
     port: '3306',
-    host: '127.0.0.1',
+    host: '47.99.111.111',
     username: 'root',
-    password: '123456lw',
+    password: 'root',
   };
   // token鉴权秘钥
   config.token = 'webJWT';

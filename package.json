@@ -6,7 +6,9 @@
   "scripts": {
     "start": "egg-bin dev",
     "cov": "egg-bin cov",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prod": "egg-scripts start --port=7001 --daemon --title=egg-server-showcase",
+    "stop": "egg-scripts stop"
   },
   "keywords": [],
   "author": "",
