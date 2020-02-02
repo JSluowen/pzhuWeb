@@ -130,17 +130,17 @@ export default class Layout extends Component {
 
 							<div className="nav-bar-menu-item">
 								<Link to="/article" activeClassName="active">
-									团队动态
+									团队动态124
 								</Link>
 							</div>
 							<div className="nav-bar-menu-item">
 								<Link to='/resource' activeClassName='active' >
-									资源分享
+									资源分享测试
 								</Link>
 							</div>
 							<div className="nav-bar-menu-item">
 								<Link to='/achievement' activeClassName='active' >
-									成果展示
+									成果展示测试
 								</Link>
 							</div>
 							<div className="nav-bar-menu-item">
