@@ -7,13 +7,12 @@
   width: 1400px;
   height: auto;
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
 
   &-left {
-    width: 18%;
+    min-width: 250px;
     min-height: 600px;
     padding: 20px 0;
+    position: fixed;
 
     &-header {
       width: 100%;
@@ -48,7 +47,7 @@
     width: 70%;
     min-height: 600px;
     padding: 20px 0;
-
+    margin-left: 250px;
     .ant-card-bordered {
       margin-bottom: 20px;
     }

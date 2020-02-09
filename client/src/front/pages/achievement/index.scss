@@ -9,7 +9,7 @@
   margin: 0 auto;
 
   &-left {
-    width: 300px;
+    min-width: 250px;
     min-height: 600px;
     padding: 20px 0;
     position: fixed;
@@ -46,7 +46,7 @@
     width: 70%;
     min-height: 600px;
     padding: 20px 0;
-    margin-left: 300px;
+    margin-left: 250px;
     .ant-card-body {
       display: flex;
       flex-wrap: wrap;

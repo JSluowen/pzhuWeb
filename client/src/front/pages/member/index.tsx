@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC } from 'react';
 import { Router, Route, Link } from 'react-router-dom';
 import { Icon, Card, Button, Skeleton } from 'antd';
-import MemberAPI from 'front/api/member';
+import { Base, Get } from 'front/api';
 import ma5 from 'md5';
 import './index.scss';
 
@@ -29,6 +29,7 @@ const Member: FC = () => {
       if (item.User.status !== 3) {
         return parseInt(item.id.substring(0, 4)) + 4;
       }
+      return '';
     });
 
     val = val.sort((a, b) => {
@@ -84,18 +85,23 @@ const Member: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    MemberAPI.getMemberInfo().then((res: IRes) => {
-      if (res.success) {
-        setUseInfo(res.data);
-        setNewUserInfo(res.data);
-        filterTeacherInfo(res.data);
-        filterGrade(res.data);
-        filterDomainNum(res.domain, res.data);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    Get(Base.getMemberInfo).then(
+      (res: IRes) => {
+        if (res.success) {
+          setUseInfo(res.data);
+          setNewUserInfo(res.data);
+          filterTeacherInfo(res.data);
+          filterGrade(res.data);
+          filterDomainNum(res.domain, res.data);
+          setLoading(false);
+        }
+      },
+      err => {
         setLoading(false);
-      }
-    },(err)=>{
-      setLoading(false)
-    })
+      },
+    );
   }, []);
 
   return (
@@ -205,6 +211,7 @@ const Member: FC = () => {
                       </div>
                     );
                   }
+                  return '';
                 })}
               </Card>
             );

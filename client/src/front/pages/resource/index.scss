@@ -7,11 +7,10 @@
   width: 1400px;
   height: auto;
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
 
   &-left {
-    width: 18%;
+    position: fixed;
+    width: 250px;
     min-height: 600px;
     padding: 20px 0;
 
@@ -48,6 +47,7 @@
     width: 70%;
     min-height: 600px;
     padding: 20px 0;
+    margin-left: 250px;
 
     &-null {
       width: 100%;

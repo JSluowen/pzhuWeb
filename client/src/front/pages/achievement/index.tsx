@@ -1,6 +1,6 @@
-import React, { useState, useEffect, FC, useRef, useCallback } from 'react';
-import { Icon, Card, Button, Avatar, Row, Col, Input, Skeleton, message } from 'antd';
-import AchievementAPI from 'front/api/achievement';
+import React, { useState, useEffect, FC, useRef } from 'react';
+import { Icon, Card, Button, Avatar, Row, Col, Input, Skeleton } from 'antd';
+import { Base, Post } from 'front/api';
 const { Meta } = Card;
 const Search = Input.Search;
 import './index.scss';
@@ -34,10 +34,10 @@ const Achievement: FC = () => {
   const isLoading = useRef(true);
 
   const achievementTypeRef = useRef(null);
-  // 设置初始化的资源分类
+  // 设置初始化的成果分类
   const setAchievementTyep = () => {
-    let e = achievementTypeRef.current;
-    e = e.childNodes;
+    if (achievementTypeRef.current) return;
+    let e = achievementTypeRef.current.childNodes;
     e[1].classList.add('achievementActive');
     setFlag(false);
   };
@@ -56,12 +56,12 @@ const Achievement: FC = () => {
       parent[i].classList.remove('achievementActive');
     }
     event.classList.add('achievementActive');
-    const index = event.dataset.index;
-    if (index === parseInt(index)) {
+    const num = event.dataset.index;
+    if (index == parseInt(num)) {
       return;
     }
 
-    setIndex(index);
+    setIndex(num);
     setFlag(false);
     setState(prev => {
       return { ...prev, beg: 0, end: limit, ac: [], isScroll: false, isLoading: true };
@@ -75,7 +75,7 @@ const Achievement: FC = () => {
       end: state.end,
       index: index,
     };
-    AchievementAPI.getAachievement(params).then(res => {
+    Post(Base.getAchievement, params).then(res => {
       let arry: Array<TAc> = state.ac;
       for (const item of res.data.ac) {
         arry.push(item);
@@ -135,6 +135,11 @@ const Achievement: FC = () => {
     }
   };
 
+  useEffect(() => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, []);
+
   // 获取页面初始化数据和条件筛选数据
   useEffect(() => {
     if (loading) getAchievement();
@@ -158,7 +163,7 @@ const Achievement: FC = () => {
       <div className="achievement-left" ref={achievementTypeRef}>
         <div className="achievement-left-header">成果分类</div>
         <div
-          className="achievement-left-item"
+          className="achievement-left-item achievementActive"
           data-index="0"
           key="0"
           onClick={e => {
@@ -186,16 +191,21 @@ const Achievement: FC = () => {
       </div>
       <div className="achievement-right">
         <Card
-          title={acType.map(item => {
-            if (item.id === index) {
-              return item.name;
-            }
-            return '';
-          })}
-          style={{ width: '100%' }}
-          extra={
-            <Search placeholder="请输入成果标题" onSearch={value => this.handelSerach(value)} style={{ width: 200 }} />
+          title={
+            index == 0
+              ? '全部'
+              : acType &&
+                acType.map(item => {
+                  if (item.id == index) {
+                    return item.name;
+                  }
+                  return '';
+                })
           }
+          // style={{ width: '100%' }}
+          // extra={
+          //   <Search placeholder="请输入成果标题" onSearch={value => this.handelSerach(value)} style={{ width: 200 }} />
+          // }
         >
           <Skeleton loading={loading} active>
             <Row style={{ width: '100%', margin: 0 }} gutter={16}>

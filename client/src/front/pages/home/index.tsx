@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC } from 'react';
 import ReactFullpage from '@fullpage/react-fullpage';
 import SwiperCertify from 'src/component/SwiperCertify';
-import HomeAPI from 'front/api/home';
+import { Base, Get } from 'front/api';
 import Navbar from 'front/pages/navbar';
 import { ImgProLoad } from 'src/component';
 import './index.scss';
@@ -10,7 +10,7 @@ const Home: FC = () => {
   // 获取初始数据
   const [states, setStates] = useState<Array<{}>>([]);
   useEffect(() => {
-    HomeAPI.getHomeInfo().then(res => {
+    Get(Base.getHomeInfo).then(res => {
       if (res.success) {
         setStates(res.data);
       }
