@@ -1,6 +1,7 @@
 import React, { useState, useEffect, FC, CSSProperties } from 'react';
 import { Router, Route, Link, NavLink, NavLinkProps } from 'react-router-dom';
-import { Avatar, BackTop } from 'antd';
+import { Avatar, BackTop, Drawer } from 'antd';
+import { Register } from 'front/pages';
 import './index.scss';
 
 export interface INavProps extends NavLinkProps {
@@ -8,6 +9,7 @@ export interface INavProps extends NavLinkProps {
   name: string;
 }
 const Navbar: FC<CSSProperties> = styles => {
+  const [visible, setVisible] = useState<boolean>(false);
   // 菜单列表
   const Menus: Array<INavProps> = [
     {
@@ -31,6 +33,9 @@ const Navbar: FC<CSSProperties> = styles => {
       name: '成员展示',
     },
   ];
+  const onVisible = val => {
+    setVisible(val);
+  };
   return (
     <div className="nav-bar" style={styles}>
       <div className="nav-bar-left">
@@ -51,13 +56,26 @@ const Navbar: FC<CSSProperties> = styles => {
       </div>
       <div className="nav-bar-right">
         <div className="nav-bar-right-user">
-          <div className="login">
-            <Link to="login">登录</Link>
+          <div className="login">登录</div>/
+          <div
+            className="register"
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            注册
           </div>
-          /
-          <div className="register">
-            <Link to="register">注册</Link>
-          </div>
+          <Drawer
+            title="注册界面"
+            width={520}
+            closable={false}
+            visible={visible}
+            onClose={() => {
+              setVisible(false);
+            }}
+          >
+            <Register onVisible={onVisible} />
+          </Drawer>
         </div>
       </div>
     </div>

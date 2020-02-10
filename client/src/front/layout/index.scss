@@ -33,11 +33,12 @@
     }
     &-right {
       color: #878c91;
-      a {
+      .login,
+      .register {
         color: #878c91;
         &:hover {
           cursor: pointer;
-          color: #2e3238;
+          color: #1890ff;
         }
       }
     }

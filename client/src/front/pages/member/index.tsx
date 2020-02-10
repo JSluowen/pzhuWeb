@@ -29,9 +29,9 @@ const Member: FC = () => {
       if (item.User.status !== 3) {
         return parseInt(item.id.substring(0, 4)) + 4;
       }
-      return '';
+      return undefined;
     });
-
+    console.log('val', val);
     val = val.sort((a, b) => {
       return a - b;
     });
@@ -211,7 +211,7 @@ const Member: FC = () => {
                       </div>
                     );
                   }
-                  return '';
+                  return undefined;
                 })}
               </Card>
             );

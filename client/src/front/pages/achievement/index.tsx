@@ -64,7 +64,7 @@ const Achievement: FC = () => {
     setIndex(num);
     setFlag(false);
     setState(prev => {
-      return { ...prev, beg: 0, end: limit, ac: [], isScroll: false, isLoading: true };
+      return { ...prev, beg: 0, end: limit, ac: [], isScroll: false };
     });
     setLoading(true);
   };

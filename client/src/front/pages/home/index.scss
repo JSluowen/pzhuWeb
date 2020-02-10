@@ -350,7 +350,8 @@
       }
       &-right {
         color: #fff;
-        a {
+        .login,
+        .register {
           color: #fff;
           &:hover {
             cursor: pointer;

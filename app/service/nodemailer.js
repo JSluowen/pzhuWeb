@@ -16,7 +16,7 @@ class Nodemailer extends Service {
       },
     });
     const mailOptions = {
-      from: `web专业应用团队<${config.nodemailer.from}>`,
+      from: `WEB应用专业团队<${config.nodemailer.from}>`,
       to: email,
       subject: content.subject,
       text: content.text,

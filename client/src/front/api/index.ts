@@ -1,6 +1,6 @@
 import axios from 'src/http/axios';
 const Base = {
-  code: '/code', // 注册邮箱验证
+  uploadCode: '/code', // 注册邮箱验证
   registerUser: '/registeruser', // 用户注册
   login: '/login', // 用户登录
   timetoken: '/logintoken', // 获取登录时间秘钥

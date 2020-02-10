@@ -3,7 +3,7 @@ import UserArticle from 'front/pages/userArticle';
 import ArticleInfo from 'front/pages/articleInfo';
 import Home from 'src/front/pages/home';
 import Login from 'front/pages/login';
-import Register from 'front/pages/register';
+import Register from 'src/front/pages/register';
 import ArticleEdit from 'front/pages/articleEdit';
 import Article from 'front/pages/article';
 import Setting from 'front/pages/setting';

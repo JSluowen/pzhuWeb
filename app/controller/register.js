@@ -11,7 +11,7 @@ class Register extends Controller {
     }
     const content = {
       subject: '邮箱验证码',
-      text: `您好,您在web专业应用团队官网的验证码是:${code},如非本人操作，请忽略本邮件`,
+      text: `您好,您在WEB应用专业团队官网的注册验证码是:${code},如非本人操作，请忽略本邮件`,
     };
     ctx.session.code = code;
     try {
