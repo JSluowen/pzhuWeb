@@ -235,7 +235,8 @@ export default class Layout extends Component {
 									width: '20px'
 								}}
 							/>
-							ICP认证：蜀17013737
+							ICP认证：
+							<a style={{color:'#1890ff'}} href="http://www.beian.miit.gov.cn" target="_blank">蜀17013737</a>
 						</p>
 					</div>
 				</div>
