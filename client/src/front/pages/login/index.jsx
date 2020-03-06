@@ -4,6 +4,7 @@ import md5 from 'md5';
 import LoginApi from '../../api/login';
 import Cookies from '../../../http/cookies';
 import Forget from './forget';
+import img from './img.jpg'
 import './index.scss';
 
 class Login extends Component {
@@ -101,7 +102,7 @@ class Login extends Component {
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<div className="login-container">
-				<div className="login-img" style={{ backgroundImage: `url(http://cdn.niuxingxing.com/3.jpg)` }}>
+				<div className="login-img" style={{ backgroundImage: `url(${img})` }}>
 
 				</div>
 				<div className="login-content">
