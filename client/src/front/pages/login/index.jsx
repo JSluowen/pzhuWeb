@@ -101,7 +101,7 @@ class Login extends Component {
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<div className="login-container">
-				<div className="login-img" style={{ backgroundImage: `url(http://cdn.niuxingxing.com/3.jpg)` }}>
+				<div className="login-img" style={{ backgroundImage: 'url(https://up.enterdesk.com/edpic/52/bf/51/52bf510fede166de05e86bdd475078ad.jpg)' }}>
 
 				</div>
 				<div className="login-content">
