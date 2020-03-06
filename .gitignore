@@ -4,3 +4,4 @@ run/
 package-lock.json
 node_modules/
 static/
+.DS_Stor
