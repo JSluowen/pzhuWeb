@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Form, Button, Input, AutoComplete, message, Spin } from 'antd';
 import md5 from 'md5';
 import LoginAPI from '../../api/login';
-import RegisterAPI from '../../api/register';
+import { Base, Post } from 'front/api';
 import './forget.scss';
-import Cookies from '../../../http/cookies';
+import Cookies from 'src/http/cookies';
 
 // 自动完成
 const AutoCompleteOption = AutoComplete.Option;
@@ -92,7 +92,7 @@ class Forget extends Component {
     const params = {
       email: this.state.email,
     };
-    RegisterAPI.uploadCode(params)
+    Post(Base.uploadCode, params)
       .then(res => {
         if (res.success) {
           message.success(res.message);
