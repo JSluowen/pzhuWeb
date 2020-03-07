@@ -169,7 +169,7 @@ class Register extends Component {
 		return (
 			<div className="register-container">
 				<div className="back-img">
-					<img src="" alt="这是注册背景图" />
+					<img src="https://jinzhao.me/wp-content/uploads/2014/07/on-the-road1.jpg" alt="这是注册背景图" />
 				</div>
 				<div className="shadow-bottom" />
 				<div className="shadow-top">
