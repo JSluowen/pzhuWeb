@@ -5,7 +5,7 @@ const Cookies = {
     expdate.setTime(expdate.getTime() + 72 * 60 * 60 * 1000);
 
     for (const [key, values] of entries(data)) {
-      document.cookie = `${key}=${values};expires=${expdate.toGMTString()};path='/'`;
+      document.cookie = `${key}=${values};expires=${expdate.toUTCString()};path='/'`;
     }
   },
   getCookies(c_name) {

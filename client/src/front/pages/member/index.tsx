@@ -31,7 +31,6 @@ const Member: FC = () => {
       }
       return undefined;
     });
-    console.log('val', val);
     val = val.sort((a, b) => {
       return a - b;
     });

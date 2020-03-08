@@ -1,15 +1,19 @@
 import React, { useState, useEffect, FC, CSSProperties } from 'react';
 import { Router, Route, Link, NavLink, NavLinkProps } from 'react-router-dom';
-import { Avatar, BackTop, Drawer } from 'antd';
-import { Register } from 'front/pages';
+import { Avatar, BackTop, Drawer, Modal, Button } from 'antd';
+import { Register, Login } from 'front/pages';
 import './index.scss';
 
-export interface INavProps extends NavLinkProps {
+interface INavProps extends NavLinkProps {
   to: string;
   name: string;
 }
 const Navbar: FC<CSSProperties> = styles => {
+  // 注册框
   const [visible, setVisible] = useState<boolean>(false);
+  // 登陆框
+  const [loginVisible, setLoginVisible] = useState<boolean>(false);
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
   // 菜单列表
   const Menus: Array<INavProps> = [
     {
@@ -56,7 +60,15 @@ const Navbar: FC<CSSProperties> = styles => {
       </div>
       <div className="nav-bar-right">
         <div className="nav-bar-right-user">
-          <div className="login">登录</div>/
+          <div
+            className="login"
+            onClick={() => {
+              setLoginVisible(true);
+            }}
+          >
+            登录
+          </div>
+          /
           <div
             className="register"
             onClick={() => {
@@ -76,6 +88,17 @@ const Navbar: FC<CSSProperties> = styles => {
           >
             <Register onVisible={onVisible} />
           </Drawer>
+          <Modal
+            title="用户登陆"
+            visible={loginVisible}
+            footer={null}
+            onCancel={() => {
+              setLoginVisible(false);
+            }}
+            maskClosable={false}
+          >
+            <Login />
+          </Modal>
         </div>
       </div>
     </div>

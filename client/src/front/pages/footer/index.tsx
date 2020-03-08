@@ -21,7 +21,10 @@ const Footer: FC = () => {
                 width: '20px',
               }}
             />
-            ICP认证：蜀17013737
+            ICP认证：
+            <a href="http://www.beian.miit.gov.cn" target="_blank">
+              蜀17013737
+            </a>
           </p>
         </div>
       </div>

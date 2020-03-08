@@ -57,7 +57,10 @@ const Home: FC = () => {
                             className="safe-icon"
                             src="https://img.alicdn.com/tfs/TB1..50QpXXXXX7XpXXXXXXXXXX-40-40.png"
                           />
-                          ICP认证：蜀17013737
+                          ICP认证：
+                          <a style={{ color: 'white' }} href="http://www.beian.miit.gov.cn" target="_blank">
+                            蜀17013737
+                          </a>
                         </p>
                       </div>
                     </div>

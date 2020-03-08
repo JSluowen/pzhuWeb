@@ -73,7 +73,6 @@ const Register: FC<IProps> = props => {
     const value = e.target.value;
     // this.setState({ confirmDirty: confirmDirty || !!value });
     setConfirmDirty(val => {
-      console.log('val', val);
       return val || !!value;
     });
   };

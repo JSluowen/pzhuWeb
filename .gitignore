@@ -4,3 +4,5 @@ run/
 package-lock.json
 node_modules/
 static/
+.vscode 
+.DS_Stor

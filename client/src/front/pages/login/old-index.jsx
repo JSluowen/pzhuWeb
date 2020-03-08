@@ -90,13 +90,7 @@ class Login extends Component {
       }
     });
   };
-  handelUser = e => {
-    if (e.target.type === 'password') {
-      Cookies.setCookies({ password: '' });
-    } else {
-      Cookies.setCookies({ id: '' });
-    }
-  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
