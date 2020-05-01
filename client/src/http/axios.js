@@ -7,7 +7,6 @@ message.config({
   duration: 2,
   maxCount: 3,
 });
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://127.0.0.1:7001/api';
 } else {

@@ -6,3 +6,5 @@ node_modules/
 static/
 .vscode 
 .DS_Stor
+logs/
+dist

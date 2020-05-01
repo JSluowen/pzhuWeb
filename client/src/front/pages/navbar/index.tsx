@@ -3,7 +3,7 @@ import { Router, Route, Link, NavLink, NavLinkProps } from 'react-router-dom';
 import { Avatar, BackTop, Drawer, Modal, Button } from 'antd';
 import { Register, Login } from 'front/pages';
 import './index.scss';
-
+import 'src/front/common/theme/theme.scss';
 interface INavProps extends NavLinkProps {
   to: string;
   name: string;
@@ -12,8 +12,8 @@ const Navbar: FC<CSSProperties> = styles => {
   // 注册框
   const [visible, setVisible] = useState<boolean>(false);
   // 登陆框
-  const [loginVisible, setLoginVisible] = useState<boolean>(false);
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
+  // const [loginVisible, setLoginVisible] = useState<boolean>(false);
+  // const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
   // 菜单列表
   const Menus: Array<INavProps> = [
     {
@@ -60,14 +60,9 @@ const Navbar: FC<CSSProperties> = styles => {
       </div>
       <div className="nav-bar-right">
         <div className="nav-bar-right-user">
-          <div
-            className="login"
-            onClick={() => {
-              setLoginVisible(true);
-            }}
-          >
-            登录
-          </div>
+          <NavLink className="login" to="/login">
+            登陆
+          </NavLink>
           /
           <div
             className="register"
@@ -88,7 +83,7 @@ const Navbar: FC<CSSProperties> = styles => {
           >
             <Register onVisible={onVisible} />
           </Drawer>
-          <Modal
+          {/* <Modal
             title="用户登陆"
             visible={loginVisible}
             footer={null}
@@ -98,7 +93,7 @@ const Navbar: FC<CSSProperties> = styles => {
             maskClosable={false}
           >
             <Login />
-          </Modal>
+          </Modal> */}
         </div>
       </div>
     </div>

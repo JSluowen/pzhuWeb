@@ -11,7 +11,9 @@ import {
 } from 'react-router-dom';
 import { Avatar, BackTop } from 'antd';
 import './index.scss';
-import { Home, Member, Navbar, Footer, Achievement, Resource } from 'front/pages';
+import 'src/front/common/theme/theme.scss';
+import { themeMap } from 'src/front/common/theme/theme';
+import { Home, Member, Navbar, Footer, Achievement, Resource, Login } from 'front/pages';
 
 const Layout: FC<RouteComponentProps> = ({ location }) => {
   //路由列表
@@ -32,18 +34,16 @@ const Layout: FC<RouteComponentProps> = ({ location }) => {
       path: '/resource',
       component: Resource,
     },
+    {
+      path: '/login',
+      component: Login,
+    },
   ];
-  const navStyles: CSSProperties = {
-    backgroundColor: location.pathname !== '/home' ? '#fff' : 'transparent',
-  };
-  const LayStyle: CSSProperties = {
-    marginTop: location.pathname !== '/home' ? '60px' : '0',
-  };
   return (
-    <div className="container" style={LayStyle}>
+    <div className={`container ${themeMap[location.pathname] || 'light'}`}>
       {/* 回到顶部 */}
       <BackTop visibilityHeight={100} />
-      {location.pathname !== '/home' && <Navbar {...navStyles} />}
+      <div className="header">{location.pathname !== '/home' && <Navbar />}</div>
       <div className="content">
         <Switch>
           {Routes.map((item, index) => (
@@ -51,7 +51,7 @@ const Layout: FC<RouteComponentProps> = ({ location }) => {
           ))}
         </Switch>
       </div>
-      <Footer />
+      <div className="footer">{location.pathname !== '/home' && <Footer />}</div>
     </div>
   );
 };

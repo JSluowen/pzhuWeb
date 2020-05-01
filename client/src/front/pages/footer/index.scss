@@ -1,58 +1,22 @@
-.Footer {
-  .pzhu-web-copyright {
-    background-color: white;
-    padding: 20px 0;
-    flex: 1 1 auto;
-    width: 100%;
-    min-width: 1400px;
-    box-shadow: 0 0 4px #f0f1f2;
-    // border-top: 1px solid #f0f1f2;
-    .copyright {
-      color: #73777a;
+.pzhu-web-copyright {
+  padding: 20px 0;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 1400px;
+  .copyright {
+    font-size: 14px;
+    margin: 0 auto;
+    margin-top: 10px;
+    min-width: 1000px;
+    max-width: 1200px;
+    text-align: center;
+    .web-auth {
       font-size: 14px;
-      margin: 0 auto;
       margin-top: 10px;
-      min-width: 1000px;
-      max-width: 1200px;
-      text-align: center;
 
-      .about-us {
-        a {
-          font-size: 16px;
-          color: #9b9ea0;
-          margin-right: 35px;
-          transition: color 0.3s;
-          &:hover {
-            color: #1890ff;
-          }
-        }
-      }
-
-      .link-wrap {
-        padding: 32px 0;
-
-        a {
-          display: inline-block;
-          font-size: 14px;
-          color: #73777a;
-          margin-right: 10px;
-          margin-top: 10px;
-          transition: color 0.3s;
-          &:hover {
-            color: #1890ff;
-          }
-        }
-      }
-
-      .web-auth {
-        color: #73777a;
-        font-size: 14px;
-        margin-top: 10px;
-
-        img {
-          margin-left: 10px;
-          vertical-align: bottom;
-        }
+      img {
+        margin-left: 10px;
+        vertical-align: bottom;
       }
     }
   }
