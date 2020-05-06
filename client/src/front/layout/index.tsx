@@ -1,44 +1,14 @@
-import React, { useState, useEffect, ReactNode, FC, useContext, Context, CSSProperties } from 'react';
-import {
-  Route,
-  Link,
-  NavLink,
-  NavLinkProps,
-  RouteProps,
-  LinkProps,
-  Switch,
-  RouteComponentProps,
-} from 'react-router-dom';
+import React, { FC } from 'react';
+import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
 import { Avatar, BackTop } from 'antd';
 import './index.scss';
 import 'src/front/common/theme/theme.scss';
 import { themeMap } from 'src/front/common/theme/theme';
-import { Home, Member, Navbar, Footer, Achievement, Resource, Login } from 'front/pages';
+import { Routes } from './router';
+import Navbar from '../pages/navbar';
+import Footer from '../pages/footer';
 
 const Layout: FC<RouteComponentProps> = ({ location }) => {
-  //路由列表
-  const Routes: Array<RouteProps> = [
-    {
-      path: '/home',
-      component: Home,
-    },
-    {
-      path: '/member',
-      component: Member,
-    },
-    {
-      path: '/achievement',
-      component: Achievement,
-    },
-    {
-      path: '/resource',
-      component: Resource,
-    },
-    {
-      path: '/login',
-      component: Login,
-    },
-  ];
   return (
     <div className={`container ${themeMap[location.pathname] || 'light'}`}>
       {/* 回到顶部 */}
@@ -49,6 +19,7 @@ const Layout: FC<RouteComponentProps> = ({ location }) => {
           {Routes.map((item, index) => (
             <Route key={index} {...item} />
           ))}
+          <Redirect from="/" to="/home" />
         </Switch>
       </div>
       <div className="footer">{location.pathname !== '/home' && <Footer />}</div>

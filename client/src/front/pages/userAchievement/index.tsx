@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss';
-import UserAPI from '../../api/user';
-import TouristAPI from '../../api/tourist';
-import { Link } from 'react-router';
+import { Base, Post } from 'src/front/api';
+import { Link, RouteComponentProps } from 'react-router-dom';
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
-class UserAchievement extends Component {
+
+export interface IState {
+  id: string;
+  limit: number;
+  beg: number;
+  end: number;
+  loading: boolean;
+  index: number;
+  acType: Array<{ [key: string]: any }>;
+  ac: Array<{ [key: string]: any }>;
+  searchValue: string;
+  color: Array<string>;
+  isLoading: boolean;
+  isTourist: boolean;
+}
+export interface IProps extends RouteComponentProps {}
+class UserAchievement extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.params.userid,
+      id: props.match.params.userid,
       limit: 10, // 获取的数据量
       beg: 0, // 截取后台数据开始的位置
       end: 10, // 后台数据结束的位置
@@ -19,6 +34,7 @@ class UserAchievement extends Component {
       index: 0,
       acType: [],
       ac: [],
+      searchValue: '',
       color: ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'],
       isLoading: true, // 是否滚动监听
       isTourist: true, // 是否游客访问
@@ -32,6 +48,9 @@ class UserAchievement extends Component {
     }
     window.addEventListener('scroll', this.handelScroll);
   }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handelScroll);
+  }
   getTouristAchievement = () => {
     const params = {
       index: this.state.index,
@@ -40,7 +59,7 @@ class UserAchievement extends Component {
       end: this.state.end,
       id: this.state.id,
     };
-    TouristAPI.getTouristAchievement(params).then(res => {
+    Post(Base.getTouristAchievement, params).then(res => {
       const arry = this.state.ac;
       for (const item of res.data.ac) {
         arry.push(item);
@@ -73,7 +92,7 @@ class UserAchievement extends Component {
       beg: this.state.beg,
       end: this.state.end,
     };
-    UserAPI.getUserAchievement(params).then(res => {
+    Post(Base.getUserAchievement, params).then(res => {
       const arry = this.state.ac;
       for (const item of res.data.ac) {
         arry.push(item);
@@ -114,27 +133,16 @@ class UserAchievement extends Component {
       value,
       id: this.state.id,
     };
-    if (this.state.isTourist) {
-      TouristAPI.searchTouristAchievement(params).then(res => {
-        if (!res.success) message.warning('未搜索到你想要的资源');
-        setTimeout(() => {
-          this.setState({
-            loading: false,
-            ac: res.data,
-          });
-        }, 500);
-      });
-    } else {
-      UserAPI.searchUserAchievement(params).then(res => {
-        if (!res.success) message.warning('未搜索到你想要的资源');
-        setTimeout(() => {
-          this.setState({
-            loading: false,
-            ac: res.data,
-          });
-        }, 500);
-      });
-    }
+    const url = this.state.isTourist ? Base.searchTouristAchievement : Base.searchUserAchievement;
+    Post(url, params).then(res => {
+      if (!res.success) message.warning('未搜索到你想要的资源');
+      setTimeout(() => {
+        this.setState({
+          loading: false,
+          ac: res.data,
+        });
+      }, 500);
+    });
   };
 
   // 筛选资源
@@ -176,7 +184,7 @@ class UserAchievement extends Component {
       this.handelLoading();
     }
   };
-  handelLoading = e => {
+  handelLoading = () => {
     if (this.state.isLoading) {
       this.setState({
         isLoading: false,
@@ -199,8 +207,8 @@ class UserAchievement extends Component {
     } else {
       event = e.target;
     }
-    const id = event.getAttribute('primary');
-    const index = event.getAttribute('index');
+    const id = event.getAttribute('data-id');
+    const index = event.getAttribute('data-index');
     const params = {
       id,
     };
@@ -212,7 +220,7 @@ class UserAchievement extends Component {
       okType: 'danger',
       cancelText: '考虑一下',
       onOk() {
-        UserAPI.delUserAchievement(params).then(res => {
+        Post(Base.delUserAchievement, params).then(res => {
           if (res.success) {
             message.success('删除成功');
             that.state.ac.splice(index, 1);
@@ -292,7 +300,7 @@ class UserAchievement extends Component {
                               <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/achievementIssue/${item.id}`}>
                                 <Icon type="edit" />
                               </Link>
-                              <p primary={item.id} index={index} onClick={this.handelDel}>
+                              <p data-id={item.id} data-index={index} onClick={this.handelDel}>
                                 <Icon type="delete" />
                               </p>
                             </div>

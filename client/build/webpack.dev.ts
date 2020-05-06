@@ -12,6 +12,7 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].js',
+    publicPath: '/',
   },
   plugins: [
     new webpack.DefinePlugin({

@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss';
-import UserAPI from '../../api/user';
-import TouristAPI from '../../api/tourist';
-import { Link } from 'react-router';
+import { Base, Post } from 'src/front/api';
+import { Link, RouteComponentProps } from 'react-router-dom';
+
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
-class UserArticle extends Component {
+
+export interface IState {
+  id: string;
+  limit: number;
+  beg: number;
+  end: number;
+  loading: boolean;
+  index: number;
+  articleType: Array<{ [key: string]: any }>;
+  article: Array<{ [key: string]: any }>;
+  color: Array<string>;
+  isLoading: boolean;
+  isTourist: boolean;
+}
+export interface IProps extends RouteComponentProps {}
+
+class UserArticle extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.params.userid,
+      id: props.match.params.userid,
       limit: 10, // 获取的数据量
       beg: 0, // 截取后台数据开始的位置
       end: 10, // 后台数据结束的位置
@@ -25,9 +41,9 @@ class UserArticle extends Component {
     };
   }
   static getDerivedStateFromProps(props, state) {
-    if (props.params.userid !== state.id) {
+    if (props.match.params.userid !== state.id) {
       return {
-        id: props.params.userid,
+        id: props.match.params.userid,
         article: [],
       };
     }
@@ -51,6 +67,9 @@ class UserArticle extends Component {
     }
     window.addEventListener('scroll', this.handelScroll);
   }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handelScroll);
+  }
   getTouristArticle = () => {
     const params = {
       index: this.state.index,
@@ -58,7 +77,7 @@ class UserArticle extends Component {
       end: this.state.end,
       id: this.state.id,
     };
-    TouristAPI.getTouristArticle(params).then(res => {
+    Post(Base.getTouristArticle, params).then(res => {
       const arry = this.state.article;
       for (const item of res.data.article) {
         arry.push(item);
@@ -91,7 +110,7 @@ class UserArticle extends Component {
       beg: this.state.beg,
       end: this.state.end,
     };
-    UserAPI.getUserArticle(params).then(res => {
+    Post(Base.getUserArticle, params).then(res => {
       const arry = this.state.article;
       for (const item of res.data.article) {
         arry.push(item);
@@ -132,27 +151,16 @@ class UserArticle extends Component {
       value,
       id: this.state.id,
     };
-    if (this.state.isTourist) {
-      TouristAPI.searchTouristArticle(params).then(res => {
-        if (!res.success) message.warning('为搜索到您想要的资源');
-        setTimeout(() => {
-          this.setState({
-            loading: false,
-            article: res.data,
-          });
-        }, 500);
-      });
-    } else {
-      UserAPI.searchUserArticle(params).then(res => {
-        if (!res.success) message.warning('为搜索到您想要的资源');
-        setTimeout(() => {
-          this.setState({
-            loading: false,
-            article: res.data,
-          });
-        }, 500);
-      });
-    }
+    const url = this.state.isTourist ? Base.searchTouristArticle : Base.searchUserArticle;
+    Post(url, params).then(res => {
+      if (!res.success) message.warning('为搜索到您想要的资源');
+      setTimeout(() => {
+        this.setState({
+          loading: false,
+          article: res.data,
+        });
+      }, 500);
+    });
   };
 
   // 筛选资源
@@ -193,7 +201,7 @@ class UserArticle extends Component {
       this.handelLoading();
     }
   };
-  handelLoading = e => {
+  handelLoading = () => {
     if (this.state.isLoading) {
       this.setState({
         isLoading: false,
@@ -216,8 +224,8 @@ class UserArticle extends Component {
     } else {
       event = e.target;
     }
-    const id = event.getAttribute('primary');
-    const index = event.getAttribute('index');
+    const id = event.getAttribute('data-id');
+    const index = event.getAttribute('data-index');
     const params = {
       id,
     };
@@ -229,7 +237,7 @@ class UserArticle extends Component {
       okType: 'danger',
       cancelText: '考虑一下',
       onOk() {
-        UserAPI.delUserArticle(params).then(res => {
+        Post(Base.delUserArticle, params).then(res => {
           if (res.success) {
             message.success('删除成功');
             that.state.article.splice(index, 1);
@@ -312,7 +320,7 @@ class UserArticle extends Component {
                               <Link style={{ color: 'rgba(0, 0, 0, 0.65)' }} to={`/articleEdit/${item.id}`}>
                                 <Icon type="edit" />
                               </Link>
-                              <p primary={item.id} index={index} onClick={this.handelDel}>
+                              <p data-id={item.id} data-index={index} onClick={this.handelDel}>
                                 <Icon type="delete" />
                               </p>
                             </div>

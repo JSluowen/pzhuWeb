@@ -1,10 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, Props } from 'react';
 import { Button, Icon, message } from 'antd';
-import { Link } from 'react-router';
 import './index.scss';
 import UserAPI from '../../api/user';
 import TouristAPI from '../../api/tourist';
-class User extends Component {
+import { Link, RouteComponentProps, NavLink, Switch, Route, Redirect } from 'react-router-dom';
+import { Routes, TouristRouters } from './router';
+export interface IState {
+  userinfo: {
+    [key: string]: string;
+  };
+  school: string;
+  major: string;
+  domain: string;
+  name: string;
+  id: string;
+  isTourist: boolean;
+}
+export interface IProps extends RouteComponentProps {}
+
+class User extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,14 +27,14 @@ class User extends Component {
       major: '',
       domain: '',
       name: '',
-      id: props.params.userid,
+      id: props.match.params.userid,
       isTourist: true, // 默认是游客访问用户界面
     };
   }
   static getDerivedStateFromProps(props, state) {
-    if (props.params.userid !== state.id) {
+    if (props.match.params.userid !== state.id) {
       return {
-        id: props.params.userid,
+        id: props.match.params.userid,
       };
     }
     return null;
@@ -54,7 +68,7 @@ class User extends Component {
         });
       } else {
         message.warning('请求的用户信息不存在!');
-        this.props.router.push('/member');
+        this.props.history.push('/member');
       }
     });
   };
@@ -70,7 +84,7 @@ class User extends Component {
           isTourist: false,
         });
       } else {
-        this.props.router.push('/setting');
+        this.props.history.push('/setting');
       }
     });
   };
@@ -118,51 +132,67 @@ class User extends Component {
             {this.state.isTourist ? (
               <div className="user-left-body-navbar">
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to={`/tourist/${this.state.id}/article`}>
+                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/article`}>
                     文章
-                  </Link>
+                  </NavLink>
                 </div>
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to={`/tourist/${this.state.id}/achievement`}>
+                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/achievement`}>
                     成果
-                  </Link>
+                  </NavLink>
                 </div>
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to={`/tourist/${this.state.id}/resource`}>
+                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/resource`}>
                     资源
-                  </Link>
+                  </NavLink>
                 </div>
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to={`/tourist/${this.state.id}/collect`}>
+                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/collect`}>
                     收藏
-                  </Link>
+                  </NavLink>
                 </div>
               </div>
             ) : (
               <div className="user-left-body-navbar">
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to="/user/article">
+                  <NavLink activeClassName="userActive" to="/user/article">
                     文章
-                  </Link>
+                  </NavLink>
                 </div>
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to="/user/achievement">
+                  <NavLink activeClassName="userActive" to="/user/achievement">
                     成果
-                  </Link>
+                  </NavLink>
                 </div>
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to="/user/resource">
+                  <NavLink activeClassName="userActive" to="/user/resource">
                     资源
-                  </Link>
+                  </NavLink>
                 </div>
                 <div className="user-left-body-navbar-item">
-                  <Link activeClassName="userActive" to="/user/collect">
+                  <NavLink activeClassName="userActive" to="/user/collect">
                     收藏
-                  </Link>
+                  </NavLink>
                 </div>
               </div>
             )}
-            <div className="user-left-body-container">{this.props.children}</div>
+            <div className="user-left-body-container">
+              {this.state.isTourist ? (
+                <Switch>
+                  {TouristRouters.map((item, index) => (
+                    <Route key={index} {...item} />
+                  ))}
+                  <Redirect from="/tourist/:userid" to="/tourist/:userid/article" />
+                </Switch>
+              ) : (
+                <Switch>
+                  {Routes.map((item, index) => (
+                    <Route key={index} {...item} />
+                  ))}
+                  <Redirect from="/user" to="/user/article" />
+                </Switch>
+              )}
+            </div>
           </div>
         </div>
         <div className="user-right">

@@ -3,6 +3,7 @@ import { Form, Icon, Input, Button, message, Modal } from 'antd';
 import md5 from 'md5';
 import LoginApi from '../../api/login';
 import Cookies from '../../../http/cookies';
+import { ImgProLoad } from 'src/component';
 import Forget from './forget';
 import './index.scss';
 import { FormComponentProps } from 'antd/lib/form';
@@ -14,6 +15,10 @@ export interface IState {
   visible: boolean;
   isLogin: boolean;
 }
+const imgs = {
+  small: 'http://img.pzhuweb.cn/login-small.png',
+  large: 'http://img.pzhuweb.cn/login.png',
+};
 class Login extends Component<FormComponentProps, IState> {
   constructor(props) {
     super(props);
@@ -87,8 +92,14 @@ class Login extends Component<FormComponentProps, IState> {
               Cookies.setCookies(data);
               sessionStorage.setItem('token', res.data.token);
               setTimeout(() => {}, 500);
+              this.setState({
+                isLogin: true,
+              });
             } else {
               message.warning(res.message);
+              this.setState({
+                isLogin: false,
+              });
             }
           })
           .catch(err => {
@@ -104,98 +115,101 @@ class Login extends Component<FormComponentProps, IState> {
       return <Redirect to="/user" />;
     }
     return (
-      <div className="login-container">
-        <div style={{ backgroundImage: 'url(http://img.pzhuweb.cn/login.png)' }} className="fuzzy"></div>
-        <div className="login-body">
-          {/* <div className="login-img" style={{ backgroundImage: 'url(http://img.pzhuweb.cn/login.png)' }}></div> */}
-          <div className="login-content">
-            <div className="form-top">
-              <div className="form-top-title">用户登录</div>
+      <div className="login-box">
+        <ImgProLoad {...imgs}>
+          <div className="login-container">
+            <div className="fuzzy"></div>
+            <div className="login-body">
+              <div className="login-content">
+                <div className="form-top">
+                  <div className="form-top-title">用户登录</div>
+                </div>
+                <div className="form-content">
+                  <Form className="login-form">
+                    <Form.Item>
+                      {getFieldDecorator('id', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请输入学号',
+                          },
+                        ],
+                      })(
+                        <Input
+                          prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
+                          placeholder="请输入学号"
+                          onChange={this.handleUser}
+                        />,
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      {getFieldDecorator('password', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请输入密码',
+                          },
+                        ],
+                      })(
+                        <Input
+                          prefix={<Icon type="lock" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
+                          type="password"
+                          placeholder="请输入密码"
+                          onChange={this.handleUser}
+                        />,
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      {getFieldDecorator('confirm', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请输入验证信息',
+                          },
+                          {
+                            validator: this.handleConfirm,
+                          },
+                        ],
+                      })(
+                        <Input
+                          prefix={<Icon type="key" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
+                          type="text"
+                          placeholder={this.state.confirmMessage}
+                        />,
+                      )}
+                    </Form.Item>
+                    <Button type="primary" onClick={this.handleSubmit} className="login-form-button">
+                      立即登录
+                    </Button>
+                  </Form>
+                </div>
+                <div
+                  className="form-top-forget"
+                  onClick={() => {
+                    this.setState({ visible: true });
+                  }}
+                >
+                  忘记密码？
+                </div>
+                <Modal
+                  title="找回密码"
+                  visible={this.state.visible}
+                  onCancel={() => {
+                    this.setState({ visible: false });
+                  }}
+                  footer={null}
+                  maskClosable={false}
+                >
+                  <Forget
+                    visible={flag => {
+                      this.setState({ visible: flag });
+                    }}
+                  />
+                </Modal>
+              </div>
             </div>
-            <div className="form-content">
-              <Form className="login-form">
-                <Form.Item>
-                  {getFieldDecorator('id', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入学号',
-                      },
-                    ],
-                  })(
-                    <Input
-                      prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
-                      placeholder="请输入学号"
-                      onChange={this.handleUser}
-                    />,
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  {getFieldDecorator('password', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入密码',
-                      },
-                    ],
-                  })(
-                    <Input
-                      prefix={<Icon type="lock" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
-                      type="password"
-                      placeholder="请输入密码"
-                      onChange={this.handleUser}
-                    />,
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  {getFieldDecorator('confirm', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入验证信息',
-                      },
-                      {
-                        validator: this.handleConfirm,
-                      },
-                    ],
-                  })(
-                    <Input
-                      prefix={<Icon type="key" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
-                      type="text"
-                      placeholder={this.state.confirmMessage}
-                    />,
-                  )}
-                </Form.Item>
-                <Button type="primary" onClick={this.handleSubmit} className="login-form-button">
-                  立即登录
-                </Button>
-              </Form>
-            </div>
-            <div
-              className="form-top-forget"
-              onClick={() => {
-                this.setState({ visible: true });
-              }}
-            >
-              忘记密码？
-            </div>
-            <Modal
-              title="找回密码"
-              visible={this.state.visible}
-              onCancel={() => {
-                this.setState({ visible: false });
-              }}
-              footer={null}
-              maskClosable={false}
-            >
-              <Forget
-                visible={flag => {
-                  this.setState({ visible: flag });
-                }}
-              />
-            </Modal>
           </div>
-        </div>
+        </ImgProLoad>
       </div>
     );
   }

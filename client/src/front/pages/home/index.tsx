@@ -33,22 +33,14 @@ const Home: FC = () => {
           return (
             <div>
               <div className="section">
-                <div
-                  className="home-fullpageFive"
-                  style={{ backgroundColor: '#f6f6f6' }}
-                  data-src="http://img.pzhuweb.cn/10.png"
-                >
+                <div className="home-fullpageFive" style={{ backgroundColor: '#f6f6f6' }}>
                   <ImgProLoad {...imgs}>
                     <div className="home-fullpageFive-container">
                       <Navbar />
                       <div className="home-fullpageFive-container-top">
                         <div className="home-fullpageFive-container-top-title">你的梦想，从这里开始</div>
                         <div className="home-fullpageFive-container-top-tips">WEB应用专业团队，欢迎你的加入！</div>
-                        {sessionStorage.getItem('token') ? (
-                          ''
-                        ) : (
-                          <a href="http://www.pzhuweb.cn/#/articleInfo/109">团队介绍</a>
-                        )}
+                        <a href="http://www.pzhuweb.cn/#/articleInfo/109">团队介绍</a>
                       </div>
                       <div className="home-fullpageFive-container-footer">
                         <p className="web-auth">
