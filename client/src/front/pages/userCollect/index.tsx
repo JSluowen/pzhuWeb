@@ -3,15 +3,31 @@ import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss';
 import UserAPI from '../../api/user';
 import TouristAPI from '../../api/tourist';
-import { Link } from 'react-router';
+import { Link, RouteComponentProps } from 'react-router-dom';
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
-class UserCollect extends Component {
+
+export interface IState {
+  id: string;
+  limit: number;
+  beg: number;
+  end: number;
+  loading: boolean;
+  index: number;
+  menu: Array<{ [key: string]: any }>;
+  collect: Array<{ [key: string]: any }>;
+  color: Array<string>;
+  isLoading: boolean;
+  isTourist: boolean;
+}
+
+export interface IProps extends RouteComponentProps {}
+class UserCollect extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.params.userid,
+      id: props.match.params.userid,
       limit: 10, // 获取的数据量
       beg: 0, // 截取后台数据开始的位置
       end: 10, // 后台数据结束的位置
@@ -173,7 +189,7 @@ class UserCollect extends Component {
       this.handelLoading();
     }
   };
-  handelLoading = e => {
+  handelLoading = () => {
     if (this.state.isLoading) {
       this.setState({
         isLoading: false,
@@ -185,8 +201,8 @@ class UserCollect extends Component {
   };
   handelDel = e => {
     const event = e.target;
-    const id = event.getAttribute('primary');
-    const index = event.getAttribute('index');
+    const id = event.getAttribute('data-id');
+    const index = event.getAttribute('data-index');
     const params = {
       id,
     };
@@ -281,8 +297,8 @@ class UserCollect extends Component {
                           ) : (
                             <div
                               onClick={this.handelDel}
-                              primary={item.id}
-                              index={index}
+                              data-id={item.id}
+                              data-index={index}
                               className="userCollect-container-body-item-work"
                               style={{ flex: 1 }}
                             >

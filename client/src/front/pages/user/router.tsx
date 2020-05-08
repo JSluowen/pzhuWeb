@@ -1,4 +1,4 @@
-import { RouteProps } from 'react-router-dom';
+import { RouteProps, NavLinkProps } from 'react-router-dom';
 import { UserCollect, UserResource, UserAchievement, UserArticle } from 'front/pages';
 
 export const Routes: Array<RouteProps> = [
@@ -46,3 +46,41 @@ export const TouristRouters: Array<RouteProps> = [
     component: UserCollect,
   },
 ];
+
+export interface INavLink extends NavLinkProps {
+  name: string;
+}
+
+export interface IMenu {
+  name: string;
+  path: string;
+}
+
+const menu: IMenu[] = [
+  {
+    name: '文章',
+    path: 'article',
+  },
+  {
+    name: '成果',
+    path: 'achievement',
+  },
+  {
+    name: '资源',
+    path: 'resource',
+  },
+  {
+    name: '收藏',
+    path: 'collect',
+  },
+];
+
+export function NavLinks(isTourist: boolean, id?: string): INavLink[] {
+  return menu.map(item => {
+    return {
+      activeClassName: 'userActive',
+      to: isTourist ? `/tourist/${id}/${item.path}` : `/user/${item.path}`,
+      name: item.name,
+    };
+  });
+}

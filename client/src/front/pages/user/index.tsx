@@ -1,10 +1,9 @@
 import React, { Component, Props } from 'react';
 import { Button, Icon, message } from 'antd';
 import './index.scss';
-import UserAPI from '../../api/user';
-import TouristAPI from '../../api/tourist';
+import { Base, Post } from 'src/front/api';
 import { Link, RouteComponentProps, NavLink, Switch, Route, Redirect } from 'react-router-dom';
-import { Routes, TouristRouters } from './router';
+import { Routes, TouristRouters, NavLinks } from './router';
 export interface IState {
   userinfo: {
     [key: string]: string;
@@ -57,7 +56,7 @@ class User extends Component<IProps, IState> {
   }
   // 游客访问获取信息
   getTouirst = () => {
-    TouristAPI.getTouristInfo({ id: this.state.id }).then(res => {
+    Post(Base.getTouristInfo, { id: this.state.id }).then(res => {
       if (res.success) {
         this.setState({
           userinfo: res.data,
@@ -73,7 +72,7 @@ class User extends Component<IProps, IState> {
     });
   };
   getUserInfo = () => {
-    UserAPI.getUserInfo({}).then(res => {
+    Post(Base.getUserInfo, {}).then(res => {
       if (res.success) {
         this.setState({
           userinfo: res.data,
@@ -129,53 +128,15 @@ class User extends Component<IProps, IState> {
             </div>
           </div>
           <div className="user-left-body">
-            {this.state.isTourist ? (
-              <div className="user-left-body-navbar">
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/article`}>
-                    文章
+            <div className="user-left-body-navbar">
+              {NavLinks(this.state.isTourist, this.state.id).map(item => (
+                <div className="user-left-body-navbar-item" key={item.name}>
+                  <NavLink activeClassName={item.activeClassName} to={item.to}>
+                    {item.name}
                   </NavLink>
                 </div>
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/achievement`}>
-                    成果
-                  </NavLink>
-                </div>
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/resource`}>
-                    资源
-                  </NavLink>
-                </div>
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to={`/tourist/${this.state.id}/collect`}>
-                    收藏
-                  </NavLink>
-                </div>
-              </div>
-            ) : (
-              <div className="user-left-body-navbar">
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to="/user/article">
-                    文章
-                  </NavLink>
-                </div>
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to="/user/achievement">
-                    成果
-                  </NavLink>
-                </div>
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to="/user/resource">
-                    资源
-                  </NavLink>
-                </div>
-                <div className="user-left-body-navbar-item">
-                  <NavLink activeClassName="userActive" to="/user/collect">
-                    收藏
-                  </NavLink>
-                </div>
-              </div>
-            )}
+              ))}
+            </div>
             <div className="user-left-body-container">
               {this.state.isTourist ? (
                 <Switch>
