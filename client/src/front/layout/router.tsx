@@ -1,5 +1,5 @@
 import { RouteProps } from 'react-router-dom';
-import { Home, Member, Navbar, Footer, Achievement, Resource, Login, User } from 'front/pages';
+import { Home, Member, Navbar, Footer, Achievement, Resource, Login, User, Setting } from 'front/pages';
 
 export const Routes: Array<RouteProps> = [
   {
@@ -32,5 +32,10 @@ export const Routes: Array<RouteProps> = [
     exact: false,
     path: '/tourist/:userid',
     component: User,
+  },
+  {
+    exact: true,
+    path: '/setting',
+    component: Setting,
   },
 ];

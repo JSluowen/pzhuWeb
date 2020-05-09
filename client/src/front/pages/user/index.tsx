@@ -119,7 +119,7 @@ class User extends Component<IProps, IState> {
               {this.state.isTourist ? (
                 ' '
               ) : (
-                <Link to="setting">
+                <Link to="/setting">
                   <Button type="primary" ghost>
                     编辑个人资料
                   </Button>

@@ -5,7 +5,22 @@ import qiniu from '../../common/qiniu';
 import Cookies from '../../../http/cookies';
 import PersonAPI from '../../api/person';
 import './index.scss';
-class Setting extends Component {
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { FormComponentProps } from 'antd/lib/form/Form';
+
+export interface IState {
+  defaultSchoolMajor: Array<{ [key: string]: any }>;
+  defaultDomain: Array<{ [key: string]: any }>;
+  schoolMajor: Array<{ [key: string]: any }>;
+  domain: Array<{ [key: string]: any }>;
+  initSchoolMajor: Array<{ [key: string]: any }>;
+  initDomain: Array<{ [key: string]: any }>;
+  visible: boolean;
+  loading: boolean;
+  src: string;
+}
+export interface IProps extends RouteComponentProps, FormComponentProps {}
+class Setting extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +36,7 @@ class Setting extends Component {
     };
   }
   // 初始化信息搜索过滤
-  filter = (inputValue, path) => {
+  filter = (inputValue, path): boolean => {
     return path.some(option => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
   };
   handleCancel = e => {
@@ -127,7 +142,9 @@ class Setting extends Component {
                     loading: false,
                   });
                   message.success('信息保存成功');
-                  this.props.router.push('/user');
+                  setTimeout(() => {
+                    this.props.history.push('/user');
+                  }, 500);
                 }
               });
             })
@@ -143,7 +160,9 @@ class Setting extends Component {
                 loading: false,
               });
               message.success('信息保存成功');
-              this.props.router.push('/user');
+              setTimeout(() => {
+                this.props.history.push('/user');
+              }, 500);
             }
           });
         }
@@ -156,7 +175,7 @@ class Setting extends Component {
       <div className="personinfo">
         <div className="personinfo-container">
           <div className="personinfo-container-pageheader">编辑个人信息</div>
-          <Spin tip="个人信息上传中" spinning={this.state.loading} delay="200">
+          <Spin tip="个人信息上传中" spinning={this.state.loading} delay={200}>
             <div className="personinfo-container-context">
               <div className="personinfo-container-context-left">
                 <Form layout="inline" className="personinfo-container-context-left-form">
@@ -186,7 +205,7 @@ class Setting extends Component {
                     })(
                       <Cascader
                         placeholder="请选择学院专业"
-                        showSearch={this.filter}
+                        showSearch={{ filter: this.filter }}
                         options={this.state.schoolMajor}
                       />,
                     )}
@@ -201,7 +220,13 @@ class Setting extends Component {
                           message: '请选择研究方向',
                         },
                       ],
-                    })(<Cascader placeholder="请选择研究方向" showSearch={this.filter} options={this.state.domain} />)}
+                    })(
+                      <Cascader
+                        placeholder="请选择研究方向"
+                        showSearch={{ filter: this.filter }}
+                        options={this.state.domain}
+                      />,
+                    )}
                   </Form.Item>
 
                   <Form.Item label="个人简介" style={{ maxHeight: 120 }}>
@@ -215,7 +240,7 @@ class Setting extends Component {
                           validator: this.validatorDescription,
                         },
                       ],
-                    })(<textarea cols="50" rows="3" placeholder="个人简介（20字以内）" />)}
+                    })(<textarea cols={50} rows={3} placeholder="个人简介（20字以内）" />)}
                   </Form.Item>
                   <Form.Item style={{ alignItems: 'center' }}>
                     <Button type="primary" onClick={this.handelSave}>
