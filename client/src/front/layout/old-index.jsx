@@ -63,11 +63,6 @@ export default class Layout extends Component {
       },
     });
   };
-  getSonAvatar = avatar => {
-    this.setState({
-      avatar,
-    });
-  };
   // 显示菜单
   avatarShowMenu = e => {
     const dom = e.currentTarget.lastChild;

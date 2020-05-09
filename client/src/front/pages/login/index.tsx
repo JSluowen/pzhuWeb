@@ -7,26 +7,26 @@ import { ImgProLoad } from 'src/component';
 import Forget from './forget';
 import './index.scss';
 import { FormComponentProps } from 'antd/lib/form';
-import { Redirect } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 
 export interface IState {
   confirmResult: number;
   confirmMessage: string;
   visible: boolean;
-  isLogin: boolean;
 }
 const imgs = {
   small: 'http://img.pzhuweb.cn/login-small.png',
   large: 'http://img.pzhuweb.cn/login.png',
 };
-class Login extends Component<FormComponentProps, IState> {
+
+export interface IProps extends FormComponentProps, RouteComponentProps {}
+class Login extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
       confirmMessage: '',
       confirmResult: 0,
       visible: false,
-      isLogin: false,
     };
   }
   componentDidMount() {
@@ -91,15 +91,11 @@ class Login extends Component<FormComponentProps, IState> {
               };
               Cookies.setCookies(data);
               sessionStorage.setItem('token', res.data.token);
-              setTimeout(() => {}, 500);
-              this.setState({
-                isLogin: true,
-              });
+              setTimeout(() => {
+                this.props.history.replace('/user');
+              }, 500);
             } else {
               message.warning(res.message);
-              this.setState({
-                isLogin: false,
-              });
             }
           })
           .catch(err => {
@@ -111,9 +107,6 @@ class Login extends Component<FormComponentProps, IState> {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    if (this.state.isLogin) {
-      return <Redirect to="/user" />;
-    }
     return (
       <div className="login-box">
         <ImgProLoad {...imgs}>

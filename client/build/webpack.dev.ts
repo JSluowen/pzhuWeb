@@ -22,9 +22,6 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, isBack ? '../html/back.html' : '../html/front.html'),
-      minify: {
-        collapseWhitespace: true, // 是否去除空空格
-      },
     }),
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -34,7 +31,7 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
     contentBase: path.join(__dirname, 'dist'),
     port: isBack ? 8001 : 8080,
     hot: true,
-    compress: true,
+    compress: false,
     proxy: {
       //   "/api": {
       //     target: "https://47.107.106.113:7001",

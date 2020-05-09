@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
 import { Avatar, BackTop } from 'antd';
 import './index.scss';
@@ -8,12 +8,14 @@ import { Routes } from './router';
 import Navbar from '../pages/navbar';
 import Footer from '../pages/footer';
 
-const Layout: FC<RouteComponentProps> = ({ location }) => {
+const Layout: FC<RouteComponentProps> = props => {
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
   return (
-    <div className={`container ${themeMap[location.pathname] || 'light'}`}>
+    <div className={`container ${themeMap[props.location.pathname] || 'light'}`}>
       {/* 回到顶部 */}
       <BackTop visibilityHeight={100} />
-      <div className="header">{location.pathname !== '/home' && <Navbar />}</div>
+      <div className="header">{props.location.pathname !== '/home' && <Navbar {...props} />}</div>
       <div className="content">
         <Switch>
           {Routes.map((item, index) => (
