@@ -1,5 +1,5 @@
 import { RouteProps } from 'react-router-dom';
-import { Home, Member, Navbar, Footer, Achievement, Resource, Login, User, Setting } from 'front/pages';
+import { Home, Member, Achievement, Resource, Login, User, Setting, ArticleEdit } from 'front/pages';
 
 export const Routes: Array<RouteProps> = [
   {

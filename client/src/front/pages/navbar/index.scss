@@ -24,10 +24,10 @@
       align-items: center;
       justify-content: center;
       .app-logo {
-        width: 40px;
-        height: 40px;
+        width: 90px;
+        height: 52px;
         display: block;
-        background-image: url('http://img.pzhuweb.cn/logo.ico');
+        background-image: url('http://img.pzhuweb.cn/logo.png');
         background-position: center;
         background-size: cover;
       }
@@ -74,6 +74,9 @@
       .ant-avatar {
         &:hover {
           cursor: pointer;
+        }
+        img {
+          opacity: 1;
         }
       }
 

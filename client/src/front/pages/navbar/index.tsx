@@ -73,7 +73,7 @@ const Navbar: FC<RouteComponentProps> = props => {
         setIsLogin(false);
         sessionStorage.removeItem('token');
         setTimeout(() => {
-          history.push('/login');
+          history && history.push('/login');
         }, 500);
       },
       onCancel() {
@@ -124,8 +124,8 @@ const Navbar: FC<RouteComponentProps> = props => {
   return (
     <div className="nav-bar">
       <div className="nav-bar-left">
-        <div className="nav-bar-left-log">
-          <a className="app-logo" href="/" target="_self"></a>
+        <div className="nav-bar-left-log" onClick={() => props.history.push('/home')}>
+          <a className="app-logo"></a>
         </div>
         <div className="nav-bar-menu">
           {Menus.map((item, index) => {

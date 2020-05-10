@@ -9,8 +9,6 @@ import Navbar from '../pages/navbar';
 import Footer from '../pages/footer';
 
 const Layout: FC<RouteComponentProps> = props => {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-
   return (
     <div className={`container ${themeMap[props.location.pathname] || 'light'}`}>
       {/* 回到顶部 */}

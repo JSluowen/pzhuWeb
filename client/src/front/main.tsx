@@ -1,12 +1,16 @@
 import React, { memo, FC } from 'react';
-import { BrowserRouter as Router, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, BrowserRouter, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import Layout from 'src/front/layout';
+import { Routes } from './router';
 import 'front/reset.scss';
 const Main: FC = memo(() => {
   return (
     <BrowserRouter>
-      <Route path="/" component={Layout} />
+      <Switch>
+        {Routes.map((item, index) => (
+          <Route key={index} exact={item.exact} path={item.path} component={item.component} />
+        ))}
+      </Switch>
     </BrowserRouter>
   );
 });

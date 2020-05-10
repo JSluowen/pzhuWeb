@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Input, Icon, Avatar, Button, Spin, message, Form, DatePicker } from 'antd';
 import Cookies from '../../../http/cookies';
 import ArticleEditAPI from '../../api/articleEdit';
@@ -7,7 +7,7 @@ import ArticleEditAPI from '../../api/articleEdit';
 import * as qiniu from 'qiniu-js';
 import qiniuAPI from '../../api/qiniu';
 // 引入编辑器组件
-import BraftEditor from 'braft-editor';
+import BraftEditor, { ControlType, BuiltInControlType } from 'braft-editor';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
 // 引入编辑器样式
 import 'braft-editor/dist/index.css';
@@ -17,6 +17,7 @@ import './index.scss';
 // 引入MakeDown语法
 import Markdown from 'braft-extensions/dist/markdown';
 import moment from 'moment';
+import { FormComponentProps } from 'antd/lib/form';
 const dateFormat = 'YYYY-MM-DD';
 const options = {
   includeEditors: ['editor-with-code-highlighter'],
@@ -46,11 +47,39 @@ const options = {
 BraftEditor.use(CodeHighlighter(options));
 BraftEditor.use(Markdown(options));
 
-class ArticleEdit extends Component {
+export interface IState {
+  id: number | null;
+  status: number;
+  coverStatus: boolean;
+  issueStatus: boolean;
+  editorState: () => void;
+  coverLoading: boolean;
+  menu: Array<{ [key: string]: any }>;
+  technology: Array<{ [key: string]: any }>;
+  article: { [key: string]: any };
+  delCoverStatus: boolean;
+  mediaItems: any[];
+  selectType: string;
+  selectTechnology: string;
+  title: string;
+  keywords: string;
+  date: Date;
+  postlink: string;
+  context: string;
+  raw: string | any;
+  avatar: string;
+  articleLoding: boolean;
+}
+export interface IProps extends FormComponentProps, RouteComponentProps {}
+
+class ArticleEdit extends Component<IProps, IState> {
+  selectType: React.RefObject<any>;
+  selectTechnology: React.RefObject<any>;
+  delImg: Function;
   constructor(props) {
     super(props);
     this.state = {
-      id: null, // 文章的Id
+      id: props.match.params.id || null, // 文章的Id
       status: 1, // 默认1数据添加状态，2数据更新状态,
       coverStatus: false,
       issueStatus: false,
@@ -77,14 +106,7 @@ class ArticleEdit extends Component {
   }
 
   componentDidMount() {
-    this.setState(
-      {
-        id: this.props.params.id || null,
-      },
-      () => {
-        this.getArticleEdit();
-      },
-    );
+    this.getArticleEdit();
   }
   // 获取初始化媒体库的信息
   getMediaItems = () => {
@@ -164,13 +186,13 @@ class ArticleEdit extends Component {
         }
       })
       .catch(err => {
-        this.props.router.push('/setting');
+        this.props.history.push('/setting');
       });
   };
   // 初始化文章资源
   initArticle = () => {
     const article = this.state.article;
-    const { title, raw, context, keywords, technologyid, menuid } = article;
+    const { title, raw, keywords, technologyid, menuid } = article;
     const { setFieldsValue } = this.props.form;
     setFieldsValue({ title });
     this.setState({
@@ -253,7 +275,7 @@ class ArticleEdit extends Component {
           that.setState({
             coverLoading: false,
           });
-          message.err('上传失败');
+          message.error('上传失败');
         },
         complete(res) {
           that.setState({
@@ -313,7 +335,7 @@ class ArticleEdit extends Component {
     }
     e.target.classList.add('tagActive');
     this.setState({
-      selectType: e.target.getAttribute('index'),
+      selectType: e.target.getAttribute('data-index'),
     });
   };
   handelSelectTeachnology = e => {
@@ -323,7 +345,7 @@ class ArticleEdit extends Component {
     }
     e.target.classList.add('tagActive');
     this.setState({
-      selectTechnology: e.target.getAttribute('index'),
+      selectTechnology: e.target.getAttribute('data-index'),
     });
   };
   // 文章发布日期
@@ -349,7 +371,7 @@ class ArticleEdit extends Component {
       message.warning('请选择文章发布日期');
     } else if (this.state.context === '<p></p>') {
       message.warning('请编写文章内容');
-    } else if (this.state.postlink === null || this.state.postlink === null) {
+    } else if (this.state.postlink === null) {
       message.warning('请上传文章封面图');
     } else {
       this.setState({
@@ -370,21 +392,21 @@ class ArticleEdit extends Component {
       };
       ArticleEditAPI.uploadArticleInfo(params).then(res => {
         if (res.success) {
+          this.setState({
+            articleLoding: false,
+          });
+          message.success('发布成功');
           setTimeout(() => {
-            this.setState({
-              articleLoding: false,
-            });
-            message.success('发布成功');
-            this.props.router.push(`/articleInfo/${this.state.id}`);
-          }, 200);
+            this.props.history.push(`/articleInfo/${this.state.id}`);
+          }, 500);
         }
       });
     }
   };
   render() {
     const { getFieldDecorator } = this.props.form;
-    const excludeControls = ['fullscreen'];
-    const controls = [
+    const excludeControls: BuiltInControlType[] = ['fullscreen'];
+    const controls: ControlType[] = [
       'undo',
       'redo',
       'separator',
@@ -560,7 +582,7 @@ class ArticleEdit extends Component {
                   <div className="articleEdit-header-right-issue-panel-categoryList" ref={this.selectType}>
                     {this.state.menu.map(item => {
                       return (
-                        <Button onClick={this.handelSelectType} key={item.id} index={item.id}>
+                        <Button onClick={this.handelSelectType} key={item.id} data-index={item.id}>
                           {item.name}
                         </Button>
                       );
@@ -570,7 +592,7 @@ class ArticleEdit extends Component {
                   <div className="articleEdit-header-right-issue-panel-technologyList" ref={this.selectTechnology}>
                     {this.state.technology.map(item => {
                       return (
-                        <Button onClick={this.handelSelectTeachnology} key={item.id} index={item.id}>
+                        <Button onClick={this.handelSelectTeachnology} key={item.id} data-index={item.id}>
                           {item.name}
                         </Button>
                       );
