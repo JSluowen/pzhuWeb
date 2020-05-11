@@ -1,6 +1,6 @@
-import React, { useState, useEffect, FC, CSSProperties, useRef } from 'react';
-import { Router, Route, Link, NavLink, NavLinkProps, RouteComponentProps } from 'react-router-dom';
-import { Avatar, BackTop, Drawer, Modal, Button, Icon } from 'antd';
+import React, { useState, useEffect, FC, useRef } from 'react';
+import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
+import { Avatar, Drawer, Modal, Button, Icon } from 'antd';
 import { Base, Get } from 'src/front/api';
 import { Register } from 'front/pages';
 import './index.scss';

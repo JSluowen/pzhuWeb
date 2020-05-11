@@ -1,6 +1,5 @@
 import React, { useState, useEffect, FC, useRef } from 'react';
-import { Router, Route, Link } from 'react-router-dom';
-import { Button, Card, Input, Icon, Avatar, Row, Col, Skeleton, message } from 'antd';
+import { Button, Card, Icon, Avatar, Row, Col, Skeleton, message } from 'antd';
 import { Base, Post } from 'front/api';
 import './index.scss';
 

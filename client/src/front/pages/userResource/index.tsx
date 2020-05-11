@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import './index.scss';
-import UserAPI from '../../api/user';
-import TouristAPI from '../../api/tourist';
+import { Base, Post } from 'front/api';
 const Option = Select.Option;
 const Search = Input.Search;
 const confirm = Modal.confirm;
@@ -60,7 +59,7 @@ class UserResource extends Component<IProps, IState> {
       end: this.state.end,
       id: this.state.id,
     };
-    TouristAPI.getTouristResource(params).then(res => {
+    Post(Base.getTouristResource, params).then(res => {
       const arry = this.state.resource;
       for (const item of res.data.resource) {
         arry.push(item);
@@ -93,7 +92,7 @@ class UserResource extends Component<IProps, IState> {
       beg: this.state.beg,
       end: this.state.end,
     };
-    UserAPI.getUserResource(params).then(res => {
+    Post(Base.getUserResource, params).then(res => {
       const arry = this.state.resource;
       for (const item of res.data.resource) {
         arry.push(item);
@@ -135,7 +134,7 @@ class UserResource extends Component<IProps, IState> {
       id: this.state.id,
     };
     if (this.state.isTourist) {
-      TouristAPI.searchTouristResource(params).then(res => {
+      Post(Base.searchTouristResource, params).then(res => {
         if (!res.success) message.warning('未搜索到你想要的资源');
         setTimeout(() => {
           this.setState({
@@ -145,7 +144,7 @@ class UserResource extends Component<IProps, IState> {
         }, 500);
       });
     } else {
-      UserAPI.searchUserResource(params).then(res => {
+      Post(Base.searchUserCollect, params).then(res => {
         if (!res.success) message.warning('未搜索到你想要的资源');
         setTimeout(() => {
           this.setState({
@@ -216,7 +215,7 @@ class UserResource extends Component<IProps, IState> {
       okType: 'danger',
       cancelText: '考虑一下',
       onOk() {
-        UserAPI.delUserResource(params).then(res => {
+        Post(Base.delUserResource, params).then(res => {
           if (res.success) {
             message.success('删除成功');
             that.state.resource.splice(index, 1);

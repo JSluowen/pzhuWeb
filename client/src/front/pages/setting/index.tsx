@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Cascader, Modal, message, Spin } from 'antd';
 import Cropper from '../../components/cropper';
 import qiniu from '../../common/qiniu';
-import Cookies from '../../../http/cookies';
-import PersonAPI from '../../api/person';
+import { Post, Base, Get } from 'front/api';
 import './index.scss';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface IState {
@@ -67,7 +66,7 @@ class Setting extends Component<IProps, IState> {
   };
   // 初始化获取
   getInitInfo = () => {
-    PersonAPI.getInitInfo({}).then(res => {
+    Post(Base.getInitInfo, {}).then(res => {
       if (res.success) {
         const { setFieldsValue } = this.props.form;
         setFieldsValue({ phone: res.data.phone });
@@ -84,7 +83,7 @@ class Setting extends Component<IProps, IState> {
   };
   // 获取初始信息：学院专业，研究方向
   getInitMessage = () => {
-    PersonAPI.getInitMessage().then(res => {
+    Get(Base.getInitMessage).then(res => {
       if (res.success) {
         this.setState(
           {
@@ -136,7 +135,7 @@ class Setting extends Component<IProps, IState> {
             .then(res => {
               values.avatar = res.key;
               values.status = 1;
-              PersonAPI.uploadUserInfo(values).then(res => {
+              Post(Base.uploadUserInfo, values).then(res => {
                 if (res.success) {
                   this.setState({
                     loading: false,
@@ -154,7 +153,7 @@ class Setting extends Component<IProps, IState> {
         } else {
           values.avatar = this.state.src;
           values.status = 0;
-          PersonAPI.uploadUserInfo(values).then(res => {
+          Post(Base.uploadUserInfo, values).then(res => {
             if (res.success) {
               this.setState({
                 loading: false,

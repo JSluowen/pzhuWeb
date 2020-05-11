@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from 'react';
-import { Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Icon, Card, Button, Skeleton } from 'antd';
 import { Base, Get } from 'front/api';
 import ma5 from 'md5';

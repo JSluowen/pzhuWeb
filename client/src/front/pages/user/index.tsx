@@ -1,4 +1,4 @@
-import React, { Component, Props } from 'react';
+import React, { Component } from 'react';
 import { Button, Icon, message } from 'antd';
 import './index.scss';
 import { Base, Post } from 'src/front/api';

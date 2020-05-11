@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, AutoComplete, message, Spin } from 'antd';
 import md5 from 'md5';
-import LoginAPI from '../../api/login';
 import { Base, Post } from 'front/api';
 import './forget.scss';
-import Cookies from 'src/http/cookies';
+import { FormComponentProps } from 'antd/lib/form';
 
 // 自动完成
 const AutoCompleteOption = AutoComplete.Option;
 
-class Forget extends Component {
+export interface IProps extends FormComponentProps {
+  visible: (val: boolean) => void;
+}
+export interface IState {
+  email: string;
+  autoCompleteResult: Array<string>;
+  show: boolean;
+  loading: boolean;
+  sendEmail: string;
+  sendStatus: boolean;
+  code: string;
+}
+
+class Forget extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      email: '1291962779@qq.com',
+      email: '',
       autoCompleteResult: [],
       show: true,
       loading: false,
@@ -48,7 +60,7 @@ class Forget extends Component {
       if (!err) {
         values.passwords = md5(values.passwords);
         this.setState({ loading: true });
-        LoginAPI.forgetPassword(values).then(res => {
+        Post(Base.forgetPassword, values).then(res => {
           if (res.success) {
             this.setState({
               email: values.emails,
@@ -116,7 +128,7 @@ class Forget extends Component {
     this.setState({
       loading: true,
     });
-    LoginAPI.changePassword({ code: this.state.code }).then(res => {
+    Post(Base.changePassword, { code: this.state.code }).then(res => {
       if (res.success) {
         message.success('修改成功');
         this.setState({
@@ -184,7 +196,9 @@ class Forget extends Component {
                 <Input
                   placeholder="请输入验证码"
                   onChange={e => {
-                    this.state.code = e.target.value;
+                    this.setState({
+                      code: e.target.value,
+                    });
                   }}
                 />
                 <Button
@@ -223,6 +237,6 @@ class Forget extends Component {
   }
 }
 
-const Forgets = Form.create()(Forget);
+const Forgets = Form.create<IProps>()(Forget);
 
 export default Forgets;

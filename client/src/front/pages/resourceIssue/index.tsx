@@ -4,7 +4,7 @@ import './index.scss';
 import Cookies from '../../../http/cookies';
 import ResourceIssueAPI from '../../api/resourceIssue';
 import * as qiniu from 'qiniu-js';
-import qiniuAPI from '../../api/qiniu';
+import { Base, Post, Get } from 'front/api';
 import moment from 'moment';
 import { FormComponentProps } from 'antd/lib/form';
 import { RouteComponentProps } from 'react-router-dom';
@@ -179,7 +179,7 @@ class ResourceIssue extends Component<IProps, IState> {
     this.setState({
       coverLoading: true,
     });
-    qiniuAPI.getToken().then(res => {
+    Get(Base.qiniuToken).then(res => {
       const token = res.data;
       const key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
       // let key = 'test' + Date.now() + `.${postfix}`;
@@ -264,7 +264,7 @@ class ResourceIssue extends Component<IProps, IState> {
     const arry = name.split('.');
     const postfix = arry[arry.length - 1];
     const that = this;
-    qiniuAPI.getToken().then(res => {
+    Get(Base.qiniuToken).then(res => {
       const token = res.data;
       const key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
       const config = {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel, Skeleton } from 'antd';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import './index.scss';
-import ArticleAPI from '../../api/article';
+import { Base, Post } from 'front/api';
 
 export interface IProps extends RouteComponentProps {}
 export interface IState {
@@ -51,7 +51,7 @@ export default class Article extends Component<IProps, IState> {
       end: this.state.end,
       index: this.state.index,
     };
-    ArticleAPI.getArticle(params).then(res => {
+    Post(Base.getArticle, params).then(res => {
       if (this.state.technologyStatus) {
         this.setState({
           technology: res.data.technology,
@@ -136,7 +136,7 @@ export default class Article extends Component<IProps, IState> {
       event = event.parentNode.parentNode.parentNode;
     }
     if (isFavorite === 'true') {
-      ArticleAPI.cancelCollect({ id: index }).then(res => {
+      Post(Base.cancelCollect, { id: index }).then(res => {
         if (res.success) {
           message.success('取消收藏');
           event.children[0].style.color = 'gray';
@@ -144,7 +144,7 @@ export default class Article extends Component<IProps, IState> {
         }
       });
     } else {
-      ArticleAPI.collectArticle({ id: index }).then(res => {
+      Post(Base.cancelCollect, { id: index }).then(res => {
         if (res.success) {
           message.success('收藏成功');
           event.children[0].style.color = '#1890ff';

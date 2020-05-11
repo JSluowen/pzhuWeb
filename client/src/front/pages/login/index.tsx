@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, message, Modal } from 'antd';
 import md5 from 'md5';
-import LoginApi from '../../api/login';
+import { Base, Post, Get } from 'front/api';
 import Cookies from '../../../http/cookies';
 import { ImgProLoad } from 'src/component';
 import Forget from './forget';
@@ -21,7 +21,7 @@ const imgs = {
 
 export interface IProps extends FormComponentProps, RouteComponentProps {}
 class Login extends Component<IProps, IState> {
-  constructor(props) {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       confirmMessage: '',
@@ -32,7 +32,7 @@ class Login extends Component<IProps, IState> {
   componentDidMount() {
     this.handleCreate();
     // 获取后台的时间令牌
-    LoginApi.timeToken().then(res => {
+    Get(Base.timetoken).then(res => {
       sessionStorage.setItem('time', res.message);
     });
     const id = Cookies.getCookies('id');
@@ -80,7 +80,7 @@ class Login extends Component<IProps, IState> {
               ? md5(values.password + sessionStorage.getItem('time'))
               : md5(md5(values.password) + sessionStorage.getItem('time')),
         };
-        LoginApi.login(params)
+        Post(Base.login, params)
           .then(res => {
             if (res.success) {
               message.success('登录成功');
@@ -193,11 +193,7 @@ class Login extends Component<IProps, IState> {
                   footer={null}
                   maskClosable={false}
                 >
-                  <Forget
-                    visible={flag => {
-                      this.setState({ visible: flag });
-                    }}
-                  />
+                  <Forget visible={flag => this.setState({ visible: flag })} />
                 </Modal>
               </div>
             </div>

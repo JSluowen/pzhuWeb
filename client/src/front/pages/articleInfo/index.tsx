@@ -3,7 +3,7 @@ import { Button, Avatar, message, Skeleton } from 'antd';
 import 'braft-editor/dist/output.css';
 import './index.scss';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import articleInfoAPI from '../../api/articleInfo';
+import { Base, Post } from 'front/api';
 
 export interface IProps extends RouteComponentProps {}
 export interface IState {
@@ -46,7 +46,7 @@ class ArticleInfo extends Component<IProps, IState> {
     const params = {
       id: this.state.id,
     };
-    articleInfoAPI.getArticleInfo(params).then(res => {
+    Post(Base.getArticleInfo, params).then(res => {
       if (res.success) {
         setTimeout(() => {
           this.setState({

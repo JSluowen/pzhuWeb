@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Tag, Select, Skeleton, message, Icon, Modal } from 'antd';
 import './index.scss';
-import UserAPI from '../../api/user';
-import TouristAPI from '../../api/tourist';
+import { Base, Post } from 'front/api';
 import { Link, RouteComponentProps } from 'react-router-dom';
 const Option = Select.Option;
 const Search = Input.Search;
@@ -56,7 +55,7 @@ class UserCollect extends Component<IProps, IState> {
       end: this.state.end,
       id: this.state.id,
     };
-    TouristAPI.getTouristCollect(params).then(res => {
+    Post(Base.getTouristCollect, params).then(res => {
       const arry = this.state.collect;
       for (const item of res.data.collect) {
         arry.push(item);
@@ -88,7 +87,7 @@ class UserCollect extends Component<IProps, IState> {
       beg: this.state.beg,
       end: this.state.end,
     };
-    UserAPI.getUserCollect(params).then(res => {
+    Post(Base.getUserCollect, params).then(res => {
       const arry = this.state.collect;
       for (const item of res.data.collect) {
         arry.push(item);
@@ -149,7 +148,7 @@ class UserCollect extends Component<IProps, IState> {
       value,
     };
     if (this.state.isTourist) {
-      TouristAPI.searchTouristCollect(params).then(res => {
+      Post(Base.searchTouristCollect, params).then(res => {
         if (!res.success) message.warning('未搜索到你想要的资源');
         setTimeout(() => {
           this.setState({
@@ -159,7 +158,7 @@ class UserCollect extends Component<IProps, IState> {
         }, 500);
       });
     } else {
-      UserAPI.searchUserCollect(params).then(res => {
+      Post(Base.searchUserCollect, params).then(res => {
         if (!res.success) message.warning('未搜索到你想要的资源');
         setTimeout(() => {
           this.setState({
@@ -214,7 +213,7 @@ class UserCollect extends Component<IProps, IState> {
       okType: 'danger',
       cancelText: '考虑一下',
       onOk() {
-        UserAPI.delUserCollect(params).then(res => {
+        Post(Base.delUserCollect, params).then(res => {
           if (res.success) {
             message.success('取消成功');
             that.state.collect.splice(index, 1);

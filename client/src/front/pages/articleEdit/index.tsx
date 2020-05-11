@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Input, Icon, Avatar, Button, Spin, message, Form, DatePicker } from 'antd';
 import Cookies from '../../../http/cookies';
-import ArticleEditAPI from '../../api/articleEdit';
+import { Base, Post, Get } from 'front/api';
 // 引入七牛云
 import * as qiniu from 'qiniu-js';
 import qiniuAPI from '../../api/qiniu';
@@ -110,7 +110,7 @@ class ArticleEdit extends Component<IProps, IState> {
   }
   // 获取初始化媒体库的信息
   getMediaItems = () => {
-    ArticleEditAPI.getMediaItems().then(res => {
+    Get(Base.getMediaItems).then(res => {
       if (res.success) {
         const mediaItems = res.data.map(item => {
           const arry = item.key.split('.');
@@ -151,13 +151,13 @@ class ArticleEdit extends Component<IProps, IState> {
     const params = {
       data: files,
     };
-    ArticleEditAPI.removeMedia(params);
+    Post(Base.removeMedia, params);
   };
   getArticleEdit = () => {
     const params = {
       id: this.state.id,
     };
-    ArticleEditAPI.getArticleEdit(params)
+    Post(Base.getArticleEdit, params)
       .then(res => {
         if (res.success) {
           this.setState({
@@ -294,7 +294,7 @@ class ArticleEdit extends Component<IProps, IState> {
       key: data.key,
       status: this.state.status,
     };
-    ArticleEditAPI.uploadArticleeCover(params).then(res => {
+    Post(Base.uploadArticleeCover, params).then(res => {
       if (res.success) {
         this.setState({
           id: res.data.id,
@@ -312,7 +312,7 @@ class ArticleEdit extends Component<IProps, IState> {
       id: this.state.id,
       postlink: this.state.postlink,
     };
-    ArticleEditAPI.delCoverImg(params).then(res => {
+    Post(Base.delCoverImg, params).then(res => {
       if (res.success) {
         this.setState({
           postlink: null,
@@ -390,7 +390,7 @@ class ArticleEdit extends Component<IProps, IState> {
         abstract,
         date: this.state.date,
       };
-      ArticleEditAPI.uploadArticleInfo(params).then(res => {
+      Post(Base.uploadArticleInfo, params).then(res => {
         if (res.success) {
           this.setState({
             articleLoding: false,
@@ -481,7 +481,7 @@ class ArticleEdit extends Component<IProps, IState> {
               id: that.state.id,
               key: res.key,
             };
-            ArticleEditAPI.uploadArticleResource(params).then(res => {
+            Post(Base.uploadArticleResource, params).then(res => {
               if (res.success) {
                 param.success({
                   url: res.data.link,

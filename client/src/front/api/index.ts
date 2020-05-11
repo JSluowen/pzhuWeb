@@ -88,7 +88,7 @@ export interface IRes {
   message?: string;
 }
 
-const Get = function(url) {
+const Get = function(url: string) {
   return new Promise<IRes>((resolve, reject) => {
     axios
       .get(url)
@@ -101,7 +101,7 @@ const Get = function(url) {
   });
 };
 
-const Post = function(url, params) {
+const Post = function(url: string, params: { [key: string]: any }) {
   return new Promise<IRes>((resolve, reject) => {
     axios
       .post(url, params)

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, FC } from 'react';
-import { Form, Button, Input, Steps, Tooltip, Icon, Row, Col, AutoComplete, message } from 'antd';
+import React, { useState, FC } from 'react';
+import { Form, Button, Input, Tooltip, Icon, Row, Col, AutoComplete, message } from 'antd';
 import './index.scss';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { Base, Post } from 'front/api';

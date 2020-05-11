@@ -32,15 +32,6 @@ module.exports = appInfo => {
     secretKey: 'MalqHu1GWMf3TXFZM_QrMgIdm76IVETBZ3nmTrEv'
   };
 
-  // 数据库配置
-  config.sequelize = {
-    dialect: 'mysql',
-    database: 'pzhuweb',
-    port: '3306',
-    host: '127.0.0.1',
-    username: 'root',
-    password: '123456lw',
-  };
   // token鉴权秘钥
   config.token = 'webJWT';
 

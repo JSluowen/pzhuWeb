@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip, DatePicker } from 'antd';
 import './index.scss';
 import Cookies from '../../../http/cookies';
-import AchievementIssueAPI from '../../api/achievementIssue';
+import { Base, Post } from 'front/api';
 import * as qiniu from 'qiniu-js';
 import qiniuAPI from '../../api/qiniu';
 import moment from 'moment';
@@ -63,7 +63,7 @@ class AchievementIssue extends Component<IProps, IState> {
     const params = {
       id: this.state.id,
     };
-    AchievementIssueAPI.getAchievementIssue(params).then(res => {
+    Post(Base.getAchievementIssue, params).then(res => {
       if (res.success) {
         this.setState({
           achievementType: res.data,
@@ -144,7 +144,7 @@ class AchievementIssue extends Component<IProps, IState> {
       this.setState({
         loading: true,
       });
-      AchievementIssueAPI.uploadAchievement(params).then(res => {
+      Post(Base.uploadAchievement, params).then(res => {
         if (res.success) {
           setTimeout(() => {
             this.setState({
@@ -222,7 +222,7 @@ class AchievementIssue extends Component<IProps, IState> {
       key: data.key,
       status: this.state.status,
     };
-    AchievementIssueAPI.uploadAchievementCover(params).then(res => {
+    Post(Base.uploadAchievementCover, params).then(res => {
       if (res.success) {
         this.setState({
           id: res.data.id,
@@ -238,7 +238,7 @@ class AchievementIssue extends Component<IProps, IState> {
       id: this.state.id,
       posterlink: this.state.posterlink,
     };
-    AchievementIssueAPI.delAchievementCover(params).then(res => {
+    Post(Base.delAchievementCover, params).then(res => {
       if (res.success) {
         this.setState({
           posterlink: '',
@@ -308,7 +308,7 @@ class AchievementIssue extends Component<IProps, IState> {
       key: data.key,
       status: this.state.status,
     };
-    AchievementIssueAPI.uploadAchievementAttachment(params).then(res => {
+    Post(Base.uploadAchievementAttachment, params).then(res => {
       if (res.success) {
         this.setState({
           id: res.data.id,
@@ -324,7 +324,7 @@ class AchievementIssue extends Component<IProps, IState> {
       id: this.state.id,
       attachment: this.state.attachment,
     };
-    AchievementIssueAPI.delAchievementAttachment(params).then(res => {
+    Post(Base.delAchievementAttachment, params).then(res => {
       if (res.success) {
         this.setState({
           attachment: '',
