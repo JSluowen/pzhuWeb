@@ -623,7 +623,7 @@ class ArticleEdit extends Component<IProps, IState> {
                 </div>
               </div>
               <div className="articleEdit-header-right-avatar">
-                <Link to="user">
+                <Link to="/user">
                   <Avatar size={40} src={this.state.avatar} />
                 </Link>
               </div>

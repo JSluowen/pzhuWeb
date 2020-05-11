@@ -2,24 +2,46 @@ import React, { Component } from 'react';
 import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip, DatePicker } from 'antd';
 import './index.scss';
 import Cookies from '../../../http/cookies';
-import ResourceIssueAPI from '../../api/resourceIssue';
+import AchievementIssueAPI from '../../api/achievementIssue';
 import * as qiniu from 'qiniu-js';
 import qiniuAPI from '../../api/qiniu';
 import moment from 'moment';
+import { FormComponentProps } from 'antd/lib/form';
+import { RouteComponentProps } from 'react-router-dom';
 const dateFormat = 'YYYY-MM-DD';
 const { TextArea } = Input;
-class ResourceIssue extends Component {
+export interface IProps extends FormComponentProps, RouteComponentProps {}
+export interface IState {
+  id: number | string;
+  title: string;
+  achievementlink: string;
+  abstract: string;
+  type: string;
+  status: 1 | 2;
+  achievementType: Array<{ [key: string]: any }>;
+  loading: boolean;
+  progress: number;
+  coverLoading: boolean;
+  delCoverLoading: boolean;
+  posterlink: string;
+  delCoverStatus: boolean;
+  attachment: string;
+  attachmentStatus: boolean;
+  attachmentLoading: boolean;
+  date: Date;
+}
+class AchievementIssue extends Component<IProps, IState> {
+  selectLabel: React.RefObject<any>;
   constructor(props) {
     super(props);
     this.state = {
-      id: null, // 文章Id
+      id: props.match.params.id || '', // 成果Id
       title: null,
-      link: null,
-      description: null,
+      achievementlink: null,
+      abstract: null,
       type: null,
       status: 1, // 默认1数据添加状态，2数据更新状态,
-      resource: {},
-      resourceType: [],
+      achievementType: [],
       loading: false,
       progress: 0,
       coverLoading: false, // 封面图上传进度
@@ -28,54 +50,46 @@ class ResourceIssue extends Component {
       delCoverStatus: false, // 是否删除封面图的状态
       attachment: null, // 附件的cdn地址
       attachmentStatus: false, // 是否有附件
-      attachmentLoading: false, // 上传附件的进度,
-      date: new Date(), // 资源发布日期
+      attachmentLoading: false, // 上传附件的进度
+      date: new Date(), // 成果发布日期
     };
     this.selectLabel = React.createRef();
   }
   componentDidMount() {
-    this.setState(
-      {
-        id: this.props.params.id || '',
-      },
-      () => {
-        this.getResourceIssue();
-      },
-    );
+    this.getAchievementIssue();
   }
   // 初始化获取资源信息
-  getResourceIssue = () => {
+  getAchievementIssue = () => {
     const params = {
       id: this.state.id,
     };
-    ResourceIssueAPI.getResourceIssue(params).then(res => {
+    AchievementIssueAPI.getAchievementIssue(params).then(res => {
       if (res.success) {
         this.setState({
-          resourceType: res.data,
+          achievementType: res.data,
         });
       } else {
         this.setState(
           {
-            id: res.data.resource[0].id,
-            type: res.data.resource[0].typeid,
-            resource: res.data.resource[0],
-            link: res.data.resource[0].link,
-            title: res.data.resource[0].title,
-            resourceType: res.data.resourceType,
-            posterlink: res.data.resource[0].posterlink,
-            attachment: res.data.resource[0].attachment,
-            description: res.data.resource[0].description,
+            id: res.data.achievement[0].id,
+            type: res.data.achievement[0].typeid,
+            title: res.data.achievement[0].title,
+            achievementlink: res.data.achievement[0].achievementlink,
+            abstract: res.data.achievement[0].abstract,
+            achievementType: res.data.achievementType,
+            posterlink: res.data.achievement[0].posterlink,
+            attachment: res.data.achievement[0].attachment,
             status: 2,
-            date: res.data.resource[0].created_at || new Date(),
+            date: res.data.achievement[0].created_at || new Date(),
           },
           () => {
-            this.initResource(res.data.resource[0].typeid);
+            this.initResource(res.data.achievement[0].typeid);
           },
         );
       }
     });
   };
-  // 初始化资源
+  // 初始化成果资源
   initResource = data => {
     const node = this.selectLabel.current.children;
     for (const item of node) {
@@ -84,60 +98,60 @@ class ResourceIssue extends Component {
       }
     }
     const { setFieldsValue } = this.props.form;
-    setFieldsValue({ link: this.state.resource.link });
-    setFieldsValue({ title: this.state.resource.title });
-    setFieldsValue({ description: this.state.resource.description });
+    setFieldsValue({ achievementlink: this.state.achievementlink });
+    setFieldsValue({ title: this.state.title });
+    setFieldsValue({ abstract: this.state.abstract });
   };
   // 选择标签
   handelSelect = e => {
     const children = e.target.parentNode.children;
+
     for (let i = 0; i < children.length; i++) {
       children[i].classList.remove('tagActive');
     }
     e.target.classList.add('tagActive');
     this.setState({
-      type: e.target.getAttribute('index'),
+      type: e.target.getAttribute('data-index'),
     });
   };
   // 上传资源
   handelIssue = () => {
-    console.log(this.state.description);
-    if (this.state.link === null && this.state.attachment === null) {
-      message.warning('请填写链接或者上传资源附件');
+    if (this.state.achievementlink === null && this.state.attachment === null) {
+      message.warning('链接或附件二选一');
     } else if (this.state.title === null) {
-      message.warning('资源标题不能为空');
+      message.warning('成果标题不能为空');
+    } else if (this.state.abstract === null) {
+      message.warning('请对成果进行简单描述');
     } else if (this.state.type === null) {
-      message.warning('请选择资源类别');
-    } else if (this.state.description === null) {
-      message.warning('请添加资源描述');
+      message.warning('请选择成果类别');
+    } else if (this.state.abstract.length > 120) {
+      message.warning('成果描述请控制在120字以内');
     } else if (this.state.date === null) {
-      message.warning('请选择资源日期');
-    } else if (this.state.description.length > 120) {
-      message.warning('请将资源描述控制在120字以内');
+      message.warning('请选择成果日期');
     } else if (this.state.posterlink === null) {
-      message.warning('请上传封面图');
+      message.warning('请上传成果的封面图');
     } else {
       const params = {
         id: this.state.id,
         userid: Cookies.getCookies('id'),
         title: this.state.title,
-        link: this.state.link,
+        achievementlink: this.state.achievementlink,
         type: this.state.type,
-        description: this.state.description,
+        abstract: this.state.abstract,
         status: this.state.status,
         date: this.state.date,
       };
       this.setState({
         loading: true,
       });
-      ResourceIssueAPI.uploadResource(params).then(res => {
+      AchievementIssueAPI.uploadAchievement(params).then(res => {
         if (res.success) {
           setTimeout(() => {
             this.setState({
               loading: false,
             });
-            message.success('资源分享成功');
-            this.props.router.push('/resource');
+            message.success('成果发布成功');
+            this.props.history.push('/achievement');
           }, 500);
         }
       });
@@ -161,10 +175,11 @@ class ResourceIssue extends Component {
     this.setState({
       coverLoading: true,
     });
+
     qiniuAPI.getToken().then(res => {
       const token = res.data;
       const key = Cookies.getCookies('id') + Date.now() + `.${postfix}`;
-      // let key = 'test' + Date.now() + `.${postfix}`;
+      // let key = "test" + Date.now() + `.${postfix}`
       const config = {
         useCdnDomain: true, // 是否使用 cdn 加速域名
         region: qiniu.region.z2, // 选择上传域名 华南
@@ -186,13 +201,13 @@ class ResourceIssue extends Component {
           that.setState({
             coverLoading: false,
           });
-          message.err('上传失败');
+          message.error('上传失败');
         },
         complete(res) {
           that.setState({
             coverLoading: false,
           });
-          that.uploadResourceCover(res);
+          that.uploadAchievementCover(res);
         },
       };
       observable.subscribe(observer);
@@ -200,14 +215,14 @@ class ResourceIssue extends Component {
     });
   };
   // 上传封面图数据到数据库
-  uploadResourceCover = data => {
+  uploadAchievementCover = data => {
     const params = {
       id: this.state.id,
       userid: Cookies.getCookies('id'),
       key: data.key,
       status: this.state.status,
     };
-    ResourceIssueAPI.uploadResourceCover(params).then(res => {
+    AchievementIssueAPI.uploadAchievementCover(params).then(res => {
       if (res.success) {
         this.setState({
           id: res.data.id,
@@ -218,12 +233,12 @@ class ResourceIssue extends Component {
     });
   };
   // 点击删除封面图
-  delResourceCover = () => {
+  delAchievementCover = () => {
     const params = {
       id: this.state.id,
       posterlink: this.state.posterlink,
     };
-    ResourceIssueAPI.delResourceCover(params).then(res => {
+    AchievementIssueAPI.delAchievementCover(params).then(res => {
       if (res.success) {
         this.setState({
           posterlink: '',
@@ -235,9 +250,12 @@ class ResourceIssue extends Component {
   uploadAttachment = e => {
     const file = e.target.files;
     const { size, type, name } = file[0];
-    if (type !== 'application/x-zip-compressed') {
-      message.warning('请上传文件后缀为.zip的附件');
+    if (type !== 'application/pdf') {
+      message.warning('请上传文件后缀为.pdf 的附件');
       return;
+    }
+    if (size > 5 * 1024 * 1024) {
+      message.warning('请上传小于 5M 的文件');
     }
     this.setState({
       attachmentLoading: true,
@@ -256,7 +274,7 @@ class ResourceIssue extends Component {
       const putExtra = {
         fname: file[0].name,
         params: {},
-        mimeType: ['application/x-zip-compressed'],
+        mimeType: ['application/pdf'],
       };
       const observable = qiniu.upload(file[0], key, token, putExtra, config);
       const observer = {
@@ -270,28 +288,27 @@ class ResourceIssue extends Component {
           that.setState({
             coverLoading: false,
           });
-          message.err('上传失败');
+          message.error('上传失败');
         },
         complete(res) {
           that.setState({
             attachmentLoading: false,
           });
-          that.uploadResourceAttachment(res);
+          that.uploadAchievementAttachment(res);
         },
       };
       observable.subscribe(observer);
-      // subscription.unsubscribe(); //取消上传
     });
   };
   // 上传附件地址到数据库
-  uploadResourceAttachment = data => {
+  uploadAchievementAttachment = data => {
     const params = {
       id: this.state.id,
       userid: Cookies.getCookies('id'),
       key: data.key,
       status: this.state.status,
     };
-    ResourceIssueAPI.uploadResourceAttachment(params).then(res => {
+    AchievementIssueAPI.uploadAchievementAttachment(params).then(res => {
       if (res.success) {
         this.setState({
           id: res.data.id,
@@ -301,13 +318,13 @@ class ResourceIssue extends Component {
       }
     });
   };
-  // 删除附件
-  delResourceAttachment = () => {
+  // 删除附加
+  delAchievementAttachment = () => {
     const params = {
       id: this.state.id,
       attachment: this.state.attachment,
     };
-    ResourceIssueAPI.delResourceAttachment(params).then(res => {
+    AchievementIssueAPI.delAchievementAttachment(params).then(res => {
       if (res.success) {
         this.setState({
           attachment: '',
@@ -316,8 +333,8 @@ class ResourceIssue extends Component {
       }
     });
   };
-  // 选择日期
-  onChange = (date, dateString) => {
+  // 成果发布日期
+  onChangeDate = (date, dateString) => {
     this.setState({
       date: dateString,
     });
@@ -325,21 +342,24 @@ class ResourceIssue extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="resourceIssue">
-        <div className="resourceIssue-container">
-          <Spin tip="资源分享中..." spinning={this.state.loading}>
-            <div className="resourceIssue-container-header">资源分享</div>
-            <div className="resourceIssue-container-body">
-              <div className="resourceIssue-container-body-left">
+      <div className="achievementIssue">
+        <div className="achievementIssue-container">
+          <Spin tip="成果发布中..." spinning={this.state.loading}>
+            <div className="achievementIssue-container-header">
+              成果发布
+              <small>(链接或附件二选一)</small>
+            </div>
+            <div className="achievementIssue-container-body">
+              <div className="achievementIssue-container-body-left">
                 {getFieldDecorator(
-                  'link',
+                  'achievementlink',
                   {},
                 )(
                   <Input
                     size="large"
-                    placeholder="分享资源链接：http://www.pzhuweb.cn"
+                    placeholder="成果链接：http://www.pzhuweb.cn"
                     onChange={e => {
-                      this.setState({ link: e.target.value });
+                      this.setState({ achievementlink: e.target.value });
                     }}
                   />,
                 )}
@@ -349,56 +369,56 @@ class ResourceIssue extends Component {
                 )(
                   <Input
                     size="large"
-                    placeholder="请输入资源标题"
+                    placeholder="请输入成果标题"
                     onChange={e => {
                       this.setState({ title: e.target.value });
                     }}
                   />,
                 )}
                 {getFieldDecorator(
-                  'description',
+                  'abstract',
                   {},
                 )(
                   <TextArea
-                    placeholder="资源描述（120字以内）"
+                    placeholder="成果描述（120字以内）"
                     onChange={e => {
-                      this.setState({ description: e.target.value });
+                      this.setState({ abstract: e.target.value });
                     }}
                   />,
                 )}
-                <div className="resourceIssue-container-body-left-tag" ref={this.selectLabel}>
+                <div className="achievementIssue-container-body-left-tag" ref={this.selectLabel}>
                   <p>分类</p>
-                  <div className="resourceIssue-container-body-left-tag-btn">
-                    {this.state.resourceType.map(item => {
+                  <div className="achievementIssue-container-body-left-tag-btn">
+                    {this.state.achievementType.map(item => {
                       return (
-                        <Button key={item.id} onClick={this.handelSelect} index={item.id}>
+                        <Button key={item.id} onClick={this.handelSelect} data-index={item.id}>
                           {item.name}
                         </Button>
                       );
                     })}
                   </div>
                 </div>
-                <div className="resourceIssue-container-body-left-date">
+                <div className="achievementIssue-container-body-left-date">
                   <p>日期</p>
-                  <DatePicker value={moment(this.state.date, dateFormat)} onChange={this.onChange} />
+                  <DatePicker value={moment(this.state.date, dateFormat)} onChange={this.onChangeDate} />
                 </div>
                 <Button style={{ width: '100%', margin: '20px 0' }} onClick={this.handelIssue} type="primary">
                   发布
                 </Button>
               </div>
-              <div className="resourceIssue-container-body-right">
-                <div className="resourceIssue-container-body-right-top">
+              <div className="achievementIssue-container-body-right">
+                <div className="achievementIssue-container-body-right-top">
                   {this.state.posterlink === '' || this.state.posterlink === null ? (
-                    <label htmlFor="uploadImg" className="resourceIssue-container-body-right-top-imgLabel">
-                      <div className="resourceIssue-container-body-right-top-imgLabel-cover">
+                    <label htmlFor="uploadImg" className="achievementIssue-container-body-right-top-imgLabel">
+                      <div className="achievementIssue-container-body-right-top-imgLabel-cover">
                         <Icon type="cloud-upload" style={{ color: '#1890ff', fontSize: '40px' }} />
                         <span>点击上传封面图</span>
                       </div>
                     </label>
                   ) : (
                     <div
-                      className="resourceIssue-container-body-right-top-delCover"
-                      onClick={this.delResourceCover}
+                      className="achievementIssue-container-body-right-top-delCover"
+                      onClick={this.delAchievementCover}
                       onMouseLeave={() => {
                         this.setState({ delCoverStatus: false });
                       }}
@@ -409,7 +429,7 @@ class ResourceIssue extends Component {
                     >
                       <div
                         style={this.state.delCoverStatus ? { opacity: 1 } : { opacity: 0 }}
-                        className="resourceIssue-container-body-right-top-delCover-shadow"
+                        className="achievementIssue-container-body-right-top-delCover-shadow"
                       >
                         点击删除封面图
                       </div>
@@ -418,7 +438,7 @@ class ResourceIssue extends Component {
                   <input id="uploadImg" accept=".png, .jpg, .jpeg" type="file" hidden onChange={this.uploadCover} />
                   <div
                     style={this.state.coverLoading ? { display: 'block' } : { display: 'none' }}
-                    className="resourceIssue-container-body-right-top-progress"
+                    className="achievementIssue-container-body-right-top-progress"
                   >
                     <Progress
                       strokeColor={{
@@ -429,15 +449,15 @@ class ResourceIssue extends Component {
                     />
                   </div>
                 </div>
-                <div className="resourceIssue-container-body-right-attachment">
+                <div className="achievementIssue-container-body-right-attachment">
                   {this.state.attachmentStatus || (this.state.attachment !== null && this.state.attachment !== '') ? (
-                    <div className="resourceIssue-container-body-right-attachment-file">
-                      <div className="resourceIssue-container-body-right-attachment-file-name">
+                    <div className="achievementIssue-container-body-right-attachment-file">
+                      <div className="achievementIssue-container-body-right-attachment-file-name">
                         <p>
                           <Icon type="paper-clip" />
                           <a href={this.state.attachment}>附件</a>
                         </p>
-                        <p onClick={this.delResourceAttachment}>
+                        <p onClick={this.delAchievementAttachment}>
                           <Icon type="close" />
                         </p>
                       </div>
@@ -448,14 +468,17 @@ class ResourceIssue extends Component {
                       />
                     </div>
                   ) : (
-                    <Tooltip placement="bottom" title="请上传资源压缩包">
-                      <label htmlFor="uploadFile" className="resourceIssue-container-body-right-attachment-fileLabel">
+                    <Tooltip placement="bottom" title="请上传pdf格式的文件">
+                      <label
+                        htmlFor="uploadFile"
+                        className="achievementIssue-container-body-right-attachment-fileLabel"
+                      >
                         <Icon type="upload" />
-                        添加资源附件
+                        添加成果附件
                       </label>
                     </Tooltip>
                   )}
-                  <input id="uploadFile" accept=".zip" type="file" hidden onChange={this.uploadAttachment} />
+                  <input id="uploadFile" accept=".pdf" type="file" hidden onChange={this.uploadAttachment} />
                 </div>
               </div>
             </div>
@@ -465,6 +488,5 @@ class ResourceIssue extends Component {
     );
   }
 }
-
-const ResourceIssues = Form.create()(ResourceIssue);
-export default ResourceIssues;
+const AchievementIssues = Form.create()(AchievementIssue);
+export default AchievementIssues;

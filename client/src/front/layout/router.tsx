@@ -1,5 +1,15 @@
 import { RouteProps } from 'react-router-dom';
-import { Home, Member, Achievement, Resource, Login, User, Setting, ArticleEdit } from 'front/pages';
+import {
+  Home,
+  Member,
+  Achievement,
+  Resource,
+  Login,
+  User,
+  Setting,
+  ResourceIssue,
+  AchievementIssue,
+} from 'front/pages';
 
 export const Routes: Array<RouteProps> = [
   {
@@ -37,5 +47,25 @@ export const Routes: Array<RouteProps> = [
     exact: true,
     path: '/setting',
     component: Setting,
+  },
+  {
+    exact: true,
+    path: '/resourceIssue',
+    component: ResourceIssue,
+  },
+  {
+    exact: true,
+    path: '/resourceIssue/:id',
+    component: ResourceIssue,
+  },
+  {
+    exact: true,
+    path: '/achievementIssue',
+    component: AchievementIssue,
+  },
+  {
+    exact: true,
+    path: '/achievementIssue/:id',
+    component: AchievementIssue,
   },
 ];

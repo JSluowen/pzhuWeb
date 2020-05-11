@@ -52,7 +52,6 @@ export default (
       <Route path="achievementIssue" component={AchievementIssue} onEnter={requireAuth} />
       <Route path="/achievementIssue/:id" component={AchievementIssue} onEnter={requireAuth} />
       <Route path="articleInfo/:id" component={ArticleInfo} onEnter={scrollTop} />
-
       <Route path="user" component={User} onEnter={requireAuth}>
         <IndexRedirect to="/user/article" />
         <Route path="/user/collect" component={UserCollect} onEnter={requireAuth} />

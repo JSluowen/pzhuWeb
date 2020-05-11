@@ -5,8 +5,9 @@ import { Base, Get } from 'front/api';
 import Navbar from 'front/pages/navbar';
 import { ImgProLoad } from 'src/component';
 import './index.scss';
+import { RouteComponentProps } from 'react-router-dom';
 
-const Home: FC = () => {
+const Home: FC<RouteComponentProps> = props => {
   // 获取初始数据
   const [states, setStates] = useState<Array<{}>>([]);
   useEffect(() => {
@@ -36,7 +37,7 @@ const Home: FC = () => {
                 <div className="home-fullpageFive" style={{ backgroundColor: '#f6f6f6' }}>
                   <ImgProLoad {...imgs}>
                     <div className="home-fullpageFive-container">
-                      <Navbar />
+                      <Navbar {...props} />
                       <div className="home-fullpageFive-container-top">
                         <div className="home-fullpageFive-container-top-title">你的梦想，从这里开始</div>
                         <div className="home-fullpageFive-container-top-tips">WEB应用专业团队，欢迎你的加入！</div>
