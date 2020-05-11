@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel, Skeleton } from 'antd';
-import { Link } from 'react-router';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import './index.scss';
 import ArticleAPI from '../../api/article';
-export default class Article extends Component {
+
+export interface IProps extends RouteComponentProps {}
+export interface IState {
+  active: boolean;
+  limit: number;
+  beg: number;
+  end: number;
+  index: number;
+  article: Array<{ [key: string]: any }>;
+  technology: Array<{ [key: string]: any }>;
+  technologyStatus: boolean;
+  slideshow: Array<{ [key: string]: any }>;
+  hotArticle: Array<{ [key: string]: any }>;
+  loading: boolean;
+  collectTitle: string;
+  loadingMore: boolean;
+  isLoading: boolean;
+}
+export default class Article extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +43,6 @@ export default class Article extends Component {
   }
   componentDidMount() {
     this.getArticle();
-    window.addEventListener('scroll', this.handelScroll);
   }
   // 获取文章界面信息
   getArticle = () => {
@@ -70,7 +87,7 @@ export default class Article extends Component {
   };
   // 过滤文章类别
   filterArticleType = e => {
-    const index = e.target.getAttribute('index');
+    const index = e.target.getAttribute('data-index');
     const children = e.target.parentNode.children;
     for (let i = 0; i < children.length; i++) {
       children[i].classList.remove('articleActive');
@@ -107,15 +124,15 @@ export default class Article extends Component {
     let index;
     let isFavorite;
     if (event.tagName === 'DIV') {
-      index = event.getAttribute('index');
-      isFavorite = event.getAttribute('isfavorite');
+      index = event.getAttribute('data-index');
+      isFavorite = event.getAttribute('data-isfavorite');
     } else if (event.tagName === 'svg') {
-      index = event.parentNode.parentNode.getAttribute('index');
-      isFavorite = event.parentNode.parentNode.getAttribute('isfavorite');
+      index = event.parentNode.parentNode.getAttribute('data-index');
+      isFavorite = event.parentNode.parentNode.getAttribute('data-isfavorite');
       event = event.parentNode.parentNode;
     } else {
-      index = event.parentNode.parentNode.parentNode.getAttribute('index');
-      isFavorite = event.parentNode.parentNode.parentNode.getAttribute('isfavorite');
+      index = event.parentNode.parentNode.parentNode.getAttribute('data-index');
+      isFavorite = event.parentNode.parentNode.parentNode.getAttribute('data-isfavorite');
       event = event.parentNode.parentNode.parentNode;
     }
     if (isFavorite === 'true') {
@@ -123,7 +140,7 @@ export default class Article extends Component {
         if (res.success) {
           message.success('取消收藏');
           event.children[0].style.color = 'gray';
-          event.setAttribute('isfavorite', 'false');
+          event.setAttribute('data-isfavorite', 'false');
         }
       });
     } else {
@@ -131,7 +148,7 @@ export default class Article extends Component {
         if (res.success) {
           message.success('收藏成功');
           event.children[0].style.color = '#1890ff';
-          event.setAttribute('isfavorite', 'true');
+          event.setAttribute('data-isfavorite', 'true');
         }
       });
     }
@@ -200,8 +217,8 @@ export default class Article extends Component {
                               ) : (
                                 <div
                                   className="person-collect"
-                                  index={item.id}
-                                  isfavorite={item.isFavorite.toString()}
+                                  data-index={item.id}
+                                  data-isfavorite={item.isFavorite.toString()}
                                   onClick={this.handelCollect}
                                 >
                                   <Icon
@@ -213,7 +230,7 @@ export default class Article extends Component {
 
                               <div className="autor">
                                 <Link to={`/tourist/${item.userid}`} className="avatar">
-                                  <img src={item.UserInfo.avatar} alt="这是用户头像" />
+                                  <img src={item.UserInfo.avatar} />
                                 </Link>
                                 <ul className="name">
                                   <li>{item.UserInfo.User.name}</li>
@@ -256,12 +273,12 @@ export default class Article extends Component {
               <div className="label">
                 <Divider orientation="left">标签云</Divider>
                 <div className="label-container">
-                  <Button index="0" ghost className="articleActive" onClick={this.filterArticleType}>
+                  <Button data-index="0" ghost className="articleActive" onClick={this.filterArticleType}>
                     推荐
                   </Button>
                   {this.state.technology.map(item => {
                     return (
-                      <Button onClick={this.filterArticleType} key={item.id} index={item.id} ghost>
+                      <Button onClick={this.filterArticleType} key={item.id} data-index={item.id} ghost>
                         {item.name}
                       </Button>
                     );
@@ -275,7 +292,7 @@ export default class Article extends Component {
                 <div className="article-hot">
                   {this.state.hotArticle.map(item => {
                     return (
-                      <div className="article-item" key={item.id} index={item.id}>
+                      <div className="article-item" key={item.id} data-index={item.id}>
                         <div className="title">
                           <Link style={{ color: 'gray' }} target="_blank" to={`/articleInfo/${item.id}`}>
                             {item.title}

@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import { Button, Avatar, message, Skeleton } from 'antd';
 import 'braft-editor/dist/output.css';
 import './index.scss';
-import { Link } from 'react-router';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import articleInfoAPI from '../../api/articleInfo';
 
-class ArticleInfo extends Component {
+export interface IProps extends RouteComponentProps {}
+export interface IState {
+  id: string;
+  article: { [key: string]: any };
+  recommend: Array<{ [key: string]: any }>;
+  loading: boolean;
+  keywords: Array<{ [key: string]: any }>;
+}
+class ArticleInfo extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +34,7 @@ class ArticleInfo extends Component {
     window.scroll(0, 0);
     this.setState(
       {
-        id: this.props.params.id,
+        id: this.props.match.params['id'],
       },
       () => {
         this.getArticleInfo();
@@ -50,7 +58,7 @@ class ArticleInfo extends Component {
         }, 500);
       } else {
         message.warning('请求的资源不存在');
-        this.props.router.push('/article');
+        this.props.history.push('/article');
       }
     });
   };

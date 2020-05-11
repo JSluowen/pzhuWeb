@@ -2,17 +2,12 @@ import React, { useState, useEffect, FC, CSSProperties, useRef } from 'react';
 import { Router, Route, Link, NavLink, NavLinkProps, RouteComponentProps } from 'react-router-dom';
 import { Avatar, BackTop, Drawer, Modal, Button, Icon } from 'antd';
 import { Base, Get } from 'src/front/api';
-import { Register, Login } from 'front/pages';
+import { Register } from 'front/pages';
 import './index.scss';
 import 'src/front/common/theme/theme.scss';
-import { Links } from './router';
+import { Links, Menus } from './router';
 
 const confirm = Modal.confirm;
-
-interface INavProps extends NavLinkProps {
-  to: string;
-  name: string;
-}
 
 const Navbar: FC<RouteComponentProps> = props => {
   const { history } = props;
@@ -36,29 +31,6 @@ const Navbar: FC<RouteComponentProps> = props => {
       });
   }, [isLogin]);
 
-  // 菜单列表
-  const Menus: Array<INavProps> = [
-    {
-      to: '/article',
-      activeClassName: 'active',
-      name: '团队动态',
-    },
-    {
-      to: '/resource',
-      activeClassName: 'active',
-      name: '资源分享',
-    },
-    {
-      to: '/achievement',
-      activeClassName: 'active',
-      name: '成果分享',
-    },
-    {
-      to: '/member',
-      activeClassName: 'active',
-      name: '成员展示',
-    },
-  ];
   const onVisible = val => {
     setVisible(val);
   };

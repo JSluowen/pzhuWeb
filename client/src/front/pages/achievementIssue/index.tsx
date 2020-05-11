@@ -93,7 +93,7 @@ class AchievementIssue extends Component<IProps, IState> {
   initResource = data => {
     const node = this.selectLabel.current.children;
     for (const item of node) {
-      if (parseInt(item.getAttribute('index')) === data) {
+      if (parseInt(item.getAttribute('data-index')) === data) {
         item.classList.add('tagActive');
       }
     }
