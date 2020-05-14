@@ -2,12 +2,25 @@ import React, { Component } from 'react';
 import { Progress, Tabs, Avatar, Button, Modal, Pagination, Spin } from 'antd';
 import AddUserInfo from './adduserinfo';
 import UpdateUserInfo from './updateuserinfo';
-import { UserAPI } from '../../api';
+import { Base, Post } from 'back/api';
 import './index.scss';
+import { RouteComponentProps } from 'react-router-dom';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 
-class User extends Component {
+export interface IProps extends RouteComponentProps {}
+export interface IState {
+  id: number;
+  loading: boolean;
+  pageSize: number;
+  total: number;
+  defaultCurrent: number;
+  allUser: Array<{ [key: string]: any }>;
+  reviewUser: Array<{ [key: string]: any }>;
+  gradeGroup: Array<number>;
+  activeKey: string;
+}
+class User extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +47,7 @@ class User extends Component {
       page: this.state.defaultCurrent,
       pageSize: this.state.pageSize,
     };
-    UserAPI.getUserInfo(params).then(res => {
+    Post(Base.getUserInfo, params).then(res => {
       if (res.success) {
         setTimeout(() => {
           this.setState({
@@ -62,9 +75,8 @@ class User extends Component {
   };
   // 审核通过
   userReviewPass = e => {
-    const userid = e.target.getAttribute('userid');
-    const index = e.target.getAttribute('index');
-    UserAPI.userReviewPass({ id: userid }).then(res => {
+    const userid = e.target.getAttribute('data-userid');
+    Post(Base.userReviewPass, { id: userid }).then(res => {
       if (res.success) {
         this.getUserInfo();
       }
@@ -82,7 +94,7 @@ class User extends Component {
       okText: '确认',
       cancelText: '取消',
       onOk() {
-        UserAPI.userRefuseJoin({ id: userid }).then(res => {
+        Post(Base.userRefuseJoin, { id: userid }).then(res => {
           if (res.success) {
             that.setState({
               reviewUser: that.state.reviewUser.splice(0, index),
@@ -95,8 +107,7 @@ class User extends Component {
   };
   // 删除用户信息
   deleteUser = e => {
-    const userid = e.target.getAttribute('userid');
-    const index = e.target.getAttribute('index');
+    const userid = e.target.getAttribute('data-userid');
     const that = this;
     confirm({
       title: '删除警告',
@@ -105,7 +116,7 @@ class User extends Component {
       okText: '确认',
       cancelText: '取消',
       onOk() {
-        UserAPI.deleteUser({ id: userid }).then(res => {
+        Post(Base.deleteUser, { id: userid }).then(res => {
           if (res.success) {
             that.getUserInfo();
           }
@@ -128,7 +139,7 @@ class User extends Component {
     });
   };
   updateUserInfo = e => {
-    const id = e.currentTarget.getAttribute('userid');
+    const id = e.currentTarget.getAttribute('data-userid');
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.setState({
@@ -203,15 +214,20 @@ class User extends Component {
                               <div className="back-user-body-userinfo-body-list-item">{item.created_at}</div>
                               <div className="back-user-body-userinfo-body-list-item">
                                 <Button
-                                  index={index}
-                                  userid={item.id}
+                                  data-index={index}
+                                  data-userid={item.id}
                                   onClick={this.updateUserInfo}
                                   ghost
                                   type="primary"
                                 >
                                   修改
                                 </Button>
-                                <Button index={index} userid={item.id} onClick={this.deleteUser} type="danger">
+                                <Button
+                                  data-index={index}
+                                  data-userid={item.id}
+                                  onClick={this.deleteUser}
+                                  type="danger"
+                                >
                                   删除
                                 </Button>
                               </div>
@@ -253,10 +269,20 @@ class User extends Component {
                             <div className="back-user-body-review-body-list-item">{item.email}</div>
                             <div className="back-user-body-review-body-list-item">{item.created_at}</div>
                             <div className="back-user-body-review-body-list-item">
-                              <Button index={index} userid={item.id} onClick={this.userReviewPass} type="primary">
+                              <Button
+                                data-index={index}
+                                data-userid={item.id}
+                                onClick={this.userReviewPass}
+                                type="primary"
+                              >
                                 通过
                               </Button>
-                              <Button index={index} userid={item.id} onClick={this.userRefuseJoin} type="danger">
+                              <Button
+                                data-index={index}
+                                data-userid={item.id}
+                                onClick={this.userRefuseJoin}
+                                type="danger"
+                              >
                                 拒绝
                               </Button>
                             </div>

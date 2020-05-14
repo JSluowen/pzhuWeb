@@ -13,7 +13,6 @@
     background: transparent;
     display: flex;
     flex-direction: column;
-
     &-header {
       width: 100%;
       padding: 10px 0;
@@ -51,7 +50,7 @@
       justify-content: space-between;
 
       a {
-        color: #fff !important;
+        color: #fff;
       }
 
       .anticon {
@@ -75,6 +74,29 @@
         box-shadow: none;
       }
 
+      .ant-menu-item {
+        display: flex;
+        align-items: center;
+        a {
+          color: white;
+        }
+      }
+      .ant-menu-inline-collapsed > .ant-menu-item {
+        a {
+          opacity: 0;
+        }
+      }
+      .ant-menu-dark .ant-menu-item-active {
+        & > a {
+          color: #1890ff;
+        }
+      }
+      .ant-menu-dark > .ant-menu-item-selected {
+        background-color: transparent;
+        & > a {
+          color: #1890ff;
+        }
+      }
       &-aside-collapsed {
         width: 100%;
         text-align: center;
@@ -90,31 +112,28 @@
         flex: 1 1 auto;
         padding: 0 0 0 20px;
         width: 80vw;
+        background-color: #fafafa;
+        position: relative;
+        border-radius: 5px;
         &-container {
           border-radius: 5px;
-          background-color: rgb(242, 242, 242);
+          margin-bottom: 85px;
+        }
+
+        .pzhu-web-copyright {
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          color: #333;
+          a {
+            color: #1890ff;
+          }
         }
       }
     }
+  }
 
-    &-footer {
-      width: 100%;
-      color: #666;
-      line-height: 1.5;
-      margin: 20px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-
-      p:first-child {
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      p:last-child {
-        font-size: 12px;
-      }
-    }
+  .activeClassName {
+    color: #1890ff;
   }
 }

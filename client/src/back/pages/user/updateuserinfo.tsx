@@ -1,99 +1,82 @@
 import React, { Component } from 'react';
 import { Button, Modal, Form, Input, Tooltip, Icon, AutoComplete, message, Cascader, Spin } from 'antd';
 import Cropper from '../../../front/components/cropper';
-import { UserAPI } from '../../api';
+import { Post, Base } from 'back/api';
 import qiniu from '../../../front/common/qiniu';
-import md5 from 'md5';
 import './userinfo.scss';
+import { FormComponentProps } from 'antd/lib/form';
 // 自动完成
 const AutoCompleteOption = AutoComplete.Option;
-class AddUserInfo extends Component {
+export interface IProps extends FormComponentProps {
+  activeKey: (activeKey: string) => void;
+  id: number;
+}
+export interface IState {
+  id: number;
+  visible: boolean;
+  confirmDirty: boolean;
+  autoCompleteResult: Array<string>;
+  domain: any;
+  schoolMajor: any;
+  initSchoolMajor: any;
+  initDomain: any;
+  defaultSchoolMajor: any;
+  defaultDomain: any;
+  src: string;
+  loading: boolean;
+  status: any;
+}
+class UpdateUserInfo extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
+      id: props.id, // 用户信息id
       visible: false, // 头像窗口默认关闭
       confirmDirty: false,
       autoCompleteResult: [],
       domain: [], // 研究方向
+      schoolMajor: [],
       initSchoolMajor: [], // 初始化学院专业
       initDomain: [], // 初始化研究方向
+      defaultSchoolMajor: [], // 默认的学院专业
+      defaultDomain: [], // 默认的研究方向,
       src: 'http://img.pzhuweb.cn/avatar', // 默认头像地址
       loading: false, // 资源上传中
+      status: '',
     };
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (props.id !== state.id) {
+      return {
+        id: props.id,
+      };
+    }
+    return null;
   }
   componentDidMount() {
     this.getAddUserInfo();
   }
+  componentDidUpdate(pre, state) {
+    if (this.state.id !== state.id) {
+      this.getAddUserInfo();
+    }
+  }
   getAddUserInfo = () => {
-    // 表示添加成员信息 所以 没有初始化的Id值
-    UserAPI.getAddUserInfo({ id: undefined }).then(res => {
+    const params = {
+      id: this.state.id,
+    };
+    Post(Base.getAddUserInfo, params).then(res => {
       if (res.success) {
-        // 添加成员，只是获取初始化的专业年级，研究方向的信息
+        // 修改成员信息，获取用户信息和专业年级，研究方向的信息
         this.setState({
           schoolMajor: res.data.schoolmajor,
           domain: res.data.domain,
         });
+        if (res.status) {
+          this.initUserInfo({ ...res.data.user, ...res.data.userinfo });
+        }
       }
     });
-  };
-  // 验证账号
-  validatorId = (rule, value, callback) => {
-    const treg = /^[1-9]\d*$|^0$/;
-    if (!value || treg.test(value) === true) {
-      callback();
-    } else {
-      callback('输入格式有误');
-    }
-  };
-  // 验证姓名
-  validatorName = (rule, value, callback) => {
-    if (!value || (value.length > 0 && value.length < 10)) {
-      callback();
-    } else {
-      callback('姓名控制在10个汉字以内');
-    }
-  };
-  // 联系方式验证
-  validatorPhone = (rule, value, callback) => {
-    const treg = /^[1-9]\d*$|^0$/;
-    if (!value || treg.test(value) === true) {
-      callback();
-    } else {
-      callback('输入格式有误');
-    }
-  };
-  // 成员简介验证
-  validatorDescription = (rule, value, callback) => {
-    if (!value || value.length < 20) {
-      callback();
-    } else {
-      callback('成员简介控制在20字以内');
-    }
-  };
-  // 密码验证
-  validatorPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    const patt = /(?=.*\d)(?=.*[a-zA-Z])^.{6,20}$/;
-    if (patt.test(value) || !value) {
-      if (value && this.state.confirmDirty) {
-        form.validateFields(['confirm'], { force: true });
-      }
-      callback();
-    } else {
-      callback('密码需要在6-20位之间并包含字母和数字');
-    }
-  };
-  handleConfirmBlur = e => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('请确保两次密码输入一致');
-    } else {
-      callback();
-    }
   };
   // 邮箱提示格式
   handleEmailChange = value => {
@@ -125,6 +108,31 @@ class AddUserInfo extends Component {
       visible: false,
     });
   };
+  // 验证姓名
+  validatorName = (rule, value, callback) => {
+    if (!value || (value.length > 0 && value.length < 10)) {
+      callback();
+    } else {
+      callback('姓名控制在10个汉字以内');
+    }
+  };
+  // 联系方式验证
+  validatorPhone = (rule, value, callback) => {
+    const treg = /^[1-9]\d*$|^0$/;
+    if (!value || treg.test(value) === true) {
+      callback();
+    } else {
+      callback('输入格式有误');
+    }
+  };
+  // 成员简介验证
+  validatorDescription = (rule, value, callback) => {
+    if (!value || value.length < 20) {
+      callback();
+    } else {
+      callback('成员简介控制在20字以内');
+    }
+  };
   // 提交用户信息
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -137,11 +145,11 @@ class AddUserInfo extends Component {
         if (!re.test(this.state.src)) {
           const dataBlob = this.dataURLtoBlob(this.state.src);
           qiniu(dataBlob).then(res => {
-            values.password = md5(values.password);
-            values.confirm = md5(values.confirm);
             values.avatar = res.key;
             values.isCDN = '1';
-            UserAPI.addUserInfo(values).then(res => {
+            values.id = this.state.id;
+
+            Post(Base.updateUserInfo, values).then(res => {
               if (res.success) {
                 message.success(res.message);
                 document.body.scrollTop = 0;
@@ -156,11 +164,10 @@ class AddUserInfo extends Component {
             });
           });
         } else {
-          values.password = md5(values.password);
-          values.confirm = md5(values.confirm);
           values.avatar = this.state.src;
           values.isCDN = '0';
-          UserAPI.addUserInfo(values).then(res => {
+          values.id = this.state.id;
+          Post(Base.updateUserInfo, values).then(res => {
             if (res.success) {
               message.success(res.message);
               document.body.scrollTop = 0;
@@ -177,6 +184,24 @@ class AddUserInfo extends Component {
       }
     });
   };
+  // 初始化修改的成员信息
+  initUserInfo = data => {
+    const { setFieldsValue } = this.props.form;
+    setFieldsValue({ name: data.name });
+    setFieldsValue({ email: data.email });
+    setFieldsValue({ description: data.description });
+    setFieldsValue({ phone: data.phone });
+    this.setState({
+      src: data.avatar,
+      initSchoolMajor: [data.school, data.major],
+      initDomain: [data.domain],
+      status: data.status,
+    });
+  };
+
+  filter = (inputValue, path): boolean => {
+    return path.some(option => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     // 邮箱自动补全
@@ -184,24 +209,10 @@ class AddUserInfo extends Component {
       <AutoCompleteOption key={Email}>{Email}</AutoCompleteOption>
     ));
     return (
-      <Spin tip="个人信息上传中" spinning={this.state.loading} delay="200">
+      <Spin tip="个人信息上传中" spinning={this.state.loading} delay={200}>
         <div className="back-user-body-add">
           <div className="back-user-body-add-left">
             <Form onSubmit={this.handleSubmit}>
-              <Form.Item label="学号">
-                {getFieldDecorator('id', {
-                  rules: [
-                    {
-                      required: true,
-                      message: '请输入学号',
-                      whitespace: true,
-                    },
-                    {
-                      validator: this.validatorId,
-                    },
-                  ],
-                })(<Input disabled={this.state.flag} placeholder="请输入学号" />)}
-              </Form.Item>
               <Form.Item
                 label={
                   <span>
@@ -224,32 +235,6 @@ class AddUserInfo extends Component {
                     },
                   ],
                 })(<Input placeholder="请输入姓名" />)}
-              </Form.Item>
-              <Form.Item label="密码">
-                {getFieldDecorator('password', {
-                  rules: [
-                    {
-                      required: true,
-                      message: '请输入密码',
-                    },
-                    {
-                      validator: this.validatorPassword,
-                    },
-                  ],
-                })(<Input type="password" placeholder="请输入密码" />)}
-              </Form.Item>
-              <Form.Item label="确认密码">
-                {getFieldDecorator('confirm', {
-                  rules: [
-                    {
-                      required: true,
-                      message: '请确认密码',
-                    },
-                    {
-                      validator: this.compareToFirstPassword,
-                    },
-                  ],
-                })(<Input type="password" placeholder="请确认密码" onBlur={this.handleConfirmBlur} />)}
               </Form.Item>
               <Form.Item label="邮箱">
                 {getFieldDecorator('email', {
@@ -283,7 +268,13 @@ class AddUserInfo extends Component {
                       message: '请选择学院专业',
                     },
                   ],
-                })(<Cascader placeholder="请选择学院专业" showSearch={this.filter} options={this.state.schoolMajor} />)}
+                })(
+                  <Cascader
+                    placeholder="请选择学院专业"
+                    showSearch={{ filter: this.filter }}
+                    options={this.state.schoolMajor}
+                  />,
+                )}
               </Form.Item>
               <Form.Item label="研究方向">
                 {getFieldDecorator('domain', {
@@ -295,7 +286,13 @@ class AddUserInfo extends Component {
                       message: '请选择研究方向',
                     },
                   ],
-                })(<Cascader placeholder="请选择研究方向" showSearch={this.filter} options={this.state.domain} />)}
+                })(
+                  <Cascader
+                    placeholder="请选择研究方向"
+                    showSearch={{ filter: this.filter }}
+                    options={this.state.domain}
+                  />,
+                )}
               </Form.Item>
               <Form.Item label="成员介绍." style={{ maxHeight: 120 }}>
                 {getFieldDecorator('description', {
@@ -308,11 +305,11 @@ class AddUserInfo extends Component {
                       validator: this.validatorDescription,
                     },
                   ],
-                })(<textarea cols="50" rows="2" placeholder="成员简介（20字以内）" />)}
+                })(<textarea cols={50} rows={2} placeholder="成员简介（20字以内）" />)}
               </Form.Item>
               <Form.Item className="btn">
                 <Button type="primary" htmlType="submit">
-                  添加成员
+                  修改成员
                 </Button>
               </Form.Item>
             </Form>
@@ -344,5 +341,5 @@ class AddUserInfo extends Component {
     );
   }
 }
-const AddUserInfos = Form.create({})(AddUserInfo);
-export default AddUserInfos;
+const UpdateUserInfos = Form.create<IProps>({})(UpdateUserInfo);
+export default UpdateUserInfos;

@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, RouteComponentProps, Switch, NavLink, Route, Redirect } from 'react-router-dom';
 import { Avatar, Icon, Menu, Layout, Tooltip, message } from 'antd';
-import { UserAPI } from '../api';
+import { Footer } from 'back/pages';
+import { Get, Base } from '../api';
 import './index.scss';
-const SubMenu = Menu.SubMenu;
+import { NavLinks, Routes } from './router';
+// const SubMenu = Menu.SubMenu;
 const { Sider } = Layout;
-class Index extends Component {
+
+export interface IProps extends RouteComponentProps {}
+export interface IState {
+  collapsed: boolean;
+  avatar: string;
+  name: string;
+  router: Array<string>;
+}
+class LayoutBack extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +29,7 @@ class Index extends Component {
     this.getadminInfo();
   }
   getadminInfo = () => {
-    UserAPI.getadminInfo().then(res => {
+    Get(Base.getadminInfo).then(res => {
       if (res.success) {
         if (res.data.length !== 0) {
           this.setState({
@@ -29,19 +39,19 @@ class Index extends Component {
         }
       } else {
         message.warning('请重新登录');
-        this.props.router.push('/login');
+        this.props.history.replace('/login');
       }
     });
   };
   // 退出登录
   logout = () => {
     sessionStorage.removeItem('token');
-    this.props.router.push('/');
+    this.props.history.replace('/login');
   };
   // 点击菜单跳转
   selectMenu = e => {
     const key = parseInt(e.key);
-    this.props.router.push(this.state.router[key]);
+    this.props.history.push(this.state.router[key]);
   };
   render() {
     return (
@@ -51,7 +61,7 @@ class Index extends Component {
             <div className="back-container-layout-header-logo" />
             <div className="back-container-layout-header-menu" onClick={this.logout}>
               <Tooltip title="点击退出登录" placement="bottom">
-                <Avatar size="large" icon="user" size={40} src={this.state.avatar} />
+                <Avatar icon="user" size={40} src={this.state.avatar} />
                 <span>{this.state.name}</span>
               </Tooltip>
             </div>
@@ -67,37 +77,34 @@ class Index extends Component {
                 >
                   {this.state.collapsed ? <Icon type="right" /> : <Icon type="left" />}
                 </div>
+
                 <Menu mode="inline" theme="dark">
-                  <Menu.Item key="0" onClick={this.selectMenu}>
-                    <Icon type="user" />
-                    <span>用户管理</span>
-                  </Menu.Item>
-                  <Menu.Item key="1" onClick={this.selectMenu}>
-                    <Icon type="read" />
-                    <span>文章管理</span>
-                  </Menu.Item>
-                  <Menu.Item key="2" onClick={this.selectMenu}>
-                    <Icon type="book" />
-                    <span>资源管理</span>
-                  </Menu.Item>
-                  <Menu.Item key="3" onClick={this.selectMenu}>
-                    <Icon type="folder" />
-                    <span>成果管理</span>
-                  </Menu.Item>
+                  {NavLinks.map((item, index) => (
+                    <Menu.Item key={index}>
+                      <Icon type={item.iconType} />
+                      <NavLink activeClassName={item.activeClassName} to={item.to}>
+                        {item.name}
+                      </NavLink>
+                    </Menu.Item>
+                  ))}
                 </Menu>
               </Sider>
             </div>
             <div className="back-container-layout-body-main">
-              <div className="back-container-layout-body-main-container">{this.props.children}</div>
+              <div className="back-container-layout-body-main-container">
+                <Switch>
+                  {Routes.map((item, index) => (
+                    <Route key={index} path={item.path} component={item.component} />
+                  ))}
+                  <Redirect from="/back" to="/back/user" />
+                </Switch>
+              </div>
+              <Footer />
             </div>
-          </div>
-          <div className="back-container-layout-footer">
-            <p>WEB团队官网管理系统</p>
-            <p>CopyRight©2017 PZHU-WEB 蜀ICP备17013737号</p>
           </div>
         </div>
       </div>
     );
   }
 }
-export default Index;
+export default LayoutBack;

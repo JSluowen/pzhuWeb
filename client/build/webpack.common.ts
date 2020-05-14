@@ -14,12 +14,12 @@ function caseEnv(config: configType) {
 function entryFunc(env: Boolean, isBack: Boolean) {
   if (isDev) {
     return {
-      main: path.resolve(__dirname, isBack ? '../src/back/main.js' : '../src/front/main.tsx'),
+      main: path.resolve(__dirname, isBack ? '../src/back/main.tsx' : '../src/front/main.tsx'),
     };
   } else {
     return {
       front: path.resolve(__dirname, '../src/front/main.tsx'),
-      back: path.resolve(__dirname, '../src/back/main.js'),
+      back: path.resolve(__dirname, '../src/back/main.tsx'),
     };
   }
 }
@@ -30,7 +30,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const commonConfig: webpack.Configuration = {
   entry: entryFunc(isDev, isBack),
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss'],
     alias: {
       src: path.resolve(__dirname, '../src/'),
       front: path.resolve(__dirname, '../src/front/'),

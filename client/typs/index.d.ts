@@ -5,4 +5,5 @@ interface IRes {
   data?: [];
   message?: string;
   domain?: Array<{}>;
+  status?: any;
 }

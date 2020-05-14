@@ -8,3 +8,4 @@ static/
 .DS_Stor
 logs/
 dist
+.VSCodeCounter/

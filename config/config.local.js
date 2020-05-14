@@ -1,6 +1,6 @@
 'use strict';
 exports.security = {
-  domainWhiteList: ['http://localhost:8080', 'http://localhost:80001'],
+  domainWhiteList: ['http://localhost:8080', 'http://localhost:8001'],
 };
 // 本地数据库配置
 exports.sequelize = {

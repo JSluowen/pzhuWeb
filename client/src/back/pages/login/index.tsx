@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import md5 from 'md5';
-import { LoginAPI } from '../../api';
+import { Base, Post } from '../../api';
 import Cookies from '../../../http/cookies';
+import { Footer } from 'back/pages';
 import './index.scss';
-class Login extends Component {
+import { FormComponentProps } from 'antd/lib/form';
+import { RouteComponentProps } from 'react-router-dom';
+
+export interface IProps extends FormComponentProps, RouteComponentProps {}
+export interface IState {}
+
+class Login extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {};
@@ -38,7 +45,7 @@ class Login extends Component {
               ? values.password
               : md5(values.password),
         };
-        LoginAPI.adminLogin(params).then(res => {
+        Post(Base.adminLogin, params).then(res => {
           if (res.success) {
             message.success('登录成功');
             sessionStorage.setItem('token', res.data.token);
@@ -56,7 +63,7 @@ class Login extends Component {
               });
             }
             setTimeout(() => {
-              this.props.router.push('/back');
+              this.props.history.push('/back');
             }, 500);
           } else {
             message.warning(res.message);
@@ -87,7 +94,7 @@ class Login extends Component {
                       rules: [{ required: true, message: '请输入管理员账号' }],
                     })(
                       <Input
-                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
                         placeholder="账号"
                         onChange={this.handleUser}
                       />,
@@ -98,7 +105,7 @@ class Login extends Component {
                       rules: [{ required: true, message: '请输入密码' }],
                     })(
                       <Input
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        prefix={<Icon type="lock" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
                         type="password"
                         placeholder="密码"
                         onChange={this.handleUser}
@@ -119,7 +126,8 @@ class Login extends Component {
             </div>
           </div>
         </div>
-        <div className="backLogin-footer">CopyRight©2017 PZHU-WEB 蜀ICP备17013737号</div>
+        <Footer />
+        {/* <div className="backLogin-footer">CopyRight©2017 PZHU-WEB 蜀ICP备17013737号</div> */}
       </div>
     );
   }
