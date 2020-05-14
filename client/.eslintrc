@@ -1,0 +1,28 @@
+{
+  "root": true, // 停止在父级目录寻找
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2016
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "no-unused-vars": "off",
+    "no-undef": "off",
+    "array-callback-return": "off"
+  },
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        // "@typescript-eslint/explicit-member-accessibility": ["error"],
+        "array-callback-return": ["error"]
+      }
+    }
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  }
+}

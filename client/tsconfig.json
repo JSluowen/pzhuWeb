@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "outDir": "./dis/",
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": false,
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./typs"],
+    "paths": {
+      "src/*": ["./src/*"],
+      "front/*": ["./src/front/*"],
+      "back/*": ["./src/back/*"],
+    }
+  },
+  "lib": ["dom", "es2015", "es2016.array.include"],
+  "include": ["src/**/*", "build/*", "typs/*"],
+  "exclude": ["node_modules", "**/*.spec.ts", "dist"],
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-member-accessibility": ["error"]
+      }
+    }
+  ]
+}

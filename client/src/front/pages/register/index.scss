@@ -1,133 +1,46 @@
 .register-container {
-    width: 100%;
-    min-width: 1400px;
-    min-height: 700px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    padding-bottom: 40px;
+  width: 100%;
+  padding-bottom: 40px;
 
-    .back-img {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: -3;
+  .register-form-content {
+    .ant-form-item {
+      width: 100%;
+      height: 80px;
+      margin-right: 0;
+      margin-bottom: 0;
+
+      .ant-form-item-label {
+        width: 20%;
+
+        .ant-form-item-required {
+          font-size: 16px;
+        }
+      }
+
+      .ant-form-item-control-wrapper {
+        width: 70%;
+
+        .ant-input {
+          height: 35px;
+        }
+        .ant-form-inline {
+          .has-feedback {
+            display: block;
+          }
+        }
+      }
+    }
+
+    .btn {
+      display: flex;
+      justify-content: center;
+
+      .ant-form-item-control {
         display: flex;
         justify-content: center;
         align-items: center;
-
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .shadow-bottom {
-        z-index: -2;
-        position: absolute;
-        width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
+      }
     }
-
-    .shadow-top {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .register-content {
-            width: 1100px;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 50px 0;
-
-            .register-top {
-                width: 100%;
-                height: 100px;
-                display: flex;
-                justify-content: center;
-
-                .ant-steps {
-                    width: 70%;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-
-                    .ant-steps-item {
-
-                        .ant-steps-item-icon,
-                        .ant-steps-item-title {
-                            font-size: 30px;
-                        }
-
-                        .ant-steps-item-tail {
-                            color: black;
-                        }
-                    }
-                }
-            }
-
-            .register-content {
-                width: 80%;
-                min-height: 650px;
-                background-color: #e5e5e5;
-                border-radius: 10px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-evenly;
-
-                .register-form-content {
-                    width: 80%;
-                    min-height: 350px;
-
-                    .ant-form-item {
-                        width: 100%;
-                        height: 80px;
-                        margin-right: 0px;
-                        margin-bottom: 0px;
-
-                        .ant-form-item-label {
-                            width: 20%;
-
-                            .ant-form-item-required {
-                                font-size: 16px;
-                            }
-                        }
-
-                        .ant-form-item-control-wrapper {
-                            width: 70%;
-
-                            .ant-input {
-                                height: 35px;
-                            }
-                        }
-                    }
-
-                    .btn {
-                        display: flex;
-                        justify-content: center;
-
-                        .ant-form-item-control {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            height: 100%;
-
-                            .ant-btn-primary {
-                                width: 150px;
-                                height: 50px;
-                                font-size: 20px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+  }
 }

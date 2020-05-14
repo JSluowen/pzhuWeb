@@ -1,73 +1,123 @@
+// .login-container {
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   .form-content {
+//     width: 100%;
+//     .login-form {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: center;
+//       .ant-form-item {
+//         width: 80%;
+//       }
+//     }
+//   }
+// }
+
+.login-box {
+  width: 100%;
+  height: 100vh;
+}
 .login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background-size: cover;
+  position: relative;
+  .fuzzy {
+    position: absolute;
+    height: 100vh;
     width: 100%;
-    min-width: 1400px;
-    height: 700px;
+    background-color: rgba($color: #000, $alpha: 0.3);
+  }
+  .login-body {
+    width: 1080px;
+    height: 100vh;
     display: flex;
     justify-content: center;
-    .login-img {
-        width: 60%;
-        min-height: 100%;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-size: cover;
-        background-position: center;
-    }
+    align-items: center;
+    position: absolute;
+    z-index: 2;
     .login-content {
-        width: 40%;
+      width: 35%;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px 30px;
+      .form-top {
+        width: 100%;
+        height: 60px;
         display: flex;
         justify-content: center;
         align-items: center;
 
-        .login-form {
-            width: 80%;
-            height: 450px;
+        &-title {
+          font-size: 30px;
+          color: black;
+        }
+        &-forget {
+          color: #40a9ff;
+          font-size: 14px;
+          text-align: center;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
 
-            .form-top {
-                width: 80%;
-                height: 60px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+      .form-content {
+        width: 100%;
+        margin: 20px 0;
 
-                &-title {
-                    font-family: "楷体";
-                    font-size: 35px;
-                    color: black;
-                }
-                &-forget {
-                    font-family: "楷体";
-                    font-size: 17px;
-                    &:hover{
-                        color:#40a9ff;
-                        cursor: pointer;
-                    }
-                }
-            }
+        .ant-form-item {
+          width: 100%;
+          height: 40px;
+          margin-bottom: 30px;
 
-            .form-content {
-                width: 100%;
-                height: 350px;
-                padding-top: 20px;
-
-                .ant-form-item {
-                    width: 100%;
-                    height: 40px;
-                    margin-bottom: 40px;
-
-                    .ant-input-affix-wrapper {
-                        height: 40px;
-                    }
-                }
-
-                .login-form-button {
-                    width: 145px;
-                    height: 55px;
-                    font-size: 18px;
-                }
-            }
+          .ant-input-affix-wrapper {
+            height: 40px;
+          }
         }
 
+        .login-form-button {
+          width: 100%;
+          height: 40px;
+          font-size: 16px;
+        }
+      }
     }
+    .nav-bar {
+      background-color: transparent;
+      box-shadow: 0 0 0 transparent;
+      &-left {
+        .nav-bar-menu {
+          a {
+            color: #fff;
+            transition: 0.3s;
+            &:hover {
+              color: #1890ff;
+              cursor: pointer;
+            }
+          }
+        }
+        &-log {
+          span {
+            color: #fff;
+          }
+        }
+      }
+      &-right {
+        color: #fff;
+        .login,
+        .register {
+          color: #fff;
+          &:hover {
+            cursor: pointer;
+            color: #40a9ff;
+          }
+        }
+      }
+    }
+  }
 }

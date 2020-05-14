@@ -1,0 +1,99 @@
+// 白色主题
+.light {
+  .nav-bar {
+    background-color: #fff;
+    box-shadow: 0 2px 8px #f0f1f2;
+    &-left,
+    &-right {
+      .nav-bar-menu {
+        a {
+          color: #878c91;
+          transition: 0.3s;
+          &:hover {
+            color: #1890ff;
+            cursor: pointer;
+          }
+        }
+        .active {
+          color: #1890ff;
+        }
+      }
+      &-log {
+        span {
+          color: #878c91;
+        }
+      }
+    }
+    &-right {
+      color: #878c91;
+      .login,
+      .register {
+        color: #878c91;
+        &:hover {
+          cursor: pointer;
+          color: #1890ff;
+        }
+      }
+    }
+  }
+}
+
+// 全屏透明主题
+.transparent {
+  .header {
+    .nav-bar {
+      background-color: transparent;
+      &-left,
+      &-right {
+        .nav-bar-menu-item {
+          a {
+            color: #fff;
+            transition: 0.3s;
+            &:hover {
+              color: #1890ff;
+              cursor: pointer;
+            }
+          }
+        }
+        .active {
+          color: #1890ff;
+        }
+        &-log {
+          span {
+            color: #878c91;
+          }
+        }
+      }
+      &-right {
+        color: #fff;
+        .login,
+        .register {
+          color: #fff;
+          &:hover {
+            cursor: pointer;
+            color: #1890ff;
+          }
+        }
+      }
+    }
+  }
+  .content {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+  .footer {
+    .pzhu-web-copyright {
+      background-color: transparent;
+    }
+    .copyright {
+      color: #fff;
+    }
+    .web-auth {
+      color: #fff;
+    }
+  }
+}
+
+// 黑夜主题
+// .dark {
+// }

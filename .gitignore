@@ -4,7 +4,8 @@ run/
 package-lock.json
 node_modules/
 static/
-.DS_Store
-.vscode/
+.vscode 
+.DS_Stor
+logs/
 dist
-.VSCodeCounter
+.VSCodeCounter/

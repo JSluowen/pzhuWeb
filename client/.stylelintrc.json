@@ -1,0 +1,11 @@
+{
+  "configBasedir": ".",
+  "ignoreFiles": ["src/front/reset.scss", "src/back/reset.scss"],
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "declaration-block-trailing-semicolon": null,
+    "rule-empty-line-before": null,
+    "no-descending-specificity": null,
+    "declaration-colon-space-after": null
+  }
+}

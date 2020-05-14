@@ -1,44 +1,44 @@
 .forget {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .ant-spin-nested-loading {
     width: 100%;
+  }
+  &-container {
+    width: 100%;
+    height: 190px;
+
+    &-form {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .ant-form-item {
+        width: 100%;
+        margin: 0;
+        height: 60px;
+      }
+    }
+
+    &-email {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .ant-input {
+        width: 60%;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &-btn {
+    width: 50%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    .ant-spin-nested-loading{
-        width: 100%;
-    }
-    &-container {
-        width: 100%;
-        height: 190px;
-
-        &-form {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-
-            .ant-form-item {
-                width: 100%;
-                margin: 0px;
-                height: 60px;
-            }
-        }
-
-        &-email {
-            width: 100%;
-            height:100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .ant-input{
-                width: 60%;
-                margin-right: 10px;
-            }
-        }
-    }
-
-    &-btn {
-        width: 50%;
-        display: flex;
-        justify-content: center;
-    }
+    justify-content: center;
+  }
 }
