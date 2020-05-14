@@ -1,6 +1,5 @@
 import { LinkProps, NavLinkProps, RouteProps } from 'react-router-dom';
-import { User, Article, Reasource, Achievement, articleEdit } from 'back/pages';
-import { debug } from 'webpack';
+import { User, Article, Reasource, Achievement, ArticleEdit } from 'back/pages';
 /**
  * 菜单选项
  */
@@ -44,5 +43,25 @@ export const Routes: RouteProps[] = [
     path: '/back/user',
     exact: true,
     component: User,
+  },
+  {
+    path: '/back/article',
+    exact: true,
+    component: Article,
+  },
+  {
+    path: '/back/articleEdit/:id',
+    exact: true,
+    component: ArticleEdit,
+  },
+  {
+    path: '/back/resource',
+    exact: true,
+    component: Reasource,
+  },
+  {
+    path: '/back/achievement',
+    exact: true,
+    component: Achievement,
   },
 ];

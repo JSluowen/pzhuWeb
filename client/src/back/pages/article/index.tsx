@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import { Spin, Tabs, Avatar, Button, Switch, Tag, Input, Pagination, message, Modal } from 'antd';
 import './index.scss';
-import { ArticleAPI } from '../../api';
+import { Post, Base } from 'back/api';
+import { RouteComponentProps } from 'react-router-dom';
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 const confirm = Modal.confirm;
-class Article extends Component {
+export interface IProps extends RouteComponentProps {}
+export interface IState {
+  visible: boolean;
+  confirmLoading: boolean;
+  loading: boolean;
+  pageSize: number;
+  total: number;
+  defaultCurrent: number;
+  articleList: Array<{ [key: string]: any }>;
+  tag: Array<{ [key: string]: any }>;
+  tagName: string;
+  color: Array<string>;
+}
+class Article extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +47,7 @@ class Article extends Component {
       page: this.state.defaultCurrent,
       pageSize: this.state.pageSize,
     };
-    ArticleAPI.getArticleInfo(params).then(res => {
+    Post(Base.getArticleInfo, params).then(res => {
       if (res.success) {
         setTimeout(() => {
           this.setState({
@@ -60,16 +74,16 @@ class Article extends Component {
   };
   // 文章是否置顶
   istop = (checked, event) => {
-    const id = event.currentTarget.getAttribute('articleid');
+    const id = event.currentTarget.getAttribute('data-articleid');
     const params = {
       checked,
       id,
     };
-    ArticleAPI.istop(params);
+    Post(Base.istop, params);
   };
   // 删除文章
   deleteArticle = e => {
-    const id = e.target.getAttribute('articleid');
+    const id = e.target.getAttribute('data-articleid');
     const that = this;
     confirm({
       title: '删除提示',
@@ -78,7 +92,7 @@ class Article extends Component {
       okText: '确认',
       cancelText: '取消',
       onOk() {
-        ArticleAPI.deleteArticle({ id }).then(res => {
+        Post(Base.delArticleTag, { id }).then(res => {
           if (res.success) {
             that.getArticleInfo();
           }
@@ -90,7 +104,7 @@ class Article extends Component {
   // 文章的搜索
   onSerachArticle = (value, event) => {
     const dom = event.currentTarget.parentNode.previousSibling;
-    const index = dom.getAttribute('index');
+    const index = dom.getAttribute('data-index');
     if (value === '') {
       if (index === '1') {
         message.warning('请输入文章标题');
@@ -105,7 +119,7 @@ class Article extends Component {
       index,
       value,
     };
-    ArticleAPI.onSerachArticle(params).then(res => {
+    Post(Base.onSerachArticle, params).then(res => {
       if (res.success) {
         this.setState({
           articleList: res.data,
@@ -117,12 +131,12 @@ class Article extends Component {
   // 删除技术标签
   delArticleTag = e => {
     const dom = e.currentTarget.parentNode;
-    const tagid = dom.getAttribute('tagid');
-    const index = dom.getAttribute('index');
+    const tagid = dom.getAttribute('data-tagid');
+    const index = dom.getAttribute('data-index');
     const params = {
       tagid,
     };
-    ArticleAPI.delArticleTag(params).then(res => {
+    Post(Base.delArticleTag, params).then(res => {
       if (res.success) {
         this.state.tag.splice(index, 1);
         this.setState({
@@ -139,7 +153,7 @@ class Article extends Component {
     const params = {
       tagName: this.state.tagName,
     };
-    ArticleAPI.addArticleTag(params).then(res => {
+    Post(Base.addArticleTag, params).then(res => {
       if (res.success) {
         this.getArticleInfo();
         this.setState({
@@ -156,8 +170,8 @@ class Article extends Component {
   };
   // 修改文章
   articleEdit = e => {
-    const id = e.currentTarget.getAttribute('articleId');
-    this.props.router.push(`/back/articleEdit/${id}`);
+    const id = e.currentTarget.getAttribute('data-articleId');
+    this.props.history.push(`/back/articleEdit/${id}`);
   };
   render() {
     return (
@@ -171,7 +185,7 @@ class Article extends Component {
                     <div className="back-article-container-list-search-item">
                       <span>文章标题：</span>
                       <Search
-                        index="1"
+                        data-index="1"
                         placeholder="请输入文章标题"
                         onSearch={(value, e) => this.onSerachArticle(value, e)}
                         style={{ width: 200 }}
@@ -207,7 +221,7 @@ class Article extends Component {
                               <div className="back-article-container-list-body-list-item">{item.created_at}</div>
                               <div className="back-article-container-list-body-list-item">
                                 <Switch
-                                  articleid={item.id}
+                                  data-articleid={item.id}
                                   onClick={this.istop}
                                   checkedChildren="是"
                                   unCheckedChildren="否"
@@ -217,14 +231,19 @@ class Article extends Component {
                               <div className="back-article-container-list-body-list-item">
                                 <Button
                                   onClick={this.articleEdit}
-                                  idnex={index}
-                                  articleid={item.id}
+                                  data-idnex={index}
+                                  data-articleid={item.id}
                                   ghost
                                   type="primary"
                                 >
                                   修改
                                 </Button>
-                                <Button onClick={this.deleteArticle} idnex={index} articleid={item.id} type="danger">
+                                <Button
+                                  onClick={this.deleteArticle}
+                                  data-idnex={index}
+                                  data-articleid={item.id}
+                                  type="danger"
+                                >
                                   删除
                                 </Button>
                               </div>
@@ -253,8 +272,8 @@ class Article extends Component {
                     {this.state.tag.map((item, index) => {
                       return (
                         <Tag
-                          index={index}
-                          tagid={item.id}
+                          data-index={index}
+                          data-tagid={item.id}
                           key={item.id}
                           onClose={this.delArticleTag}
                           closable

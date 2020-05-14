@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { Spin, Tabs, Avatar, Button, Switch, Tag, Input, Pagination, message, Modal, Select } from 'antd';
 import './index.scss';
-import { ResourceAPI } from '../../api';
+import { Base, Post } from 'back/api';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 const Search = Input.Search;
 const Option = Select.Option;
-class Resource extends Component {
+export interface IProps {}
+export interface IState {
+  visible: boolean;
+  confirmLoading: boolean;
+  loading: boolean;
+  pageSize: number;
+  total: number;
+  defaultCurrent: number;
+  resourceList: Array<{ [key: string]: any }>;
+  tag: Array<{ [key: string]: any }>;
+  tagName: string;
+  tagId: number;
+  color: Array<string>;
+}
+class Resource extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +50,7 @@ class Resource extends Component {
       pageSize: this.state.pageSize,
       tgaId: this.state.tagId,
     };
-    ResourceAPI.getResourceInfo(params).then(res => {
+    Post(Base.getResourceInfo, params).then(res => {
       if (res.success) {
         setTimeout(() => {
           this.setState({
@@ -72,7 +86,7 @@ class Resource extends Component {
       okText: '确认',
       cancelText: '取消',
       onOk() {
-        ResourceAPI.delResource({ id: resourceid }).then(res => {
+        Post(Base.delResource, { id: resourceid }).then(res => {
           if (res.success) {
             that.getResourceInfo();
           }
@@ -89,7 +103,8 @@ class Resource extends Component {
     const params = {
       tagName: this.state.tagName,
     };
-    ResourceAPI.addResourceTag(params).then(res => {
+
+    Post(Base.addResourceTag, params).then(res => {
       if (res.success) {
         this.getResourceInfo();
         this.setState({
@@ -107,12 +122,12 @@ class Resource extends Component {
   // 删除技术标签
   delResourceTag = e => {
     const dom = e.currentTarget.parentNode;
-    const tagid = dom.getAttribute('tagid');
-    const index = dom.getAttribute('index');
+    const tagid = dom.getAttribute('data-tagid');
+    const index = dom.getAttribute('data-index');
     const params = {
       tagid,
     };
-    ResourceAPI.delResourceTag(params).then(res => {
+    Post(Base.delResourceTag, params).then(res => {
       if (res.success) {
         this.state.tag.splice(index, 1);
         this.setState({
@@ -144,7 +159,7 @@ class Resource extends Component {
     this.setState({
       loading: true,
     });
-    ResourceAPI.onSerachResource(params).then(res => {
+    Post(Base.onSerachResource, params).then(res => {
       if (res.success) {
         setTimeout(() => {
           this.setState({
@@ -168,7 +183,7 @@ class Resource extends Component {
                     <div className="back-article-container-list-search-item">
                       <span>资源标题：</span>
                       <Search
-                        index="1"
+                        data-index="1"
                         placeholder="请输入成果标题"
                         onSearch={value => this.onSerachResource(value)}
                         style={{ width: 200 }}
@@ -237,7 +252,12 @@ class Resource extends Component {
                                 ) : (
                                   ''
                                 )}
-                                <Button onClick={this.delResource} resourceid={item.id} index={index} type="danger">
+                                <Button
+                                  onClick={this.delResource}
+                                  data-resourceid={item.id}
+                                  data-index={index}
+                                  type="danger"
+                                >
                                   删除
                                 </Button>
                               </div>
@@ -267,8 +287,8 @@ class Resource extends Component {
                       return (
                         <Tag
                           key={item.id}
-                          tagid={item.id}
-                          index={index}
+                          data-dtagid={item.id}
+                          data-index={index}
                           onClose={this.delResourceTag}
                           closable
                           color={this.state.color[Math.floor(Math.random() * 10)]}

@@ -8,11 +8,33 @@ import qiniuAPI from '../../api/qiniu';
 import BraftEditor from '../../components/braftEditor';
 import ArticleAPI from '../../api/article';
 import './index.scss';
-class ArticleEdit extends Component {
+import { FormComponentProps } from 'antd/lib/form';
+import { RouteComponentProps } from 'react-router-dom';
+
+export interface IProps extends FormComponentProps, RouteComponentProps {}
+export interface IState {
+  id: number;
+  userid: string;
+  initMenu: Array<{ label: string; value: string }>;
+  initTechnology: Array<{ label: string; value: string }>;
+  menu: any;
+  technology: any;
+  postlink: string;
+  date: Date;
+  editorState: string;
+  context: string;
+  raw: string;
+  base64: string;
+  file: string;
+  loading: boolean;
+  filePostfix: string;
+  isUploadCover: boolean;
+}
+class ArticleEdit extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      id: undefined,
+      id: props.match.params.id || null,
       userid: undefined,
       initMenu: [],
       initTechnology: [],
@@ -31,14 +53,7 @@ class ArticleEdit extends Component {
     };
   }
   componentDidMount() {
-    this.setState(
-      {
-        id: this.props.params.id || null,
-      },
-      () => {
-        this.getArticleEdit();
-      },
-    );
+    this.getArticleEdit();
   }
   getArticleEdit = () => {
     const params = {
@@ -51,12 +66,12 @@ class ArticleEdit extends Component {
           this.initArticleInfo(res.data.article);
         } else {
           message.warning('修改的文章不存在');
-          this.props.router.push('/back/article');
+          this.props.history.push('/back/article');
         }
       })
       .catch(err => {
         console.log(err);
-        this.props.router.push('/back/article');
+        this.props.history.push('/back/article');
       });
   };
   // 初始化文章类别和技术标签
@@ -96,11 +111,11 @@ class ArticleEdit extends Component {
     });
   };
   // 修改文章日期
-  handleChangeDate = (data, dataString) => {
-    this.setState({
-      data: dataString,
-    });
-  };
+  // handleChangeDate = (data, dataString) => {
+  //   this.setState({
+  //     data: dataString,
+  //   });
+  // };
   // 获取编辑器的内容
   getBraftContext = data => {
     this.setState({
@@ -127,7 +142,7 @@ class ArticleEdit extends Component {
     reader.readAsDataURL(file[0]);
     reader.onload = function(e) {
       that.setState({
-        postlink: this.result,
+        postlink: JSON.stringify(this.result),
         file: file[0],
         filePostfix: postfix,
         isUploadCover: true,
@@ -175,7 +190,7 @@ class ArticleEdit extends Component {
           error(err) {
             reject(err);
           },
-          complete(res) {
+          complete(res: { key: string }) {
             resolve(res);
           },
         };
@@ -197,7 +212,7 @@ class ArticleEdit extends Component {
         });
         if (this.state.isUploadCover) {
           this.uploadCoverToQiniu()
-            .then(res => {
+            .then((res: { key: string }) => {
               const values = {
                 ...fileValue,
                 created_at: fileValue.created_at.format('YYYY-MM-DD'),
@@ -217,7 +232,7 @@ class ArticleEdit extends Component {
                     this.setState({
                       loading: false,
                     });
-                    this.props.router.push('/back/article');
+                    this.props.history.push('/back/article');
                   }
                 })
                 .catch(err => {
@@ -255,7 +270,7 @@ class ArticleEdit extends Component {
                 this.setState({
                   loading: false,
                 });
-                this.props.router.push('/back/article');
+                this.props.history.push('/back/article');
               }
             })
             .catch(err => {

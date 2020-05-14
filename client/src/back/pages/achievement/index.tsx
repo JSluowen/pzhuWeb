@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { Spin, Tabs, Avatar, Button, Tag, Input, Pagination, message, Modal, Select, Switch } from 'antd';
 import './index.scss';
-import { AchievementAPI } from '../../api';
+import { Base, Post } from 'back/api';
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const confirm = Modal.confirm;
 const Search = Input.Search;
-class Achievement extends Component {
+export interface IProps {}
+export interface IState {
+  visible: boolean;
+  confirmLoading: boolean;
+  loading: boolean;
+  pageSize: number;
+  total: number;
+  defaultCurrent: number;
+  achievementList: Array<{ [key: string]: any }>;
+  tag: Array<{ [key: string]: any }>;
+  tagName: string;
+  tagId: number;
+  color: Array<string>;
+}
+class Achievement extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +50,7 @@ class Achievement extends Component {
       pageSize: this.state.pageSize,
       tagId: this.state.tagId,
     };
-    AchievementAPI.getAchievementInfo(params).then(res => {
+    Post(Base.getAchievementInfo, params).then(res => {
       if (res.success) {
         console.log(res.data.achievement);
         setTimeout(() => {
@@ -64,7 +78,7 @@ class Achievement extends Component {
   };
   // 删除资源
   delAchievement = e => {
-    const resourceid = e.currentTarget.getAttribute('resourceid');
+    const resourceid = e.currentTarget.getAttribute('data-resourceid');
     const that = this;
     confirm({
       title: '删除提示',
@@ -73,7 +87,7 @@ class Achievement extends Component {
       okText: '确认',
       cancelText: '取消',
       onOk() {
-        AchievementAPI.delAchievement({ id: resourceid }).then(res => {
+        Post(Base.delAchievement, { id: resourceid }).then(res => {
           if (res.success) {
             that.getAchievementInfo();
           }
@@ -90,7 +104,7 @@ class Achievement extends Component {
     const params = {
       tagName: this.state.tagName,
     };
-    AchievementAPI.addAchievementTag(params).then(res => {
+    Post(Base.addAchievementTag, params).then(res => {
       if (res.success) {
         this.getAchievementInfo();
         this.setState({
@@ -108,12 +122,12 @@ class Achievement extends Component {
   // 删除技术标签
   delAchievementTag = e => {
     const dom = e.currentTarget.parentNode;
-    const tagid = dom.getAttribute('tagid');
-    const index = dom.getAttribute('index');
+    const tagid = dom.getAttribute('data-tagid');
+    const index = dom.getAttribute('data-index');
     const params = {
       tagid,
     };
-    AchievementAPI.delAchievementTag(params).then(res => {
+    Post(Base.delAchievementTag, params).then(res => {
       if (res.success) {
         this.state.tag.splice(index, 1);
         this.setState({
@@ -145,7 +159,7 @@ class Achievement extends Component {
     this.setState({
       loading: true,
     });
-    AchievementAPI.onSerachAchievement(params).then(res => {
+    Post(Base.onSerachAchievement, params).then(res => {
       if (res.success) {
         setTimeout(() => {
           this.setState({
@@ -159,12 +173,12 @@ class Achievement extends Component {
   };
   // 是否首页显示成果
   isShow = (checked, event) => {
-    const id = event.currentTarget.getAttribute('achid');
+    const id = event.currentTarget.getAttribute('data-achid');
     const params = {
       checked,
       id,
     };
-    AchievementAPI.isShow(params);
+    Post(Base.isShow, params);
   };
   render() {
     return (
@@ -178,9 +192,9 @@ class Achievement extends Component {
                     <div className="back-article-container-list-search-item">
                       <span>成果标题：</span>
                       <Search
-                        index="1"
+                        data-index="1"
                         placeholder="请输入成果标题"
-                        onSearch={(value, e) => this.onSerachAchievement(value, e)}
+                        onSearch={value => this.onSerachAchievement(value)}
                         style={{ width: 200 }}
                       />
                     </div>
@@ -235,7 +249,7 @@ class Achievement extends Component {
                               </div>
                               <div className="back-achievement-container-list-body-list-item">
                                 <Switch
-                                  achid={item.id}
+                                  data-achid={item.id}
                                   onClick={this.isShow}
                                   checkedChildren="是"
                                   unCheckedChildren="否"
@@ -257,7 +271,12 @@ class Achievement extends Component {
                                 ) : (
                                   ''
                                 )}
-                                <Button onClick={this.delAchievement} resourceid={item.id} index={index} type="danger">
+                                <Button
+                                  onClick={this.delAchievement}
+                                  data-resourceid={item.id}
+                                  data-index={index}
+                                  type="danger"
+                                >
                                   删除
                                 </Button>
                               </div>
@@ -287,8 +306,8 @@ class Achievement extends Component {
                       return (
                         <Tag
                           key={item.id}
-                          tagid={item.id}
-                          index={index}
+                          data-tagid={item.id}
+                          data-index={index}
                           onClose={this.delAchievementTag}
                           closable
                           color={this.state.color[Math.floor(Math.random() * 10)]}
