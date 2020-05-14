@@ -1,4 +1,4 @@
-import path from 'path';
+const path = require('path');
 import common from './webpack.common';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import webpack from 'webpack';
