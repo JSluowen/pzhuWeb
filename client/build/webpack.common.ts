@@ -1,17 +1,16 @@
-import path from 'path';
-import chalk from 'chalk';
-import webpack from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpackSimpleProgressPlugin from 'webpack-simple-progress-plugin';
-import tsImportPluginFactory from 'ts-import-plugin';
+const path = require('path');
+const chalk = require('chalk');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpackSimpleProgressPlugin = require('webpack-simple-progress-plugin');
+const tsImportPluginFactory = require('ts-import-plugin');
 
-export type configType = [string, any];
+// export type configType = [string, any];
 
-function caseEnv(config: configType) {
+function caseEnv(config) {
   return process.env.NODE_ENV === 'development' ? config[0] : config[1];
 }
 
-function entryFunc(env: Boolean, isBack: Boolean) {
+function entryFunc(env, isBack) {
   if (isDev) {
     return {
       main: path.resolve(__dirname, isBack ? '../src/back/main.tsx' : '../src/front/main.tsx'),
@@ -27,7 +26,7 @@ function entryFunc(env: Boolean, isBack: Boolean) {
 const isBack = process.env.CLIENT_ENV === 'back';
 const isDev = process.env.NODE_ENV === 'development';
 
-const commonConfig: webpack.Configuration = {
+const commonConfig = {
   entry: entryFunc(isDev, isBack),
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss'],
@@ -124,4 +123,4 @@ const commonConfig: webpack.Configuration = {
   ],
 };
 
-export default commonConfig;
+module.exports = commonConfig;

@@ -1,17 +1,18 @@
 const path = require('path');
-import common from './webpack.common';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import webpack from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpackMerge from 'webpack-merge';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+const common = require('./webpack.common.ts');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpackMerge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const prodConfig: webpack.Configuration = webpackMerge(common, {
+const prodConfig = webpackMerge(common, {
   mode: 'production',
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name]_[hash].js',
     chunkFilename: '[name]_[hash].js]',
+    publicPath: '/',
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -78,4 +79,4 @@ const prodConfig: webpack.Configuration = webpackMerge(common, {
   },
 });
 
-export default prodConfig;
+module.exports = prodConfig;

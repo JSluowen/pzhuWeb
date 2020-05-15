@@ -13,7 +13,7 @@
     "paths": {
       "src/*": ["./src/*"],
       "front/*": ["./src/front/*"],
-      "back/*": ["./src/back/*"],
+      "back/*": ["./src/back/*"]
     }
   },
   "lib": ["dom", "es2015", "es2016.array.include"],

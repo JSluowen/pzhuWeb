@@ -1,12 +1,12 @@
-import path from 'path';
-import webpack from 'webpack';
-import webpackMerge from 'webpack-merge';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import common from './webpack.common';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+const common = require('./webpack.common.ts');
+const path = require('path');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const isBack = process.env.CLIENT_ENV === 'back';
 
-const devConfig: webpack.Configuration = webpackMerge(common, {
+const devConfig = webpackMerge(common, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   output: {
@@ -46,4 +46,4 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
   },
 });
 
-export default devConfig;
+module.exports = devConfig;

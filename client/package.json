@@ -15,6 +15,8 @@
   "author": "qianwei",
   "license": "ISC",
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@fullpage/react-fullpage": "^0.1.13",
