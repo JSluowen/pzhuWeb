@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env CLIENT_ENV=front process.env.NODE_ENV=development webpack-dev-server --open --config build/webpack.dev.ts",
     "back": "cross-env CLIENT_ENV=back  process.env.NODE_ENV=development  webpack-dev-server --open --config build/webpack.dev.ts",
-    "build": "cross-env process.env.NODE_ENV=production npx webpack --env production --config build/webpack.prod.ts",
+    "build": "cross-env process.env.NODE_ENV=production  webpack --env production --config build/webpack.prod.ts",
     "stylint": "stylint --fix",
     "clean": "make clean"
   },

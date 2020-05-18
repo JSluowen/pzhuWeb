@@ -12,6 +12,7 @@ const prodConfig: webpack.Configuration = webpackMerge(common, {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name]_[hash].js',
     chunkFilename: '[name]_[hash].js]',
+    publicPath: '/',
   },
   plugins: [
     new CleanWebpackPlugin(),
