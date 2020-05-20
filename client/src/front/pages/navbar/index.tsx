@@ -159,7 +159,7 @@ const Navbar: FC<RouteComponentProps> = props => {
         ) : (
           <div className="nav-bar-right-user">
             <NavLink className="login" to="/login">
-              登陆
+              登录
             </NavLink>
             /
             <div

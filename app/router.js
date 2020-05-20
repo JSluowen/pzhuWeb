@@ -3,7 +3,7 @@ module.exports = app => {
   const { router, controller } = app;
   // 首页接口
   router.get('/api/home/getHomeInfo', controller.home.getHomeInfo);// 获取首页信息
-  // 登陆接口
+  // 登录接口
   router.post('/api/code', controller.register.uploadCode); // 上传邮箱验证码
   router.post('/api/registeruser', controller.register.registerUser); // 注册用户信息
   router.post('/api/login', controller.login.login); // 用户登录
