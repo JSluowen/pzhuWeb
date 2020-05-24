@@ -19,37 +19,38 @@ class Article extends Controller {
       const params = {
         include: [
           {
-            model: app.model.Menu
+            model: app.model.Menu,
           },
           {
-            model: app.model.Technology
-          }, {
+            model: app.model.Technology,
+          },
+          {
             model: app.model.UserInfo,
             include: [
               {
-                model: app.model.User
-              }
-            ]
-          }
+                model: app.model.User,
+              },
+            ],
+          },
         ],
         where: {
-          status: 1
+          status: 1,
         },
         order: [['created_at', 'DESC']],
       };
       const params1 = {
         where: {
-          status: 1
+          status: 1,
         },
         order: [['readnumber', 'DESC']],
       };
       const params2 = {
         where: {
           userid,
-        }
+        },
       };
 
-      const technology = await ctx.service.mysql.findAll({}, table);
+      const technology = await ctx.service.mysql.findAll({ where: { status: 1 } }, table);
       let article = await ctx.service.mysql.findAll(params, table1);
       let hotArticle = await ctx.service.mysql.findAll(params1, table1);
       let favorite;
@@ -75,8 +76,8 @@ class Article extends Controller {
             technology,
             article,
             slideshow,
-            hotArticle
-          }
+            hotArticle,
+          },
         };
       } else {
         article = article.slice(beg);
@@ -87,8 +88,8 @@ class Article extends Controller {
             technology,
             article,
             slideshow,
-            hotArticle
-          }
+            hotArticle,
+          },
         };
       }
     } catch (err) {
@@ -109,20 +110,18 @@ class Article extends Controller {
         const table = 'Favorite';
         const params = {
           articleid: id,
-          userid
+          userid,
         };
         await ctx.service.mysql.create(params, table);
         ctx.status = 200;
         ctx.body = {
-          success: 1
+          success: 1,
         };
-
       }
     } catch (err) {
       console.log(err);
       ctx.status = 404;
     }
-
   }
   async cancelCollect() {
     const { ctx } = this;
@@ -138,16 +137,15 @@ class Article extends Controller {
         const params = {
           where: {
             articleid: id,
-            userid
-          }
+            userid,
+          },
         };
         const favorite = await ctx.service.mysql.findAll(params, table);
         await favorite[0].destroy();
         ctx.status = 200;
         ctx.body = {
-          success: 1
+          success: 1,
         };
-
       }
     } catch (err) {
       console.log(err);
