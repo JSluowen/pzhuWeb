@@ -9,7 +9,7 @@ message.config({
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://127.0.0.1:7001/api';
 } else {
-  axios.defaults.baseURL = 'http://47.99.111.111:7001/api';
+  axios.defaults.baseURL = 'http://140.143.124.13:7001/api';
 }
 axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
