@@ -9,5 +9,5 @@ exports.sequelize = {
   port: '3306',
   host: '140.143.124.13',
   username: 'root',
-  password: 'root',
+  password: 'lqx1231',
 };

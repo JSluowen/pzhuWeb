@@ -43,6 +43,11 @@ export default class Article extends Component<IProps, IState> {
   }
   componentDidMount() {
     this.getArticle();
+    window.addEventListener('scroll', this.handelScroll);
+    console.log('123 :>> ', 123);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handelScroll);
   }
   // 获取文章界面信息
   getArticle = () => {
@@ -118,41 +123,59 @@ export default class Article extends Component<IProps, IState> {
       },
     );
   };
-  // 点击收藏或取消收藏文章
-  handelCollect = e => {
-    let event = e.target;
-    let index;
-    let isFavorite;
-    if (event.tagName === 'DIV') {
-      index = event.getAttribute('data-index');
-      isFavorite = event.getAttribute('data-isfavorite');
-    } else if (event.tagName === 'svg') {
-      index = event.parentNode.parentNode.getAttribute('data-index');
-      isFavorite = event.parentNode.parentNode.getAttribute('data-isfavorite');
-      event = event.parentNode.parentNode;
-    } else {
-      index = event.parentNode.parentNode.parentNode.getAttribute('data-index');
-      isFavorite = event.parentNode.parentNode.parentNode.getAttribute('data-isfavorite');
-      event = event.parentNode.parentNode.parentNode;
-    }
-    if (isFavorite === 'true') {
-      Post(Base.cancelCollect, { id: index }).then(res => {
-        if (res.success) {
-          message.success('取消收藏');
-          event.children[0].style.color = 'gray';
-          event.setAttribute('data-isfavorite', 'false');
-        }
-      });
-    } else {
-      Post(Base.cancelCollect, { id: index }).then(res => {
-        if (res.success) {
-          message.success('收藏成功');
-          event.children[0].style.color = '#1890ff';
-          event.setAttribute('data-isfavorite', 'true');
-        }
-      });
+  handelScroll = () => {
+    // 滚动的高度
+    const scrollTop =
+      (event.srcElement ? event.srcElement.documentElement.scrollTop : false) ||
+      window.pageYOffset ||
+      (event.srcElement ? event.srcElement.body.scrollTop : 0);
+    // 视窗高度
+    const clientHeight =
+      (event.srcElement && event.srcElement.documentElement.clientHeight) || document.body.clientHeight;
+    // 页面高度
+    const scrollHeight =
+      (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
+    // 距离页面底部的高度
+    const height = scrollHeight - scrollTop - clientHeight;
+    if (height <= 400) {
+      this.handelLoading();
     }
   };
+  // 点击收藏或取消收藏文章
+  // handelCollect = e => {
+  //   let event = e.target;
+  //   let index;
+  //   let isFavorite;
+  //   if (event.tagName === 'DIV') {
+  //     index = event.getAttribute('data-index');
+  //     isFavorite = event.getAttribute('data-isfavorite');
+  //   } else if (event.tagName === 'svg') {
+  //     index = event.parentNode.parentNode.getAttribute('data-index');
+  //     isFavorite = event.parentNode.parentNode.getAttribute('data-isfavorite');
+  //     event = event.parentNode.parentNode;
+  //   } else {
+  //     index = event.parentNode.parentNode.parentNode.getAttribute('data-index');
+  //     isFavorite = event.parentNode.parentNode.parentNode.getAttribute('data-isfavorite');
+  //     event = event.parentNode.parentNode.parentNode;
+  //   }
+  //   if (isFavorite === 'true') {
+  //     Post(Base.cancelCollect, { id: index }).then(res => {
+  //       if (res.success) {
+  //         message.success('取消收藏');
+  //         event.children[0].style.color = 'gray';
+  //         event.setAttribute('data-isfavorite', 'false');
+  //       }
+  //     });
+  //   } else {
+  //     Post(Base.cancelCollect, { id: index }).then(res => {
+  //       if (res.success) {
+  //         message.success('收藏成功');
+  //         event.children[0].style.color = '#1890ff';
+  //         event.setAttribute('data-isfavorite', 'true');
+  //       }
+  //     });
+  //   }
+  // };
   render() {
     return (
       <div className="article-container">
@@ -212,7 +235,7 @@ export default class Article extends Component<IProps, IState> {
 
                             <div className="article-bottom">
                               <div className="read-number">阅读数 {item.readnumber}</div>
-                              {sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === '' ? (
+                              {/* {sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === '' ? (
                                 ''
                               ) : (
                                 <div
@@ -226,7 +249,7 @@ export default class Article extends Component<IProps, IState> {
                                     type="star"
                                   />
                                 </div>
-                              )}
+                              )} */}
 
                               <div className="autor">
                                 <Link to={`/tourist/${item.userid}`} className="avatar">
@@ -285,7 +308,13 @@ export default class Article extends Component<IProps, IState> {
                   })}
                 </div>
               </div>
-
+              {/* 微信公众号 */}
+              <div className="weixin">
+                <Divider orientation="left">微信公众号</Divider>
+                <div className="weixin-img">
+                  <img src="http://img.pzhuweb.cn/weixin2.jpg" alt="" />
+                </div>
+              </div>
               {/* 热门文章推荐 */}
               <div className="hot">
                 <Divider orientation="left">热门文章</Divider>
@@ -304,6 +333,7 @@ export default class Article extends Component<IProps, IState> {
                   })}
                 </div>
               </div>
+              {/** 团队微信公众号 */}
             </div>
           </Col>
         </Row>

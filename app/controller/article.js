@@ -33,6 +33,7 @@ class Article extends Controller {
             ],
           },
         ],
+        attributes: { exclude: ['context','raw'] },
         where: {
           status: 1,
         },
@@ -56,7 +57,8 @@ class Article extends Controller {
       let favorite;
       if (userid && author) {
         favorite = await ctx.service.mysql.findAll(params2, table2);
-        article = await ctx.service.fun.filterCollect(favorite, article);
+        // 下掉收藏功能
+        // article = await ctx.service.fun.filterCollect(favorite, article);
       }
       if (index !== 0) {
         article = article.filter(item => {

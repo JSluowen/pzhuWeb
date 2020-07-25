@@ -333,7 +333,12 @@
           }
         }
       }
-
+      .weixin {
+        width: 100%;
+        img {
+          width: 100%;
+        }
+      }
       .hot {
         width: 100%;
         height: auto;
