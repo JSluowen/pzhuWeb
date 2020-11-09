@@ -44,7 +44,6 @@ export default class Article extends Component<IProps, IState> {
   componentDidMount() {
     this.getArticle();
     window.addEventListener('scroll', this.handelScroll);
-    console.log('123 :>> ', 123);
   }
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handelScroll);
@@ -112,16 +111,18 @@ export default class Article extends Component<IProps, IState> {
     );
   };
   handelLoading = () => {
-    this.setState(
-      {
-        loadingMore: true,
-        beg: this.state.end,
-        end: this.state.end + this.state.limit,
-      },
-      () => {
-        this.getArticle();
-      },
-    );
+    if (!this.state.loadingMore) {
+      this.setState(
+        {
+          loadingMore: true,
+          beg: this.state.end,
+          end: this.state.end + this.state.limit,
+        },
+        () => {
+          this.getArticle();
+        },
+      );
+    }
   };
   handelScroll = () => {
     // 滚动的高度
@@ -137,7 +138,7 @@ export default class Article extends Component<IProps, IState> {
       (event.srcElement && event.srcElement.documentElement.scrollHeight) || document.body.scrollHeight;
     // 距离页面底部的高度
     const height = scrollHeight - scrollTop - clientHeight;
-    if (height <= 400) {
+    if (height <= 400 && this.state.isLoading) {
       this.handelLoading();
     }
   };
@@ -271,14 +272,7 @@ export default class Article extends Component<IProps, IState> {
 
                 <div className="article-left-loadingmore">
                   {this.state.isLoading ? (
-                    <Button
-                      shape="round"
-                      onClick={this.handelLoading}
-                      size="large"
-                      ghost
-                      type="primary"
-                      loading={this.state.loadingMore}
-                    >
+                    <Button shape="round" size="large" ghost type="primary" loading={this.state.loadingMore}>
                       加载更多
                     </Button>
                   ) : (
@@ -311,9 +305,11 @@ export default class Article extends Component<IProps, IState> {
               {/* 微信公众号 */}
               <div className="weixin">
                 <Divider orientation="left">微信公众号</Divider>
-                <div className="weixin-img">
-                  <img src="http://img.pzhuweb.cn/weixin2.jpg" alt="" />
-                </div>
+                {this.state.article.length > 0 && (
+                  <div className="weixin-img">
+                    <img src="http://img.pzhuweb.cn/weixin2.jpg" alt="" />
+                  </div>
+                )}
               </div>
               {/* 热门文章推荐 */}
               <div className="hot">
