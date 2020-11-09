@@ -25,7 +25,6 @@ const devConfig: webpack.Configuration = webpackMerge(common, {
     }),
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),

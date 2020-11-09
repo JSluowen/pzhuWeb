@@ -6,8 +6,8 @@ exports.security = {
 exports.sequelize = {
   dialect: 'mysql',
   database: 'pzhuweb',
-  port: '3306',
-  host: '127.0.0.1',
-  username: 'root',
-  password: '123456lw',
+  port: '7788',
+  host: 'www.pzhuweb.cn',
+  username: 'wutaotao',
+  password: 'wtt666andvery666',
 };
