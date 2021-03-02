@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState, useRequest } from 'ahooks';
-import { Modal, Select, Upload, Row, Col, Icon } from 'antd';
+import { Modal, Select, Upload, Row, Col, Icon, message } from 'antd';
 import qiniuAPI from 'src/front/api/qiniu';
 import Cookies from '../../../../http/cookies';
 import AlbumService from '../service';
@@ -17,9 +17,8 @@ const AlbumUpload: React.FC<{
     key: '',
   });
   const [albums, setAlbums] = useState([]);
-  const [fileList, setFileList] = useState([]);
-  const [uploadData, setUploadData] = useSetState({
-    album: '',
+  const [uploadData, setUploadData] = useSetState<{ album: number; fileList: any[] }>({
+    album: null,
     fileList: [],
   });
 
@@ -27,11 +26,24 @@ const AlbumUpload: React.FC<{
     manual: true,
     onSuccess: res => {
       setAlbums(res.data?.albums);
-      setUploadData({ album: res.data?.albums[0]?.id });
+      setUploadData({ album: Number(albumId) || res.data?.albums[0]?.id });
+    },
+  });
+  const uploadPhotos = useRequest(AlbumService.uploadPhotos, {
+    manual: true,
+    onSuccess: res => {
+      message.success('上传成功');
+      onChangeVisible(false);
     },
   });
 
-  const handleOk = () => {};
+  const handleOk = () => {
+    if (uploadData.fileList.length === 0) {
+      message.warn('请先选择要上传的照片');
+      return;
+    }
+    uploadPhotos.run({ albumId: uploadData.album, imgs: uploadData.fileList });
+  };
   const handleCancel = () => {
     onChangeVisible(false);
   };
@@ -50,13 +62,13 @@ const AlbumUpload: React.FC<{
   const handleUploadChange = info => {
     const { fileList, file } = info;
     if (file.status === 'done') {
-      setFileList(
-        fileList.map(file => ({
+      setUploadData({
+        fileList: fileList.map(file => ({
           id: file.uid || file.id,
-          url: `http://img.pzhuweb.cn/${file.response.key}` || file.url,
+          link: `http://img.pzhuweb.cn/${file.response.key}` || file.url,
           name: file.name,
         })),
-      );
+      });
     }
   };
   const delFile = key => {
@@ -65,11 +77,18 @@ const AlbumUpload: React.FC<{
     });
   };
   useEffect(() => {
+    if (!visible) return;
     fetchUploadToken();
     getAlbums.run();
-  }, []);
+  }, [visible]);
   return (
-    <Modal title="上传图片" visible={visible} onOk={handleOk} onCancel={handleCancel}>
+    <Modal
+      title="上传图片"
+      visible={visible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      confirmLoading={uploadPhotos.loading}
+    >
       <div className="album-upload-warpper" style={{ padding: 20 }}>
         <Row>
           <Col span={4}>相册：</Col>

@@ -11,6 +11,7 @@ import {
   AchievementIssue,
   Article,
   Album,
+  AlbumInfo,
 } from 'front/pages';
 
 export const Routes: Array<RouteProps> = [
@@ -79,5 +80,10 @@ export const Routes: Array<RouteProps> = [
     exact: true,
     path: '/album',
     component: Album,
+  },
+  {
+    exact: true,
+    path: '/album/:id',
+    component: AlbumInfo,
   },
 ];

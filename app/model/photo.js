@@ -15,7 +15,7 @@ module.exports = app => {
       name: STRING(255),
       status: {
         type: INTEGER(4),
-        defaultValue: 0,
+        defaultValue: 1,
       },
       created_at: DATE,
       updated_at: DATE,

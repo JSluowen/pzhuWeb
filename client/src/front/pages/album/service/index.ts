@@ -1,5 +1,15 @@
 import { Get, Post, Base } from 'src/front/api/index';
 
+class AlbumItem {
+  id: number;
+  user_id: string;
+  type: number;
+  name: string;
+  desc: string;
+  cover: string;
+  status: number;
+}
+
 class AlbumService {
   static async getAlbumTypes() {
     return Get(Base.getAlbumTypes);
@@ -13,7 +23,13 @@ class AlbumService {
   static async delFile(key) {
     return Get(`${Base.delFile}?key=${key}`);
   }
+  static async uploadPhotos(params) {
+    return Post(Base.uploadPhotos, params);
+  }
+  static async getPhotosByAlbumId(id) {
+    return Get(`${Base.getPhotosByAlbumId}?id=${id}`);
+  }
 }
 
 export default AlbumService;
-export { AlbumService };
+export { AlbumService, AlbumItem };

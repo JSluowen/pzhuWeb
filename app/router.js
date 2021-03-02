@@ -11,7 +11,7 @@ module.exports = app => {
   router.post('/api/forgetpassword', controller.login.forgetPassword); // 忘记密码
   router.post('/api/changepassword', controller.login.changePassword); // 修改密码
   router.get('/api/qiniutoken', controller.qiniu.getToken); // 获取七牛云证书秘钥
-  router.get('/api/delfile',controller.qiniu.delFile)
+  router.get('/api/delfile', controller.qiniu.delFile)
   // 用户编辑个人信息接口
   router.get('/api/person/userinfo', controller.person.getUserinfo); // 获取用户信息
   router.post('/api/person/uploadavatar', controller.person.uploadAvatar); // 上传头像信息
@@ -117,8 +117,10 @@ module.exports = app => {
   // 2048游戏接口
   router.get('/api/2048/initTop', controller.game_2048.initTop);// 初始化游戏接口
   // 相册
-  router.get('/api/album/getAlbumTypes', controller.album.getAlbumTypes)
-  router.post('/api/album/createAlbum', controller.album.createAlbum)
-  router.get('/api/album/getAlbums', controller.album.getAlbums)
+  router.get('/api/album/getAlbumTypes', controller.album.getAlbumTypes)  // 得到相册分类列表
+  router.post('/api/album/createAlbum', controller.album.createAlbum) // 创建相册
+  router.get('/api/album/getAlbums', controller.album.getAlbums)  // 得到相册列表
+  router.post('/api/album/uploadPhotos', controller.album.uploadPhotos) // 上传图片
+  router.get('/api/album/getPhotosByAlbumId', controller.album.getPhotosByAlbumId)  // 通过相册id得到图片
 };
 

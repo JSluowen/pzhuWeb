@@ -7,8 +7,12 @@ module.exports = appInfo => {
 
   // 配置中间件
   // config.appMiddleware = {
-  //   middleware: ['verify']
+  //   middleware: [
+  //     'params', 
+  //     // 'verify'
+  //   ]
   // }
+  config.middleware = [ 'params'];
   config.security = {
     csrf: false
   };

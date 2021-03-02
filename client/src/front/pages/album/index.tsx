@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card } from 'antd';
+import { Button, Card, Icon } from 'antd';
 import { useSetState, useRequest } from 'ahooks';
 
 import { Aside, Item } from './components/aside';
@@ -8,9 +8,13 @@ import CreateAlbum from './components/createAlbum';
 import AlbumService from './service';
 import './index.scss';
 
-const Album = () => {
-  const testAlbum = [];
-  const [albums, setAlbums] = useState(['album1', 'album2', 'album3']);
+const ALBUM_STATUS_ICON = {
+  1: { icon: 'unlock', desc: '公开的' },
+  2: { icon: 'lock', desc: '私有的' },
+};
+
+const Album = ({ history }) => {
+  const [albums, setAlbums] = useState([]);
   const [albumTypes, setAlbumTypes] = useState([]);
   const [uploadProps, setUploadProps] = useSetState({
     visible: false,
@@ -19,7 +23,15 @@ const Album = () => {
   const [createAlbumVisible, setCreateAlbumVisible] = useState(false);
   const getAlbums = useRequest(AlbumService.getAlbums, {
     onSuccess: res => {
-      setAlbums(res.data.albums);
+      setAlbums(
+        res.data.albums.map(album => ({
+          id: album.id,
+          name: album.name,
+          cover: album?.Photo?.link,
+          desc: album.desc,
+          status: album.status,
+        })),
+      );
       const typeObj = {};
       res.data.albums?.forEach(album => {
         if (!typeObj[album.type]) {
@@ -31,13 +43,6 @@ const Album = () => {
       setAlbumTypes(types);
     },
   });
-
-  const albumType: Item[] = [
-    { id: 1, name: '分类1', num: 2 },
-    { id: 2, name: '分类2', num: 5 },
-    { id: 3, name: '分类3', num: 2 },
-    { id: 4, name: '分类4', num: 3 },
-  ];
   useEffect(() => {
     getAlbums.run();
   }, []);
@@ -68,16 +73,42 @@ const Album = () => {
             />
           </div>
           <div className="album-main-right">
-            {albums.map(item => (
-              <Card className="album-item" key={item}>
-                <Card.Meta>{item}</Card.Meta>
+            {albums.map(album => (
+              <Card
+                className="album-item"
+                key={album.name}
+                hoverable={true}
+                cover={<img alt="相册封面" src={album.cover} />}
+                onClick={() => {
+                  history.push(`/album/${album.id}`);
+                }}
+              >
+                <Card.Meta
+                  title={
+                    <div>
+                      <div title={album.name}>{album.name}</div>
+                      <Icon title={ALBUM_STATUS_ICON[album.status].desc} type={ALBUM_STATUS_ICON[album.status].icon} />
+                    </div>
+                  }
+                  description={
+                    <div title={album.desc || '这个家伙很懒，什么都没有写'}>
+                      {album.desc || '这个家伙很懒，什么都没有写'}
+                    </div>
+                  }
+                />
               </Card>
             ))}
           </div>
         </div>
       </div>
       <AlbumUpload visible={uploadProps.visible} onChangeVisible={visible => setUploadProps({ visible })} />
-      <CreateAlbum visible={createAlbumVisible} onChangeVisible={visible => setCreateAlbumVisible(visible)} />
+      <CreateAlbum
+        visible={createAlbumVisible}
+        onChangeVisible={visible => {
+          setCreateAlbumVisible(visible);
+          getAlbums.run();
+        }}
+      />
     </div>
   );
 };

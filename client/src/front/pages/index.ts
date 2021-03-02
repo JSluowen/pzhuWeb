@@ -21,6 +21,7 @@ import AchievementIssue from 'front/pages/achievementIssue';
 
 // 相册相关
 import Album from './album';
+import AlbumInfo from './album/albumInfo';
 
 export {
   Navbar,
@@ -43,4 +44,5 @@ export {
   AchievementIssue,
   Footer,
   Album,
+  AlbumInfo,
 };

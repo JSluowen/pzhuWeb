@@ -83,5 +83,6 @@ const base = {
   //相册
   getAlbumTypes: '/album/getAlbumTypes',
   createAlbum: '/album/createAlbum',
+  uploadPhotos: '/album/uploadPhotos',
 };
 export default base;

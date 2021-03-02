@@ -85,6 +85,8 @@ const Base = {
   getAlbumTypes: '/album/getAlbumTypes',
   getAlbums: '/album/getAlbums',
   createAlbum: '/album/createAlbum',
+  uploadPhotos: '/album/uploadPhotos',
+  getPhotosByAlbumId: '/album/getPhotosByAlbumId',
 };
 
 export interface IRes {
