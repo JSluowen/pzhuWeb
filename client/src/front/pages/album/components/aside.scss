@@ -1,0 +1,18 @@
+.aside-container {
+  width: 100%;
+
+  .aside-header {
+    background-color: #fff;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    padding: 0 16px;
+  }
+
+  .aside-menu {
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

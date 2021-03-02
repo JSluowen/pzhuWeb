@@ -10,6 +10,7 @@ import {
   ResourceIssue,
   AchievementIssue,
   Article,
+  Album,
 } from 'front/pages';
 
 export const Routes: Array<RouteProps> = [
@@ -73,5 +74,10 @@ export const Routes: Array<RouteProps> = [
     exact: true,
     path: '/article',
     component: Article,
+  },
+  {
+    exact: true,
+    path: '/album',
+    component: Album,
   },
 ];

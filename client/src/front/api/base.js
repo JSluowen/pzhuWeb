@@ -80,5 +80,8 @@ const base = {
   searchTouristCollect: '/tourist/searchTouristCollect', // 游客获取用户个人收藏信息
   // 首页信息获取接口
   getHomeInfo: '/home/getHomeInfo', // 获取首页的信息
+  //相册
+  getAlbumTypes: '/album/getAlbumTypes',
+  createAlbum: '/album/createAlbum',
 };
 export default base;

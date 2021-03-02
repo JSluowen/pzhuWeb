@@ -1,0 +1,35 @@
+.album-container {
+  width: 100%;
+  padding: 20px;
+
+  .album-header {
+    width: 100%;
+
+    & > .album-header-btn {
+      margin-left: 10px;
+    }
+  }
+
+  .album-main {
+    margin-top: 20px;
+    display: flex;
+
+    .album-main-left {
+      width: 250px;
+    }
+    .album-main-right {
+      margin-left: 20px;
+      flex: 1;
+      background-color: #fff;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+  }
+  .album-item {
+    margin: 0 10px;
+    width: 200px;
+    height: 200px;
+  }
+}

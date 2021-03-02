@@ -73,6 +73,10 @@ class Login extends Component<IProps, IState> {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(sessionStorage.getItem('time'));
+        console.log(md5(values.password));
+        console.log(md5(md5(values.password)));
+
         const params = {
           id: values.id,
           password:

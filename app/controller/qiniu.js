@@ -11,9 +11,25 @@ class Qiniu extends Controller {
         data: uploadToken,
       };
     } catch (err) {
-      ctx.status = 500;
-      console.log(err);
+      ctx.status = 500
+      console.log(err)
     }
+  }
+  async delFile() {
+    const { key } = this.ctx.request
+    try {
+      await this.ctx.service.qiniu.deleteFile('wbimg', key)
+      this.ctx.status = 200
+      this.ctx.body = {
+        success: 1,
+      }
+    } catch (error) {
+      this.ctx.status = 200
+      this.ctx.body = {
+        success: 0,
+      }
+    }
+
   }
 }
 module.exports = Qiniu;
