@@ -1,4 +1,4 @@
-import { Get, Post, Base } from 'src/front/api/index';
+import { Get, get, Post, Base } from 'src/front/api/index';
 
 class AlbumItem {
   id: number;
@@ -17,8 +17,8 @@ class AlbumService {
   static async createAlbum(params) {
     return Post(Base.createAlbum, params);
   }
-  static async getAlbums() {
-    return Get(Base.getAlbums);
+  static async getAlbums(params = null) {
+    return get(Base.getAlbums, params);
   }
   static async delFile(key) {
     return Get(`${Base.delFile}?key=${key}`);

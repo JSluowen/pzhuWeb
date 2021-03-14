@@ -7,7 +7,7 @@ import { PhotoModal } from './components/photoModal';
 import { AlbumService, AlbumItem } from './service';
 import './albumInfo.scss';
 
-const AlbumInfo = ({ match }) => {
+const AlbumInfo = ({ match, history }) => {
   const [uploadProps, setUploadProps] = useSetState<{ visible: boolean; alibumId: number }>({
     visible: false,
     alibumId: match.params.id,
@@ -33,30 +33,37 @@ const AlbumInfo = ({ match }) => {
   return (
     <div className="photo-container">
       <div className="photo-header">
-        <div className="photo-header-cover">
-          <img src={album?.cover} />
-        </div>
-        <div className="photo-header-right">
-          <div>
-            <div className="photo-header-title">{album?.name}</div>
-            <div className="photo-header-sub">
-              <span>{photos.length}张</span>
-              <span>{album?.desc}</span>
+        <div className="photo-header-left">
+          <div className="photo-header-cover">
+            <img src={album?.cover} />
+          </div>
+          <div className="photo-header-desc">
+            <div>
+              <div className="photo-header-title">{album?.name}</div>
+              <div className="photo-header-sub">
+                <span>{photos.length}张</span>
+                <span>{album?.desc}</span>
+              </div>
+            </div>
+            <div className="photo-header-action">
+              <Button
+                className="photo-header-btn"
+                onClick={() => {
+                  setUploadProps({ visible: true });
+                }}
+              >
+                上传图片
+              </Button>
+              <Button className="photo-header-btn" onClick={() => setCreateAlbumVisible(true)}>
+                创建相册
+              </Button>
             </div>
           </div>
-          <div className="photo-header-action">
-            <Button
-              className="photo-header-btn"
-              onClick={() => {
-                setUploadProps({ visible: true });
-              }}
-            >
-              上传图片
-            </Button>
-            <Button className="photo-header-btn" onClick={() => setCreateAlbumVisible(true)}>
-              创建相册
-            </Button>
-          </div>
+        </div>
+        <div className="photo-header-right">
+          <Button onClick={() => history.push('/album')}>
+            <Icon type="icon-return"></Icon>返回
+          </Button>
         </div>
       </div>
       <div className="photo-main">

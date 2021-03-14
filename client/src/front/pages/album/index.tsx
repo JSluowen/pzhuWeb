@@ -40,64 +40,79 @@ const Album = ({ history }) => {
         typeObj[album.type].num++;
       });
       const types = Object.keys(typeObj).map(id => ({ id, name: typeObj[id].name, num: typeObj[id].num }));
-      setAlbumTypes(types);
+      if (albumTypes.length === 0) {
+        setAlbumTypes(types);
+      }
     },
   });
-  useEffect(() => {
-    getAlbums.run();
-  }, []);
+  // useEffect(() => {
+  //   getAlbums.run();
+  // }, []);
   return (
     <div>
       <div className="album-container">
-        <div className="album-header">
-          <Button
-            className="album-header-btn"
-            onClick={() => {
-              setUploadProps({ visible: true });
-            }}
-          >
-            上传图片
-          </Button>
-          <Button className="album-header-btn" onClick={() => setCreateAlbumVisible(true)}>
-            创建相册
-          </Button>
-        </div>
         <div className="album-main">
           <div className="album-main-left">
             <Aside
               title="相册分类"
               data={albumTypes}
               onSelected={selectedId => {
-                console.log(selectedId);
+                if (Number(selectedId) !== -1) {
+                  return getAlbums.run({ type: selectedId });
+                }
+                getAlbums.run();
               }}
             />
           </div>
           <div className="album-main-right">
-            {albums.map(album => (
-              <Card
-                className="album-item"
-                key={album.name}
-                hoverable={true}
-                cover={<img alt="相册封面" src={album.cover} />}
-                onClick={() => {
-                  history.push(`/album/${album.id}`);
-                }}
-              >
-                <Card.Meta
-                  title={
-                    <div>
-                      <div title={album.name}>{album.name}</div>
-                      <Icon title={ALBUM_STATUS_ICON[album.status].desc} type={ALBUM_STATUS_ICON[album.status].icon} />
-                    </div>
-                  }
-                  description={
-                    <div title={album.desc || '这个家伙很懒，什么都没有写'}>
-                      {album.desc || '这个家伙很懒，什么都没有写'}
-                    </div>
-                  }
-                />
-              </Card>
-            ))}
+            <Card
+              extra={
+                <>
+                  <Button
+                    className="album-header-btn"
+                    onClick={() => {
+                      setUploadProps({ visible: true });
+                    }}
+                  >
+                    上传图片
+                  </Button>
+                  <Button className="album-header-btn" onClick={() => setCreateAlbumVisible(true)}>
+                    创建相册
+                  </Button>
+                </>
+              }
+            >
+              <div className="album-item-warpper">
+                {albums.map(album => (
+                  <Card
+                    className="album-item"
+                    key={album.name}
+                    hoverable={true}
+                    cover={<img alt="相册封面" src={album.cover} />}
+                    onClick={() => {
+                      history.push(`/album/${album.id}`);
+                    }}
+                  >
+                    <Card.Meta
+                      title={
+                        <div>
+                          <div title={album.name}>{album.name}</div>
+                          <Icon
+                            title={ALBUM_STATUS_ICON[album.status].desc}
+                            type={ALBUM_STATUS_ICON[album.status].icon}
+                          />
+                        </div>
+                      }
+                      description={
+                        <div title={album.desc || '这个家伙很懒，什么都没有写'}>
+                          {album.desc || '这个家伙很懒，什么都没有写'}
+                        </div>
+                      }
+                    />
+                  </Card>
+                ))}
+              </div>
+            </Card>
           </div>
         </div>
       </div>
@@ -106,6 +121,7 @@ const Album = ({ history }) => {
         visible={createAlbumVisible}
         onChangeVisible={visible => {
           setCreateAlbumVisible(visible);
+          setAlbumTypes([]);
           getAlbums.run();
         }}
       />

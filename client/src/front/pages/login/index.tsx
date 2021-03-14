@@ -33,7 +33,7 @@ class Login extends Component<IProps, IState> {
     this.handleCreate();
     // 获取后台的时间令牌
     Get(Base.timetoken).then(res => {
-      sessionStorage.setItem('time', res.message);
+      localStorage.setItem('time', res.message);
     });
     const id = Cookies.getCookies('id');
     const password = Cookies.getCookies('password');
@@ -73,7 +73,7 @@ class Login extends Component<IProps, IState> {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(sessionStorage.getItem('time'));
+        console.log(localStorage.getItem('time'));
         console.log(md5(values.password));
         console.log(md5(md5(values.password)));
 
@@ -81,8 +81,8 @@ class Login extends Component<IProps, IState> {
           id: values.id,
           password:
             Cookies.getCookies('password') && Cookies.getCookies('password') !== ''
-              ? md5(values.password + sessionStorage.getItem('time'))
-              : md5(md5(values.password) + sessionStorage.getItem('time')),
+              ? md5(values.password)
+              : md5(md5(values.password)),
         };
         Post(Base.login, params)
           .then(res => {
@@ -94,7 +94,7 @@ class Login extends Component<IProps, IState> {
                 name: res.data.name,
               };
               Cookies.setCookies(data);
-              sessionStorage.setItem('token', res.data.token);
+              localStorage.setItem('token', res.data.token || '111');
               setTimeout(() => {
                 this.props.history.replace('/user');
               }, 500);

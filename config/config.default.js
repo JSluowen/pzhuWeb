@@ -12,7 +12,14 @@ module.exports = appInfo => {
   //     // 'verify'
   //   ]
   // }
-  config.middleware = [ 'params'];
+  config.middleware = [ 
+    'verify',
+    'params',
+    'album'
+  ];
+  config.verify = {
+    token: 'webJWT'
+  }
   config.security = {
     csrf: false
   };
@@ -46,8 +53,12 @@ module.exports = appInfo => {
     maxAge: 1000 * 60 * 60 * 24,
     httpOnly: true,
     encrypt: true, // 加密
-    renew: true // 最大时间范围内，刷新，自动增加最大时间
+    renew: true, // 最大时间范围内，刷新，自动增加最大时间
+    sameSite: 'none',
   };
+  config.cookie = {
+
+  }
   config.cors = {
     credentials: true
   };

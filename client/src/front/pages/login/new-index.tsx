@@ -47,7 +47,7 @@ const Login: FC<FormComponentProps> = props => {
   const initData = () => {
     // 获取后台的时间令牌
     Get(Base.timetoken).then(res => {
-      sessionStorage.setItem('time', res.message);
+      localStorage.setItem('time', res.message);
     });
     const id = Cookies.getCookies('id');
     const password = Cookies.getCookies('password');
@@ -71,8 +71,8 @@ const Login: FC<FormComponentProps> = props => {
           id: values.id,
           password:
             Cookies.getCookies('password') && Cookies.getCookies('password') !== ''
-              ? md5(values.password + sessionStorage.getItem('time'))
-              : md5(md5(values.password) + sessionStorage.getItem('time')),
+              ? md5(values.password + localStorage.getItem('time'))
+              : md5(md5(values.password) + localStorage.getItem('time')),
         };
         Post(Base.login, params)
           .then(res => {
@@ -84,7 +84,7 @@ const Login: FC<FormComponentProps> = props => {
                 name: res.data.name,
               };
               Cookies.setCookies(data);
-              sessionStorage.setItem('token', res.data.token);
+              localStorage.setItem('token', res.data.token);
               setisLogin(true);
             } else {
               message.error(res.message);

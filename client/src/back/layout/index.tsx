@@ -45,7 +45,7 @@ class LayoutBack extends Component<IProps, IState> {
   };
   // 退出登录
   logout = () => {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     this.props.history.replace('/login');
   };
   // 点击菜单跳转

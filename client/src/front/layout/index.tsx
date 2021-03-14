@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
 import { Avatar, BackTop } from 'antd';
+
 import './index.scss';
 import 'src/front/common/theme/theme.scss';
 import { themeMap } from 'src/front/common/theme/theme';

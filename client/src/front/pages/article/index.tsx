@@ -236,7 +236,7 @@ export default class Article extends Component<IProps, IState> {
 
                             <div className="article-bottom">
                               <div className="read-number">阅读数 {item.readnumber}</div>
-                              {/* {sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === '' ? (
+                              {/* {localStorage.getItem('token') === null || localStorage.getItem('token') === '' ? (
                                 ''
                               ) : (
                                 <div

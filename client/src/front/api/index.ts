@@ -1,4 +1,5 @@
 import axios from 'src/http/axios';
+import qs from 'qs';
 const Base = {
   uploadCode: '/code', // 注册邮箱验证
   registerUser: '/registeruser', // 用户注册
@@ -107,6 +108,18 @@ const Get = function(url: string) {
       });
   });
 };
+const get = (url, params) => {
+  return new Promise<IRes>((resolve, reject) => {
+    axios
+      .get(`${url}?${qs.stringify(params)}`)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      });
+  });
+};
 
 const Post = function(url: string, params: { [key: string]: any }) {
   return new Promise<IRes>((resolve, reject) => {
@@ -121,4 +134,4 @@ const Post = function(url: string, params: { [key: string]: any }) {
   });
 };
 
-export { Base, Get, Post };
+export { Base, Get, get, Post };

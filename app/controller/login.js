@@ -17,7 +17,7 @@ class Login extends Controller {
           success: 0,
           message: '账号不存在',
         };
-      } else if (md5(isExist.dataValues.password + time) !== password) {
+      } else if (md5(isExist.dataValues.password) !== password) {
         ctx.status = 200;
         ctx.body = {
           success: 0,
@@ -31,7 +31,7 @@ class Login extends Controller {
         };
       } else {
         ctx.status = 200;
-        const token = await ctx.service.jwt.signToken(id);
+        const token = await ctx.service.jwt.signToken({ id, status: isExist.dataValues.status });
         ctx.session.userid = isExist.id;
         ctx.body = {
           success: 1,

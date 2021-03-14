@@ -1,14 +1,7 @@
 .album-container {
-  width: 100%;
-  padding: 20px;
-
-  .album-header {
-    width: 100%;
-
-    & > .album-header-btn {
-      margin-left: 10px;
-    }
-  }
+  width: 1200px;
+  height: auto;
+  margin: 0 auto;
 
   .album-main {
     margin-top: 20px;
@@ -20,22 +13,25 @@
     }
 
     .album-main-right {
-      margin-left: 20px;
-      flex: 1;
-      background-color: #fff;
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
+      width: 70%;
+      & > .ant-card {
+        .ant-card-body {
+          padding: 10px;
+        }
+      }
+      .album-item-warpper {
+        display: flex;
+        flex-wrap: wrap;
+        // &>div {
+        //   flex: 1;
+        // }
+      }
     }
   }
 
   .album-item {
-    margin: 0 10px;
-    width: 200px;
-    height: 200px;
-    position: relative;
-
+    margin: 10px;
+    width: calc(33% - 20px);
     .ant-card-meta-description div {
       white-space: nowrap;
       overflow: hidden;

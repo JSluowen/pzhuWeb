@@ -26,7 +26,7 @@ Axios.interceptors.response.use(
       switch (error.response.status) {
         case 403:
           message.error('登录过期，请重新登录');
-          sessionStorage.removeItem('token');
+          localStorage.removeItem('token');
           break;
         case 404:
           message.error('资源不存在');

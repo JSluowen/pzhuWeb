@@ -15,7 +15,7 @@ export default class Layout extends Component {
     };
   }
   static getDerivedStateFromProps(props, state) {
-    if (sessionStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       return {
         status: true,
       };
@@ -29,7 +29,7 @@ export default class Layout extends Component {
   }
 
   componentDidMount() {
-    if (sessionStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       this.getUserinfo();
     }
   }
@@ -55,7 +55,7 @@ export default class Layout extends Component {
         _this.setState({
           status: !_this.state.status,
         });
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('token');
         _this.props.router.push('/login');
       },
       onCancel() {

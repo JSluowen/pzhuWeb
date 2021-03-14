@@ -49,6 +49,7 @@ class AlbumController extends Controller {
   }
   async getAlbums() {
     const { ctx, app } = this
+    const { type } = ctx.params
     const albumTable = 'Album'
     const params = {
       include: [
@@ -63,6 +64,7 @@ class AlbumController extends Controller {
       ],
       where: {
         status: 1,
+        type: type || { ne: 0 }
       }
     };
     try {
@@ -121,8 +123,8 @@ class AlbumController extends Controller {
         data: {
           photos,
           albumInfo: {
-            ...albumInfo[0].dataValues,
-            cover: albumInfo[0].dataValues.Photo.link
+            ...albumInfo[0]?.dataValues,
+            cover: albumInfo[0]?.dataValues?.Photo?.link
           },
         }
       }

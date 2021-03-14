@@ -3,6 +3,8 @@ import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
 import { Avatar, Drawer, Modal, Button, Icon } from 'antd';
 import { Base, Get } from 'src/front/api';
 import { Register } from 'front/pages';
+import { connect } from 'react-redux';
+import { initUser, logout } from 'src/reducers';
 import './index.scss';
 import 'src/front/common/theme/theme.scss';
 import { Links, Menus } from './router';
@@ -16,9 +18,9 @@ const Navbar: FC<RouteComponentProps> = props => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [prevRow, setPrevRow] = useState(null);
   const isHidden = useRef<boolean>(true);
-  if (sessionStorage.getItem('token') !== prevRow) {
-    setPrevRow(sessionStorage.getItem('token'));
-    setIsLogin(!!sessionStorage.getItem('token'));
+  if (localStorage.getItem('token') !== prevRow) {
+    setPrevRow(localStorage.getItem('token'));
+    setIsLogin(!!localStorage.getItem('token'));
   }
   useEffect(() => {
     if (!isLogin) return;
@@ -43,7 +45,8 @@ const Navbar: FC<RouteComponentProps> = props => {
       cancelText: '取消',
       onOk() {
         setIsLogin(false);
-        sessionStorage.removeItem('token');
+        props.logout();
+        localStorage.removeItem('token');
         setTimeout(() => {
           history && history.push('/login');
         }, 500);
@@ -188,4 +191,21 @@ const Navbar: FC<RouteComponentProps> = props => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = state => {
+  return {
+    comments: state.comments,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    initUser: user => {
+      dispatch(initUser(user));
+    },
+    logout: () => {
+      dispatch(logout());
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+
+// export default Navbar;

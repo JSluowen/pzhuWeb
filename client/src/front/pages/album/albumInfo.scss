@@ -4,65 +4,86 @@
   background-color: #fff;
   min-height: calc(100vh - 150px);
 }
+
 .photo-header {
   display: flex;
+  justify-content: space-between;
 
-  .photo-header-cover {
-    height: 80px;
-    width: 80px;
-    img {
-      width: 100%;
-      height: 100%;
-      border: 5px solid rgba($color: #efefef, $alpha: 0.5);
-      object-fit: cover;
-    }
-  }
-  .photo-header-right {
-    margin-left: 20px;
+  .photo-header-left {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .photo-header-title {
-      height: 30px;
-      line-height: 30px;
-      font-size: 18px;
+
+    .photo-header-cover {
+      height: 80px;
+      width: 80px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border: 5px solid rgba($color: #efefef, $alpha: 0.5);
+        object-fit: cover;
+      }
     }
-    .photo-header-sub {
-      & > span {
+
+    .photo-header-desc {
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .photo-header-title {
+        height: 30px;
+        line-height: 30px;
+        font-size: 18px;
+      }
+
+      .photo-header-sub {
+        & > span {
+          margin-right: 10px;
+        }
+
+        & > span:last-child {
+          color: #7e8a8c;
+          font-size: 14px;
+        }
+      }
+
+      .photo-header-action button {
         margin-right: 10px;
       }
-      & > span:last-child {
-        color: #7e8a8c;
-        font-size: 14px;
-      }
-    }
-    .photo-header-action button {
-      margin-right: 10px;
     }
   }
 }
-.photo-item {
-  width: 100%;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  .ant-card-cover {
-    flex: 1;
+
+.photo-main {
+  padding-top: 20px;
+
+  .photo-item {
     width: 100%;
-    object-fit: cover;
-  }
-  .ant-card-body {
-    padding: 0;
-    height: 50px;
-    line-height: 50px;
-    background-color: #fefefe;
-    border-top: 1px solid #eee;
-  }
-  .ant-card-meta-title {
-    // height: ;
-    text-align: center;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+
+    .ant-card-cover {
+      flex: 1;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .ant-card-body {
+      padding: 0;
+      height: 50px;
+      line-height: 50px;
+      background-color: #fefefe;
+      border-top: 1px solid #eee;
+    }
+
+    .ant-card-meta-title {
+      // height: ;
+      text-align: center;
+    }
   }
 }
+
 .photo-center {
   width: 100%;
   height: 100%;
