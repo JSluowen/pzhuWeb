@@ -10,8 +10,8 @@ module.exports = app => {
   router.get('/api/logintoken', controller.login.loginToken); // 登录鉴权信息
   router.post('/api/forgetpassword', controller.login.forgetPassword); // 忘记密码
   router.post('/api/changepassword', controller.login.changePassword); // 修改密码
-  router.get('/api/qiniutoken', controller.qiniu.getToken); // 获取七牛云证书秘钥
-  router.get('/api/delfile', controller.qiniu.delFile)
+  router.get('/api/qiniu/qiniutoken', controller.qiniu.getToken); // 获取七牛云证书秘钥
+  router.post('/api/qiniu/delfile', controller.qiniu.delFile)
   // 用户编辑个人信息接口
   router.get('/api/person/userinfo', controller.person.getUserinfo); // 获取用户信息
   router.post('/api/person/uploadavatar', controller.person.uploadAvatar); // 上传头像信息

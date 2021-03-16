@@ -5,4 +5,5 @@ import Reasource from './resource';
 import Achievement from './achievement';
 import ArticleEdit from './articleEdit';
 import Footer from 'back/pages/footer';
-export { User, Login, Article, Reasource, Achievement, ArticleEdit, Footer };
+import Album from './album';
+export { User, Login, Article, Reasource, Achievement, Album, ArticleEdit, Footer };

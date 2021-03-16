@@ -9,8 +9,8 @@ module.exports = option => {
       ctx.session.userid = data.id
       ctx.session.auth = data.status
     }
+    
     await next();
-
 
   };
 };

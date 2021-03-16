@@ -7,8 +7,8 @@ const Base = {
   timetoken: '/logintoken', // 获取登录时间秘钥
   forgetPassword: '/forgetpassword', // 忘记密码
   changePassword: '/changepassword', // 修改密码
-  qiniuToken: '/qiniutoken', // 获取七牛云上传证书
-  delFile: '/delfile',
+  qiniuToken: '/qiniu/qiniutoken', // 获取七牛云上传证书
+  delFile: '/qiniu/delfile',
   // 用户信息编辑接口
   userInfo: '/person/userinfo', // 获取用户的基本信息
   uploadAvatar: '/person/uploadavatar', // 上传头像信息

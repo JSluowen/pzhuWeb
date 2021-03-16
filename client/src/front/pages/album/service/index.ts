@@ -21,7 +21,7 @@ class AlbumService {
     return get(Base.getAlbums, params);
   }
   static async delFile(key) {
-    return Get(`${Base.delFile}?key=${key}`);
+    return Post(Base.delFile, { key });
   }
   static async uploadPhotos(params) {
     return Post(Base.uploadPhotos, params);

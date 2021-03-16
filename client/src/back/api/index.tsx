@@ -1,4 +1,5 @@
 import axios from 'src/http/axios';
+import qs from 'qs';
 
 const Base = {
   qiniuToken: '/qiniutoken', // 获取七牛云的上传证书
@@ -37,6 +38,8 @@ const Base = {
   removeMedia: '/back/removeMedia', // 删除编辑媒体库的文件
   uploadMedia: '/back/uploadMedia', // 上传媒体资源
   uploadBackArticle: '/back/uploadBackArticle', // 上传后台文章编辑内容
+  // 后台相册管理接口
+  getAlbums: '/album/getAlbums',
 };
 
 export interface IRes {
@@ -50,6 +53,18 @@ const Get = function(url: string) {
   return new Promise<IRes>((resolve, reject) => {
     axios
       .get(url)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      });
+  });
+};
+const get = (url, params) => {
+  return new Promise<IRes>((resolve, reject) => {
+    axios
+      .get(`${url}?${qs.stringify(params)}`)
       .then(res => {
         resolve(res.data);
       })
@@ -72,4 +87,4 @@ const Post = function(url: string, params: { [key: string]: any }) {
   });
 };
 
-export { Base, Get, Post };
+export { Base, Get, get, Post };

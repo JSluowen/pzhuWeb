@@ -29,21 +29,20 @@ class AlbumController extends Controller {
       console.log(error)
     }
   }
-  async getAlbumTypes() {
+  async updateAlbum() {
     const { ctx } = this
-    const albumTypeTable = 'AlbumType'
+    const { userid } = ctx.session
+    const { id, type, name, desc, cover } = ctx.params
+
     try {
-      const albumTypes = await ctx.service.mysql.findAll({ where: { status: 1 } }, albumTypeTable)
-      if (albumTypes.length > 0) {
-        ctx.status = 200
-        ctx.body = {
-          data: {
-            types: albumTypes
-          }
-        }
+      const album = await ctx.service.mysql.findById(id, 'Album')
+      await album.update({ user_id: userid, type, name, desc, cover })
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '修改成功'
       }
     } catch (error) {
-      console.log(error)
       ctx.status = 500
     }
   }
@@ -63,7 +62,7 @@ class AlbumController extends Controller {
         }
       ],
       where: {
-        status: 1,
+        status: ctx.session.userid ? { ne: 0 } : 1,
         type: type || { ne: 0 }
       }
     };
@@ -82,6 +81,43 @@ class AlbumController extends Controller {
       ctx.status = 500
     }
   }
+  async delAlbum() {
+
+  }
+  async createAlbumType() {
+    const { ctx } = this
+    const { name } = this.params
+    try {
+      await ctx.service.mysql.create({ name }, 'AlbumType')
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '添加成功'
+      }
+    } catch (error) {
+      ctx.status = 500
+      console.log(error)
+    }
+  }
+  async getAlbumTypes() {
+    const { ctx } = this
+    const albumTypeTable = 'AlbumType'
+    try {
+      const albumTypes = await ctx.service.mysql.findAll({ where: { status: 1 } }, albumTypeTable)
+      if (albumTypes.length > 0) {
+        ctx.status = 200
+        ctx.body = {
+          data: {
+            types: albumTypes
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      ctx.status = 500
+    }
+  }
+
   async uploadPhotos() {
     const { ctx } = this
     const { albumId, imgs } = ctx.request.body
@@ -132,6 +168,11 @@ class AlbumController extends Controller {
       ctx.status = 500
       console.log(error)
     }
+  }
+  async delPhoto() {
+    const { ctx, app } = this
+    const { id } = ctx.params
+
   }
 }
 

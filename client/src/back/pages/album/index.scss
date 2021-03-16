@@ -1,0 +1,14 @@
+.album {
+  padding: 20px;
+  &-container {
+    background-color: #fff;
+    padding: 0 20px 20px;
+    border-radius: 6px;
+  }
+  &-tag {
+    margin: 20px 0;
+    .ant-tag {
+      margin-bottom: 10px;
+    }
+  }
+}

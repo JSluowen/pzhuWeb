@@ -42,12 +42,20 @@ const AlbumUpload: React.FC<{
       message.warn('请先选择要上传的照片');
       return;
     }
-    uploadPhotos.run({ albumId: uploadData.album, imgs: uploadData.fileList });
+    uploadPhotos.run({
+      albumId: uploadData.album,
+      imgs: uploadData.fileList.map(file => ({
+        id: file.uid || file.id,
+        link: `http://img.pzhuweb.cn/${file.response.key}`,
+        name: file.name,
+      })),
+    });
   };
   const handleCancel = () => {
     onChangeVisible(false);
   };
   const beforeUpload = file => {
+    if (!['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) return false;
     setQiniuData({ key: Cookies.getCookies('id') + Date.now() + file.name });
     return true;
   };
@@ -59,18 +67,21 @@ const AlbumUpload: React.FC<{
   };
 
   // 获取回传的文件地址
-  const handleUploadChange = info => {
-    const { fileList, file } = info;
-    if (file.status === 'done') {
-      setUploadData({
-        fileList: fileList.map(file => ({
-          id: file.uid || file.id,
-          link: `http://img.pzhuweb.cn/${file.response.key}` || file.url,
-          name: file.name,
-        })),
-      });
-    }
-  };
+  // const handleUploadChange = info => {
+  //   const { fileList, file } = info;
+  //   if (file.status === 'done') {
+  //     setUploadData({
+  //       fileList: fileList.map(file => ({
+  //         id: file.uid || file.id,
+  //         uid: file.uid || file.id,
+  //         status: 'done',
+  //         link: file.url || `http://img.pzhuweb.cn/${file.response.key}`,
+  //         name: file.name,
+  //       })),
+  //     });
+  //     console.log(uploadData.fileList)
+  //   }
+  // };
   const delFile = key => {
     AlbumService.delFile(key).then(res => {
       return true;
@@ -116,23 +127,27 @@ const AlbumUpload: React.FC<{
               action="http://upload-z2.qiniup.com"
               data={qiniuData}
               multiple={true}
-              beforeUpload={file => {
-                beforeUpload(file);
+              fileList={uploadData.fileList}
+              beforeUpload={file => beforeUpload(file)}
+              onRemove={file => {
+                if (file.response?.key) {
+                  delFile(file.response?.key);
+                }
                 return true;
               }}
-              onRemove={file => {
-                delFile(file.response.key);
-              }}
               onPreview={file => {
-                console.log(file);
+                // console.log(file);
               }}
-              onChange={handleUploadChange}
+              onChange={({ fileList }) =>
+                setUploadData({ fileList: fileList.map(file => ({ ...file, status: file.status || 'error' })) })
+              }
             >
               <p className="ant-upload-drag-icon">
                 <Icon type="inbox" />
               </p>
               <p className="ant-upload-text">单击或拖动文件到此区域进行上传</p>
               <p className="ant-upload-hint">支持单个或批量上传。</p>
+              <p className="ant-upload-hint">仅支持上传png/jpg/jpeg格式的图片</p>
             </Dragger>
           </Col>
         </Row>

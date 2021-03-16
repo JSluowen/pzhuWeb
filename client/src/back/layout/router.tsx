@@ -1,5 +1,5 @@
 import { LinkProps, NavLinkProps, RouteProps } from 'react-router-dom';
-import { User, Article, Reasource, Achievement, ArticleEdit } from 'back/pages';
+import { User, Article, Reasource, Achievement, ArticleEdit, Album } from 'back/pages';
 /**
  * 菜单选项
  */
@@ -30,6 +30,12 @@ export const NavLinks: INavLinkProps[] = [
     name: '成果管理',
     iconType: 'book',
     to: '/back/achievement',
+    activeClassName: 'activeClassName',
+  },
+  {
+    name: '相册管理',
+    iconType: 'book',
+    to: '/back/album',
     activeClassName: 'activeClassName',
   },
 ];
@@ -63,5 +69,10 @@ export const Routes: RouteProps[] = [
     path: '/back/achievement',
     exact: true,
     component: Achievement,
+  },
+  {
+    path: '/back/album',
+    exact: true,
+    component: Album,
   },
 ];
