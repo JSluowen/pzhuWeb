@@ -1,15 +1,22 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
 import { Avatar, BackTop } from 'antd';
-
+import { useDispatch } from 'react-redux';
 import './index.scss';
 import 'src/front/common/theme/theme.scss';
 import { themeMap } from 'src/front/common/theme/theme';
 import { Routes } from './router';
 import Navbar from '../pages/navbar';
 import Footer from '../pages/footer';
+import { Base, Post } from 'src/front/api';
 
-const Layout: FC<RouteComponentProps> = props => {
+const Layout = props => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    Post(Base.getUserInfo, {}).then(res => {
+      dispatch({ type: 'initUser', payload: { name: res.data?.User?.name, auth: res.data?.User?.status } });
+    });
+  }, []);
   return (
     <div className={`container ${themeMap[props.location.pathname] || 'light'}`}>
       {/* 回到顶部 */}
@@ -27,5 +34,4 @@ const Layout: FC<RouteComponentProps> = props => {
     </div>
   );
 };
-
 export default Layout;

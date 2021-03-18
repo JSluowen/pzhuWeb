@@ -122,5 +122,8 @@ module.exports = app => {
   router.get('/api/album/getAlbums', controller.album.getAlbums)  // 得到相册列表
   router.post('/api/album/uploadPhotos', controller.album.uploadPhotos) // 上传图片
   router.get('/api/album/getPhotosByAlbumId', controller.album.getPhotosByAlbumId)  // 通过相册id得到图片
+  // 相册后台接口
+  router.post('/api/back/album/createAlbumType', controller.album.createAlbumType)
+  router.post('/api/album/delAlbumType', controller.album.delAlbumType)
 };
 

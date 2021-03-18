@@ -11,14 +11,20 @@ class AlbumItem {
 }
 
 class AlbumService {
-  // static async getAlbumTypes() {
-  //   return Get(Base.getAlbumTypes);
-  // }
+  static async getAlbumTypes() {
+    return Get(Base.getAlbumTypes);
+  }
   // static async createAlbum(params) {
   //   return Post(Base.createAlbum, params);
   // }
   static async getAlbums(params = null) {
     return get(Base.getAlbums, params);
+  }
+  static async createAlbumType(params) {
+    return Post(Base.createAlbumType, params);
+  }
+  static async delAlbumType(params) {
+    return Post(Base.delAlbumType, params);
   }
   // static async delFile(key) {
   //   return Post(Base.delFile, { key });
@@ -26,9 +32,9 @@ class AlbumService {
   // static async uploadPhotos(params) {
   //   return Post(Base.uploadPhotos, params);
   // }
-  // static async getPhotosByAlbumId(id) {
-  //   return Get(`${Base.getPhotosByAlbumId}?id=${id}`);
-  // }
+  static async getPhotosByAlbumId(params) {
+    return get(Base.getPhotosByAlbumId, params);
+  }
 }
 
 export default AlbumService;

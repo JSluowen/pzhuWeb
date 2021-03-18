@@ -10,9 +10,9 @@ class BackUser extends Controller {
       if (!author) {
         ctx.status = 403;
       } else {
-        const id = ctx.session.adminId;
+        const id = ctx.session.userid;
         const isAdmin = await ctx.service.mysql.findById(id, 'User');// 检查是否是管理员账号
-        const status = parseInt(isAdmin.dataValues.status);
+        const status = parseInt(isAdmin.status);
         if (id === undefined || (status !== 2 && status !== 3)) {
           ctx.status = 200;
           ctx.body = {
@@ -42,7 +42,7 @@ class BackUser extends Controller {
       }
     } catch (err) {
       console.log(err);
-      ctx.status = 404;
+      ctx.status = 500;
     }
   }
   async getUserInfo() {

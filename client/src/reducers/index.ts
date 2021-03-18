@@ -1,25 +1,33 @@
 // action types
-const INIT_USER = 'INIT_USER';
+const INIT_USER = 'initUser';
 const LOGOUT = 'DELETE_COMMENT';
 
+interface IUser {
+  name: string;
+  auth: number;
+}
+
 // reducer
-export default function(state, action) {
+const User = (state: { user: IUser }, action) => {
   if (!state) {
-    state = { user: {} };
+    state = {
+      user: {
+        name: '',
+        auth: null,
+      },
+    };
   }
   switch (action.type) {
     case INIT_USER:
-      // 初始化评论
-      return { user: action.user };
+      return { user: action.payload };
     case LOGOUT:
-      // 删除评论
       return {
         user: {},
       };
     default:
       return state;
   }
-}
+};
 
 // action creators
 export const initUser = user => {
@@ -29,3 +37,5 @@ export const initUser = user => {
 export const logout = () => {
   return { type: LOGOUT };
 };
+
+export default User;

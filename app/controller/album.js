@@ -86,8 +86,18 @@ class AlbumController extends Controller {
   }
   async createAlbumType() {
     const { ctx } = this
-    const { name } = this.params
+    const { name } = ctx.params
     try {
+      const types = await ctx.service.mysql.findAll({ where: { status: { ne: 0 } } }, 'AlbumType')
+      if (types.findIndex(type => type.name === name) !== -1) {
+        throw {
+          status: 200,
+          body: {
+            success: 0,
+            message: '重名标签'
+          }
+        }
+      }
       await ctx.service.mysql.create({ name }, 'AlbumType')
       ctx.status = 200
       ctx.body = {
@@ -95,10 +105,42 @@ class AlbumController extends Controller {
         message: '添加成功'
       }
     } catch (error) {
-      ctx.status = 500
-      console.log(error)
+      ctx.status = error?.status || 500
+      ctx.body = error?.body || ''
     }
   }
+  async delAlbumType() {
+    const { ctx } = this
+    const id = Number(ctx.params.id)
+    let transaction = null
+    try {
+      transaction = await ctx.model.transaction();
+      if (id === 1) {
+        throw {
+          status: 200, body: {
+            success: 0,
+            message: '无法删除默认分类'
+          }
+        }
+      }
+      const belongAlbums = await ctx.service.mysql.findAll({ where: { status: { ne: 0 }, type: id } }, 'Album')
+      await belongAlbums.forEach(async (album) => await album.update({ type: 1 }))
+      const type = await ctx.service.mysql.findById(id, 'AlbumType')
+      type.update({ status: 0 })
+      await transaction.commit();
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '删除成功'
+      }
+    } catch (error) {
+      console.log(error)
+      await transaction.rollback();
+      ctx.status = error?.status || 500
+      ctx.body = error?.body || ''
+    }
+  }
+
   async getAlbumTypes() {
     const { ctx } = this
     const albumTypeTable = 'AlbumType'
@@ -151,8 +193,11 @@ class AlbumController extends Controller {
       }
     }
     try {
-      const photos = await ctx.service.mysql.findAll({ where: { status: 1, album_id: id } }, 'Photo')
       let albumInfo = await ctx.service.mysql.findAll(params, 'Album')
+      if (albumInfo[0]?.dataValues.status === 2 && !ctx.session.userid) {
+        throw { status: 403 }
+      }
+      const photos = await ctx.service.mysql.findAll({ where: { status: 1, album_id: id } }, 'Photo')
       ctx.status = 200
       ctx.body = {
         success: 1,
@@ -165,7 +210,7 @@ class AlbumController extends Controller {
         }
       }
     } catch (error) {
-      ctx.status = 500
+      ctx.status = error.status || 500
       console.log(error)
     }
   }

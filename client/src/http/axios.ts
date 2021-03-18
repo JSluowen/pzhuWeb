@@ -54,6 +54,9 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     if (response.status === 200) {
+      if (response?.data?.success === 0) {
+        message.warn(response?.data?.message);
+      }
       return Promise.resolve(response);
     }
     return Promise.reject(response);

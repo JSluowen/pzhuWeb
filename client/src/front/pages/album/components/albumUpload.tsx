@@ -55,7 +55,14 @@ const AlbumUpload: React.FC<{
     onChangeVisible(false);
   };
   const beforeUpload = file => {
-    if (!['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) return false;
+    if (!['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
+      message.error('文件格式不为png/jpg/jpeg');
+      return false;
+    }
+    if (file.size > 1024 * 5) {
+      message.error('文件过大，请降低分辨率后上传');
+      return false;
+    }
     setQiniuData({ key: Cookies.getCookies('id') + Date.now() + file.name });
     return true;
   };

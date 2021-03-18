@@ -5,6 +5,7 @@ import AlbumUpload from './components/albumUpload';
 import CreateAlbum from './components/createAlbum';
 import { PhotoModal } from './components/photoModal';
 import { AlbumService, AlbumItem } from './service';
+import Auth from 'src/front/components/auth';
 import './albumInfo.scss';
 
 const AlbumInfo = ({ match, history }) => {
@@ -24,6 +25,9 @@ const AlbumInfo = ({ match, history }) => {
     onSuccess: res => {
       setPhotos(res.data?.photos);
       setAlbum(res.data?.albumInfo);
+    },
+    onError: err => {
+      console.log(err);
     },
   });
 
@@ -46,17 +50,20 @@ const AlbumInfo = ({ match, history }) => {
               </div>
             </div>
             <div className="photo-header-action">
-              <Button
-                className="photo-header-btn"
-                onClick={() => {
-                  setUploadProps({ visible: true });
-                }}
-              >
-                上传图片
-              </Button>
-              <Button className="photo-header-btn" onClick={() => setCreateAlbumVisible(true)}>
-                创建相册
-              </Button>
+              <Auth>
+                <Button
+                  className="photo-header-btn"
+                  type="primary"
+                  onClick={() => {
+                    setUploadProps({ visible: true });
+                  }}
+                >
+                  上传图片
+                </Button>
+                <Button className="photo-header-btn" onClick={() => setCreateAlbumVisible(true)}>
+                  创建相册
+                </Button>
+              </Auth>
             </div>
           </div>
         </div>
@@ -69,9 +76,8 @@ const AlbumInfo = ({ match, history }) => {
       <div className="photo-main">
         <Row gutter={[16, 16]}>
           {photos.map(photo => (
-            <Col span={4}>
+            <Col style={{ minWidth: 220 }} key={photo.id} span={4}>
               <Card
-                key={photo.id}
                 className="photo-item"
                 cover={<img src={photo.link} />}
                 onClick={() => {
@@ -91,17 +97,19 @@ const AlbumInfo = ({ match, history }) => {
               imageStyle={{
                 height: 60,
               }}
-              description={<span>该相册空空如也，点击下面的按钮上传吧</span>}
+              description={<span>该相册空空如也!</span>}
             >
-              <Button
-                type="primary"
-                className="photo-header-btn"
-                onClick={() => {
-                  setUploadProps({ visible: true });
-                }}
-              >
-                上传图片
-              </Button>
+              <Auth>
+                <Button
+                  type="primary"
+                  className="photo-header-btn"
+                  onClick={() => {
+                    setUploadProps({ visible: true });
+                  }}
+                >
+                  上传图片
+                </Button>
+              </Auth>
             </Empty>
           </div>
         )}

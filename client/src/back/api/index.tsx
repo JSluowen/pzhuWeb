@@ -40,6 +40,10 @@ const Base = {
   uploadBackArticle: '/back/uploadBackArticle', // 上传后台文章编辑内容
   // 后台相册管理接口
   getAlbums: '/album/getAlbums',
+  createAlbumType: '/back/album/createAlbumType',
+  getAlbumTypes: '/album/getAlbumTypes',
+  delAlbumType: '/album/delAlbumType',
+  getPhotosByAlbumId: '/album/getPhotosByAlbumId',
 };
 
 export interface IRes {

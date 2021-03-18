@@ -1,13 +1,14 @@
 import React, { memo, FC } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { BrowserRouter as Router, Route, BrowserRouter, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Routes } from './router';
-import todoApp from 'src/reducers';
+import User from 'src/reducers';
 import 'front/reset.scss';
 
-let store = createStore(todoApp);
+let store = createStore(User, applyMiddleware(thunk));
 const Main: FC = memo(() => {
   return (
     <Provider store={store}>

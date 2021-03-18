@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Icon } from 'antd';
+import { Button, Card, Icon, message } from 'antd';
 import { useSetState, useRequest } from 'ahooks';
 
 import { Aside, Item } from './components/aside';
 import AlbumUpload from './components/albumUpload';
 import CreateAlbum from './components/createAlbum';
 import AlbumService from './service';
+import { useSelector } from 'react-redux';
+import Auth from 'src/front/components/auth';
+import { ALBUM_AUTH } from 'src/consts';
 import './index.scss';
 
 const ALBUM_STATUS_ICON = {
@@ -14,6 +17,7 @@ const ALBUM_STATUS_ICON = {
 };
 
 const Album = ({ history }) => {
+  const user = useSelector(state => state.user);
   const [albums, setAlbums] = useState([]);
   const [albumTypes, setAlbumTypes] = useState([]);
   const [uploadProps, setUploadProps] = useSetState({
@@ -67,9 +71,10 @@ const Album = ({ history }) => {
           <div className="album-main-right">
             <Card
               extra={
-                <>
+                <Auth>
                   <Button
                     className="album-header-btn"
+                    type="primary"
                     onClick={() => {
                       setUploadProps({ visible: true });
                     }}
@@ -79,7 +84,7 @@ const Album = ({ history }) => {
                   <Button className="album-header-btn" onClick={() => setCreateAlbumVisible(true)}>
                     创建相册
                   </Button>
-                </>
+                </Auth>
               }
             >
               <div className="album-item-warpper">
@@ -90,7 +95,12 @@ const Album = ({ history }) => {
                     hoverable={true}
                     cover={<img alt="相册封面" src={album.cover} />}
                     onClick={() => {
-                      history.push(`/album/${album.id}`);
+                      console.log(user?.name);
+                      if (user?.name || album.status === ALBUM_AUTH.PUBLIC) {
+                        history.push(`/album/${album.id}`);
+                      } else {
+                        message.warn('请登录后访问');
+                      }
                     }}
                   >
                     <Card.Meta
