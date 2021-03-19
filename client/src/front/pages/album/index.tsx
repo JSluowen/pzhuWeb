@@ -34,6 +34,7 @@ const Album = ({ history }) => {
           cover: album?.Photo?.link,
           desc: album.desc,
           status: album.status,
+          photoNum: res.data?.photoNum[album.id] || 0,
         })),
       );
       const typeObj = {};

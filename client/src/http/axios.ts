@@ -57,6 +57,11 @@ axios.interceptors.response.use(
       if (response?.data?.success === 0) {
         message.warn(response?.data?.message);
       }
+      if (response?.data?.success === 1) {
+        if (response?.data?.message) {
+          message.success(response?.data?.message);
+        }
+      }
       return Promise.resolve(response);
     }
     return Promise.reject(response);

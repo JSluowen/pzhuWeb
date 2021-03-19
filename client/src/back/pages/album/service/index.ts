@@ -9,6 +9,11 @@ class AlbumItem {
   cover: string;
   status: number;
 }
+class PhotoItem {
+  id: number;
+  name: string;
+  link: string;
+}
 
 class AlbumService {
   static async getAlbumTypes() {
@@ -35,7 +40,16 @@ class AlbumService {
   static async getPhotosByAlbumId(params) {
     return get(Base.getPhotosByAlbumId, params);
   }
+  static async delPhotos(params) {
+    return Post(Base.delPhotos, params);
+  }
+  static async updatePhotos(params) {
+    return Post(Base.updatePhotos, params);
+  }
+  static async updateAlbumCover(params) {
+    return Post(Base.updateAlbumCover, params);
+  }
 }
 
 export default AlbumService;
-export { AlbumService, AlbumItem };
+export { AlbumService, AlbumItem, PhotoItem };

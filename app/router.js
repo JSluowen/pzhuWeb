@@ -123,7 +123,10 @@ module.exports = app => {
   router.post('/api/album/uploadPhotos', controller.album.uploadPhotos) // 上传图片
   router.get('/api/album/getPhotosByAlbumId', controller.album.getPhotosByAlbumId)  // 通过相册id得到图片
   // 相册后台接口
-  router.post('/api/back/album/createAlbumType', controller.album.createAlbumType)
-  router.post('/api/album/delAlbumType', controller.album.delAlbumType)
+  router.post('/api/back/album/createAlbumType', controller.album.createAlbumType)  // 创建标签
+  router.post('/api/album/delAlbumType', controller.album.delAlbumType) // 删除标签
+  router.post('/api/album/delPhotos', controller.album.delPhotos) // 批量删除图片
+  router.post('/api/album/updatePhotos', controller.album.updatePhotos) // 批量移动图片
+  router.post('/api/album/updateAlbumCover', controller.album.updateAlbumCover) // 修改相册封面
 };
 

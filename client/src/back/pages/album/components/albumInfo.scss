@@ -50,6 +50,12 @@
       }
     }
   }
+  .photo-item-optional {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
 
 .photo-main {
@@ -60,6 +66,12 @@
     height: 200px;
     display: flex;
     flex-direction: column;
+
+    .photo-item-desc {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     .ant-card-cover {
       flex: 1;
@@ -80,6 +92,7 @@
       text-align: center;
     }
   }
+
   .photo-selected {
     border: 1px solid #f00;
   }

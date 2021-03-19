@@ -14,7 +14,7 @@ const Album = () => {
   const [activeKey, setActiveKey] = useState('list');
   const [albums, setAlbums] = useState([]);
   const [albumTypes, setAlbumTypes] = useState([]);
-  const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<number>(null);
   const [modalProps, setModalProps] = useSetState({
     visible: false,
     tagName: '',
@@ -45,6 +45,17 @@ const Album = () => {
         title: '相册名',
         dataIndex: 'name',
         key: 'name',
+        render: (text, record) => (
+          <Button
+            type="link"
+            onClick={() => {
+              setSelectedAlbum(record.id);
+              setActiveKey('albumInfo');
+            }}
+          >
+            {text}
+          </Button>
+        ),
       },
       {
         title: '相册描述',
@@ -60,15 +71,12 @@ const Album = () => {
       {
         title: '操作',
         render: (text, record) => (
-          <Button
-            type="link"
-            onClick={() => {
-              setSelectedAlbum(record);
-              setActiveKey('albumInfo');
-            }}
-          >
-            查看详情
-          </Button>
+          <div>
+            <Button onClick={() => {}}>修改</Button>
+            <Button type="danger" onClick={() => {}}>
+              删除
+            </Button>
+          </div>
         ),
       },
     ],
@@ -86,6 +94,7 @@ const Album = () => {
           cover: album?.Photo?.link,
           desc: album.desc,
           status: album.status,
+          photoNum: res.data?.photoNum[album.id] || 0,
         })),
       );
     },
@@ -147,7 +156,7 @@ const Album = () => {
             </Button>
           </TabPane>
           <TabPane tab="相册详情" disabled key="albumInfo">
-            <AlbumInfo album={selectedAlbum} />
+            <AlbumInfo albumId={selectedAlbum} />
           </TabPane>
         </Tabs>
       </div>

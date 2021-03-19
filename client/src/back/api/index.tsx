@@ -44,6 +44,9 @@ const Base = {
   getAlbumTypes: '/album/getAlbumTypes',
   delAlbumType: '/album/delAlbumType',
   getPhotosByAlbumId: '/album/getPhotosByAlbumId',
+  delPhotos: '/album/delPhotos',
+  updatePhotos: '/album/updatePhotos',
+  updateAlbumCover: '/album/updateAlbumCover',
 };
 
 export interface IRes {

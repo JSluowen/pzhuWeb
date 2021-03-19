@@ -68,11 +68,20 @@ class AlbumController extends Controller {
     };
     try {
       const albums = await ctx.service.mysql.findAll(params, albumTable)
+      const photos = await ctx.service.mysql.findAll({ where: { status: { ne: 0 } } }, 'Photo')
+      const photoNum = photos.reduce((result, photo) => {
+        if (!result[photo.album_id]) {
+          result[photo.album_id] = 0
+        }
+        result[photo.album_id]++
+        return result
+      }, {})
       if (albums.length > 0) {
         ctx.status = 200
         ctx.body = {
           data: {
-            albums: albums
+            albums: albums,
+            photoNum,
           }
         }
       }
@@ -83,6 +92,28 @@ class AlbumController extends Controller {
   }
   async delAlbum() {
 
+  }
+  async updateAlbumCover() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const albumId = Number(ctx.params.albumId)
+
+    try {
+      const photo = await ctx.service.mysql.findById(id, 'Photo')
+      if (photo.album_id !== albumId) {
+        throw { status: 400 }
+      }
+      const album = await ctx.service.mysql.findById(albumId, 'Album')
+      album.update({ cover: id })
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '修改成功'
+      }
+    } catch (error) {
+      ctx.status = error?.status || 500
+      ctx.body = error?.body || ''
+    }
   }
   async createAlbumType() {
     const { ctx } = this
@@ -134,7 +165,6 @@ class AlbumController extends Controller {
         message: '删除成功'
       }
     } catch (error) {
-      console.log(error)
       await transaction.rollback();
       ctx.status = error?.status || 500
       ctx.body = error?.body || ''
@@ -214,10 +244,55 @@ class AlbumController extends Controller {
       console.log(error)
     }
   }
-  async delPhoto() {
-    const { ctx, app } = this
-    const { id } = ctx.params
+  async delPhotos() {
+    const { ctx } = this
+    const { ids } = ctx.params
 
+    let transaction = null
+    try {
+      transaction = await ctx.model.transaction();
+      const photos = await ctx.service.mysql.findAll({ where: { id: { in: ids } } }, 'Photo')
+      await photos.forEach(async (photo) => await photo.update({ status: 0 }))
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '删除成功'
+      }
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      ctx.status = error?.status || 500
+      ctx.body = error?.body || ''
+    }
+  }
+  async updatePhotos() {
+    const { ctx, app } = this
+    let { ids, albumId } = ctx.params
+
+    let transaction = null
+    try {
+      ids = ids.map(id => {
+        if (isNaN(Number(id))) {
+          throw { status: 200, body: { success: 0, message: '恶意请求' } }
+        }
+        return Number(id)
+      })
+      transaction = await ctx.model.transaction();
+      const album = await ctx.service.mysql.findById(albumId, 'Album')
+      if (album.length === 0) throw { status: 200, body: { success: 0, message: '指定相册不存在' } }
+      const photos = await ctx.service.mysql.findAll({ where: { id: { in: ids } } }, 'Photo')
+      await photos.forEach(async (photo) => await photo.update({ album_id: albumId }))
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '转移成功'
+      }
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      ctx.status = error?.status || 500
+      ctx.body = error?.body || ''
+    }
   }
 }
 
