@@ -55,6 +55,7 @@ const AlbumUpload: React.FC<{
     onChangeVisible(false);
   };
   const beforeUpload = file => {
+    console.log(file);
     if (!['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
       message.error('文件格式不为png/jpg/jpeg');
       return false;
