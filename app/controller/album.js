@@ -5,7 +5,7 @@ const Controller = require('egg').Controller;
 class AlbumController extends Controller {
   async createAlbum() {
     const { ctx, app } = this
-    const { name, desc, typeId } = ctx.request.body
+    const { name, desc, typeId, status } = ctx.request.body
     const userId = ctx.session.userid
     const albumTable = 'Album'
     try {
@@ -18,7 +18,7 @@ class AlbumController extends Controller {
         }
         return
       }
-      await ctx.service.mysql.create({ user_id: userId, name, desc, type: typeId }, albumTable)
+      await ctx.service.mysql.create({ user_id: userId, name, desc, type: typeId, status }, albumTable)
       ctx.status = 200
       ctx.body = {
         success: 1,
@@ -32,11 +32,11 @@ class AlbumController extends Controller {
   async updateAlbum() {
     const { ctx } = this
     const { userid } = ctx.session
-    const { id, type, name, desc, cover } = ctx.params
+    const { id, type, name, desc, status } = ctx.params
 
     try {
       const album = await ctx.service.mysql.findById(id, 'Album')
-      await album.update({ user_id: userid, type, name, desc, cover })
+      await album.update({ user_id: userid, type, name, desc, status })
       ctx.status = 200
       ctx.body = {
         success: 1,
@@ -46,6 +46,7 @@ class AlbumController extends Controller {
       ctx.status = 500
     }
   }
+
   async getAlbums() {
     const { ctx, app } = this
     const { type } = ctx.params
@@ -91,7 +92,34 @@ class AlbumController extends Controller {
     }
   }
   async delAlbum() {
-
+    const { ctx } = this
+    const id = Number(ctx.params.id)
+    let transaction = null
+    try {
+      transaction = await ctx.model.transaction();
+      if (id === 1) {
+        throw {
+          status: 200, body: {
+            success: 0,
+            message: '无法删除默认相册'
+          }
+        }
+      }
+      const belongPhotos = await ctx.service.mysql.findAll({ where: { status: { ne: 0 }, album_id: id } }, 'Photo')
+      await belongPhotos.forEach(async (photo) => await photo.update({ album_id: 1 }))
+      const album = await ctx.service.mysql.findById(id, 'Album')
+      album.update({ status: 0 })
+      await transaction.commit();
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '删除成功'
+      }
+    } catch (error) {
+      await transaction.rollback();
+      ctx.status = error?.status || 500
+      ctx.body = error?.body || ''
+    }
   }
   async updateAlbumCover() {
     const { ctx } = this

@@ -47,6 +47,9 @@ const Base = {
   delPhotos: '/album/delPhotos',
   updatePhotos: '/album/updatePhotos',
   updateAlbumCover: '/album/updateAlbumCover',
+  createAlbum: '/album/createAlbum',
+  updateAlbum: '/album/updateAlbum',
+  delAlbum: '/album/delAlbum',
 };
 
 export interface IRes {

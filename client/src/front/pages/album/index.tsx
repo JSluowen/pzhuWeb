@@ -4,7 +4,7 @@ import { useSetState, useRequest } from 'ahooks';
 
 import { Aside, Item } from './components/aside';
 import AlbumUpload from './components/albumUpload';
-import CreateAlbum from './components/createAlbum';
+import CreateAlbum from 'src/back/pages/album/components/createAlbum';
 import AlbumService from './service';
 import { useSelector } from 'react-redux';
 import Auth from 'src/front/components/auth';
@@ -133,8 +133,8 @@ const Album = ({ history }) => {
         onChangeVisible={visible => {
           setCreateAlbumVisible(visible);
           setAlbumTypes([]);
-          getAlbums.run();
         }}
+        onSuccess={() => getAlbums.run()}
       />
     </div>
   );

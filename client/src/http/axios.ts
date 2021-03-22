@@ -67,6 +67,9 @@ axios.interceptors.response.use(
     return Promise.reject(response);
   },
   error => {
+    if (error.response.config.url.includes('getUserInfo')) {
+      return Promise.reject(error.response);
+    }
     if (error.response.status) {
       switch (error.response.status) {
         case 403:

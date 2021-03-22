@@ -128,5 +128,7 @@ module.exports = app => {
   router.post('/api/album/delPhotos', controller.album.delPhotos) // 批量删除图片
   router.post('/api/album/updatePhotos', controller.album.updatePhotos) // 批量移动图片
   router.post('/api/album/updateAlbumCover', controller.album.updateAlbumCover) // 修改相册封面
+  router.post('/api/album/updateAlbum', controller.album.updateAlbum)
+  router.post('/api/album/delAlbum', controller.album.delAlbum)
 };
 
