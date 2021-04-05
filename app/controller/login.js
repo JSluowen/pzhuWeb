@@ -109,6 +109,16 @@ class Login extends Controller {
         await isUser.update({
           password: ctx.session.password,
         });
+        const content = {
+          subject: '邮箱验证码',
+          text: `您好,您在WEB应用专业团队的账户密码被重置`,
+        };
+        await ctx.service.nodemailer.sendEmail(email, content);
+        ctx.status = 200;
+        ctx.body = {
+          success: 1,
+          message: '邮件发送成功，请注意查收！',
+        };
         ctx.status = 200;
         ctx.body = {
           success: 1,
@@ -121,6 +131,30 @@ class Login extends Controller {
       ctx.status = 404;
       console.log(err);
     }
+  }
+  // 重置密码
+  async resetPassword() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const auth = ctx.session.auth
+    try {
+      if (auth !== 3) {
+        throw { status: 401 }
+      }
+      const user = await ctx.service.mysql.findById(id, 'User')
+      user.update({ password: md5('123456') })
+
+      ctx.status = 200
+      ctx.body = {
+        success: 1,
+        message: '重置成功'
+      }
+
+    } catch (error) {
+      ctx.status = error?.status || 500
+    }
+
+
   }
 }
 module.exports = Login;

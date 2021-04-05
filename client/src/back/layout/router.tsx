@@ -1,5 +1,5 @@
 import { LinkProps, NavLinkProps, RouteProps } from 'react-router-dom';
-import { User, Article, Reasource, Achievement, ArticleEdit, Album } from 'back/pages';
+import { Home, User, Article, Reasource, Achievement, ArticleEdit, Album } from 'back/pages';
 /**
  * 菜单选项
  */
@@ -8,6 +8,12 @@ export interface INavLinkProps extends NavLinkProps {
   iconType: string;
 }
 export const NavLinks: INavLinkProps[] = [
+  {
+    name: '主页配置',
+    iconType: 'home',
+    to: '/back/home',
+    activeClassName: 'activeClassName',
+  },
   {
     name: '成员管理',
     iconType: 'user',
@@ -34,7 +40,7 @@ export const NavLinks: INavLinkProps[] = [
   },
   {
     name: '相册管理',
-    iconType: 'book',
+    iconType: 'file-image',
     to: '/back/album',
     activeClassName: 'activeClassName',
   },
@@ -45,6 +51,11 @@ export const NavLinks: INavLinkProps[] = [
  */
 
 export const Routes: RouteProps[] = [
+  {
+    path: '/back/home',
+    exact: true,
+    component: Home,
+  },
   {
     path: '/back/user',
     exact: true,

@@ -8,7 +8,9 @@
     "cov": "egg-bin cov",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prod": "egg-scripts start --port=7001 --env=prod --title=egg-server-showcase",
-    "stop": "egg-scripts stop"
+    "stop": "egg-scripts stop",
+    "lint": "eslint src --fix",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty .src/**/*.*"
   },
   "keywords": [],
   "author": "",

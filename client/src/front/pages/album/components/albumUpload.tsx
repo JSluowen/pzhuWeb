@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSetState, useRequest } from 'ahooks';
 import { Modal, Select, Upload, Row, Col, Icon, message } from 'antd';
 import qiniuAPI from 'src/front/api/qiniu';
-import Cookies from '../../../../http/cookies';
+import Cookies from 'src/http/cookies';
 import AlbumService from '../service';
 
 const { Dragger } = Upload;
@@ -92,6 +92,10 @@ const AlbumUpload: React.FC<{
   // };
   const delFile = key => {
     AlbumService.delFile(key).then(res => {
+      const delIndex = uploadData.fileList.findIndex(file => file.name === key);
+      let fileList = [...uploadData.fileList];
+      fileList.splice(delIndex, 1);
+      setUploadData({ fileList });
       return true;
     });
   };

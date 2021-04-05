@@ -12,6 +12,8 @@ const Base = {
   getAddUserInfo: '/back/getAddUserInfo', // 获取添加和修改成员的信息
   updateUserInfo: '/back/updateUserInfo', // 更新用户信息
   addUserInfo: '/back/addUserInfo', // 添加成员信息
+  searchUsers: '/back/searchUsers', // 搜索用户
+  resetPassword: '/back/resetPassword', // 重置密码
   // 文章管理模块的接口
   getArticleInfo: '/back/getArticleInfo', // 获取文章信息
   istop: '/back/istop', // 文章是否置顶
@@ -50,6 +52,9 @@ const Base = {
   createAlbum: '/album/createAlbum',
   updateAlbum: '/album/updateAlbum',
   delAlbum: '/album/delAlbum',
+  // 主页配置
+  getHomeInfo: '/home/getHomeInfo',
+  updateHomeInfo: '/home/updateHomeInfo',
 };
 
 export interface IRes {

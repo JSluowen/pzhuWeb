@@ -54,7 +54,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     if (response.status === 200) {
-      if (response?.data?.success === 0) {
+      if (response?.data?.success === 0 && response?.data?.message) {
         message.warn(response?.data?.message);
       }
       if (response?.data?.success === 1) {

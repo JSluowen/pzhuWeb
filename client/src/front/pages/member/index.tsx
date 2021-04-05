@@ -1,6 +1,6 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Icon, Card, Button, Skeleton } from 'antd';
+import { Icon, Card, Button, Skeleton, Select } from 'antd';
 import { Base, Get } from 'front/api';
 import ma5 from 'md5';
 import './index.scss';
@@ -82,7 +82,25 @@ const Member: FC = () => {
   const [grade, setGrade] = useState([]);
   const [tecInfo, setTecInfo] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const [selectedGrade, setSelectedGrade] = useState<string>(undefined);
+  const allGrades = useMemo(() => {
+    let val = userInfo.map(item => {
+      if (item.User.status !== 3) {
+        return parseInt(item.id.substring(0, 4)) + 4;
+      }
+      return undefined;
+    });
+    val = val.sort((a, b) => {
+      return a - b;
+    });
+    const temp = [];
+    for (let i = 0; i < val.length; i++) {
+      if (temp.indexOf(val[i]) === -1 && val[i] !== undefined) {
+        temp.push(val[i]);
+      }
+    }
+    return temp;
+  }, [userInfo]);
   useEffect(() => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
@@ -102,6 +120,13 @@ const Member: FC = () => {
       },
     );
   }, []);
+  useEffect(() => {
+    if (selectedGrade) {
+      setGrade([selectedGrade]);
+    } else {
+      filterGrade(newUserInfo);
+    }
+  }, [selectedGrade]);
 
   return (
     <div className="member">
@@ -119,10 +144,24 @@ const Member: FC = () => {
               </div>
             );
           })}
+        <div className="member-left-header">年级分类</div>
+        <Select
+          placeholder="全部"
+          style={{ width: '100%' }}
+          value={selectedGrade}
+          onChange={value => setSelectedGrade(value)}
+          allowClear
+        >
+          {allGrades.map((item, index) => (
+            <Select.Option value={item} key={index}>
+              {`${item}届`}
+            </Select.Option>
+          ))}
+        </Select>
       </div>
       <div className="member-right">
         <Skeleton loading={loading} active>
-          {tecInfo.length !== 0 ? (
+          {!selectedGrade && tecInfo.length !== 0 ? (
             <Card title="指导教师" style={{ width: '100%' }}>
               {tecInfo.map((item, index) => {
                 return (

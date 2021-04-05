@@ -8,15 +8,24 @@
   "rules": {
     "no-unused-vars": "off",
     "no-undef": "off",
-    "array-callback-return": "off"
+    "array-callback-return": 1,
+    "semi": [
+      "error",
+      "never" // 改成代码结尾不再加分号，加了分号报错，不加分号不报错
+    ]
   },
   "overrides": [
     {
       // enable the rule specifically for TypeScript files
-      "files": ["*.ts", "*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "rules": {
         // "@typescript-eslint/explicit-member-accessibility": ["error"],
-        "array-callback-return": ["error"]
+        "array-callback-return": [
+          "error"
+        ]
       }
     }
   ],

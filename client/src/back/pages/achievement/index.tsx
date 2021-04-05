@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Spin, Tabs, Avatar, Button, Tag, Input, Pagination, message, Modal, Select, Switch } from 'antd';
+import { Spin, Tabs, Avatar, Button, Tag, Input, Pagination, message, Modal, Select, Switch, Icon } from 'antd';
+import AchievementIssue from './components/AchievementIssue';
 import './index.scss';
 import { Base, Post } from 'back/api';
 const TabPane = Tabs.TabPane;
@@ -19,6 +20,7 @@ export interface IState {
   tagName: string;
   tagId: number;
   color: Array<string>;
+  activeKey: string;
 }
 class Achievement extends Component<IProps, IState> {
   constructor(props) {
@@ -35,6 +37,7 @@ class Achievement extends Component<IProps, IState> {
       tagName: '', // 添加的标签名
       tagId: 0, // 筛选成果
       color: ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'],
+      activeKey: '1',
     };
   }
   componentDidMount() {
@@ -185,7 +188,13 @@ class Achievement extends Component<IProps, IState> {
       <div className="back-achievement">
         <div className="back-achievement-container">
           <Spin tip="数据加载中" size="large" spinning={this.state.loading}>
-            <Tabs defaultActiveKey="1">
+            <Tabs
+              defaultActiveKey="1"
+              activeKey={this.state.activeKey}
+              onChange={activeKey => {
+                this.setState({ activeKey });
+              }}
+            >
               <TabPane tab="成果列表" key="1">
                 <div className="back-achievement-container-list">
                   <div className="back-achievement-container-list-search">
@@ -342,9 +351,19 @@ class Achievement extends Component<IProps, IState> {
                   </Modal>
                 </div>
               </TabPane>
+              <TabPane tab="添加成果" key="3">
+                {this.state.activeKey === '3' && (
+                  <AchievementIssue
+                    onSuccess={() => {
+                      this.setState({ activeKey: '1' });
+                    }}
+                  />
+                )}
+              </TabPane>
             </Tabs>
           </Spin>
         </div>
+        {/* <AddAchievementModal visible={this.state.addVisible} onChangeVisible={(visible) => this.setState({ addVisible: visible })} /> */}
       </div>
     );
   }

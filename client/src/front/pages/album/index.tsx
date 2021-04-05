@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Icon, message } from 'antd';
+import { Button, Card, Icon, Input, message } from 'antd';
 import { useSetState, useRequest } from 'ahooks';
 
 import { Aside, Item } from './components/aside';
@@ -71,7 +71,7 @@ const Album = ({ history }) => {
           </div>
           <div className="album-main-right">
             <Card
-              extra={
+              title={
                 <Auth>
                   <Button
                     className="album-header-btn"
@@ -87,6 +87,7 @@ const Album = ({ history }) => {
                   </Button>
                 </Auth>
               }
+              extra={<Input.Search placeholder="请输入相册标题" />}
             >
               <div className="album-item-warpper">
                 {albums.map(album => (

@@ -6,7 +6,7 @@ class Achievement extends Controller {
   async getAchievement() {
     const { ctx, app } = this;
     try {
-      let { beg, end, index } = ctx.request.body;
+      let { beg, end, index, keywords } = ctx.request.body;
       index = parseInt(index);
       const table = 'AchievementType';
       const table1 = 'Achievement';
@@ -39,6 +39,7 @@ class Achievement extends Controller {
       if (index !== 0) {
         ac = await ctx.service.fun.filterType(ac, index); // 过滤资源所对应的类别
       }
+      ac = ac.filter(item => `${item.title}`.includes(keywords))
       if (parseInt(ac.length) >= end) {
         ac = ac.slice(beg, end);
         ctx.body = {

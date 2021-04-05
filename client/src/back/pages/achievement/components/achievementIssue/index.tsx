@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip, DatePicker } from 'antd';
+import { Input, Button, Icon, message, Spin, Progress, Form, Tooltip, DatePicker, Select } from 'antd';
 import './index.scss';
-import Cookies from '../../../http/cookies';
+import Cookies from 'src/http/cookies';
 import { Base, Post } from 'front/api';
+import { Base as BackBase, get } from 'back/api';
 import * as qiniu from 'qiniu-js';
-import qiniuAPI from '../../api/qiniu';
+import qiniuAPI from 'src/front/api/qiniu';
 import moment from 'moment';
 import { FormComponentProps } from 'antd/lib/form';
 import { RouteComponentProps } from 'react-router-dom';
+import debounce from 'lodash/debounce';
 const dateFormat = 'YYYY-MM-DD';
 const { TextArea } = Input;
-export interface IProps extends FormComponentProps, RouteComponentProps {}
+export interface IProps extends FormComponentProps, RouteComponentProps {
+  onSuccess?: () => void;
+}
 export interface IState {
   id: number | string;
   title: string;
@@ -29,13 +33,48 @@ export interface IState {
   attachmentStatus: boolean;
   attachmentLoading: boolean;
   date: Date;
+  users: Array<any>;
+  searchLoading: boolean;
+  userId: string;
 }
 class AchievementIssue extends Component<IProps, IState> {
   selectLabel: React.RefObject<any>;
+  debounceSearchUsers: (keywords) => void;
   constructor(props) {
     super(props);
     this.state = {
-      id: props.match.params.id || '', // 成果Id
+      id: props.match?.params?.id || '', // 成果Id
+      title: null,
+      achievementlink: null,
+      abstract: null,
+      type: null,
+      status: 1, // 默认1数据添加状态，2数据更新状态,
+      achievementType: [],
+      userId: Cookies.getCookies('id'),
+      loading: false,
+      progress: 0,
+      coverLoading: false, // 封面图上传进度
+      delCoverLoading: false, // 删除封面图
+      posterlink: null, // 封面图的cdn地址
+      delCoverStatus: false, // 是否删除封面图的状态
+      attachment: null, // 附件的cdn地址
+      attachmentStatus: false, // 是否有附件
+      attachmentLoading: false, // 上传附件的进度
+      date: new Date(), // 成果发布日期
+      users: [],
+      searchLoading: false,
+    };
+    this.selectLabel = React.createRef();
+    this.debounceSearchUsers = debounce(this.searchUsers, 1000);
+  }
+  componentDidMount() {
+    this.getAchievementIssue();
+    this.searchUsers();
+  }
+  // 初始化数据
+  initState() {
+    this.setState({
+      id: '', // 成果Id
       title: null,
       achievementlink: null,
       abstract: null,
@@ -52,11 +91,7 @@ class AchievementIssue extends Component<IProps, IState> {
       attachmentStatus: false, // 是否有附件
       attachmentLoading: false, // 上传附件的进度
       date: new Date(), // 成果发布日期
-    };
-    this.selectLabel = React.createRef();
-  }
-  componentDidMount() {
-    this.getAchievementIssue();
+    });
   }
   // 初始化获取资源信息
   getAchievementIssue = () => {
@@ -89,8 +124,15 @@ class AchievementIssue extends Component<IProps, IState> {
       }
     });
   };
+  searchUsers = (keywords = null) => {
+    this.setState({ searchLoading: true });
+    get(BackBase.searchUsers, { keywords }).then(res => {
+      this.setState({ users: res?.data?.users?.slice(0, 50), searchLoading: false });
+    });
+  };
   // 初始化成果资源
   initResource = data => {
+    console.log(Cookies.getCookies('id'));
     const node = this.selectLabel.current.children;
     for (const item of node) {
       if (parseInt(item.getAttribute('data-index')) === data) {
@@ -133,7 +175,7 @@ class AchievementIssue extends Component<IProps, IState> {
     } else {
       const params = {
         id: this.state.id,
-        userid: Cookies.getCookies('id'),
+        userid: this.state.userId,
         title: this.state.title,
         achievementlink: this.state.achievementlink,
         type: this.state.type,
@@ -151,7 +193,9 @@ class AchievementIssue extends Component<IProps, IState> {
               loading: false,
             });
             message.success('成果发布成功');
-            this.props.history.push('/achievement');
+            if (this.props?.onSuccess) {
+              this.props?.onSuccess();
+            }
           }, 500);
         }
       });
@@ -449,6 +493,23 @@ class AchievementIssue extends Component<IProps, IState> {
                       percent={this.state.progress}
                     />
                   </div>
+                </div>
+                <div className="achievementIssue-container-body-right-item">
+                  <Select
+                    style={{ width: '100%' }}
+                    filterOption={false}
+                    showSearch
+                    value={this.state.userId}
+                    notFoundContent={this.state.searchLoading ? <Spin size="small" /> : null}
+                    onSearch={value => this.debounceSearchUsers(value)}
+                    onChange={(value: string) => this.setState({ userId: value })}
+                  >
+                    {this.state.users.map(user => (
+                      <Select.Option key={user.id} value={user.id}>
+                        {user.name}
+                      </Select.Option>
+                    ))}
+                  </Select>
                 </div>
                 {!this.state.achievementlink && (
                   <div className="achievementIssue-container-body-right-attachment">

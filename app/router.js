@@ -3,6 +3,7 @@ module.exports = app => {
   const { router, controller } = app;
   // 首页接口
   router.get('/api/home/getHomeInfo', controller.home.getHomeInfo);// 获取首页信息
+  router.post('/api/home/updateHomeInfo', controller.home.updateHomeInfo); // 更改首页信息
   // 登录接口
   router.post('/api/code', controller.register.uploadCode); // 上传邮箱验证码
   router.post('/api/registeruser', controller.register.registerUser); // 注册用户信息
@@ -88,6 +89,8 @@ module.exports = app => {
   router.post('/api/back/getAddUserInfo', controller.backUser.getAddUserInfo);// 获取修改和添加用户的信息
   router.post('/api/back/updateUserInfo', controller.backUser.updateUserInfo);// 更新用户的信息
   router.post('/api/back/addUserInfo', controller.backUser.addUserInfo);// 添加用户信息
+  router.post('/api/back/resetPassword', controller.login.resetPassword);  //重置密码
+  router.get('/api/back/searchUsers', controller.backUser.searchUsers); // 搜索用户
   // 后台文章管理接口
   router.post('/api/back/getArticleInfo', controller.backArticle.getArticleInfo);// 获取后台文章管理信息
   router.post('/api/back/istop', controller.backArticle.istop);// 是否置顶

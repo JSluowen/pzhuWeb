@@ -61,6 +61,9 @@ class UpdateUserInfo extends Component<IProps, IState> {
       this.getAddUserInfo();
     }
   }
+  resetPassword = () => {
+    Post(Base.resetPassword, { id: this.state.id }).then(res => {});
+  };
   getAddUserInfo = () => {
     const params = {
       id: this.state.id,
@@ -310,6 +313,9 @@ class UpdateUserInfo extends Component<IProps, IState> {
               <Form.Item className="btn">
                 <Button type="primary" htmlType="submit">
                   修改成员
+                </Button>
+                <Button style={{ marginLeft: 10 }} onClick={this.resetPassword}>
+                  重置密码
                 </Button>
               </Form.Item>
             </Form>
