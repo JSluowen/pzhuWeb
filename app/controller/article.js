@@ -1,21 +1,21 @@
-'use strict'
+'use strict';
 
-const Controller = require('egg').Controller
+const Controller = require('egg').Controller;
 
 class Article extends Controller {
   async getArticle() {
-    const { ctx, app } = this
+    const { ctx, app } = this;
     try {
-      let { beg, end, index, keywords } = ctx.request.body
-      const token = ctx.header.authorization
-      const author = await ctx.service.jwt.verifyToken(token)
-      const userid = ctx.session.userid
-      beg = parseInt(beg)
-      end = parseInt(end)
-      index = parseInt(index)
-      const table = 'Technology'
-      const table1 = 'Article'
-      const table2 = 'Favorite'
+      let { beg, end, index, keywords } = ctx.request.body;
+      const token = ctx.header.authorization;
+      const author = await ctx.service.jwt.verifyToken(token);
+      const userid = ctx.session.userid;
+      beg = parseInt(beg);
+      end = parseInt(end);
+      index = parseInt(index);
+      const table = 'Technology';
+      const table1 = 'Article';
+      const table2 = 'Favorite';
       const params = {
         include: [
           {
@@ -38,42 +38,42 @@ class Article extends Controller {
           status: 1,
         },
         order: [['created_at', 'DESC']],
-      }
+      };
       const params1 = {
         where: {
           status: 1,
         },
         order: [['readnumber', 'DESC']],
-      }
+      };
       const params2 = {
         where: {
           userid,
         },
-      }
+      };
 
-      const technology = await ctx.service.mysql.findAll({ where: { status: 1 } }, table)
-      let article = await ctx.service.mysql.findAll(params, table1)
-      let hotArticle = await ctx.service.mysql.findAll(params1, table1)
+      const technology = await ctx.service.mysql.findAll({ where: { status: 1 } }, table);
+      let article = await ctx.service.mysql.findAll(params, table1);
+      let hotArticle = await ctx.service.mysql.findAll(params1, table1);
       // let favorite;
       if (userid && author) {
         // favorite = await ctx.service.mysql.findAll(params2, table2);
-        await ctx.service.mysql.findAll(params2, table2)
+        await ctx.service.mysql.findAll(params2, table2);
         // 下掉收藏功能
         // article = await ctx.service.fun.filterCollect(favorite, article);
       }
       if (index !== 0) {
         article = article.filter(item => {
-          return item.dataValues.technologyid === parseInt(index)
-        })
+          return item.dataValues.technologyid === parseInt(index);
+        });
       }
       const slideshow = article.filter(item => {
-        return item.dataValues.top === 1
-      })
-      hotArticle = hotArticle.splice(0, 10)
-      article = article.filter(item => item.title.includes(keywords))
+        return item.dataValues.top === 1;
+      });
+      hotArticle = hotArticle.splice(0, 10);
+      article = article.filter(item => item.title.includes(keywords));
       if (parseInt(article.length) > end) {
-        article = article.slice(beg, end)
-        ctx.status = 200
+        article = article.slice(beg, end);
+        ctx.status = 200;
         ctx.body = {
           success: 1,
           data: {
@@ -82,10 +82,10 @@ class Article extends Controller {
             slideshow,
             hotArticle,
           },
-        }
+        };
       } else {
-        article = article.slice(beg)
-        ctx.status = 200
+        article = article.slice(beg);
+        ctx.status = 200;
         ctx.body = {
           success: 0,
           data: {
@@ -94,68 +94,68 @@ class Article extends Controller {
             slideshow,
             hotArticle,
           },
-        }
+        };
       }
     } catch (err) {
-      console.log(err)
-      ctx.status = 404
+      console.log(err);
+      ctx.status = 404;
     }
   }
   async collectArticle() {
-    const { ctx } = this
+    const { ctx } = this;
     try {
-      const token = ctx.header.authorization
-      const author = await ctx.service.jwt.verifyToken(token)
+      const token = ctx.header.authorization;
+      const author = await ctx.service.jwt.verifyToken(token);
       if (!author) {
-        ctx.status = 403
+        ctx.status = 403;
       } else {
-        const { id } = ctx.request.body
-        const userid = ctx.session.userid
-        const table = 'Favorite'
+        const { id } = ctx.request.body;
+        const userid = ctx.session.userid;
+        const table = 'Favorite';
         const params = {
           articleid: id,
           userid,
-        }
-        await ctx.service.mysql.create(params, table)
-        ctx.status = 200
+        };
+        await ctx.service.mysql.create(params, table);
+        ctx.status = 200;
         ctx.body = {
           success: 1,
-        }
+        };
       }
     } catch (err) {
-      console.log(err)
-      ctx.status = 404
+      console.log(err);
+      ctx.status = 404;
     }
   }
   async cancelCollect() {
-    const { ctx } = this
+    const { ctx } = this;
     try {
-      const token = ctx.header.authorization
-      const author = await ctx.service.jwt.verifyToken(token)
+      const token = ctx.header.authorization;
+      const author = await ctx.service.jwt.verifyToken(token);
       if (!author) {
-        ctx.status = 403
+        ctx.status = 403;
       } else {
-        const { id } = ctx.request.body
-        const userid = ctx.session.userid
-        const table = 'Favorite'
+        const { id } = ctx.request.body;
+        const userid = ctx.session.userid;
+        const table = 'Favorite';
         const params = {
           where: {
             articleid: id,
             userid,
           },
-        }
-        const favorite = await ctx.service.mysql.findAll(params, table)
-        await favorite[0].destroy()
-        ctx.status = 200
+        };
+        const favorite = await ctx.service.mysql.findAll(params, table);
+        await favorite[0].destroy();
+        ctx.status = 200;
         ctx.body = {
           success: 1,
-        }
+        };
       }
     } catch (err) {
-      console.log(err)
-      ctx.status = 404
+      console.log(err);
+      ctx.status = 404;
     }
   }
 }
 
-module.exports = Article
+module.exports = Article;

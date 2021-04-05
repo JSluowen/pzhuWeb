@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
-  const { INTEGER, STRING, DATE } = app.Sequelize
+  const { INTEGER, STRING, DATE } = app.Sequelize;
   const Favorite = app.model.define(
     'Favorite',
     {
@@ -26,12 +26,12 @@ module.exports = app => {
       underscored: true,
       tableName: 'favorite',
     },
-  )
+  );
 
   Favorite.associate = function() {
-    app.model.Favorite.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' })
-    app.model.Favorite.belongsTo(app.model.Article, { foreignKey: 'articleid', targetKey: 'id' })
-  }
+    app.model.Favorite.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
+    app.model.Favorite.belongsTo(app.model.Article, { foreignKey: 'articleid', targetKey: 'id' });
+  };
 
-  return Favorite
-}
+  return Favorite;
+};

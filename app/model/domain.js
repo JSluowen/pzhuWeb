@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
-  const { INTEGER, STRING, DATE } = app.Sequelize
+  const { INTEGER, STRING, DATE } = app.Sequelize;
   const Domain = app.model.define(
     'Domain',
     {
@@ -20,11 +20,11 @@ module.exports = app => {
       underscored: true,
       tableName: 'domain',
     },
-  )
+  );
 
   Domain.associate = function() {
-    app.model.Domain.hasMany(app.model.UserInfo, { foreignKey: 'domain', targetKey: 'id' })
-  }
+    app.model.Domain.hasMany(app.model.UserInfo, { foreignKey: 'domain', targetKey: 'id' });
+  };
 
-  return Domain
-}
+  return Domain;
+};

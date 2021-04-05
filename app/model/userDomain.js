@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
   const {
     INTEGER,
     STRING,
-  } = app.Sequelize
+  } = app.Sequelize;
   const UserDomain = app.model.define('UserDomain', {
     id: {
       type: INTEGER(10),
@@ -18,10 +18,10 @@ module.exports = app => {
     freezeTableName: true,
     tableName: 'major',
     timestamps: false
-  })
+  });
   UserDomain.associate = function() {
-    app.model.UserDomain.belongsTo(app.model.UserInfo, { foreignKey: 'user_id', targetKey: 'id' })
-    app.model.UserDomain.belongsTo(app.model.Domain, { foreignKey: 'domain_id', targetKey: 'id' })
-  }
-  return UserDomain
-}
+    app.model.UserDomain.belongsTo(app.model.UserInfo, { foreignKey: 'user_id', targetKey: 'id' });
+    app.model.UserDomain.belongsTo(app.model.Domain, { foreignKey: 'domain_id', targetKey: 'id' });
+  };
+  return UserDomain;
+};

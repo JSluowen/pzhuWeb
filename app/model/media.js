@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 module.exports = app => {
   const {
     INTEGER,
     STRING
-  } = app.Sequelize
+  } = app.Sequelize;
   const Media = app.model.define('Media', {
     id: {
       type: INTEGER(10),
@@ -38,10 +38,10 @@ module.exports = app => {
     underscored: true,
     tableName: 'media',
   }
-  )
+  );
   Media.associate = function() {
-    app.model.Media.belongsTo(app.model.Article, { foreignKey: 'articleid', targetKey: 'id' })
-    app.model.Media.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' })
-  }
-  return Media
-}
+    app.model.Media.belongsTo(app.model.Article, { foreignKey: 'articleid', targetKey: 'id' });
+    app.model.Media.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
+  };
+  return Media;
+};

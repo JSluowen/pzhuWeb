@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
   const {
     INTEGER,
     STRING,
-  } = app.Sequelize
+  } = app.Sequelize;
   const Major = app.model.define('Major', {
     id: {
       type: INTEGER(10),
@@ -24,11 +24,11 @@ module.exports = app => {
     freezeTableName: true,
     tableName: 'major',
     timestamps: false
-  })
+  });
   Major.associate = function() {
-    app.model.Major.hasMany(app.model.UserInfo, { foreignKey: 'major', targetKey: 'id' })
-    app.model.Major.belongsTo(app.model.School, { foreignKey: 'school', targetKey: 'id' })
-  }
+    app.model.Major.hasMany(app.model.UserInfo, { foreignKey: 'major', targetKey: 'id' });
+    app.model.Major.belongsTo(app.model.School, { foreignKey: 'school', targetKey: 'id' });
+  };
 
-  return Major
-}
+  return Major;
+};

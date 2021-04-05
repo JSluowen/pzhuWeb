@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
-  const { INTEGER, DATE, STRING } = app.Sequelize
+  const { INTEGER, DATE, STRING } = app.Sequelize;
   const Album = app.model.define(
     'Album',
     {
@@ -28,10 +28,10 @@ module.exports = app => {
       freezeTableName: true,
       tableName: 'album'
     }
-  )
+  );
   Album.associate = function() {
-    app.model.Album.belongsTo(app.model.AlbumType, { foreignKey: 'type', targetKey: 'id' })
-    app.model.Album.belongsTo(app.model.Photo, { foreignKey: 'cover', targetKey: 'id' })
-  }
-  return Album
-}
+    app.model.Album.belongsTo(app.model.AlbumType, { foreignKey: 'type', targetKey: 'id' });
+    app.model.Album.belongsTo(app.model.Photo, { foreignKey: 'cover', targetKey: 'id' });
+  };
+  return Album;
+};

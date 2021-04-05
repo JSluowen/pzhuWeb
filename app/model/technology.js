@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 module.exports = app => {
-  const { INTEGER, STRING } = app.Sequelize
+  const { INTEGER, STRING } = app.Sequelize;
   const Technology = app.model.define(
     'Technology',
     {
@@ -22,10 +22,10 @@ module.exports = app => {
       underscored: true,
       tableName: 'technology',
     },
-  )
+  );
   Technology.associate = function() {
-    app.model.Technology.hasMany(app.model.Article, { foreignKey: 'technologyid', targetKey: 'id' })
-  }
+    app.model.Technology.hasMany(app.model.Article, { foreignKey: 'technologyid', targetKey: 'id' });
+  };
 
-  return Technology
-}
+  return Technology;
+};

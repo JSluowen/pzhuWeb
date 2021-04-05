@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
   const {
     INTEGER,
     STRING,
-  } = app.Sequelize
+  } = app.Sequelize;
   const Banner = app.model.define('Banner', {
     id: {
       type: INTEGER(10),
@@ -20,6 +20,6 @@ module.exports = app => {
     freezeTableName: true,
     tableName: 'banner',
     timestamps: false
-  })
-  return Banner
-}
+  });
+  return Banner;
+};

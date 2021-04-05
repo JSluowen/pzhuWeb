@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
-  const { INTEGER, STRING } = app.Sequelize
+  const { INTEGER, STRING } = app.Sequelize;
   const ResourceType = app.model.define(
     'ResourceType',
     {
@@ -23,9 +23,9 @@ module.exports = app => {
       underscored: true,
       tableName: 'resource_type',
     },
-  )
+  );
   ResourceType.associate = function() {
-    app.model.ResourceType.hasMany(app.model.Resource, { foreignKey: 'typeid', targetKey: 'id' })
-  }
-  return ResourceType
-}
+    app.model.ResourceType.hasMany(app.model.Resource, { foreignKey: 'typeid', targetKey: 'id' });
+  };
+  return ResourceType;
+};

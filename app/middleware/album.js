@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 module.exports = () => {
-  const ADMIN = 3
+  const ADMIN = 3;
   return async function params(ctx, next) {
-    const { request } = ctx
+    const { request } = ctx;
 
     if (
       request.method === 'GET' ||
@@ -12,9 +12,9 @@ module.exports = () => {
       // 以下是前系统设计原因，特殊处理
 
     ) {
-      await next()
+      await next();
     } else {
-      ctx.status = 401
+      ctx.status = 401;
     }
-  }
-}
+  };
+};

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
   const {
@@ -6,7 +6,7 @@ module.exports = app => {
     STRING,
     DATE,
     BOOLEAN
-  } = app.Sequelize
+  } = app.Sequelize;
   const Resource = app.model.define('Resource', {
     id: {
       type: INTEGER(10),
@@ -51,11 +51,11 @@ module.exports = app => {
     underscored: true,
     tableName: 'resource',
   }
-  )
+  );
 
   Resource.associate = function() {
-    app.model.Resource.belongsTo(app.model.ResourceType, { foreignKey: 'typeid', targetKey: 'id' })
-    app.model.Resource.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' })
-  }
-  return Resource
-}
+    app.model.Resource.belongsTo(app.model.ResourceType, { foreignKey: 'typeid', targetKey: 'id' });
+    app.model.Resource.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
+  };
+  return Resource;
+};

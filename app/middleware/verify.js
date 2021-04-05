@@ -1,16 +1,16 @@
-'use strict'
-const jwt = require('jsonwebtoken')
+'use strict';
+const jwt = require('jsonwebtoken');
 
 module.exports = () => {
   return async function verify(ctx, next) {
-    const token = ctx.header.authorization
+    const token = ctx.header.authorization;
     if (token) {
-      const { data } = jwt.decode(token)
-      ctx.session.userid = data.id
-      ctx.session.auth = data.status
+      const { data } = jwt.decode(token);
+      ctx.session.userid = data.id;
+      ctx.session.auth = data.status;
     }
 
-    await next()
+    await next();
 
-  }
-}
+  };
+};

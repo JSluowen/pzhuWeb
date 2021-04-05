@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = app => {
-  const { INTEGER, STRING } = app.Sequelize
+  const { INTEGER, STRING } = app.Sequelize;
   const AchievementType = app.model.define(
     'AchievementType',
     {
@@ -23,10 +23,10 @@ module.exports = app => {
       underscored: true,
       tableName: 'achievement_type',
     },
-  )
+  );
 
   AchievementType.associate = function() {
-    app.model.AchievementType.hasMany(app.model.Achievement, { foreignKey: 'typeid', targetKey: 'id' })
-  }
-  return AchievementType
-}
+    app.model.AchievementType.hasMany(app.model.Achievement, { foreignKey: 'typeid', targetKey: 'id' });
+  };
+  return AchievementType;
+};
