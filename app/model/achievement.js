@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = app => {
   const {
@@ -7,7 +7,7 @@ module.exports = app => {
     DATE,
     BOOLEAN,
     TEXT
-  } = app.Sequelize;
+  } = app.Sequelize
   const Achievement = app.model.define('Achievement', {
     id: {
       type: INTEGER(10),
@@ -56,11 +56,11 @@ module.exports = app => {
     underscored: true,
     tableName: 'achievement',
   }
-  );
+  )
 
   Achievement.associate = function() {
-    app.model.Achievement.belongsTo(app.model.AchievementType, { foreignKey: 'typeid', targetKey: 'id' });
-    app.model.Achievement.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
-  };
-  return Achievement;
-};
+    app.model.Achievement.belongsTo(app.model.AchievementType, { foreignKey: 'typeid', targetKey: 'id' })
+    app.model.Achievement.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' })
+  }
+  return Achievement
+}

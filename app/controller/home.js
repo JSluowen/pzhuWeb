@@ -1,12 +1,12 @@
-'use strict';
+'use strict'
 
-const Controller = require('egg').Controller;
+const Controller = require('egg').Controller
 
 class Home extends Controller {
   async getHomeInfo() {
-    const { ctx, app } = this;
+    const { ctx, app } = this
     try {
-      const table = 'Achievement';// 获取团队的成果
+      const table = 'Achievement'// 获取团队的成果
       const params = {
         include: [
           {
@@ -25,20 +25,20 @@ class Home extends Controller {
           show: 1,
           status: 1
         }
-      };
-      const ac = await ctx.service.mysql.findAll(params, table);
+      }
+      const ac = await ctx.service.mysql.findAll(params, table)
       const baseInfo = await ctx.service.mysql.findAll({}, 'Home')
-      ctx.status = 200;
+      ctx.status = 200
       ctx.body = {
         success: 1,
         data: {
           ac,
           baseInfo,
         }
-      };
+      }
     } catch (err) {
-      console.log(err);
-      ctx.status = 404;
+      console.log(err)
+      ctx.status = 404
     }
   }
   async updateHomeInfo() {
@@ -60,4 +60,4 @@ class Home extends Controller {
   }
 }
 
-module.exports = Home;
+module.exports = Home

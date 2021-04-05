@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
 module.exports = app => {
   const {
     INTEGER,
     STRING,
-  } = app.Sequelize;
+  } = app.Sequelize
   const Top = app.model.define('Avatar', {
     id: {
       type: INTEGER(5),
@@ -25,9 +25,9 @@ module.exports = app => {
     freezeTableName: true,
     tableName: 'top',
     timestamps: false
-  });
+  })
   Top.associate = function() {
-    app.model.Top.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' });
-  };
-  return Top;
-};
+    app.model.Top.belongsTo(app.model.UserInfo, { foreignKey: 'userid', targetKey: 'id' })
+  }
+  return Top
+}

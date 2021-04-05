@@ -1,10 +1,10 @@
 'use strict'
 
-const Controller = require('egg').Controller;
+const Controller = require('egg').Controller
 
 class AlbumController extends Controller {
   async createAlbum() {
-    const { ctx, app } = this
+    const { ctx } = this
     const { name, desc, typeId, status } = ctx.request.body
     const userId = ctx.session.userid
     const albumTable = 'Album'
@@ -66,7 +66,7 @@ class AlbumController extends Controller {
         status: ctx.session.userid ? { ne: 0 } : 1,
         type: type || { ne: 0 }
       }
-    };
+    }
     try {
       const albums = await ctx.service.mysql.findAll(params, albumTable)
       const photos = await ctx.service.mysql.findAll({ where: { status: { ne: 0 } } }, 'Photo')
@@ -81,7 +81,7 @@ class AlbumController extends Controller {
         ctx.status = 200
         ctx.body = {
           data: {
-            albums: albums,
+            albums,
             photoNum,
           }
         }
@@ -96,7 +96,7 @@ class AlbumController extends Controller {
     const id = Number(ctx.params.id)
     let transaction = null
     try {
-      transaction = await ctx.model.transaction();
+      transaction = await ctx.model.transaction()
       if (id === 1) {
         throw {
           status: 200, body: {
@@ -106,17 +106,17 @@ class AlbumController extends Controller {
         }
       }
       const belongPhotos = await ctx.service.mysql.findAll({ where: { status: { ne: 0 }, album_id: id } }, 'Photo')
-      await belongPhotos.forEach(async (photo) => await photo.update({ album_id: 1 }))
+      await belongPhotos.forEach(async photo => await photo.update({ album_id: 1 }))
       const album = await ctx.service.mysql.findById(id, 'Album')
       album.update({ status: 0 })
-      await transaction.commit();
+      await transaction.commit()
       ctx.status = 200
       ctx.body = {
         success: 1,
         message: '删除成功'
       }
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       ctx.status = error?.status || 500
       ctx.body = error?.body || ''
     }
@@ -173,7 +173,7 @@ class AlbumController extends Controller {
     const id = Number(ctx.params.id)
     let transaction = null
     try {
-      transaction = await ctx.model.transaction();
+      transaction = await ctx.model.transaction()
       if (id === 1) {
         throw {
           status: 200, body: {
@@ -183,17 +183,17 @@ class AlbumController extends Controller {
         }
       }
       const belongAlbums = await ctx.service.mysql.findAll({ where: { status: { ne: 0 }, type: id } }, 'Album')
-      await belongAlbums.forEach(async (album) => await album.update({ type: 1 }))
+      await belongAlbums.forEach(async album => await album.update({ type: 1 }))
       const type = await ctx.service.mysql.findById(id, 'AlbumType')
       type.update({ status: 0 })
-      await transaction.commit();
+      await transaction.commit()
       ctx.status = 200
       ctx.body = {
         success: 1,
         message: '删除成功'
       }
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       ctx.status = error?.status || 500
       ctx.body = error?.body || ''
     }
@@ -251,7 +251,7 @@ class AlbumController extends Controller {
       }
     }
     try {
-      let albumInfo = await ctx.service.mysql.findAll(params, 'Album')
+      const albumInfo = await ctx.service.mysql.findAll(params, 'Album')
       if (albumInfo[0]?.dataValues.status === 2 && !ctx.session.userid) {
         throw { status: 403 }
       }
@@ -278,23 +278,23 @@ class AlbumController extends Controller {
 
     let transaction = null
     try {
-      transaction = await ctx.model.transaction();
+      transaction = await ctx.model.transaction()
       const photos = await ctx.service.mysql.findAll({ where: { id: { in: ids } } }, 'Photo')
-      await photos.forEach(async (photo) => await photo.update({ status: 0 }))
+      await photos.forEach(async photo => await photo.update({ status: 0 }))
       ctx.status = 200
       ctx.body = {
         success: 1,
         message: '删除成功'
       }
-      await transaction.commit();
+      await transaction.commit()
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       ctx.status = error?.status || 500
       ctx.body = error?.body || ''
     }
   }
   async updatePhotos() {
-    const { ctx, app } = this
+    const { ctx } = this
     let { ids, albumId } = ctx.params
 
     let transaction = null
@@ -305,19 +305,19 @@ class AlbumController extends Controller {
         }
         return Number(id)
       })
-      transaction = await ctx.model.transaction();
+      transaction = await ctx.model.transaction()
       const album = await ctx.service.mysql.findById(albumId, 'Album')
       if (album.length === 0) throw { status: 200, body: { success: 0, message: '指定相册不存在' } }
       const photos = await ctx.service.mysql.findAll({ where: { id: { in: ids } } }, 'Photo')
-      await photos.forEach(async (photo) => await photo.update({ album_id: albumId }))
+      await photos.forEach(async photo => await photo.update({ album_id: albumId }))
       ctx.status = 200
       ctx.body = {
         success: 1,
         message: '转移成功'
       }
-      await transaction.commit();
+      await transaction.commit()
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       ctx.status = error?.status || 500
       ctx.body = error?.body || ''
     }

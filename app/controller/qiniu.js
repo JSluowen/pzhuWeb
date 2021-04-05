@@ -1,15 +1,15 @@
-'use strict';
-const Controller = require('egg').Controller;
+'use strict'
+const Controller = require('egg').Controller
 
 class Qiniu extends Controller {
   async getToken() {
-    const { ctx } = this;
+    const { ctx } = this
     try {
-      const uploadToken = await ctx.service.qiniu.getToken('webimg');
-      ctx.status = 200;
+      const uploadToken = await ctx.service.qiniu.getToken('webimg')
+      ctx.status = 200
       ctx.body = {
         data: uploadToken,
-      };
+      }
     } catch (err) {
       ctx.status = 500
       console.log(err)
@@ -32,4 +32,4 @@ class Qiniu extends Controller {
 
   }
 }
-module.exports = Qiniu;
+module.exports = Qiniu

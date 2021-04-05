@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 // 阿里云邮箱推送服务
-const nodemailer = require('nodemailer');
-const Service = require('egg').Service;
+const nodemailer = require('nodemailer')
+const Service = require('egg').Service
 
 class Nodemailer extends Service {
   async sendEmail(email, content) {
-    const { config } = this;
+    const { config } = this
     const transporter = nodemailer.createTransport({
       host: 'smtpdm.aliyun.com',
       port: 80,
@@ -14,7 +14,7 @@ class Nodemailer extends Service {
         user: config.nodemailer.user, // user name
         pass: config.nodemailer.pass, // password
       },
-    });
+    })
     const mailOptions = {
       from: `WEB应用专业团队<${config.nodemailer.from}>`,
       to: email,
@@ -36,17 +36,17 @@ class Nodemailer extends Service {
       //         cid:'01'
       //    }
       // ],
-    };
+    }
     return new Promise((resolve, reject) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          console.log(error);
-          reject(error);
+          console.log(error)
+          reject(error)
         }
-        resolve(info);
-      });
-    });
+        resolve(info)
+      })
+    })
   }
 }
 
-module.exports = Nodemailer;
+module.exports = Nodemailer

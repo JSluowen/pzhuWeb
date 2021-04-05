@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
 module.exports = app => {
-  const { INTEGER, DATE, STRING } = app.Sequelize;
+  const { INTEGER, DATE, STRING } = app.Sequelize
   const Photo = app.model.define(
     'Photo',
     {
@@ -24,9 +24,9 @@ module.exports = app => {
       freezeTableName: true,
       tableName: 'photo'
     }
-  );
-//   Photo.associate = function() {
-//     app.model.User.hasMany(app.model.UserInfo, { foreignKey: 'id', targetKey: 'id' });
-//   };
-  return Photo;
-};
+  )
+  //   Photo.associate = function() {
+  //     app.model.User.hasMany(app.model.UserInfo, { foreignKey: 'id', targetKey: 'id' });
+  //   };
+  return Photo
+}

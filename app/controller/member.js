@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-const Controller = require('egg').Controller;
+const Controller = require('egg').Controller
 
 class Member extends Controller {
   async getMemberInfo() {
-    const { ctx, app } = this;
-    const { Op } = app.Sequelize;
+    const { ctx, app } = this
+    const { Op } = app.Sequelize
     try {
-      const table = 'UserInfo';
-      const table1 = 'Domain';
+      const table = 'UserInfo'
+      const table1 = 'Domain'
       const params = {
         include: [
           {
@@ -26,20 +26,20 @@ class Member extends Controller {
             model: app.model.Major,
           },
         ],
-      };
-      const userinfo = await ctx.service.mysql.findAll(params, table);
-      const domain = await ctx.service.mysql.findAll({}, table1);
-      ctx.status = 200;
+      }
+      const userinfo = await ctx.service.mysql.findAll(params, table)
+      const domain = await ctx.service.mysql.findAll({}, table1)
+      ctx.status = 200
       ctx.body = {
         success: 1,
         data: userinfo,
         domain
-      };
+      }
     } catch (err) {
-      console.log(err);
-      ctx.status = 404;
+      console.log(err)
+      ctx.status = 404
     }
   }
 }
 
-module.exports = Member;
+module.exports = Member

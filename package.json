@@ -10,7 +10,7 @@
     "prod": "egg-scripts start --port=7001 --env=prod --title=egg-server-showcase",
     "stop": "egg-scripts stop",
     "lint": "eslint src --fix",
-    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty .src/**/*.*"
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx app"
   },
   "keywords": [],
   "author": "",

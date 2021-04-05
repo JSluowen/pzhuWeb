@@ -1,6 +1,14 @@
 {
   "extends": "eslint-config-egg",
   "rules": {
-    "linebreak-style": [0, "error", "windows"]
+    "linebreak-style": [
+      0,
+      "error",
+      "windows"
+    ],
+    "semi": [
+      "error",
+      "never" // 改成代码结尾不再加分号，加了分号报错，不加分号不报错
+    ]
   }
 }

@@ -1,11 +1,11 @@
-'use strict';
-const Controller = require('egg').Controller;
+'use strict'
+const Controller = require('egg').Controller
 
 class Game_2048 extends Controller {
   async initTop() {
-    const { ctx, app } = this;
+    const { ctx, app } = this
     try {
-      const table = 'Top';
+      const table = 'Top'
       const params = {
         include: [
           {
@@ -20,18 +20,18 @@ class Game_2048 extends Controller {
           }
         ],
         order: [['best_score', 'DESC']],
-      };
-      const res = await ctx.service.mysql.findAll(params, table);
-      ctx.status = 200;
+      }
+      const res = await ctx.service.mysql.findAll(params, table)
+      ctx.status = 200
       ctx.body = {
         data: res,
         success: 1
-      };
+      }
     } catch (err) {
-      ctx.status = 404;
-      console.log(err);
+      ctx.status = 404
+      console.log(err)
     }
   }
 }
 
-module.exports = Game_2048;
+module.exports = Game_2048
