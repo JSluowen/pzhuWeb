@@ -55,7 +55,6 @@ const AlbumUpload: React.FC<{
     onChangeVisible(false);
   };
   const beforeUpload = file => {
-    console.log(file);
     if (!['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
       message.error('文件格式不为png/jpg/jpeg');
       return false;
@@ -73,23 +72,6 @@ const AlbumUpload: React.FC<{
       setQiniuData({ token: res.data });
     });
   };
-
-  // 获取回传的文件地址
-  // const handleUploadChange = info => {
-  //   const { fileList, file } = info;
-  //   if (file.status === 'done') {
-  //     setUploadData({
-  //       fileList: fileList.map(file => ({
-  //         id: file.uid || file.id,
-  //         uid: file.uid || file.id,
-  //         status: 'done',
-  //         link: file.url || `http://img.pzhuweb.cn/${file.response.key}`,
-  //         name: file.name,
-  //       })),
-  //     });
-  //     console.log(uploadData.fileList)
-  //   }
-  // };
   const delFile = key => {
     AlbumService.delFile(key).then(res => {
       const delIndex = uploadData.fileList.findIndex(file => file.name === key);
@@ -146,9 +128,6 @@ const AlbumUpload: React.FC<{
                   delFile(file.response?.key);
                 }
                 return true;
-              }}
-              onPreview={file => {
-                // console.log(file);
               }}
               onChange={({ fileList }) =>
                 setUploadData({ fileList: fileList.map(file => ({ ...file, status: file.status || 'error' })) })

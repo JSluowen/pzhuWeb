@@ -3,7 +3,6 @@ const Service = require('egg').Service
 class BackUser extends Service {
   // 获取全员信息,先查询所有字段的信息（联合查询）然后根据模式匹配提取其中所需要的部分
   async gradeGroup(data) {
-    console.log(data[0].dataValues.Domain)
     let one = 0,
       two = 0,
       three = 0,

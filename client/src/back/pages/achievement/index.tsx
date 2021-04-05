@@ -55,7 +55,6 @@ class Achievement extends Component<IProps, IState> {
     };
     Post(Base.getAchievementInfo, params).then(res => {
       if (res.success) {
-        console.log(res.data.achievement);
         setTimeout(() => {
           this.setState({
             loading: false,

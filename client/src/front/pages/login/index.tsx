@@ -31,10 +31,10 @@ class Login extends Component<IProps, IState> {
   }
   componentDidMount() {
     this.handleCreate();
-    // 获取后台的时间令牌
-    Get(Base.timetoken).then(res => {
-      localStorage.setItem('time', res.message);
-    });
+    // 获取后台的时间令牌 暂时取消（因系统暂不支持跨域携带cookie）
+    // Get(Base.timetoken).then(res => {
+    //   localStorage.setItem('time', res.message);
+    // });
     const id = Cookies.getCookies('id');
     const password = Cookies.getCookies('password');
     const form = this.props.form;
@@ -73,10 +73,6 @@ class Login extends Component<IProps, IState> {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(localStorage.getItem('time'));
-        console.log(md5(values.password));
-        console.log(md5(md5(values.password)));
-
         const params = {
           id: values.id,
           password:

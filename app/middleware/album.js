@@ -12,10 +12,8 @@ module.exports = () => {
       // 以下是前系统设计原因，特殊处理
 
     ) {
-      console.log(request.url)
       await next()
     } else {
-      console.log(ctx.request.url + '  ' + ctx.request.method)
       ctx.status = 401
     }
   }

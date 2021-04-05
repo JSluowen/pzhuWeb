@@ -97,7 +97,6 @@ const Album = ({ history }) => {
                     hoverable={true}
                     cover={<img alt="相册封面" src={album.cover} />}
                     onClick={() => {
-                      console.log(user?.name);
                       if (user?.name || album.status === ALBUM_AUTH.PUBLIC) {
                         history.push(`/album/${album.id}`);
                       } else {

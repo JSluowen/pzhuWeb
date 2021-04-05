@@ -22,7 +22,6 @@ const Home: FC<RouteComponentProps> = props => {
   useEffect(() => {
     Get(Base.getHomeInfo).then(res => {
       if (res.success) {
-        console.log(res.data);
         setStates(res.data?.ac);
         setBaseInfo(res.data?.baseInfo.sort((a, b) => a.order - b.order));
       }

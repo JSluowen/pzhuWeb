@@ -59,7 +59,7 @@ export default class Layout extends Component {
         _this.props.router.push('/login');
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   };

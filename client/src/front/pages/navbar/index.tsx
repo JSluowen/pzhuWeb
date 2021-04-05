@@ -52,7 +52,7 @@ const Navbar: FC<RouteComponentProps> = props => {
         }, 500);
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   };

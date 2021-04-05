@@ -132,7 +132,6 @@ class AchievementIssue extends Component<IProps, IState> {
   };
   // 初始化成果资源
   initResource = data => {
-    console.log(Cookies.getCookies('id'));
     const node = this.selectLabel.current.children;
     for (const item of node) {
       if (parseInt(item.getAttribute('data-index')) === data) {
