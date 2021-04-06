@@ -48,7 +48,7 @@ class Login extends Component<IProps, IState> {
         Post(Base.adminLogin, params).then(res => {
           if (res.success) {
             message.success('登录成功');
-            sessionStorage.setItem('token', res.data.token);
+            localStorage.setItem('token', res.data.token);
             if (values.remember) {
               Cookies.setCookies({
                 admin: res.data.id,

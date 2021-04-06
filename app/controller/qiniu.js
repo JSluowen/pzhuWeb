@@ -15,5 +15,21 @@ class Qiniu extends Controller {
       console.log(err);
     }
   }
+  async delFile() {
+    const { key } = this.ctx.request;
+    try {
+      await this.ctx.service.qiniu.deleteFile('wbimg', key);
+      this.ctx.status = 200;
+      this.ctx.body = {
+        success: 1,
+      };
+    } catch (error) {
+      this.ctx.status = 200;
+      this.ctx.body = {
+        success: 0,
+      };
+    }
+
+  }
 }
 module.exports = Qiniu;

@@ -25,7 +25,7 @@ class Login extends Controller {
           message: '非管理员账号,禁止登录'
         };
       } else {
-        const token = await ctx.service.jwt.signToken(id);
+        const token = await ctx.service.jwt.signToken({ id, status: user.dataValues.status });
         ctx.session.adminId = id;
         ctx.body = {
           success: 1,

@@ -19,6 +19,10 @@ import Setting from 'front/pages/setting';
 import ResourceIssue from 'front/pages/resourceIssue';
 import AchievementIssue from 'front/pages/achievementIssue';
 
+// 相册相关
+import Album from './album';
+import AlbumInfo from './album/albumInfo';
+
 export {
   Navbar,
   UserAchievement,
@@ -39,4 +43,6 @@ export {
   ResourceIssue,
   AchievementIssue,
   Footer,
+  Album,
+  AlbumInfo,
 };

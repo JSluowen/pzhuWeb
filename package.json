@@ -8,12 +8,15 @@
     "cov": "egg-bin cov",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prod": "egg-scripts start --port=7001 --env=prod --title=egg-server-showcase",
-    "stop": "egg-scripts stop"
+    "stop": "egg-scripts stop",
+    "lint": "eslint src --fix",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx app"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ahooks": "^2.9.6",
     "create-react-app": "^2.1.1",
     "draft-js-prism": "^1.0.6",
     "egg": "^2.14.1",
@@ -27,7 +30,8 @@
     "nodemailer": "^5.1.1",
     "prismjs": "^1.16.0",
     "qiniu": "^7.2.1",
-    "react-highlight-words": "^0.16.0"
+    "react-highlight-words": "^0.16.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

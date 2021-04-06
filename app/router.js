@@ -3,6 +3,7 @@ module.exports = app => {
   const { router, controller } = app;
   // 首页接口
   router.get('/api/home/getHomeInfo', controller.home.getHomeInfo);// 获取首页信息
+  router.post('/api/home/updateHomeInfo', controller.home.updateHomeInfo); // 更改首页信息
   // 登录接口
   router.post('/api/code', controller.register.uploadCode); // 上传邮箱验证码
   router.post('/api/registeruser', controller.register.registerUser); // 注册用户信息
@@ -10,7 +11,8 @@ module.exports = app => {
   router.get('/api/logintoken', controller.login.loginToken); // 登录鉴权信息
   router.post('/api/forgetpassword', controller.login.forgetPassword); // 忘记密码
   router.post('/api/changepassword', controller.login.changePassword); // 修改密码
-  router.get('/api/qiniutoken', controller.qiniu.getToken); // 获取七牛云证书秘钥
+  router.get('/api/qiniu/qiniutoken', controller.qiniu.getToken); // 获取七牛云证书秘钥
+  router.post('/api/qiniu/delfile', controller.qiniu.delFile);
   // 用户编辑个人信息接口
   router.get('/api/person/userinfo', controller.person.getUserinfo); // 获取用户信息
   router.post('/api/person/uploadavatar', controller.person.uploadAvatar); // 上传头像信息
@@ -87,6 +89,8 @@ module.exports = app => {
   router.post('/api/back/getAddUserInfo', controller.backUser.getAddUserInfo);// 获取修改和添加用户的信息
   router.post('/api/back/updateUserInfo', controller.backUser.updateUserInfo);// 更新用户的信息
   router.post('/api/back/addUserInfo', controller.backUser.addUserInfo);// 添加用户信息
+  router.post('/api/back/resetPassword', controller.login.resetPassword); // 重置密码
+  router.get('/api/back/searchUsers', controller.backUser.searchUsers); // 搜索用户
   // 后台文章管理接口
   router.post('/api/back/getArticleInfo', controller.backArticle.getArticleInfo);// 获取后台文章管理信息
   router.post('/api/back/istop', controller.backArticle.istop);// 是否置顶
@@ -115,5 +119,19 @@ module.exports = app => {
   router.post('/api/back/uploadBackArticle', controller.backBraft.uploadBackArticle);// 上传编辑后的文章内容
   // 2048游戏接口
   router.get('/api/2048/initTop', controller.game_2048.initTop);// 初始化游戏接口
+  // 相册
+  router.get('/api/album/getAlbumTypes', controller.album.getAlbumTypes); // 得到相册分类列表
+  router.post('/api/album/createAlbum', controller.album.createAlbum); // 创建相册
+  router.get('/api/album/getAlbums', controller.album.getAlbums); // 得到相册列表
+  router.post('/api/album/uploadPhotos', controller.album.uploadPhotos); // 上传图片
+  router.get('/api/album/getPhotosByAlbumId', controller.album.getPhotosByAlbumId); // 通过相册id得到图片
+  // 相册后台接口
+  router.post('/api/back/album/createAlbumType', controller.album.createAlbumType); // 创建标签
+  router.post('/api/album/delAlbumType', controller.album.delAlbumType); // 删除标签
+  router.post('/api/album/delPhotos', controller.album.delPhotos); // 批量删除图片
+  router.post('/api/album/updatePhotos', controller.album.updatePhotos); // 批量移动图片
+  router.post('/api/album/updateAlbumCover', controller.album.updateAlbumCover); // 修改相册封面
+  router.post('/api/album/updateAlbum', controller.album.updateAlbum);
+  router.post('/api/album/delAlbum', controller.album.delAlbum);
 };
 

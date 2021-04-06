@@ -46,14 +46,17 @@ class Home extends Component {
                       <div className="home-fullpageFive-container-top">
                         <div className="home-fullpageFive-container-top-title">你的梦想，从这里开始</div>
                         <div className="home-fullpageFive-container-top-tips">WEB应用专业团队，欢迎你的加入！</div>
-                        {sessionStorage.getItem('token') ? (
+                        {localStorage.getItem('token') ? (
                           ''
                         ) : (
                           <a href="http://www.pzhuweb.cn/#/articleInfo/109">团队介绍</a>
                         )}
                       </div>
-                      <div className="home-fullpageFive-container-footer">CopyRight©2017 PZHU-WEB 版权所有ICP认证:
-                          <a href="http://www.beian.miit.gov.cn" target="_blank">蜀17013737</a>
+                      <div className="home-fullpageFive-container-footer">
+                        CopyRight©2017 PZHU-WEB 版权所有ICP认证:
+                        <a href="http://www.beian.miit.gov.cn" target="_blank">
+                          蜀17013737
+                        </a>
                       </div>
                     </div>
                   </div>

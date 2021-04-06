@@ -28,7 +28,7 @@ class User extends Controller {
               model: app.model.Domain,
             }, {
               model: app.model.User,
-              attributes: ['name']
+              attributes: ['name', 'status']
             }
           ],
           where: {
@@ -71,8 +71,9 @@ class User extends Controller {
         }
       }
     } catch (err) {
-      ctx.status = 404;
+      ctx.status = 500;
       console.log(err);
+
     }
   }
   async getUserResource() {

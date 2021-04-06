@@ -1,4 +1,5 @@
 import axios from 'src/http/axios';
+import qs from 'qs';
 const Base = {
   uploadCode: '/code', // 注册邮箱验证
   registerUser: '/registeruser', // 用户注册
@@ -6,7 +7,8 @@ const Base = {
   timetoken: '/logintoken', // 获取登录时间秘钥
   forgetPassword: '/forgetpassword', // 忘记密码
   changePassword: '/changepassword', // 修改密码
-  qiniuToken: '/qiniutoken', // 获取七牛云上传证书
+  qiniuToken: '/qiniu/qiniutoken', // 获取七牛云上传证书
+  delFile: '/qiniu/delfile',
   // 用户信息编辑接口
   userInfo: '/person/userinfo', // 获取用户的基本信息
   uploadAvatar: '/person/uploadavatar', // 上传头像信息
@@ -80,6 +82,12 @@ const Base = {
   searchTouristCollect: '/tourist/searchTouristCollect', // 游客获取用户个人收藏信息
   // 首页信息获取接口
   getHomeInfo: '/home/getHomeInfo', // 获取首页的信息
+  //相册
+  getAlbumTypes: '/album/getAlbumTypes',
+  getAlbums: '/album/getAlbums',
+  createAlbum: '/album/createAlbum',
+  uploadPhotos: '/album/uploadPhotos',
+  getPhotosByAlbumId: '/album/getPhotosByAlbumId',
 };
 
 export interface IRes {
@@ -92,6 +100,18 @@ const Get = function(url: string) {
   return new Promise<IRes>((resolve, reject) => {
     axios
       .get(url)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      });
+  });
+};
+const get = (url, params) => {
+  return new Promise<IRes>((resolve, reject) => {
+    axios
+      .get(`${url}?${qs.stringify(params)}`)
       .then(res => {
         resolve(res.data);
       })
@@ -114,4 +134,4 @@ const Post = function(url: string, params: { [key: string]: any }) {
   });
 };
 
-export { Base, Get, Post };
+export { Base, Get, get, Post };

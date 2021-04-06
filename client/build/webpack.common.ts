@@ -33,6 +33,7 @@ const commonConfig: webpack.Configuration = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss'],
     alias: {
       src: path.resolve(__dirname, '../src/'),
+      '@': path.resolve(__dirname, '../src/'),
       front: path.resolve(__dirname, '../src/front/'),
       back: path.resolve(__dirname, '../src/back/'),
     },

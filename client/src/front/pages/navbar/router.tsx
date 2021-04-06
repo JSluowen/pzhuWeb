@@ -58,4 +58,9 @@ export const Menus: Array<INavProps> = [
     activeClassName: 'active',
     name: '成员展示',
   },
+  {
+    to: '/album',
+    activeClassName: 'active',
+    name: '相册',
+  },
 ];

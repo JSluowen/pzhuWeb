@@ -21,11 +21,12 @@ export type TState = {
   end: number;
   isScroll: boolean;
   ac: Array<TAc>;
+  keywords: string;
 };
 
 const Achievement: FC = () => {
   const [limit, setLimit] = useState<number>(12); // 获取的数据量
-  const [state, setState] = useState<TState>({ beg: 0, end: 6, isScroll: false, ac: [] });
+  const [state, setState] = useState<TState>({ beg: 0, end: 6, isScroll: false, ac: [], keywords: null });
   const [index, setIndex] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [acType, setAcType] = useState<Array<TAcType>>([]); //成果类别
@@ -68,12 +69,22 @@ const Achievement: FC = () => {
     });
     setLoading(true);
   };
+  const handleSearch = () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    setFlag(false);
+    setState(prev => {
+      return { ...prev, beg: 0, end: limit, ac: [], isScroll: false };
+    });
+    setLoading(true);
+  };
   // 获取成果资源
   const getAchievement = () => {
     const params = {
       beg: state.beg,
       end: state.end,
       index: index,
+      keywords: state.keywords,
     };
     Post(Base.getAchievement, params).then(res => {
       let arry: Array<TAc> = state.ac;
@@ -81,30 +92,26 @@ const Achievement: FC = () => {
         arry.push(item);
       }
       if (res.success) {
-        setTimeout(() => {
-          setAcType(res.data.acType);
-          setState(prev => {
-            return { ...prev, isScroll: false, ac: arry };
-          });
-          setLoading(false);
-          isLoading.current = true;
-          if (flag) {
-            setAchievementTyep();
-          }
-        }, 500);
+        setAcType(res.data.acType);
+        setState(prev => {
+          return { ...prev, isScroll: false, ac: arry };
+        });
+        setLoading(false);
+        isLoading.current = true;
+        if (flag) {
+          setAchievementTyep();
+        }
       } else {
-        setTimeout(() => {
-          setAcType(res.data.acType);
-          setLoading(false);
-          setState(prev => {
-            return { ...prev, isLoading: false, isScroll: false, ac: arry };
-          });
-          isLoading.current = false;
-          // setAc(arry);
-          if (flag) {
-            setAchievementTyep();
-          }
-        }, 500);
+        setAcType(res.data.acType);
+        setLoading(false);
+        setState(prev => {
+          return { ...prev, isLoading: false, isScroll: false, ac: arry };
+        });
+        isLoading.current = false;
+        // setAc(arry);
+        if (flag) {
+          setAchievementTyep();
+        }
       }
     });
   };
@@ -203,9 +210,16 @@ const Achievement: FC = () => {
                 })
           }
           // style={{ width: '100%' }}
-          // extra={
-          //   <Search placeholder="请输入成果标题" onSearch={value => this.handelSerach(value)} style={{ width: 200 }} />
-          // }
+          extra={
+            <Search
+              placeholder="请输入成果标题"
+              onSearch={value => {
+                handleSearch();
+                setState(prev => ({ ...prev, keywords: value }));
+              }}
+              style={{ width: 200 }}
+            />
+          }
         >
           <Skeleton loading={loading} active>
             <Row style={{ width: '100%', margin: 0 }} gutter={16}>

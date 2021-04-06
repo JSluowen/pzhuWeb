@@ -1,0 +1,66 @@
+.album-container {
+  width: 1200px;
+  height: auto;
+  margin: 0 auto;
+
+  .album-main {
+    margin-top: 20px;
+    display: flex;
+    min-height: calc(100vh - 222px);
+
+    .album-main-left {
+      width: 250px;
+    }
+
+    .album-main-right {
+      width: 70%;
+      & > .ant-card {
+        .ant-card-body {
+          padding: 10px;
+        }
+      }
+      .album-item-warpper {
+        display: flex;
+        flex-wrap: wrap;
+        // &>div {
+        //   flex: 1;
+        // }
+      }
+    }
+  }
+
+  .album-item {
+    margin: 10px;
+    width: calc(33% - 20px);
+    .ant-card-meta-description div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ant-card-meta-title div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > div:nth-child(1) {
+        width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .album-item-desc {
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

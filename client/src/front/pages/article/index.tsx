@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel, Skeleton } from 'antd';
+import { Row, Col, Icon, Tooltip, message, Button, Divider, Carousel, Skeleton, Input } from 'antd';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import './index.scss';
 import { Base, Post } from 'front/api';
@@ -20,6 +20,7 @@ export interface IState {
   collectTitle: string;
   loadingMore: boolean;
   isLoading: boolean;
+  keywords: string;
 }
 export default class Article extends Component<IProps, IState> {
   constructor(props) {
@@ -39,6 +40,7 @@ export default class Article extends Component<IProps, IState> {
       collectTitle: '',
       loadingMore: false, // 加载更多
       isLoading: true, // 是否继续加载
+      keywords: null,
     };
   }
   componentDidMount() {
@@ -48,12 +50,14 @@ export default class Article extends Component<IProps, IState> {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handelScroll);
   }
+
   // 获取文章界面信息
   getArticle = () => {
     const params = {
       beg: this.state.beg,
       end: this.state.end,
       index: this.state.index,
+      keywords: this.state.keywords,
     };
     Post(Base.getArticle, params).then(res => {
       if (this.state.technologyStatus) {
@@ -89,6 +93,20 @@ export default class Article extends Component<IProps, IState> {
       }
     });
   };
+  // 搜索
+  handleSearch() {
+    this.setState(
+      {
+        beg: 0,
+        end: this.state.limit,
+        loading: true,
+        article: [],
+      },
+      () => {
+        this.getArticle();
+      },
+    );
+  }
   // 过滤文章类别
   filterArticleType = e => {
     const index = e.target.getAttribute('data-index');
@@ -236,7 +254,7 @@ export default class Article extends Component<IProps, IState> {
 
                             <div className="article-bottom">
                               <div className="read-number">阅读数 {item.readnumber}</div>
-                              {/* {sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === '' ? (
+                              {/* {localStorage.getItem('token') === null || localStorage.getItem('token') === '' ? (
                                 ''
                               ) : (
                                 <div
@@ -301,6 +319,17 @@ export default class Article extends Component<IProps, IState> {
                     );
                   })}
                 </div>
+              </div>
+              {/* 搜索文章 */}
+              <div>
+                <Divider orientation="left">搜索动态</Divider>
+                <Input.Search
+                  placeholder="请输入文章标题"
+                  onSearch={value => {
+                    this.handleSearch();
+                    this.setState({ keywords: value });
+                  }}
+                />
               </div>
               {/* 微信公众号 */}
               <div className="weixin">

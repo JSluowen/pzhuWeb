@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Progress, Tabs, Avatar, Button, Modal, Pagination, Spin } from 'antd';
+import { Progress, Tabs, Avatar, Button, Modal, Pagination, Spin, Input } from 'antd';
 import AddUserInfo from './adduserinfo';
 import UpdateUserInfo from './updateuserinfo';
 import { Base, Post } from 'back/api';
 import './index.scss';
 import { RouteComponentProps } from 'react-router-dom';
 const TabPane = Tabs.TabPane;
+const { Search } = Input;
 const confirm = Modal.confirm;
 
 export interface IProps extends RouteComponentProps {}
@@ -19,6 +20,7 @@ export interface IState {
   reviewUser: Array<{ [key: string]: any }>;
   gradeGroup: Array<number>;
   activeKey: string;
+  keywords: string;
 }
 class User extends Component<IProps, IState> {
   constructor(props) {
@@ -33,6 +35,7 @@ class User extends Component<IProps, IState> {
       reviewUser: [],
       gradeGroup: [],
       activeKey: '1', // 默认第一页
+      keywords: null,
     };
   }
   componentDidMount() {
@@ -46,6 +49,7 @@ class User extends Component<IProps, IState> {
     const params = {
       page: this.state.defaultCurrent,
       pageSize: this.state.pageSize,
+      keywords: this.state.keywords,
     };
     Post(Base.getUserInfo, params).then(res => {
       if (res.success) {
@@ -188,6 +192,18 @@ class User extends Component<IProps, IState> {
             <Tabs activeKey={this.state.activeKey} onChange={this.onChangeActiveKey}>
               <TabPane tab="全部" key="1">
                 <div className="back-user-body-userinfo">
+                  <div className="back-achievement-container-list-search">
+                    <div className="back-article-container-list-search-item">
+                      <span>用户姓名：</span>
+                      <Search
+                        data-index="1"
+                        placeholder="请输入用户姓名"
+                        onChange={e => this.setState({ keywords: e.target.value })}
+                        onSearch={value => this.getUserInfo()}
+                        style={{ width: 200 }}
+                      />
+                    </div>
+                  </div>
                   <div className="back-user-body-userinfo-header">
                     <div className="back-user-body-userinfo-header-item">学号</div>
                     <div className="back-user-body-userinfo-header-item">姓名</div>

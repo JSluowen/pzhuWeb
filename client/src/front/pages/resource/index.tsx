@@ -1,17 +1,18 @@
 import React, { useState, useEffect, FC, useRef } from 'react';
-import { Button, Card, Icon, Avatar, Row, Col, Skeleton, message } from 'antd';
+import { Button, Card, Icon, Avatar, Row, Col, Skeleton, message, Input } from 'antd';
 import { Base, Post } from 'front/api';
 import './index.scss';
-
+const Search = Input.Search;
 export type TState = {
   beg: number;
   end: number;
   isScroll: boolean;
   resource: Array<any>;
+  keywords: string;
 };
 const Resource: FC = () => {
   const [limit, setLimit] = useState<number>(12); // 获取的数据量
-  const [state, setState] = useState<TState>({ beg: 0, end: 6, isScroll: false, resource: [] });
+  const [state, setState] = useState<TState>({ beg: 0, end: 6, isScroll: false, resource: [], keywords: null });
   const [index, setIndex] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [resourceType, setResourceType] = useState<Array<any>>([]); //成果类别
@@ -53,12 +54,22 @@ const Resource: FC = () => {
     });
     setLoading(true);
   };
-  // 获取成果资源
+  const handleSearch = () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    setFlag(false);
+    setState(prev => {
+      return { ...prev, beg: 0, end: limit, resource: [], isScroll: false, isLoading: true };
+    });
+    setLoading(true);
+  };
+  // 获取资源
   const getResource = () => {
     const params = {
       beg: state.beg,
       end: state.end,
       index: index,
+      keywords: state.keywords,
     };
     Post(Base.getResource, params).then(res => {
       let arry: Array<any> = state.resource;
@@ -177,10 +188,17 @@ const Resource: FC = () => {
                   return '';
                 })
           }
-          // style={{ width: '100%' }}
-          // extra={
-          //   <Search placeholder="请输入资源标题" onSearch={value => this.handelSerach(value)} style={{ width: 200 }} />
-          // }
+          style={{ width: '100%' }}
+          extra={
+            <Search
+              placeholder="请输入资源标题"
+              onSearch={value => {
+                handleSearch();
+                setState(prev => ({ ...prev, keywords: value }));
+              }}
+              style={{ width: 200 }}
+            />
+          }
         >
           <Skeleton loading={loading} active>
             <Row style={{ width: '100%', margin: 0 }} gutter={16}>

@@ -10,9 +10,9 @@ class BackUser extends Controller {
       if (!author) {
         ctx.status = 403;
       } else {
-        const id = ctx.session.adminId;
+        const id = ctx.session.userid;
         const isAdmin = await ctx.service.mysql.findById(id, 'User');// 检查是否是管理员账号
-        const status = parseInt(isAdmin.dataValues.status);
+        const status = parseInt(isAdmin.status);
         if (id === undefined || (status !== 2 && status !== 3)) {
           ctx.status = 200;
           ctx.body = {
@@ -42,7 +42,7 @@ class BackUser extends Controller {
       }
     } catch (err) {
       console.log(err);
-      ctx.status = 404;
+      ctx.status = 500;
     }
   }
   async getUserInfo() {
@@ -54,7 +54,7 @@ class BackUser extends Controller {
       if (!author) {
         ctx.status = 403;
       } else {
-        let { page, pageSize } = ctx.request.body;
+        let { page, pageSize, keywords } = ctx.request.body;
         page = parseInt(page);
         pageSize = parseInt(pageSize);
         const table = 'UserInfo';
@@ -67,7 +67,8 @@ class BackUser extends Controller {
               where: {
                 status: {
                   [Op.gte]: 1
-                }
+                },
+                name: { like: `%${keywords || ''}%` }
               }
             },
             {
@@ -132,6 +133,31 @@ class BackUser extends Controller {
     } catch (err) {
       console.log(err);
       ctx.status = 404;
+    }
+  }
+  async searchUsers() {
+    const { ctx } = this;
+    const { keywords } = ctx.params;
+    const params = {
+      attributes: ['id', 'name'],
+      where: {
+        status: {
+          gt: 0
+        }
+      }
+    };
+    try {
+      let users = await ctx.service.mysql.findAll(params, 'User');
+      users = users.filter(user => `${user.id}${user.name}`.includes(keywords));
+      ctx.status = 200;
+      ctx.body = {
+        success: 1,
+        data: {
+          users
+        }
+      };
+    } catch (error) {
+      ctx.status = 500;
     }
   }
   async userReviewPass() {

@@ -1,0 +1,20 @@
+.update-cover {
+  // max-height: 300px;// overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  .cover-actived {
+    border: 2px solid #52c41a;
+  }
+
+  .cover-warpper {
+    width: 150px;
+    height: 100px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 100%;
+    }
+  }
+}

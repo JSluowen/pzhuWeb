@@ -358,6 +358,7 @@ class AchievementIssue extends Component<IProps, IState> {
                   <Input
                     size="large"
                     placeholder="成果链接：http://www.pzhuweb.cn"
+                    disabled={!!this.state.attachment}
                     onChange={e => {
                       this.setState({ achievementlink: e.target.value });
                     }}
@@ -449,37 +450,39 @@ class AchievementIssue extends Component<IProps, IState> {
                     />
                   </div>
                 </div>
-                <div className="achievementIssue-container-body-right-attachment">
-                  {this.state.attachmentStatus || (this.state.attachment !== null && this.state.attachment !== '') ? (
-                    <div className="achievementIssue-container-body-right-attachment-file">
-                      <div className="achievementIssue-container-body-right-attachment-file-name">
-                        <p>
-                          <Icon type="paper-clip" />
-                          <a href={this.state.attachment}>附件</a>
-                        </p>
-                        <p onClick={this.delAchievementAttachment}>
-                          <Icon type="close" />
-                        </p>
+                {!this.state.achievementlink && (
+                  <div className="achievementIssue-container-body-right-attachment">
+                    {this.state.attachmentStatus || (this.state.attachment !== null && this.state.attachment !== '') ? (
+                      <div className="achievementIssue-container-body-right-attachment-file">
+                        <div className="achievementIssue-container-body-right-attachment-file-name">
+                          <p>
+                            <Icon type="paper-clip" />
+                            <a href={this.state.attachment}>附件</a>
+                          </p>
+                          <p onClick={this.delAchievementAttachment}>
+                            <Icon type="close" />
+                          </p>
+                        </div>
+                        <Progress
+                          style={this.state.attachmentLoading ? { display: 'block' } : { display: 'none' }}
+                          percent={this.state.progress}
+                          status="active"
+                        />
                       </div>
-                      <Progress
-                        style={this.state.attachmentLoading ? { display: 'block' } : { display: 'none' }}
-                        percent={this.state.progress}
-                        status="active"
-                      />
-                    </div>
-                  ) : (
-                    <Tooltip placement="bottom" title="请上传pdf格式的文件">
-                      <label
-                        htmlFor="uploadFile"
-                        className="achievementIssue-container-body-right-attachment-fileLabel"
-                      >
-                        <Icon type="upload" />
-                        添加成果附件
-                      </label>
-                    </Tooltip>
-                  )}
-                  <input id="uploadFile" accept=".pdf" type="file" hidden onChange={this.uploadAttachment} />
-                </div>
+                    ) : (
+                      <Tooltip placement="bottom" title="请上传pdf格式的文件">
+                        <label
+                          htmlFor="uploadFile"
+                          className="achievementIssue-container-body-right-attachment-fileLabel"
+                        >
+                          <Icon type="upload" />
+                          添加成果附件
+                        </label>
+                      </Tooltip>
+                    )}
+                    <input id="uploadFile" accept=".pdf" type="file" hidden onChange={this.uploadAttachment} />
+                  </div>
+                )}
               </div>
             </div>
           </Spin>

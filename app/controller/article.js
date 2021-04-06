@@ -6,7 +6,7 @@ class Article extends Controller {
   async getArticle() {
     const { ctx, app } = this;
     try {
-      let { beg, end, index } = ctx.request.body;
+      let { beg, end, index, keywords } = ctx.request.body;
       const token = ctx.header.authorization;
       const author = await ctx.service.jwt.verifyToken(token);
       const userid = ctx.session.userid;
@@ -33,7 +33,7 @@ class Article extends Controller {
             ],
           },
         ],
-        attributes: { exclude: ['context','raw'] },
+        attributes: { exclude: ['context', 'raw'] },
         where: {
           status: 1,
         },
@@ -54,9 +54,10 @@ class Article extends Controller {
       const technology = await ctx.service.mysql.findAll({ where: { status: 1 } }, table);
       let article = await ctx.service.mysql.findAll(params, table1);
       let hotArticle = await ctx.service.mysql.findAll(params1, table1);
-      let favorite;
+      // let favorite;
       if (userid && author) {
-        favorite = await ctx.service.mysql.findAll(params2, table2);
+        // favorite = await ctx.service.mysql.findAll(params2, table2);
+        await ctx.service.mysql.findAll(params2, table2);
         // 下掉收藏功能
         // article = await ctx.service.fun.filterCollect(favorite, article);
       }
@@ -69,6 +70,7 @@ class Article extends Controller {
         return item.dataValues.top === 1;
       });
       hotArticle = hotArticle.splice(0, 10);
+      article = article.filter(item => item.title.includes(keywords));
       if (parseInt(article.length) > end) {
         article = article.slice(beg, end);
         ctx.status = 200;

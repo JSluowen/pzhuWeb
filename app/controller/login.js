@@ -7,7 +7,6 @@ class Login extends Controller {
   async login() {
     const { ctx } = this;
     const { id, password } = ctx.request.body;
-    const time = ctx.session.time;
     const table = 'User';
     try {
       const isExist = await ctx.service.mysql.findById(id, table);
@@ -17,7 +16,7 @@ class Login extends Controller {
           success: 0,
           message: '账号不存在',
         };
-      } else if (md5(isExist.dataValues.password + time) !== password) {
+      } else if (md5(isExist.dataValues.password) !== password) {
         ctx.status = 200;
         ctx.body = {
           success: 0,
@@ -31,7 +30,7 @@ class Login extends Controller {
         };
       } else {
         ctx.status = 200;
-        const token = await ctx.service.jwt.signToken(id);
+        const token = await ctx.service.jwt.signToken({ id, status: isExist.dataValues.status });
         ctx.session.userid = isExist.id;
         ctx.body = {
           success: 1,
@@ -109,6 +108,16 @@ class Login extends Controller {
         await isUser.update({
           password: ctx.session.password,
         });
+        const content = {
+          subject: '邮箱验证码',
+          text: '您好,您在WEB应用专业团队的账户密码被重置',
+        };
+        await ctx.service.nodemailer.sendEmail(isUser.email, content);
+        ctx.status = 200;
+        ctx.body = {
+          success: 1,
+          message: '邮件发送成功，请注意查收！',
+        };
         ctx.status = 200;
         ctx.body = {
           success: 1,
@@ -121,6 +130,30 @@ class Login extends Controller {
       ctx.status = 404;
       console.log(err);
     }
+  }
+  // 重置密码
+  async resetPassword() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+    const auth = ctx.session.auth;
+    try {
+      if (auth !== 3) {
+        throw { status: 401 };
+      }
+      const user = await ctx.service.mysql.findById(id, 'User');
+      user.update({ password: md5('123456') });
+
+      ctx.status = 200;
+      ctx.body = {
+        success: 1,
+        message: '重置成功'
+      };
+
+    } catch (error) {
+      ctx.status = error?.status || 500;
+    }
+
+
   }
 }
 module.exports = Login;

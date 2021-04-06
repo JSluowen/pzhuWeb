@@ -47,7 +47,6 @@ class Forget extends Component<IProps, IState> {
   // 密码验证
   validatorPassword = (rule, value, callback) => {
     const patt = /(?=.*\d)(?=.*[a-zA-Z])^.{6,10}$/;
-    console.log(patt.test(value));
     if (patt.test(value) || !value) {
       callback();
     } else {

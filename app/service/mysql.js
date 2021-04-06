@@ -7,6 +7,11 @@ class UserService extends Service {
     const result = await ctx.model[table].create(params);
     return result;
   }
+  async createList(params, table) {
+    const { ctx } = this;
+    const result = await ctx.model[table].bulkCreate(params);
+    return result;
+  }
   // 通过ID查找数据
   async findById(params, table) {
     const { ctx } = this;

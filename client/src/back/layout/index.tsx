@@ -22,7 +22,7 @@ class LayoutBack extends Component<IProps, IState> {
       collapsed: false, // 是否收缩导航栏
       avatar: 'http://img.pzhuweb.cn/logo.ico', // 默认头像
       name: 'admin',
-      router: ['/back/user', '/back/article', '/back/resource', '/back/achievement'],
+      router: ['/back/home', '/back/user', '/back/article', '/back/resource', '/back/achievement', '/back/album'],
     };
   }
   componentDidMount() {
@@ -45,7 +45,7 @@ class LayoutBack extends Component<IProps, IState> {
   };
   // 退出登录
   logout = () => {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     this.props.history.replace('/login');
   };
   // 点击菜单跳转

@@ -7,8 +7,19 @@ module.exports = appInfo => {
 
   // 配置中间件
   // config.appMiddleware = {
-  //   middleware: ['verify']
+  //   middleware: [
+  //     'params', 
+  //     // 'verify'
+  //   ]
   // }
+  config.middleware = [ 
+    'verify',
+    'params',
+    'album'
+  ];
+  config.verify = {
+    token: 'webJWT'
+  }
   config.security = {
     csrf: false
   };
@@ -42,8 +53,13 @@ module.exports = appInfo => {
     maxAge: 1000 * 60 * 60 * 24,
     httpOnly: true,
     encrypt: true, // 加密
-    renew: true // 最大时间范围内，刷新，自动增加最大时间
+    renew: true, // 最大时间范围内，刷新，自动增加最大时间
+    // sameSite: 'none',
+    // secure: true,
   };
+  config.cookie = {
+
+  }
   config.cors = {
     credentials: true
   };

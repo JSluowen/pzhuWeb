@@ -6,7 +6,7 @@ class Resource extends Controller {
   async getResource() {
     const { ctx, app } = this;
     try {
-      let { beg, end, index } = ctx.request.body;
+      let { beg, end, index, keywords } = ctx.request.body;
       beg = parseInt(beg);
       end = parseInt(end);
       index = parseInt(index);
@@ -42,6 +42,7 @@ class Resource extends Controller {
         resource = await ctx.service.fun.filterType(resource, index);// 过滤资源所对应的类别
       }
       ctx.status = 200;
+      resource = resource.filter(item => item.title.includes(keywords));
       if (parseInt(resource.length) >= end) {
         resource = resource.slice(beg, end);
         ctx.body = {

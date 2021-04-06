@@ -6,7 +6,7 @@ const base = {
   timetoken: '/logintoken', // 获取登录时间秘钥
   forgetPassword: '/forgetpassword', // 忘记密码
   changePassword: '/changepassword', // 修改密码
-  qiniuToken: '/qiniutoken', // 获取七牛云上传证书
+  qiniuToken: '/qiniu/qiniutoken', // 获取七牛云上传证书
   // 用户信息编辑接口
   userInfo: '/person/userinfo', // 获取用户的基本信息
   uploadAvatar: '/person/uploadavatar', // 上传头像信息
@@ -80,5 +80,9 @@ const base = {
   searchTouristCollect: '/tourist/searchTouristCollect', // 游客获取用户个人收藏信息
   // 首页信息获取接口
   getHomeInfo: '/home/getHomeInfo', // 获取首页的信息
+  //相册
+  getAlbumTypes: '/album/getAlbumTypes',
+  createAlbum: '/album/createAlbum',
+  uploadPhotos: '/album/uploadPhotos',
 };
 export default base;

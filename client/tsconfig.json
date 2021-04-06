@@ -14,7 +14,8 @@
       "src/*": ["./src/*"],
       "front/*": ["./src/front/*"],
       "back/*": ["./src/back/*"],
-    }
+    },
+    "downlevelIteration": true,
   },
   "lib": ["dom", "es2015", "es2016.array.include"],
   "include": ["src/**/*", "build/*", "typs/*"],

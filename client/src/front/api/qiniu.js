@@ -1,5 +1,5 @@
 import base from './base';
-import axios from '../../http/axios';
+import { axios } from '../../http/axios';
 const Qiniu = {
   // 获取上传证书秘钥
   getToken() {

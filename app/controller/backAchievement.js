@@ -242,7 +242,7 @@ class Achievement extends Controller {
     }
   }
   async isShow() {
-    const { ctx, app } = this;
+    const { ctx } = this;
     try {
       const token = ctx.header.authorization;
       const author = await ctx.service.jwt.verifyToken(token);
