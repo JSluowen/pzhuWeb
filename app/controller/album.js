@@ -117,7 +117,7 @@ class AlbumController extends Controller {
       };
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
+      ctx.status = error.status || 500;
       ctx.body = error?.body || '';
     }
   }
@@ -139,8 +139,8 @@ class AlbumController extends Controller {
         message: '修改成功'
       };
     } catch (error) {
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
   async createAlbumType() {
@@ -164,8 +164,8 @@ class AlbumController extends Controller {
         message: '添加成功'
       };
     } catch (error) {
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
   async delAlbumType() {
@@ -194,8 +194,8 @@ class AlbumController extends Controller {
       };
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
 
@@ -289,8 +289,8 @@ class AlbumController extends Controller {
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
   async updatePhotos() {
@@ -318,8 +318,8 @@ class AlbumController extends Controller {
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
 }
