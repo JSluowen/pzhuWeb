@@ -117,8 +117,8 @@ class AlbumController extends Controller {
       };
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
   async updateAlbumCover() {
@@ -139,8 +139,8 @@ class AlbumController extends Controller {
         message: '修改成功'
       };
     } catch (error) {
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
   async createAlbumType() {
@@ -164,8 +164,8 @@ class AlbumController extends Controller {
         message: '添加成功'
       };
     } catch (error) {
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
   async delAlbumType() {
@@ -194,8 +194,8 @@ class AlbumController extends Controller {
       };
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
 
@@ -252,7 +252,7 @@ class AlbumController extends Controller {
     };
     try {
       const albumInfo = await ctx.service.mysql.findAll(params, 'Album');
-      if (albumInfo[0]?.dataValues.status === 2 && !ctx.session.userid) {
+      if (albumInfo[0].dataValues.status === 2 && !ctx.session.userid) {
         throw { status: 403 };
       }
       const photos = await ctx.service.mysql.findAll({ where: { status: 1, album_id: id } }, 'Photo');
@@ -262,8 +262,8 @@ class AlbumController extends Controller {
         data: {
           photos,
           albumInfo: {
-            ...albumInfo[0]?.dataValues,
-            cover: albumInfo[0]?.dataValues?.Photo?.link
+            ...albumInfo[0].dataValues,
+            cover: albumInfo[0].dataValues.Photo.link
           },
         }
       };
@@ -289,8 +289,8 @@ class AlbumController extends Controller {
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
   async updatePhotos() {
@@ -318,8 +318,8 @@ class AlbumController extends Controller {
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
-      ctx.status = error?.status || 500;
-      ctx.body = error?.body || '';
+      ctx.status = error.status || 500;
+      ctx.body = error.body || '';
     }
   }
 }
