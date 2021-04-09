@@ -5,8 +5,9 @@ import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import WebpackDevServer from 'webpack-dev-server';
 
-const prodConfig: webpack.Configuration = webpackMerge(common, {
+const prodConfig: WebpackDevServer.Configuration = webpackMerge(common, {
   mode: 'production',
   output: {
     path: path.resolve(__dirname, '../dist'),
