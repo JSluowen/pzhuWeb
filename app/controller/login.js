@@ -150,7 +150,7 @@ class Login extends Controller {
       };
 
     } catch (error) {
-      ctx.status = error?.status || 500;
+      ctx.status = error.status || 500;
     }
 
 
