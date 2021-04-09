@@ -106,7 +106,8 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
-    "ts-import-plugin": "^1.6.2"
+    "ts-import-plugin": "^1.6.2",
+    "redux-thunk": "^2.3.0"
   },
   "husky": {
     "hooks": {

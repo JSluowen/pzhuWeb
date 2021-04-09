@@ -30,8 +30,7 @@
     "nodemailer": "^5.1.1",
     "prismjs": "^1.16.0",
     "qiniu": "^7.2.1",
-    "react-highlight-words": "^0.16.0",
-    "redux-thunk": "^2.3.0"
+    "react-highlight-words": "^0.16.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
