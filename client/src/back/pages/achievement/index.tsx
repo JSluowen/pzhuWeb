@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Spin, Tabs, Avatar, Button, Tag, Input, Pagination, message, Modal, Select, Switch, Icon } from 'antd';
-import AchievementIssue from './components/AchievementIssue';
+import AchievementIssue from './components/achievementIssue';
 import './index.scss';
 import { Base, Post } from 'back/api';
 const TabPane = Tabs.TabPane;
