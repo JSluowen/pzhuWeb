@@ -24,13 +24,12 @@ const codeMessage = {
   504: '网关超时。',
   521: '用户没有权限（令牌、用户名、密码错误）。',
 };
-axios.defaults.baseURL = 'http://127.0.0.1:7001/api';
 
-// if (process.env.NODE_ENV === 'development') {
-//   axios.defaults.baseURL = 'http://127.0.0.1:7001/api';
-// } else {
-//   axios.defaults.baseURL = 'http://140.143.124.13:7001/api';
-// }
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = 'http://127.0.0.1:7001/api';
+} else {
+  axios.defaults.baseURL = 'http://140.143.124.13:7001/api';
+}
 axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 // 允许axio请求携带cookies
