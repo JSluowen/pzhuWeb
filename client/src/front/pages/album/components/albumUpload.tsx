@@ -59,7 +59,7 @@ const AlbumUpload: React.FC<{
       message.error('文件格式不为png/jpg/jpeg');
       return false;
     }
-    if (file.size > 1024 * 5) {
+    if (file.size > 1024 * 1024 * 5) {
       message.error('文件过大，请降低分辨率后上传');
       return false;
     }

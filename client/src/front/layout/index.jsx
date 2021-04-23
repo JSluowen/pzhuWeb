@@ -147,7 +147,7 @@ export default class Layout extends Component {
               </div>
               <div className="nav-bar-menu-item">
                 <Link to="/album" activeClassName="active">
-                  相册
+                  团队风采
                 </Link>
               </div>
             </div>
