@@ -32,11 +32,11 @@ class AlbumController extends Controller {
   async updateAlbum() {
     const { ctx } = this;
     const { userid } = ctx.session;
-    const { id, type, name, desc, status } = ctx.params;
+    const { id, typeId, name, desc, status } = ctx.params;
 
     try {
       const album = await ctx.service.mysql.findById(id, 'Album');
-      await album.update({ user_id: userid, type, name, desc, status });
+      await album.update({ user_id: userid, typeId, name, desc, status });
       ctx.status = 200;
       ctx.body = {
         success: 1,

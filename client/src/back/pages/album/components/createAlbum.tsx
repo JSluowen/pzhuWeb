@@ -9,7 +9,7 @@ interface AlbumItem {
   id?: number;
   name: string;
   desc: string;
-  type: number;
+  typeId: number;
   status: number;
 }
 
@@ -29,8 +29,8 @@ const CreateAlbum: React.FC<{
   const getAlbumTypes = useRequest(AlbumService.getAlbumTypes, {
     manual: true,
     onSuccess: res => {
-      if (res.data.types.length > 0 && !album.type) {
-        setAlbum({ type: res.data.types[0].id });
+      if (res.data.types.length > 0 && !album.typeId) {
+        setAlbum({ typeId: res.data.types[0].id });
       }
       setTypes(res.data.types);
     },
@@ -82,8 +82,8 @@ const CreateAlbum: React.FC<{
       id: editAlbum?.id,
       name: editAlbum?.name,
       desc: editAlbum?.desc,
-      type: editAlbum?.type,
-      status: editAlbum?.status,
+      typeId: editAlbum?.typeId,
+      status: editAlbum?.status || Number(Object.keys(ALBUM_STATUS)[0]),
     });
     getAlbumTypes.run();
   }, [visible]);
@@ -121,9 +121,9 @@ const CreateAlbum: React.FC<{
           <Col span={18}>
             <Select
               loading={getAlbumTypes.loading}
-              value={album?.type}
+              value={album?.typeId}
               onChange={value => {
-                setAlbum({ type: Number(value) });
+                setAlbum({ typeId: Number(value) });
               }}
               style={{ width: '100%' }}
             >

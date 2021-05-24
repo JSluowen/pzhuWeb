@@ -47,6 +47,7 @@ const CreateAlbum: React.FC<{
   });
 
   const handleOk = () => {
+    console.log(album);
     if (!album.name) {
       message.warn('请输入相册名！');
       return;

@@ -82,7 +82,9 @@ const AlbumUpload: React.FC<{
     });
   };
   useEffect(() => {
-    if (!visible) return;
+    if (!visible) {
+      return setUploadData({ fileList: [] });
+    }
     fetchUploadToken();
     getAlbums.run();
   }, [visible]);
