@@ -43,14 +43,15 @@ const MyUpload: React.FC<{
       message.error('文件格式不为png/jpg/jpeg');
       return false;
     }
-    if (file.size > 1024 * 5) {
-      message.error('文件过大，请降低分辨率后上传');
+    if (file.size > 1024 * 1024 * 5) {
+      message.error('文件过大，请降低分辨率后上传(限制为<5M)');
       return false;
     }
     setQiniuData({ key: Cookies.getCookies('id') + Date.now() + file.name });
     return true;
   };
   const handleFileChange = (fileList, file) => {
+    console.log(fileList);
     setUploadData({ fileList: fileList.map(file => ({ ...file, status: file.status || 'error' })) });
     if (file.status === 'done') {
       handleChange(fileList.map(file => ({ ...file, link: `http://img.pzhuweb.cn/${file.response.key}` })));

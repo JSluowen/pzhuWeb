@@ -23,7 +23,7 @@ const ImageProLoad: FC<Iprops> = ({ children, small, large }) => {
       largeImg.classList.add('loaded');
     };
     large.appendChild(largeImg);
-  }, []);
+  }, [small]);
 
   return (
     <div className="ImageProLoad" data-src={large}>

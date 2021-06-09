@@ -260,7 +260,19 @@ class Setting extends Component<IProps, IState> {
                   修改头像
                 </Button>
               </div>
-              <Modal title="上传头像" visible={this.state.visible} onCancel={this.handleCancel} footer={null}>
+              <Modal
+                title={
+                  <>
+                    上传头像
+                    <span style={{ marginLeft: 10 }} className="sub-title">
+                      *头像大小不应超过200k
+                    </span>
+                  </>
+                }
+                visible={this.state.visible}
+                onCancel={this.handleCancel}
+                footer={null}
+              >
                 <Cropper src={this.state.src} uploadImg={this.uploadAvatar} />
               </Modal>
             </div>

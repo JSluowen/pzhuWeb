@@ -19,6 +19,10 @@ class CropperImg extends Component {
     } else if (e.target) {
       files = e.target.files;
     }
+    if (files[0].size > 2 * 100 * 1024) {
+      message.warning('请降低分辨率后再试');
+      return false;
+    }
     if (!/image\/\w+/.test(files[0].type)) {
       message.warning('请上传图片');
       return;

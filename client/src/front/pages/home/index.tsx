@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC, useMemo } from 'react';
 import ReactFullpage from '@fullpage/react-fullpage';
 import SwiperCertify from 'src/component/SwiperCertify';
 import { Base, Get } from 'front/api';
@@ -14,6 +14,10 @@ interface BaseInfo {
   order: number;
   cover: string;
 }
+interface Imgs {
+  small: string;
+  large: string;
+}
 
 const Home: FC<RouteComponentProps> = props => {
   // 获取初始数据
@@ -27,10 +31,17 @@ const Home: FC<RouteComponentProps> = props => {
       }
     });
   }, []);
-  const imgs = {
-    small: 'http://img.pzhuweb.cn/101.png',
-    large: 'http://img.pzhuweb.cn/10.png',
-  };
+  // const imgs = {
+  //   small: 'http://img.pzhuweb.cn/101.png',
+  //   large: 'http://img.pzhuweb.cn/10.png',
+  // };
+  const imgs: Imgs = useMemo(
+    () => ({
+      small: baseInfo[0]?.cover,
+      large: baseInfo[0]?.cover,
+    }),
+    [baseInfo],
+  );
 
   return (
     <div className="home">
